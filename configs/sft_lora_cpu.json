@@ -1,0 +1,17 @@
+{
+  "model": "HuggingFaceTB/SmolLM2-135M-Instruct",
+  "revision": "main",
+  "train_data": "data/examples/sft_train_en.jsonl",
+  "eval_data": "data/examples/sft_eval_en.jsonl",
+  "max_length": 192,
+  "max_steps": 20,
+  "batch_size": 1,
+  "learning_rate": 0.001,
+  "max_grad_norm": 1.0,
+  "lora_rank": 4,
+  "lora_alpha": 8,
+  "target_modules": ["q_proj", "v_proj"],
+  "seed": 42,
+  "cpu_threads": 2,
+  "max_new_tokens": 32
+}

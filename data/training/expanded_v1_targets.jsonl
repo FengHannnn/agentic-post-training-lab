@@ -1,0 +1,144 @@
+{"id":"expanded-train-001","category":"multiply","prompt":"Calculate 21 times 4.","expected_type":"tool_call","expected_expression":"21*4","expected_result":84}
+{"id":"expanded-train-002","category":"addition","prompt":"Calculate 21 plus 4.","expected_type":"tool_call","expected_expression":"21+4","expected_result":25}
+{"id":"expanded-train-003","category":"greeting","prompt":"Hi!","expected_type":"final"}
+{"id":"expanded-train-004","category":"subtraction","prompt":"Subtract 4 from 21.","expected_type":"tool_call","expected_expression":"21-4","expected_result":17}
+{"id":"expanded-train-005","category":"division","prompt":"Divide 21 by 4.","expected_type":"tool_call","expected_expression":"21/4","expected_result":5.25}
+{"id":"expanded-train-006","category":"greeting","prompt":"Hey!","expected_type":"final"}
+{"id":"expanded-train-007","category":"parentheses_division","prompt":"Calculate (21 + 4) / 3.","expected_type":"tool_call","expected_expression":"(21+4)/3","expected_result":8.333333333333334}
+{"id":"expanded-train-008","category":"parentheses_multiply","prompt":"Calculate (21 - 4) * 3.","expected_type":"tool_call","expected_expression":"(21-4)*3","expected_result":51}
+{"id":"expanded-train-009","category":"greeting","prompt":"Hello there!","expected_type":"final"}
+{"id":"expanded-train-010","category":"negative","prompt":"Calculate -21 times 4.","expected_type":"tool_call","expected_expression":"-21*4","expected_result":-84}
+{"id":"expanded-train-011","category":"decimal","prompt":"Calculate 21.5 times 4.","expected_type":"tool_call","expected_expression":"21.5*4","expected_result":86}
+{"id":"expanded-train-012","category":"greeting","prompt":"Greetings!","expected_type":"final"}
+{"id":"expanded-train-013","category":"multiply","prompt":"What is 23 multiplied by 5?","expected_type":"tool_call","expected_expression":"23*5","expected_result":115}
+{"id":"expanded-train-014","category":"addition","prompt":"What is the sum of 23 and 5?","expected_type":"tool_call","expected_expression":"23+5","expected_result":28}
+{"id":"expanded-train-015","category":"greeting","prompt":"Howdy!","expected_type":"final"}
+{"id":"expanded-train-016","category":"subtraction","prompt":"Calculate 23 minus 5.","expected_type":"tool_call","expected_expression":"23-5","expected_result":18}
+{"id":"expanded-train-017","category":"division","prompt":"Calculate 23 divided by 5.","expected_type":"tool_call","expected_expression":"23/5","expected_result":4.6}
+{"id":"expanded-train-018","category":"greeting","prompt":"Hello, assistant.","expected_type":"final"}
+{"id":"expanded-train-019","category":"parentheses_division","prompt":"Add 23 and 5, then divide the sum by 4.","expected_type":"tool_call","expected_expression":"(23+5)/4","expected_result":7}
+{"id":"expanded-train-020","category":"parentheses_multiply","prompt":"Subtract 5 from 23, then multiply the result by 4.","expected_type":"tool_call","expected_expression":"(23-5)*4","expected_result":72}
+{"id":"expanded-train-021","category":"greeting","prompt":"Hey there, assistant!","expected_type":"final"}
+{"id":"expanded-train-022","category":"negative","prompt":"Multiply negative 23 by 5.","expected_type":"tool_call","expected_expression":"-23*5","expected_result":-115}
+{"id":"expanded-train-023","category":"decimal","prompt":"Multiply 23.5 by 5.","expected_type":"tool_call","expected_expression":"23.5*5","expected_result":117.5}
+{"id":"expanded-train-024","category":"greeting","prompt":"A friendly hello to you.","expected_type":"final"}
+{"id":"expanded-train-025","category":"multiply","prompt":"Use the calculator to multiply 25 by 6.","expected_type":"tool_call","expected_expression":"25*6","expected_result":150}
+{"id":"expanded-train-026","category":"addition","prompt":"Add 6 to 25.","expected_type":"tool_call","expected_expression":"25+6","expected_result":31}
+{"id":"expanded-train-027","category":"greeting","prompt":"Hello again!","expected_type":"final"}
+{"id":"expanded-train-028","category":"subtraction","prompt":"Please compute 25 - 6.","expected_type":"tool_call","expected_expression":"25-6","expected_result":19}
+{"id":"expanded-train-029","category":"division","prompt":"Use the calculator to divide 25 by 6.","expected_type":"tool_call","expected_expression":"25/6","expected_result":4.166666666666667}
+{"id":"expanded-train-030","category":"greeting","prompt":"Hi, how are you?","expected_type":"final"}
+{"id":"expanded-train-031","category":"parentheses_division","prompt":"Use the calculator for (25+6)/5.","expected_type":"tool_call","expected_expression":"(25+6)/5","expected_result":6.2}
+{"id":"expanded-train-032","category":"parentheses_multiply","prompt":"Use the calculator for (25-6)*5.","expected_type":"tool_call","expected_expression":"(25-6)*5","expected_result":95}
+{"id":"expanded-train-033","category":"greeting","prompt":"Thanks!","expected_type":"final"}
+{"id":"expanded-train-034","category":"negative","prompt":"Please compute -25 * 6.","expected_type":"tool_call","expected_expression":"-25*6","expected_result":-150}
+{"id":"expanded-train-035","category":"decimal","prompt":"Use the calculator for 25.5 * 6.","expected_type":"tool_call","expected_expression":"25.5*6","expected_result":153}
+{"id":"expanded-train-036","category":"greeting","prompt":"Thank you very much.","expected_type":"final"}
+{"id":"expanded-train-037","category":"multiply","prompt":"Please compute 27 * 7.","expected_type":"tool_call","expected_expression":"27*7","expected_result":189}
+{"id":"expanded-train-038","category":"addition","prompt":"Please compute 27 + 7.","expected_type":"tool_call","expected_expression":"27+7","expected_result":34}
+{"id":"expanded-train-039","category":"greeting","prompt":"Many thanks.","expected_type":"final"}
+{"id":"expanded-train-040","category":"subtraction","prompt":"What is the difference 27 minus 7?","expected_type":"tool_call","expected_expression":"27-7","expected_result":20}
+{"id":"expanded-train-041","category":"division","prompt":"Please compute 27 / 7.","expected_type":"tool_call","expected_expression":"27/7","expected_result":3.857142857142857}
+{"id":"expanded-train-042","category":"greeting","prompt":"I appreciate your help.","expected_type":"final"}
+{"id":"expanded-train-043","category":"parentheses_division","prompt":"Please compute (27 + 7) divided by 6.","expected_type":"tool_call","expected_expression":"(27+7)/6","expected_result":5.666666666666667}
+{"id":"expanded-train-044","category":"parentheses_multiply","prompt":"Multiply the difference 27 minus 7 by 6.","expected_type":"tool_call","expected_expression":"(27-7)*6","expected_result":120}
+{"id":"expanded-train-045","category":"greeting","prompt":"Thanks a lot!","expected_type":"final"}
+{"id":"expanded-train-046","category":"negative","prompt":"Use the calculator to multiply -27 by 7.","expected_type":"tool_call","expected_expression":"-27*7","expected_result":-189}
+{"id":"expanded-train-047","category":"decimal","prompt":"What is 27.5 multiplied by 7?","expected_type":"tool_call","expected_expression":"27.5*7","expected_result":192.5}
+{"id":"expanded-train-048","category":"greeting","prompt":"That was helpful, thank you.","expected_type":"final"}
+{"id":"expanded-train-049","category":"multiply","prompt":"Find the product of 29 and 8.","expected_type":"tool_call","expected_expression":"29*8","expected_result":232}
+{"id":"expanded-train-050","category":"addition","prompt":"Use the calculator to add 29 and 8.","expected_type":"tool_call","expected_expression":"29+8","expected_result":37}
+{"id":"expanded-train-051","category":"greeting","prompt":"Thank you for the explanation.","expected_type":"final"}
+{"id":"expanded-train-052","category":"subtraction","prompt":"Use the calculator to subtract 8 from 29.","expected_type":"tool_call","expected_expression":"29-8","expected_result":21}
+{"id":"expanded-train-053","category":"division","prompt":"What is the quotient of 29 and 8?","expected_type":"tool_call","expected_expression":"29/8","expected_result":3.625}
+{"id":"expanded-train-054","category":"greeting","prompt":"Thanks for your time.","expected_type":"final"}
+{"id":"expanded-train-055","category":"parentheses_division","prompt":"Divide the sum of 29 and 8 by 7.","expected_type":"tool_call","expected_expression":"(29+8)/7","expected_result":5.285714285714286}
+{"id":"expanded-train-056","category":"parentheses_multiply","prompt":"Please compute (29 - 8) times 7.","expected_type":"tool_call","expected_expression":"(29-8)*7","expected_result":147}
+{"id":"expanded-train-057","category":"greeting","prompt":"Much appreciated!","expected_type":"final"}
+{"id":"expanded-train-058","category":"negative","prompt":"What is -29 multiplied by 8?","expected_type":"tool_call","expected_expression":"-29*8","expected_result":-232}
+{"id":"expanded-train-059","category":"decimal","prompt":"Please compute 29.5 times 8.","expected_type":"tool_call","expected_expression":"29.5*8","expected_result":236}
+{"id":"expanded-train-060","category":"greeting","prompt":"Thanks, assistant.","expected_type":"final"}
+{"id":"expanded-train-061","category":"multiply","prompt":"Calculate 31 times 9.","expected_type":"tool_call","expected_expression":"31*9","expected_result":279}
+{"id":"expanded-train-062","category":"addition","prompt":"Calculate 31 plus 9.","expected_type":"tool_call","expected_expression":"31+9","expected_result":40}
+{"id":"expanded-train-063","category":"greeting","prompt":"Good afternoon!","expected_type":"final"}
+{"id":"expanded-train-064","category":"subtraction","prompt":"Subtract 9 from 31.","expected_type":"tool_call","expected_expression":"31-9","expected_result":22}
+{"id":"expanded-train-065","category":"division","prompt":"Divide 31 by 9.","expected_type":"tool_call","expected_expression":"31/9","expected_result":3.4444444444444446}
+{"id":"expanded-train-066","category":"greeting","prompt":"Have a nice day!","expected_type":"final"}
+{"id":"expanded-train-067","category":"parentheses_division","prompt":"Calculate (31 + 9) / 3.","expected_type":"tool_call","expected_expression":"(31+9)/3","expected_result":13.333333333333334}
+{"id":"expanded-train-068","category":"parentheses_multiply","prompt":"Calculate (31 - 9) * 3.","expected_type":"tool_call","expected_expression":"(31-9)*3","expected_result":66}
+{"id":"expanded-train-069","category":"greeting","prompt":"Have a great evening.","expected_type":"final"}
+{"id":"expanded-train-070","category":"negative","prompt":"Calculate -31 times 9.","expected_type":"tool_call","expected_expression":"-31*9","expected_result":-279}
+{"id":"expanded-train-071","category":"decimal","prompt":"Calculate 31.5 times 9.","expected_type":"tool_call","expected_expression":"31.5*9","expected_result":283.5}
+{"id":"expanded-train-072","category":"greeting","prompt":"Goodbye!","expected_type":"final"}
+{"id":"expanded-train-073","category":"multiply","prompt":"What is 33 multiplied by 10?","expected_type":"tool_call","expected_expression":"33*10","expected_result":330}
+{"id":"expanded-train-074","category":"addition","prompt":"What is the sum of 33 and 10?","expected_type":"tool_call","expected_expression":"33+10","expected_result":43}
+{"id":"expanded-train-075","category":"greeting","prompt":"See you later.","expected_type":"final"}
+{"id":"expanded-train-076","category":"subtraction","prompt":"Calculate 33 minus 10.","expected_type":"tool_call","expected_expression":"33-10","expected_result":23}
+{"id":"expanded-train-077","category":"division","prompt":"Calculate 33 divided by 10.","expected_type":"tool_call","expected_expression":"33/10","expected_result":3.3}
+{"id":"expanded-train-078","category":"greeting","prompt":"Bye for now.","expected_type":"final"}
+{"id":"expanded-train-079","category":"parentheses_division","prompt":"Add 33 and 10, then divide the sum by 4.","expected_type":"tool_call","expected_expression":"(33+10)/4","expected_result":10.75}
+{"id":"expanded-train-080","category":"parentheses_multiply","prompt":"Subtract 10 from 33, then multiply the result by 4.","expected_type":"tool_call","expected_expression":"(33-10)*4","expected_result":92}
+{"id":"expanded-train-081","category":"greeting","prompt":"It is lovely to meet you.","expected_type":"final"}
+{"id":"expanded-train-082","category":"negative","prompt":"Multiply negative 33 by 10.","expected_type":"tool_call","expected_expression":"-33*10","expected_result":-330}
+{"id":"expanded-train-083","category":"decimal","prompt":"Multiply 33.5 by 10.","expected_type":"tool_call","expected_expression":"33.5*10","expected_result":335}
+{"id":"expanded-train-084","category":"greeting","prompt":"Glad to meet you!","expected_type":"final"}
+{"id":"expanded-train-085","category":"multiply","prompt":"Use the calculator to multiply 35 by 11.","expected_type":"tool_call","expected_expression":"35*11","expected_result":385}
+{"id":"expanded-train-086","category":"addition","prompt":"Add 11 to 35.","expected_type":"tool_call","expected_expression":"35+11","expected_result":46}
+{"id":"expanded-train-087","category":"greeting","prompt":"Welcome, assistant!","expected_type":"final"}
+{"id":"expanded-train-088","category":"subtraction","prompt":"Please compute 35 - 11.","expected_type":"tool_call","expected_expression":"35-11","expected_result":24}
+{"id":"expanded-train-089","category":"division","prompt":"Use the calculator to divide 35 by 11.","expected_type":"tool_call","expected_expression":"35/11","expected_result":3.1818181818181817}
+{"id":"expanded-train-090","category":"greeting","prompt":"Wishing you a pleasant day.","expected_type":"final"}
+{"id":"expanded-train-091","category":"parentheses_division","prompt":"Use the calculator for (35+11)/5.","expected_type":"tool_call","expected_expression":"(35+11)/5","expected_result":9.2}
+{"id":"expanded-train-092","category":"parentheses_multiply","prompt":"Use the calculator for (35-11)*5.","expected_type":"tool_call","expected_expression":"(35-11)*5","expected_result":120}
+{"id":"expanded-train-093","category":"greeting","prompt":"Hello, calculator assistant!","expected_type":"final"}
+{"id":"expanded-train-094","category":"negative","prompt":"Please compute -35 * 11.","expected_type":"tool_call","expected_expression":"-35*11","expected_result":-385}
+{"id":"expanded-train-095","category":"decimal","prompt":"Use the calculator for 35.5 * 11.","expected_type":"tool_call","expected_expression":"35.5*11","expected_result":390.5}
+{"id":"expanded-train-096","category":"greeting","prompt":"Thanks for the calculation.","expected_type":"final"}
+{"id":"expanded-train-097","category":"multiply","prompt":"Please compute 37 * 12.","expected_type":"tool_call","expected_expression":"37*12","expected_result":444}
+{"id":"expanded-train-098","category":"addition","prompt":"Please compute 37 + 12.","expected_type":"tool_call","expected_expression":"37+12","expected_result":49}
+{"id":"expanded-train-099","category":"greeting","prompt":"No calculation needed; I just wanted to say hello.","expected_type":"final"}
+{"id":"expanded-train-100","category":"subtraction","prompt":"What is the difference 37 minus 12?","expected_type":"tool_call","expected_expression":"37-12","expected_result":25}
+{"id":"expanded-train-101","category":"division","prompt":"Please compute 37 / 12.","expected_type":"tool_call","expected_expression":"37/12","expected_result":3.0833333333333335}
+{"id":"expanded-train-102","category":"greeting","prompt":"No math this time, just saying thanks.","expected_type":"final"}
+{"id":"expanded-train-103","category":"parentheses_division","prompt":"Please compute (37 + 12) divided by 6.","expected_type":"tool_call","expected_expression":"(37+12)/6","expected_result":8.166666666666666}
+{"id":"expanded-train-104","category":"parentheses_multiply","prompt":"Multiply the difference 37 minus 12 by 6.","expected_type":"tool_call","expected_expression":"(37-12)*6","expected_result":150}
+{"id":"expanded-train-105","category":"greeting","prompt":"I am only greeting you, not asking for arithmetic.","expected_type":"final"}
+{"id":"expanded-train-106","category":"negative","prompt":"Use the calculator to multiply -37 by 12.","expected_type":"tool_call","expected_expression":"-37*12","expected_result":-444}
+{"id":"expanded-train-107","category":"decimal","prompt":"What is 37.5 multiplied by 12?","expected_type":"tool_call","expected_expression":"37.5*12","expected_result":450}
+{"id":"expanded-train-108","category":"greeting","prompt":"Hello! I am back for the second time.","expected_type":"final"}
+{"id":"expanded-train-109","category":"multiply","prompt":"Find the product of 39 and 4.","expected_type":"tool_call","expected_expression":"39*4","expected_result":156}
+{"id":"expanded-train-110","category":"addition","prompt":"Use the calculator to add 39 and 4.","expected_type":"tool_call","expected_expression":"39+4","expected_result":43}
+{"id":"expanded-train-111","category":"greeting","prompt":"Thanks for your 5-star help.","expected_type":"final"}
+{"id":"expanded-train-112","category":"subtraction","prompt":"Use the calculator to subtract 4 from 39.","expected_type":"tool_call","expected_expression":"39-4","expected_result":35}
+{"id":"expanded-train-113","category":"division","prompt":"What is the quotient of 39 and 4?","expected_type":"tool_call","expected_expression":"39/4","expected_result":9.75}
+{"id":"expanded-train-114","category":"greeting","prompt":"Good afternoon, calculator helper.","expected_type":"final"}
+{"id":"expanded-train-115","category":"parentheses_division","prompt":"Divide the sum of 39 and 4 by 7.","expected_type":"tool_call","expected_expression":"(39+4)/7","expected_result":6.142857142857143}
+{"id":"expanded-train-116","category":"parentheses_multiply","prompt":"Please compute (39 - 4) times 7.","expected_type":"tool_call","expected_expression":"(39-4)*7","expected_result":245}
+{"id":"expanded-train-117","category":"greeting","prompt":"Thanks for explaining the calculator tool.","expected_type":"final"}
+{"id":"expanded-train-118","category":"negative","prompt":"What is -39 multiplied by 4?","expected_type":"tool_call","expected_expression":"-39*4","expected_result":-156}
+{"id":"expanded-train-119","category":"decimal","prompt":"Please compute 39.5 times 4.","expected_type":"tool_call","expected_expression":"39.5*4","expected_result":158}
+{"id":"expanded-train-120","category":"greeting","prompt":"Just a quick hello before we start.","expected_type":"final"}
+{"id":"expanded-dev-001","category":"multiply","prompt":"Calculate 101 times 8.","expected_type":"tool_call","expected_expression":"101*8","expected_result":808}
+{"id":"expanded-dev-002","category":"addition","prompt":"Calculate 101 plus 8.","expected_type":"tool_call","expected_expression":"101+8","expected_result":109}
+{"id":"expanded-dev-003","category":"greeting","prompt":"Hello, nice to see you!","expected_type":"final"}
+{"id":"expanded-dev-004","category":"subtraction","prompt":"Subtract 8 from 101.","expected_type":"tool_call","expected_expression":"101-8","expected_result":93}
+{"id":"expanded-dev-005","category":"division","prompt":"Divide 101 by 8.","expected_type":"tool_call","expected_expression":"101/8","expected_result":12.625}
+{"id":"expanded-dev-006","category":"greeting","prompt":"Thank you for assisting me.","expected_type":"final"}
+{"id":"expanded-dev-007","category":"parentheses_division","prompt":"Calculate (101 + 8) / 3.","expected_type":"tool_call","expected_expression":"(101+8)/3","expected_result":36.333333333333336}
+{"id":"expanded-dev-008","category":"parentheses_multiply","prompt":"Calculate (101 - 8) * 3.","expected_type":"tool_call","expected_expression":"(101-8)*3","expected_result":279}
+{"id":"expanded-dev-009","category":"greeting","prompt":"Have a wonderful afternoon.","expected_type":"final"}
+{"id":"expanded-dev-010","category":"negative","prompt":"Calculate -101 times 8.","expected_type":"tool_call","expected_expression":"-101*8","expected_result":-808}
+{"id":"expanded-dev-011","category":"decimal","prompt":"Calculate 101.5 times 8.","expected_type":"tool_call","expected_expression":"101.5*8","expected_result":812}
+{"id":"expanded-dev-012","category":"greeting","prompt":"Farewell, assistant.","expected_type":"final"}
+{"id":"expanded-dev-013","category":"multiply","prompt":"What is 103 multiplied by 9?","expected_type":"tool_call","expected_expression":"103*9","expected_result":927}
+{"id":"expanded-dev-014","category":"addition","prompt":"What is the sum of 103 and 9?","expected_type":"tool_call","expected_expression":"103+9","expected_result":112}
+{"id":"expanded-dev-015","category":"greeting","prompt":"Hello to my calculator helper.","expected_type":"final"}
+{"id":"expanded-dev-016","category":"subtraction","prompt":"Calculate 103 minus 9.","expected_type":"tool_call","expected_expression":"103-9","expected_result":94}
+{"id":"expanded-dev-017","category":"division","prompt":"Calculate 103 divided by 9.","expected_type":"tool_call","expected_expression":"103/9","expected_result":11.444444444444445}
+{"id":"expanded-dev-018","category":"greeting","prompt":"I am just saying hi; please do not calculate anything.","expected_type":"final"}
+{"id":"expanded-dev-019","category":"parentheses_division","prompt":"Add 103 and 9, then divide the sum by 4.","expected_type":"tool_call","expected_expression":"(103+9)/4","expected_result":28}
+{"id":"expanded-dev-020","category":"parentheses_multiply","prompt":"Subtract 9 from 103, then multiply the result by 4.","expected_type":"tool_call","expected_expression":"(103-9)*4","expected_result":376}
+{"id":"expanded-dev-021","category":"greeting","prompt":"Your help was appreciated.","expected_type":"final"}
+{"id":"expanded-dev-022","category":"negative","prompt":"Multiply negative 103 by 9.","expected_type":"tool_call","expected_expression":"-103*9","expected_result":-927}
+{"id":"expanded-dev-023","category":"decimal","prompt":"Multiply 103.5 by 9.","expected_type":"tool_call","expected_expression":"103.5*9","expected_result":931.5}
+{"id":"expanded-dev-024","category":"greeting","prompt":"I am back again. Hello!","expected_type":"final"}

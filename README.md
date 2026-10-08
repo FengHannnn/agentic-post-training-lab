@@ -1,0 +1,32 @@
+# Agentic Post-Training Lab
+
+面向工具调用 Agent 的 SFT、DPO、GRPO、vLLM rollout 与评测项目。
+
+完整进度、阶段路线、实验结果和接手续作说明见 [项目交接文档](PROJECT_HANDOFF.md)。其中已实现内容与未来计划分别标注。
+
+## 运行环境
+
+- Python：3.11
+- 本地虚拟环境：`.venv`
+- MiniServe 的虚拟环境和依赖不会被复用。
+
+Phase 1 已实现并验证 SFT、DPO、GRPO 基础损失。Phase 2 已接入真实 tokenizer、CPU LoRA 训练与 adapter 保存重载，并增加独立工具调用评测。
+
+## 阶段文档
+
+- [Phase 1：后训练目标函数基础](reports/phase1-foundations.md)
+- [Phase 2：SFT 数据流水线与 LoRA 训练](reports/phase2-sft-data.md)
+- [Phase 2：接入真实 tokenizer](reports/phase2-real-tokenizer.md)
+- [Phase 2：LoRA 最小训练闭环](reports/phase2-lora-training.md)
+- [Phase 2：独立工具调用评测](reports/phase2-tool-evaluation.md)
+- [Phase 2：扩充格式与路由数据](reports/phase2-expanded-data.md)
+- [Phase 2：乘法与括号组合数据 v2](reports/phase2-bracket-data.md)
+- [Phase 2：括号与文字问法诊断](reports/phase2-bracket-diagnostic.md)
+
+## 运行测试与数据检查
+
+```powershell
+& ".\.venv\Scripts\python.exe" -m pip install -e .
+& ".\.venv\Scripts\python.exe" -m pytest tests -v
+& ".\.venv\Scripts\python.exe" scripts\inspect_sft_data.py
+```

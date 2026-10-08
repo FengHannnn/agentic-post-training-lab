@@ -1,0 +1,32 @@
+{
+  "version": "expanded_v1",
+  "source": "本项目按确定性模板构造；未使用模型生成回答。",
+  "train_examples": 120,
+  "dev_examples": 24,
+  "train_routes": {
+    "tool_call": 80,
+    "final": 40
+  },
+  "dev_routes": {
+    "tool_call": 16,
+    "final": 8
+  },
+  "train_order": "每两个工具调用样本后跟一个 final 样本",
+  "categories": [
+    "multiply",
+    "addition",
+    "subtraction",
+    "division",
+    "parentheses_division",
+    "parentheses_multiply",
+    "negative",
+    "decimal",
+    "greeting"
+  ],
+  "limitations": [
+    "开发集与训练集共用问法模板，但使用不同操作数及不同问候文本。",
+    "相同表达式结构不能跨训练、开发、原评测集重复；不检查所有数学等价形式。",
+    "当前覆盖的是八类运算结构和问候，尚未覆盖工具错误恢复、多轮对话或任意任务。"
+  ],
+  "targets_file": "data/training/expanded_v1_targets.jsonl"
+}

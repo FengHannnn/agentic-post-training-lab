@@ -1,0 +1,30 @@
+{
+  "version": "expanded_v2",
+  "parent": "expanded_v1",
+  "source": "保留 v1 全部样本，按确定性模板增加乘法与括号组合。",
+  "train_examples": 144,
+  "dev_examples": 32,
+  "train_routes": {
+    "tool_call": 104,
+    "final": 40
+  },
+  "dev_routes": {
+    "tool_call": 24,
+    "final": 8
+  },
+  "new_train_examples": 24,
+  "new_dev_examples": 8,
+  "new_categories": [
+    "multiply_sum_right",
+    "multiply_difference_right",
+    "multiply_sum_left",
+    "multiply_difference_left"
+  ],
+  "train_order": "每 5 条 v1 样本插入 1 条新括号乘法样本",
+  "targets_file": "data/training/expanded_v2_targets.jsonl",
+  "limitations": [
+    "不包含原失败评测题的精确表达式。",
+    "新增开发题沿用部分训练问法模板，不能作为模板外测试。",
+    "训练与开发操作数不同；不检测所有数学等价改写。"
+  ]
+}

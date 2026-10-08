@@ -1,0 +1,43 @@
+{
+  "purpose": "括号结构与文字问法的诊断，不是独立最终测试集。",
+  "cases": 48,
+  "models": [
+    "expanded_v1_240_steps",
+    "expanded_v2_288_steps"
+  ],
+  "number_sets": {
+    "original": [
+      2,
+      6,
+      5
+    ],
+    "unseen_small": [
+      3,
+      7,
+      4
+    ],
+    "seen_large": [
+      3,
+      41,
+      12
+    ]
+  },
+  "wordings": [
+    "spaced",
+    "compact",
+    "sequence",
+    "natural"
+  ],
+  "forms": [
+    "right_grouped",
+    "right_plain",
+    "left_grouped",
+    "left_plain"
+  ],
+  "pairs": 24,
+  "notes": [
+    "seen_large 含 v2 训练中出现过的表达式和部分原样问法，用来比较已见与未见输入。",
+    "文字问法允许交换加法或乘法顺序；数值语义指标与严格 AST 指标分开报告。",
+    "未改变训练数据，不继续训练，也不修复模型输出。"
+  ]
+}

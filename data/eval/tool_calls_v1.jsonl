@@ -1,0 +1,20 @@
+{"id":"holdout-001","category":"multiply","prompt":"Calculate 13 times 27.","expected_type":"tool_call","expected_expression":"13*27","expected_result":351}
+{"id":"holdout-002","category":"multiply","prompt":"What is 24 multiplied by 16?","expected_type":"tool_call","expected_expression":"24*16","expected_result":384}
+{"id":"holdout-003","category":"multiply","prompt":"Use the calculator to multiply 8 by 9.","expected_type":"tool_call","expected_expression":"8*9","expected_result":72}
+{"id":"holdout-004","category":"addition","prompt":"Calculate 37 plus 58.","expected_type":"tool_call","expected_expression":"37+58","expected_result":95}
+{"id":"holdout-005","category":"addition","prompt":"What is the sum of 125 and 76?","expected_type":"tool_call","expected_expression":"125+76","expected_result":201}
+{"id":"holdout-006","category":"subtraction","prompt":"Subtract 47 from 120.","expected_type":"tool_call","expected_expression":"120-47","expected_result":73}
+{"id":"holdout-007","category":"subtraction","prompt":"Calculate 18 minus 35.","expected_type":"tool_call","expected_expression":"18-35","expected_result":-17}
+{"id":"holdout-008","category":"division","prompt":"Calculate 144 divided by 12.","expected_type":"tool_call","expected_expression":"144/12","expected_result":12}
+{"id":"holdout-009","category":"division","prompt":"Divide 7 by 2.","expected_type":"tool_call","expected_expression":"7/2","expected_result":3.5}
+{"id":"holdout-010","category":"parentheses","prompt":"Calculate (30 + 18) / 6.","expected_type":"tool_call","expected_expression":"(30+18)/6","expected_result":8}
+{"id":"holdout-011","category":"parentheses","prompt":"Calculate (9 - 4) * 7.","expected_type":"tool_call","expected_expression":"(9-4)*7","expected_result":35}
+{"id":"holdout-012","category":"parentheses","prompt":"Calculate 2 * (6 + 5).","expected_type":"tool_call","expected_expression":"2*(6+5)","expected_result":22}
+{"id":"holdout-013","category":"negative","prompt":"Calculate -8 times 6.","expected_type":"tool_call","expected_expression":"-8*6","expected_result":-48}
+{"id":"holdout-014","category":"negative","prompt":"Calculate -12 plus 5.","expected_type":"tool_call","expected_expression":"-12+5","expected_result":-7}
+{"id":"holdout-015","category":"decimal","prompt":"Calculate 2.5 times 4.","expected_type":"tool_call","expected_expression":"2.5*4","expected_result":10}
+{"id":"holdout-016","category":"decimal","prompt":"Calculate 1.25 plus 0.75.","expected_type":"tool_call","expected_expression":"1.25+0.75","expected_result":2}
+{"id":"holdout-017","category":"greeting","prompt":"Hi there!","expected_type":"final"}
+{"id":"holdout-018","category":"greeting","prompt":"Good evening!","expected_type":"final"}
+{"id":"holdout-019","category":"greeting","prompt":"Thanks for your help!","expected_type":"final"}
+{"id":"holdout-020","category":"greeting","prompt":"Nice to meet you.","expected_type":"final"}

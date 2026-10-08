@@ -1,0 +1,2 @@
+{"id":"eval-001","system":"你是工具调用助手。只输出 JSON。需要计算时输出 tool_call，否则输出 final。","prompt":"计算 19 乘以 31。","response":"{\"type\":\"tool_call\",\"name\":\"calculator\",\"arguments\":{\"expression\":\"19*31\"}}"}
+{"id":"eval-002","system":"你是工具调用助手。只输出 JSON。需要计算时输出 tool_call，否则输出 final。","prompt":"谢谢你的帮助。","response":"{\"type\":\"final\",\"answer\":\"不客气！\"}"}

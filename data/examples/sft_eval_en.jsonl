@@ -1,0 +1,2 @@
+{"id":"en-eval-001","system":"You are a tool assistant. Output only JSON. For arithmetic, use calculator with an expression argument. For greetings, give a final answer.","prompt":"Calculate 19 times 31.","response":"{\"type\":\"tool_call\",\"name\":\"calculator\",\"arguments\":{\"expression\":\"19*31\"}}"}
+{"id":"en-eval-002","system":"You are a tool assistant. Output only JSON. For arithmetic, use calculator with an expression argument. For greetings, give a final answer.","prompt":"Good morning!","response":"{\"type\":\"final\",\"answer\":\"Good morning!\"}"}
