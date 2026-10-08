@@ -11,6 +11,9 @@ artifacts/logs/*
 artifacts/trajectories/*
 artifacts/evaluations/
 artifacts/baselines/*
+!artifacts/baselines/sft-v2-phase3/
+artifacts/baselines/sft-v2-phase3/*
+!artifacts/baselines/sft-v2-phase3/manifest.json
 data/raw/*
 data/processed/*
 

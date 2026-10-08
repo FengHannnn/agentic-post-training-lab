@@ -1,0 +1,1542 @@
+{
+  "baseline_id": "sft-v2-phase3",
+  "created_at": "2026-10-08T21:41:49.910682+08:00",
+  "source_run": "artifacts/checkpoints/sft-lora-20261008-202445-a3d10354",
+  "model": "HuggingFaceTB/SmolLM2-135M-Instruct",
+  "resolved_revision": "12fd25f77366fa6b3b4b768ec3050bf629380bac",
+  "training_summary": {
+    "config": {
+      "model": "HuggingFaceTB/SmolLM2-135M-Instruct",
+      "revision": "12fd25f77366fa6b3b4b768ec3050bf629380bac",
+      "train_data": "data/training/sft_train_expanded_v2.jsonl",
+      "eval_data": "data/training/sft_dev_expanded_v2.jsonl",
+      "max_length": 192,
+      "max_steps": 288,
+      "batch_size": 1,
+      "learning_rate": 0.001,
+      "max_grad_norm": 1,
+      "lora_rank": 4,
+      "lora_alpha": 8,
+      "target_modules": [
+        "q_proj",
+        "v_proj"
+      ],
+      "seed": 42,
+      "cpu_threads": 2,
+      "max_new_tokens": 64,
+      "validation_targets": "data/training/expanded_v2_targets.jsonl"
+    },
+    "resolved_revision": "12fd25f77366fa6b3b4b768ec3050bf629380bac",
+    "versions": {
+      "torch": "2.14.0+cpu",
+      "transformers": "4.57.6",
+      "peft": "0.17.1",
+      "accelerate": "1.15.0"
+    },
+    "trainable_parameters": 230400,
+    "total_parameters": 134745408,
+    "train_examples": 144,
+    "eval_examples": 32,
+    "eval_loss_before": 2.1935500864499033,
+    "eval_loss_after": 0.029905863279977095,
+    "generation_before": "101 times 8 is 808.<|im_end|>",
+    "generation_after": "{\"type\":\"tool_call\",\"name\":\"calculator\",\"arguments\":{\"expression\":\"101*8\"}}<|im_end|>",
+    "reload_logits_match": true,
+    "reload_max_abs_error": 0.0,
+    "steps_completed": 288
+  },
+  "evaluation_role": "development_diagnostics_not_final_test",
+  "generation": {
+    "device": "cpu",
+    "dtype": "float32",
+    "attention": "eager",
+    "do_sample": false,
+    "num_beams": 1,
+    "max_new_tokens": 64,
+    "seed": 42,
+    "cpu_threads": 2
+  },
+  "dpo_initialization": {
+    "policy": "checkpoint/adapter",
+    "reference": "checkpoint/adapter",
+    "reference_requires_grad": false
+  },
+  "metrics": {
+    "tool_calls": {
+      "cases": 20,
+      "metrics": {
+        "json_valid": {
+          "passed": 20,
+          "total": 20,
+          "rate": 1.0
+        },
+        "schema_valid": {
+          "passed": 20,
+          "total": 20,
+          "rate": 1.0
+        },
+        "route_correct": {
+          "passed": 20,
+          "total": 20,
+          "rate": 1.0
+        },
+        "arguments_valid": {
+          "passed": 16,
+          "total": 16,
+          "rate": 1.0
+        },
+        "arguments_correct": {
+          "passed": 15,
+          "total": 16,
+          "rate": 0.9375
+        },
+        "tool_execution_success": {
+          "passed": 16,
+          "total": 16,
+          "rate": 1.0
+        },
+        "result_correct": {
+          "passed": 15,
+          "total": 16,
+          "rate": 0.9375
+        },
+        "end_to_end_pass": {
+          "passed": 19,
+          "total": 20,
+          "rate": 0.95
+        }
+      },
+      "hit_token_limit_count": 0,
+      "by_category": {
+        "addition": {
+          "cases": 2,
+          "metrics": {
+            "json_valid": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "schema_valid": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "route_correct": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "arguments_valid": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "arguments_correct": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "tool_execution_success": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "result_correct": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "end_to_end_pass": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            }
+          }
+        },
+        "decimal": {
+          "cases": 2,
+          "metrics": {
+            "json_valid": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "schema_valid": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "route_correct": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "arguments_valid": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "arguments_correct": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "tool_execution_success": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "result_correct": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "end_to_end_pass": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            }
+          }
+        },
+        "division": {
+          "cases": 2,
+          "metrics": {
+            "json_valid": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "schema_valid": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "route_correct": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "arguments_valid": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "arguments_correct": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "tool_execution_success": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "result_correct": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "end_to_end_pass": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            }
+          }
+        },
+        "greeting": {
+          "cases": 4,
+          "metrics": {
+            "json_valid": {
+              "passed": 4,
+              "total": 4,
+              "rate": 1.0
+            },
+            "schema_valid": {
+              "passed": 4,
+              "total": 4,
+              "rate": 1.0
+            },
+            "route_correct": {
+              "passed": 4,
+              "total": 4,
+              "rate": 1.0
+            },
+            "arguments_valid": {
+              "passed": 0,
+              "total": 0,
+              "rate": null
+            },
+            "arguments_correct": {
+              "passed": 0,
+              "total": 0,
+              "rate": null
+            },
+            "tool_execution_success": {
+              "passed": 0,
+              "total": 0,
+              "rate": null
+            },
+            "result_correct": {
+              "passed": 0,
+              "total": 0,
+              "rate": null
+            },
+            "end_to_end_pass": {
+              "passed": 4,
+              "total": 4,
+              "rate": 1.0
+            }
+          }
+        },
+        "multiply": {
+          "cases": 3,
+          "metrics": {
+            "json_valid": {
+              "passed": 3,
+              "total": 3,
+              "rate": 1.0
+            },
+            "schema_valid": {
+              "passed": 3,
+              "total": 3,
+              "rate": 1.0
+            },
+            "route_correct": {
+              "passed": 3,
+              "total": 3,
+              "rate": 1.0
+            },
+            "arguments_valid": {
+              "passed": 3,
+              "total": 3,
+              "rate": 1.0
+            },
+            "arguments_correct": {
+              "passed": 3,
+              "total": 3,
+              "rate": 1.0
+            },
+            "tool_execution_success": {
+              "passed": 3,
+              "total": 3,
+              "rate": 1.0
+            },
+            "result_correct": {
+              "passed": 3,
+              "total": 3,
+              "rate": 1.0
+            },
+            "end_to_end_pass": {
+              "passed": 3,
+              "total": 3,
+              "rate": 1.0
+            }
+          }
+        },
+        "negative": {
+          "cases": 2,
+          "metrics": {
+            "json_valid": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "schema_valid": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "route_correct": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "arguments_valid": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "arguments_correct": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "tool_execution_success": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "result_correct": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "end_to_end_pass": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            }
+          }
+        },
+        "parentheses": {
+          "cases": 3,
+          "metrics": {
+            "json_valid": {
+              "passed": 3,
+              "total": 3,
+              "rate": 1.0
+            },
+            "schema_valid": {
+              "passed": 3,
+              "total": 3,
+              "rate": 1.0
+            },
+            "route_correct": {
+              "passed": 3,
+              "total": 3,
+              "rate": 1.0
+            },
+            "arguments_valid": {
+              "passed": 3,
+              "total": 3,
+              "rate": 1.0
+            },
+            "arguments_correct": {
+              "passed": 2,
+              "total": 3,
+              "rate": 0.6666666666666666
+            },
+            "tool_execution_success": {
+              "passed": 3,
+              "total": 3,
+              "rate": 1.0
+            },
+            "result_correct": {
+              "passed": 2,
+              "total": 3,
+              "rate": 0.6666666666666666
+            },
+            "end_to_end_pass": {
+              "passed": 2,
+              "total": 3,
+              "rate": 0.6666666666666666
+            }
+          }
+        },
+        "subtraction": {
+          "cases": 2,
+          "metrics": {
+            "json_valid": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "schema_valid": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "route_correct": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "arguments_valid": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "arguments_correct": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "tool_execution_success": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "result_correct": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            },
+            "end_to_end_pass": {
+              "passed": 2,
+              "total": 2,
+              "rate": 1.0
+            }
+          }
+        }
+      }
+    },
+    "brackets": {
+      "cases": 48,
+      "metrics": {
+        "json_valid": {
+          "passed": 48,
+          "total": 48,
+          "rate": 1.0
+        },
+        "schema_valid": {
+          "passed": 48,
+          "total": 48,
+          "rate": 1.0
+        },
+        "route_correct": {
+          "passed": 48,
+          "total": 48,
+          "rate": 1.0
+        },
+        "arguments_valid": {
+          "passed": 48,
+          "total": 48,
+          "rate": 1.0
+        },
+        "arguments_correct": {
+          "passed": 33,
+          "total": 48,
+          "rate": 0.6875
+        },
+        "tool_execution_success": {
+          "passed": 48,
+          "total": 48,
+          "rate": 1.0
+        },
+        "result_correct": {
+          "passed": 33,
+          "total": 48,
+          "rate": 0.6875
+        },
+        "end_to_end_pass": {
+          "passed": 33,
+          "total": 48,
+          "rate": 0.6875
+        }
+      },
+      "semantic_pass": {
+        "passed": 33,
+        "total": 48,
+        "rate": 0.6875
+      },
+      "by_wording": {
+        "compact": {
+          "total": 12,
+          "strict_passed": 12,
+          "semantic_passed": 12
+        },
+        "natural": {
+          "total": 12,
+          "strict_passed": 6,
+          "semantic_passed": 6
+        },
+        "sequence": {
+          "total": 12,
+          "strict_passed": 4,
+          "semantic_passed": 4
+        },
+        "spaced": {
+          "total": 12,
+          "strict_passed": 11,
+          "semantic_passed": 11
+        }
+      },
+      "by_number_set": {
+        "original": {
+          "total": 16,
+          "strict_passed": 10,
+          "semantic_passed": 10
+        },
+        "seen_large": {
+          "total": 16,
+          "strict_passed": 12,
+          "semantic_passed": 12
+        },
+        "unseen_small": {
+          "total": 16,
+          "strict_passed": 11,
+          "semantic_passed": 11
+        }
+      },
+      "by_form": {
+        "left_grouped": {
+          "total": 12,
+          "strict_passed": 12,
+          "semantic_passed": 12
+        },
+        "left_plain": {
+          "total": 12,
+          "strict_passed": 6,
+          "semantic_passed": 6
+        },
+        "right_grouped": {
+          "total": 12,
+          "strict_passed": 9,
+          "semantic_passed": 9
+        },
+        "right_plain": {
+          "total": 12,
+          "strict_passed": 6,
+          "semantic_passed": 6
+        }
+      },
+      "pair_semantic_pass": {
+        "passed": 11,
+        "total": 24
+      },
+      "pairs": [
+        {
+          "pair_id": "original/compact/left",
+          "semantic_pass": true,
+          "expected_results": [
+            22,
+            16
+          ],
+          "tool_results": [
+            22.0,
+            16.0
+          ]
+        },
+        {
+          "pair_id": "original/compact/right",
+          "semantic_pass": true,
+          "expected_results": [
+            22,
+            17
+          ],
+          "tool_results": [
+            22.0,
+            17.0
+          ]
+        },
+        {
+          "pair_id": "original/natural/left",
+          "semantic_pass": false,
+          "expected_results": [
+            22,
+            16
+          ],
+          "tool_results": [
+            22.0,
+            10.0
+          ]
+        },
+        {
+          "pair_id": "original/natural/right",
+          "semantic_pass": false,
+          "expected_results": [
+            22,
+            17
+          ],
+          "tool_results": [
+            22.0,
+            12.0
+          ]
+        },
+        {
+          "pair_id": "original/sequence/left",
+          "semantic_pass": false,
+          "expected_results": [
+            22,
+            16
+          ],
+          "tool_results": [
+            22.0,
+            10.0
+          ]
+        },
+        {
+          "pair_id": "original/sequence/right",
+          "semantic_pass": false,
+          "expected_results": [
+            22,
+            17
+          ],
+          "tool_results": [
+            13.0,
+            12.0
+          ]
+        },
+        {
+          "pair_id": "original/spaced/left",
+          "semantic_pass": true,
+          "expected_results": [
+            22,
+            16
+          ],
+          "tool_results": [
+            22.0,
+            16.0
+          ]
+        },
+        {
+          "pair_id": "original/spaced/right",
+          "semantic_pass": false,
+          "expected_results": [
+            22,
+            17
+          ],
+          "tool_results": [
+            17.0,
+            17.0
+          ]
+        },
+        {
+          "pair_id": "seen_large/compact/left",
+          "semantic_pass": true,
+          "expected_results": [
+            159,
+            77
+          ],
+          "tool_results": [
+            159.0,
+            77.0
+          ]
+        },
+        {
+          "pair_id": "seen_large/compact/right",
+          "semantic_pass": true,
+          "expected_results": [
+            159,
+            135
+          ],
+          "tool_results": [
+            159.0,
+            135.0
+          ]
+        },
+        {
+          "pair_id": "seen_large/natural/left",
+          "semantic_pass": false,
+          "expected_results": [
+            159,
+            77
+          ],
+          "tool_results": [
+            159.0,
+            159.0
+          ]
+        },
+        {
+          "pair_id": "seen_large/natural/right",
+          "semantic_pass": false,
+          "expected_results": [
+            159,
+            135
+          ],
+          "tool_results": [
+            159.0,
+            123.0
+          ]
+        },
+        {
+          "pair_id": "seen_large/sequence/left",
+          "semantic_pass": false,
+          "expected_results": [
+            159,
+            77
+          ],
+          "tool_results": [
+            159.0,
+            36.0
+          ]
+        },
+        {
+          "pair_id": "seen_large/sequence/right",
+          "semantic_pass": false,
+          "expected_results": [
+            159,
+            135
+          ],
+          "tool_results": [
+            159.0,
+            159.0
+          ]
+        },
+        {
+          "pair_id": "seen_large/spaced/left",
+          "semantic_pass": true,
+          "expected_results": [
+            159,
+            77
+          ],
+          "tool_results": [
+            159.0,
+            77.0
+          ]
+        },
+        {
+          "pair_id": "seen_large/spaced/right",
+          "semantic_pass": true,
+          "expected_results": [
+            159,
+            135
+          ],
+          "tool_results": [
+            159.0,
+            135.0
+          ]
+        },
+        {
+          "pair_id": "unseen_small/compact/left",
+          "semantic_pass": true,
+          "expected_results": [
+            33,
+            19
+          ],
+          "tool_results": [
+            33.0,
+            19.0
+          ]
+        },
+        {
+          "pair_id": "unseen_small/compact/right",
+          "semantic_pass": true,
+          "expected_results": [
+            33,
+            25
+          ],
+          "tool_results": [
+            33.0,
+            25.0
+          ]
+        },
+        {
+          "pair_id": "unseen_small/natural/left",
+          "semantic_pass": false,
+          "expected_results": [
+            33,
+            19
+          ],
+          "tool_results": [
+            33.0,
+            12.0
+          ]
+        },
+        {
+          "pair_id": "unseen_small/natural/right",
+          "semantic_pass": false,
+          "expected_results": [
+            33,
+            25
+          ],
+          "tool_results": [
+            33.0,
+            21.0
+          ]
+        },
+        {
+          "pair_id": "unseen_small/sequence/left",
+          "semantic_pass": false,
+          "expected_results": [
+            33,
+            19
+          ],
+          "tool_results": [
+            33.0,
+            12.0
+          ]
+        },
+        {
+          "pair_id": "unseen_small/sequence/right",
+          "semantic_pass": false,
+          "expected_results": [
+            33,
+            25
+          ],
+          "tool_results": [
+            6.0,
+            33.0
+          ]
+        },
+        {
+          "pair_id": "unseen_small/spaced/left",
+          "semantic_pass": true,
+          "expected_results": [
+            33,
+            19
+          ],
+          "tool_results": [
+            33.0,
+            19.0
+          ]
+        },
+        {
+          "pair_id": "unseen_small/spaced/right",
+          "semantic_pass": true,
+          "expected_results": [
+            33,
+            25
+          ],
+          "tool_results": [
+            33.0,
+            25.0
+          ]
+        }
+      ]
+    },
+    "spacing_control": {
+      "cases": 12,
+      "metrics": {
+        "json_valid": {
+          "passed": 12,
+          "total": 12,
+          "rate": 1.0
+        },
+        "schema_valid": {
+          "passed": 12,
+          "total": 12,
+          "rate": 1.0
+        },
+        "route_correct": {
+          "passed": 12,
+          "total": 12,
+          "rate": 1.0
+        },
+        "arguments_valid": {
+          "passed": 12,
+          "total": 12,
+          "rate": 1.0
+        },
+        "arguments_correct": {
+          "passed": 12,
+          "total": 12,
+          "rate": 1.0
+        },
+        "tool_execution_success": {
+          "passed": 12,
+          "total": 12,
+          "rate": 1.0
+        },
+        "result_correct": {
+          "passed": 12,
+          "total": 12,
+          "rate": 1.0
+        },
+        "end_to_end_pass": {
+          "passed": 12,
+          "total": 12,
+          "rate": 1.0
+        }
+      },
+      "semantic_pass": {
+        "passed": 12,
+        "total": 12,
+        "rate": 1.0
+      },
+      "by_wording": {
+        "compact_sameverb": {
+          "total": 12,
+          "strict_passed": 12,
+          "semantic_passed": 12
+        }
+      },
+      "by_number_set": {
+        "original": {
+          "total": 4,
+          "strict_passed": 4,
+          "semantic_passed": 4
+        },
+        "seen_large": {
+          "total": 4,
+          "strict_passed": 4,
+          "semantic_passed": 4
+        },
+        "unseen_small": {
+          "total": 4,
+          "strict_passed": 4,
+          "semantic_passed": 4
+        }
+      },
+      "by_form": {
+        "left_grouped": {
+          "total": 3,
+          "strict_passed": 3,
+          "semantic_passed": 3
+        },
+        "left_plain": {
+          "total": 3,
+          "strict_passed": 3,
+          "semantic_passed": 3
+        },
+        "right_grouped": {
+          "total": 3,
+          "strict_passed": 3,
+          "semantic_passed": 3
+        },
+        "right_plain": {
+          "total": 3,
+          "strict_passed": 3,
+          "semantic_passed": 3
+        }
+      },
+      "pair_semantic_pass": {
+        "passed": 6,
+        "total": 6
+      },
+      "pairs": [
+        {
+          "pair_id": "original/compact_sameverb/left",
+          "semantic_pass": true,
+          "expected_results": [
+            22,
+            16
+          ],
+          "tool_results": [
+            22.0,
+            16.0
+          ]
+        },
+        {
+          "pair_id": "original/compact_sameverb/right",
+          "semantic_pass": true,
+          "expected_results": [
+            22,
+            17
+          ],
+          "tool_results": [
+            22.0,
+            17.0
+          ]
+        },
+        {
+          "pair_id": "seen_large/compact_sameverb/left",
+          "semantic_pass": true,
+          "expected_results": [
+            159,
+            77
+          ],
+          "tool_results": [
+            159.0,
+            77.0
+          ]
+        },
+        {
+          "pair_id": "seen_large/compact_sameverb/right",
+          "semantic_pass": true,
+          "expected_results": [
+            159,
+            135
+          ],
+          "tool_results": [
+            159.0,
+            135.0
+          ]
+        },
+        {
+          "pair_id": "unseen_small/compact_sameverb/left",
+          "semantic_pass": true,
+          "expected_results": [
+            33,
+            19
+          ],
+          "tool_results": [
+            33.0,
+            19.0
+          ]
+        },
+        {
+          "pair_id": "unseen_small/compact_sameverb/right",
+          "semantic_pass": true,
+          "expected_results": [
+            33,
+            25
+          ],
+          "tool_results": [
+            33.0,
+            25.0
+          ]
+        }
+      ]
+    }
+  },
+  "files": [
+    {
+      "source": "artifacts/checkpoints/sft-lora-20261008-202445-a3d10354/adapter/adapter_config.json",
+      "snapshot": "checkpoint/adapter/adapter_config.json",
+      "bytes": 903,
+      "sha256": "9c8f30a85d584434f45aa00445793373fcffa1697f332f53e786a3a6df6ba22b"
+    },
+    {
+      "source": "artifacts/checkpoints/sft-lora-20261008-202445-a3d10354/adapter/adapter_model.safetensors",
+      "snapshot": "checkpoint/adapter/adapter_model.safetensors",
+      "bytes": 937056,
+      "sha256": "0efeb95765ece648571bb20c73fb7818eab3e6e3cd357812551275bd1823f094"
+    },
+    {
+      "source": "artifacts/checkpoints/sft-lora-20261008-202445-a3d10354/adapter/README.md",
+      "snapshot": "checkpoint/adapter/README.md",
+      "bytes": 5224,
+      "sha256": "fa9272157886541edbc891c0d3e976692761aa66599362f2778da699d48b16b3"
+    },
+    {
+      "source": "artifacts/checkpoints/sft-lora-20261008-202445-a3d10354/summary.json",
+      "snapshot": "checkpoint/summary.json",
+      "bytes": 1312,
+      "sha256": "2a1bc6a1be5458016f4cff7dd719ed9fa478d9617303ec604a623d0317700bfb"
+    },
+    {
+      "source": "artifacts/checkpoints/sft-lora-20261008-202445-a3d10354/tokenizer/chat_template.jinja",
+      "snapshot": "checkpoint/tokenizer/chat_template.jinja",
+      "bytes": 373,
+      "sha256": "d1c0ce73f56a3eb57c157fec6019c9a9812d60f6d67078a0f375e0d90a7dddaf"
+    },
+    {
+      "source": "artifacts/checkpoints/sft-lora-20261008-202445-a3d10354/tokenizer/merges.txt",
+      "snapshot": "checkpoint/tokenizer/merges.txt",
+      "bytes": 466391,
+      "sha256": "0b54e8aa4e53d5383e2e4bc635a56b43f9647f7b13832d5d9ecd8f82dac4f510"
+    },
+    {
+      "source": "artifacts/checkpoints/sft-lora-20261008-202445-a3d10354/tokenizer/special_tokens_map.json",
+      "snapshot": "checkpoint/tokenizer/special_tokens_map.json",
+      "bytes": 689,
+      "sha256": "68d920624c05998fa87a133555aff625768fc69f1b41baf0592f8d09b60896b3"
+    },
+    {
+      "source": "artifacts/checkpoints/sft-lora-20261008-202445-a3d10354/tokenizer/tokenizer.json",
+      "snapshot": "checkpoint/tokenizer/tokenizer.json",
+      "bytes": 3522656,
+      "sha256": "7d27c493c729a66ecefc837280b05d948b1ed50d130eebdbf911b1b36cf38ed7"
+    },
+    {
+      "source": "artifacts/checkpoints/sft-lora-20261008-202445-a3d10354/tokenizer/tokenizer_config.json",
+      "snapshot": "checkpoint/tokenizer/tokenizer_config.json",
+      "bytes": 3552,
+      "sha256": "2cc400b5016d790d4123eb95d6cf5af17a9c1fa874564414f2eb034b0b4c6969"
+    },
+    {
+      "source": "artifacts/checkpoints/sft-lora-20261008-202445-a3d10354/tokenizer/vocab.json",
+      "snapshot": "checkpoint/tokenizer/vocab.json",
+      "bytes": 800662,
+      "sha256": "82b84012e3add4d01d12ba14442026e49b8cbbaead1f79ecf3d919784f82dc79"
+    },
+    {
+      "source": "artifacts/checkpoints/sft-lora-20261008-202445-a3d10354/train_log.jsonl",
+      "snapshot": "checkpoint/train_log.jsonl",
+      "bytes": 35895,
+      "sha256": "a8406849bb2a00975aad3e6a55ed1b16d4a1f2cf2f0c7d8d134e041164a57db7"
+    },
+    {
+      "source": "artifacts/evaluations/tool-calls-20261008-203842-cc578a24/base_predictions.jsonl",
+      "snapshot": "evaluations/tool_calls/base_predictions.jsonl",
+      "bytes": 12852,
+      "sha256": "ba0a17959b1a8ebc22ba2298d79a4d4d7f68d60e5133dec3dbeef5337816e546"
+    },
+    {
+      "source": "artifacts/evaluations/tool-calls-20261008-203842-cc578a24/lora_predictions.jsonl",
+      "snapshot": "evaluations/tool_calls/lora_predictions.jsonl",
+      "bytes": 13356,
+      "sha256": "31179db7792bede070289c18c39dcb0f2127c692c321f7e9da1215c25dc79788"
+    },
+    {
+      "source": "artifacts/evaluations/tool-calls-20261008-203842-cc578a24/report.md",
+      "snapshot": "evaluations/tool_calls/report.md",
+      "bytes": 1140,
+      "sha256": "14a5255f09e47f6eea4391e0fedadaec2c4e6891910df5d41f5492f9c8d59e1b"
+    },
+    {
+      "source": "artifacts/evaluations/tool-calls-20261008-203842-cc578a24/summary.json",
+      "snapshot": "evaluations/tool_calls/summary.json",
+      "bytes": 19555,
+      "sha256": "bc8a2a7a6b26a3fc5065bb6a11b1593c0a56cafeff73bd2d77c3961880e06042"
+    },
+    {
+      "source": "artifacts/evaluations/bracket-diagnostic-20261008-204902-76e6b53b/report.md",
+      "snapshot": "evaluations/brackets/report.md",
+      "bytes": 4629,
+      "sha256": "5984fb89b3e4642be969153803d50e097a528900e695ab6608256346ae1397a2"
+    },
+    {
+      "source": "artifacts/evaluations/bracket-diagnostic-20261008-204902-76e6b53b/summary.json",
+      "snapshot": "evaluations/brackets/summary.json",
+      "bytes": 17256,
+      "sha256": "76124f99e4f8a548e1c3ad6413197b7341a3aec91710f32dc118502f71ab2328"
+    },
+    {
+      "source": "artifacts/evaluations/bracket-diagnostic-20261008-204902-76e6b53b/v1_predictions.jsonl",
+      "snapshot": "evaluations/brackets/v1_predictions.jsonl",
+      "bytes": 45728,
+      "sha256": "b49981b206bc5fea8cd0edeff20997347cd7c38f3f7ec545697f4bba5302ff37"
+    },
+    {
+      "source": "artifacts/evaluations/bracket-diagnostic-20261008-204902-76e6b53b/v2_predictions.jsonl",
+      "snapshot": "evaluations/brackets/v2_predictions.jsonl",
+      "bytes": 45640,
+      "sha256": "e59cd57dfe8e36e71c9bc626f4f9a43f90e4856eb93e14d5428186a197aee783"
+    },
+    {
+      "source": "artifacts/evaluations/bracket-diagnostic-20261008-210057-380ef02a/report.md",
+      "snapshot": "evaluations/spacing_control/report.md",
+      "bytes": 2075,
+      "sha256": "ebb189357c2a8430d18a7b67757051b4366bedc9c99ffe575006053b1ef92ac6"
+    },
+    {
+      "source": "artifacts/evaluations/bracket-diagnostic-20261008-210057-380ef02a/summary.json",
+      "snapshot": "evaluations/spacing_control/summary.json",
+      "bytes": 7843,
+      "sha256": "cca9171e48681c9a78df063f51595009c505055a437b5bcb6d4465fae5208ccc"
+    },
+    {
+      "source": "artifacts/evaluations/bracket-diagnostic-20261008-210057-380ef02a/v1_predictions.jsonl",
+      "snapshot": "evaluations/spacing_control/v1_predictions.jsonl",
+      "bytes": 11686,
+      "sha256": "60c3a89d14a9a0a37beac453f19f69fc94b2d96ee2b3a9072a7acbeefa74e835"
+    },
+    {
+      "source": "artifacts/evaluations/bracket-diagnostic-20261008-210057-380ef02a/v2_predictions.jsonl",
+      "snapshot": "evaluations/spacing_control/v2_predictions.jsonl",
+      "bytes": 11640,
+      "sha256": "3f14fe3f918f03a75a648db1ce4c21d04ae1686acc76a5bafba9c44625145bf7"
+    },
+    {
+      "source": "configs/sft_lora_cpu.json",
+      "snapshot": "project/configs/sft_lora_cpu.json",
+      "bytes": 423,
+      "sha256": "cb233baad93ecaa8531f1ed07a34ace7423385fbdfd51ac3d9ee67d88ea5268c"
+    },
+    {
+      "source": "configs/sft_lora_expanded_cpu.json",
+      "snapshot": "project/configs/sft_lora_expanded_cpu.json",
+      "bytes": 487,
+      "sha256": "fd9735e6338afb4fdb15049529737d59f135507328f7d5f670b01d0637e6354b"
+    },
+    {
+      "source": "configs/sft_lora_expanded_v2_cpu.json",
+      "snapshot": "project/configs/sft_lora_expanded_v2_cpu.json",
+      "bytes": 554,
+      "sha256": "1c3fd471f0b9156214253a18ebb38198225f9ca25b0d0ef21266d6b192b9ba83"
+    },
+    {
+      "source": "data/training/expanded_v1_manifest.json",
+      "snapshot": "project/data/training/expanded_v1_manifest.json",
+      "bytes": 960,
+      "sha256": "442edaacfd682da6459a1e63e14b429bcc70be01fb609a0b1b07b1cdee3e6db8"
+    },
+    {
+      "source": "data/training/expanded_v1_targets.jsonl",
+      "snapshot": "project/data/training/expanded_v1_targets.jsonl",
+      "bytes": 22085,
+      "sha256": "02cf707de86a45486cd0a641b8125216df4dc9c12e81fcbe5779bf1852df7ee6"
+    },
+    {
+      "source": "data/training/expanded_v2_manifest.json",
+      "snapshot": "project/data/training/expanded_v2_manifest.json",
+      "bytes": 887,
+      "sha256": "99ed0a0aaa8277eb6b6dfa6c095234ad50cb4cedd93e765b0839597fd8d07c28"
+    },
+    {
+      "source": "data/training/expanded_v2_targets.jsonl",
+      "snapshot": "project/data/training/expanded_v2_targets.jsonl",
+      "bytes": 28423,
+      "sha256": "63b894fc1748937c732c6e32900e6a7e4d28afd85e25e544c0b9b2091187a7b2"
+    },
+    {
+      "source": "data/training/sft_dev_expanded_v1.jsonl",
+      "snapshot": "project/data/training/sft_dev_expanded_v1.jsonl",
+      "bytes": 7352,
+      "sha256": "a37fe3694c4d5b2081fb8c9d64c75063894b5c1ada72d4beb1c340451d051499"
+    },
+    {
+      "source": "data/training/sft_dev_expanded_v2.jsonl",
+      "snapshot": "project/data/training/sft_dev_expanded_v2.jsonl",
+      "bytes": 10008,
+      "sha256": "20088c7b5c868f14a890aaa6a8549f1d208992745a1192e4335724e310fe28fa"
+    },
+    {
+      "source": "data/training/sft_train_expanded_v1.jsonl",
+      "snapshot": "project/data/training/sft_train_expanded_v1.jsonl",
+      "bytes": 36907,
+      "sha256": "5378d32811d9f4650b01f4519af3e1c252e0186d6867895216c61dd11950255a"
+    },
+    {
+      "source": "data/training/sft_train_expanded_v2.jsonl",
+      "snapshot": "project/data/training/sft_train_expanded_v2.jsonl",
+      "bytes": 45035,
+      "sha256": "a15ddf2f5a79e890a7f733e2ff1ccfb9fd30ffa8e7846eec9cc05f108d43fe31"
+    },
+    {
+      "source": "data/eval/bracket_diagnostic_v1.jsonl",
+      "snapshot": "project/data/eval/bracket_diagnostic_v1.jsonl",
+      "bytes": 10339,
+      "sha256": "51486e0841e605908107699eb70295621942fc33e55199901b59cefc3d05181a"
+    },
+    {
+      "source": "data/eval/bracket_diagnostic_v1_manifest.json",
+      "snapshot": "project/data/eval/bracket_diagnostic_v1_manifest.json",
+      "bytes": 873,
+      "sha256": "f6387454ab8e617b4e74bf1086e4467735d4aa32a75e428c4101a5068aa78190"
+    },
+    {
+      "source": "data/eval/bracket_spacing_control_v1.jsonl",
+      "snapshot": "project/data/eval/bracket_spacing_control_v1.jsonl",
+      "bytes": 2659,
+      "sha256": "88af89520cda6aedd03ad5c787bed9cffb65e70caa42e7c976b8515c3a6de1cc"
+    },
+    {
+      "source": "data/eval/tool_calls_v1.jsonl",
+      "snapshot": "project/data/eval/tool_calls_v1.jsonl",
+      "bytes": 2928,
+      "sha256": "bcc6cb17a26620eb0060045353529855579daffcaddf7cb723084a14b1d3244f"
+    },
+    {
+      "source": "src/agentic_post_training/__init__.py",
+      "snapshot": "project/src/agentic_post_training/__init__.py",
+      "bytes": 58,
+      "sha256": "ed0b0936f7ddb404da6a679b36e97fb424259701fcfa1969cf78a0d73a2642d3"
+    },
+    {
+      "source": "src/agentic_post_training/algorithms/__init__.py",
+      "snapshot": "project/src/agentic_post_training/algorithms/__init__.py",
+      "bytes": 494,
+      "sha256": "46153703d05ca9328747d3c7e83fa363ea03a62c29feadbef693a2052b1af300"
+    },
+    {
+      "source": "src/agentic_post_training/algorithms/losses.py",
+      "snapshot": "project/src/agentic_post_training/algorithms/losses.py",
+      "bytes": 8770,
+      "sha256": "d8e7dd9c16553b3f11ed062dfc8afc706dae2cd95176a88d60b31bd130650efd"
+    },
+    {
+      "source": "src/agentic_post_training/data/__init__.py",
+      "snapshot": "project/src/agentic_post_training/data/__init__.py",
+      "bytes": 169,
+      "sha256": "c887ff0eca62d6ffe14565f76d4ca4816eb161559fcde565a9bb438e07b37559"
+    },
+    {
+      "source": "src/agentic_post_training/data/demo_tokenizer.py",
+      "snapshot": "project/src/agentic_post_training/data/demo_tokenizer.py",
+      "bytes": 796,
+      "sha256": "1229e0da7ec7131581e067b350244b5c60818140c58192f80a9c2f58061162dc"
+    },
+    {
+      "source": "src/agentic_post_training/data/hf_tokenizer.py",
+      "snapshot": "project/src/agentic_post_training/data/hf_tokenizer.py",
+      "bytes": 1977,
+      "sha256": "0e00db42b66dbba945a4018f8beaeebf7cb31844e37306ca8d79245fb8f025be"
+    },
+    {
+      "source": "src/agentic_post_training/data/sft.py",
+      "snapshot": "project/src/agentic_post_training/data/sft.py",
+      "bytes": 4012,
+      "sha256": "72d769caa48b930789cdbb2df279636ba384ef18cabcc2fb9a8f5a71192dcbc7"
+    },
+    {
+      "source": "src/agentic_post_training/data/validation.py",
+      "snapshot": "project/src/agentic_post_training/data/validation.py",
+      "bytes": 3064,
+      "sha256": "d0dd30f2e48719549fea2b4665a82d3d6bceca70091c0609d7cc05f9f4679b30"
+    },
+    {
+      "source": "src/agentic_post_training/environments/__init__.py",
+      "snapshot": "project/src/agentic_post_training/environments/__init__.py",
+      "bytes": 31,
+      "sha256": "e3fcf82908a1a373ae42e6552f9411f759ae8633a3a2cd89bacbeafeb3c16e1c"
+    },
+    {
+      "source": "src/agentic_post_training/environments/calculator.py",
+      "snapshot": "project/src/agentic_post_training/environments/calculator.py",
+      "bytes": 1938,
+      "sha256": "ece20e519b8d2d2ffe0941446d9cc89760dfceeb3f06db8a9d418cef8cf77606"
+    },
+    {
+      "source": "src/agentic_post_training/evaluation/__init__.py",
+      "snapshot": "project/src/agentic_post_training/evaluation/__init__.py",
+      "bytes": 48,
+      "sha256": "fed06474ab161badecd5ad1ccb50da3fe13157e70ba824d4abe5e4a5c87647c4"
+    },
+    {
+      "source": "src/agentic_post_training/evaluation/brackets.py",
+      "snapshot": "project/src/agentic_post_training/evaluation/brackets.py",
+      "bytes": 1731,
+      "sha256": "3aaa047b7b8c07980e9299dfb220ccd1d615e10f10061dd0ab5618c4bbcedf51"
+    },
+    {
+      "source": "src/agentic_post_training/evaluation/generation.py",
+      "snapshot": "project/src/agentic_post_training/evaluation/generation.py",
+      "bytes": 1088,
+      "sha256": "c8eba9acf0df31d61e4022a950218a6b5b59b44fd545d4440f5a16c13b4e4d84"
+    },
+    {
+      "source": "src/agentic_post_training/evaluation/tool_calls.py",
+      "snapshot": "project/src/agentic_post_training/evaluation/tool_calls.py",
+      "bytes": 5982,
+      "sha256": "a1d932db843100bded6344fb157fef87c36118fe832b2f4ab17c8d30e61cd2d4"
+    },
+    {
+      "source": "src/agentic_post_training/trainers/__init__.py",
+      "snapshot": "project/src/agentic_post_training/trainers/__init__.py",
+      "bytes": 43,
+      "sha256": "9689280909d7100966301727c6bec6e1665dedc7e5d039bbbd570f20ba8c6768"
+    },
+    {
+      "source": "src/agentic_post_training/trainers/sft_lora.py",
+      "snapshot": "project/src/agentic_post_training/trainers/sft_lora.py",
+      "bytes": 4384,
+      "sha256": "df0e6a71855e49257224d8729769a6378e29a1b10a8d3bf4c3ca9ded80ab94a2"
+    },
+    {
+      "source": "scripts/diagnose_brackets.py",
+      "snapshot": "project/scripts/diagnose_brackets.py",
+      "bytes": 8108,
+      "sha256": "2667f9d8e5795dbe93e02a1fe7863e98edbc22f35f1d49d142052548eeb6f6fc"
+    },
+    {
+      "source": "scripts/evaluate_tool_calls.py",
+      "snapshot": "project/scripts/evaluate_tool_calls.py",
+      "bytes": 6259,
+      "sha256": "7b1b3f0f5aa12d49f48287849ae84454c33f3846648703568ad147e027a3c716"
+    },
+    {
+      "source": "scripts/freeze_sft_baseline.py",
+      "snapshot": "project/scripts/freeze_sft_baseline.py",
+      "bytes": 5634,
+      "sha256": "3d51a28f397de72958b0fdbdced242f579d3620250c1a91b07029ffcc253edaa"
+    },
+    {
+      "source": "scripts/inspect_hf_tokenizer.py",
+      "snapshot": "project/scripts/inspect_hf_tokenizer.py",
+      "bytes": 3203,
+      "sha256": "e534bc2966889e2a662ce2d24f2703fde21b5840c3c6c596f2f5f95bf3b6134f"
+    },
+    {
+      "source": "scripts/inspect_sft_data.py",
+      "snapshot": "project/scripts/inspect_sft_data.py",
+      "bytes": 1476,
+      "sha256": "5dfa299d0270b4f161821826eeb2eb6d53985ab2a9101e091c6c1e634fb0b2e0"
+    },
+    {
+      "source": "scripts/train_sft_lora.py",
+      "snapshot": "project/scripts/train_sft_lora.py",
+      "bytes": 6362,
+      "sha256": "283b03fb479bb9fdd0971c4a45cd01116e2344af0cc9aa8a44b3dd82789b07f4"
+    },
+    {
+      "source": "scripts/validate_sft_dataset.py",
+      "snapshot": "project/scripts/validate_sft_dataset.py",
+      "bytes": 2259,
+      "sha256": "d55d259a47c053cb900853617fed67f2fad6524ee0c0194ae2a3ac13d01805bd"
+    },
+    {
+      "source": "tests/__init__.py",
+      "snapshot": "project/tests/__init__.py",
+      "bytes": 49,
+      "sha256": "32e31ec71471d725d31ff56460d3875bb72cc196865fb66a1b2f9c6304162baa"
+    },
+    {
+      "source": "tests/integration/test_lora_training.py",
+      "snapshot": "project/tests/integration/test_lora_training.py",
+      "bytes": 2743,
+      "sha256": "789b5eab7fea3f4e76a0bcf94f94897143af6010189349d71bde345c5f3a2cbf"
+    },
+    {
+      "source": "tests/unit/__init__.py",
+      "snapshot": "project/tests/unit/__init__.py",
+      "bytes": 34,
+      "sha256": "e62d608d778e3330d0b978fce74162ebe37bf7a6574ebf11e6e6773f204c069a"
+    },
+    {
+      "source": "tests/unit/test_bracket_diagnostic.py",
+      "snapshot": "project/tests/unit/test_bracket_diagnostic.py",
+      "bytes": 2672,
+      "sha256": "ae75c8897803015e16fc1995f794760ff3b4e561f474a8d5436138949bc7379b"
+    },
+    {
+      "source": "tests/unit/test_dataset_validation.py",
+      "snapshot": "project/tests/unit/test_dataset_validation.py",
+      "bytes": 3398,
+      "sha256": "8012a026412c6163aaed18b1b72c00a523b58e5297d1b73e75e78fee890e358f"
+    },
+    {
+      "source": "tests/unit/test_hf_tokenizer.py",
+      "snapshot": "project/tests/unit/test_hf_tokenizer.py",
+      "bytes": 1403,
+      "sha256": "768c8e46f70e737395bbff2ea708c316297c5a59d8acb95d47355cea49718bfa"
+    },
+    {
+      "source": "tests/unit/test_losses.py",
+      "snapshot": "project/tests/unit/test_losses.py",
+      "bytes": 5131,
+      "sha256": "4354f62c5f54b4f09df5dcd839f7109324e39010ad31f1294ed40ebe07c01d4a"
+    },
+    {
+      "source": "tests/unit/test_sft_data.py",
+      "snapshot": "project/tests/unit/test_sft_data.py",
+      "bytes": 3787,
+      "sha256": "0592fc16c56bed272e962166b8501140f8635c82d761036a517726d7f0fc2c14"
+    },
+    {
+      "source": "tests/unit/test_tool_call_evaluation.py",
+      "snapshot": "project/tests/unit/test_tool_call_evaluation.py",
+      "bytes": 3126,
+      "sha256": "2dd09274c5280ecf903b85a4d9146b85f72af1e866d0fe49457ed316a892119b"
+    },
+    {
+      "source": "tests/unit/test_training_helpers.py",
+      "snapshot": "project/tests/unit/test_training_helpers.py",
+      "bytes": 767,
+      "sha256": "e152faa6cd6b4ffb354c77fd29ab766584ac8b1526da6597f24f277d84a0b4b2"
+    },
+    {
+      "source": "pyproject.toml",
+      "snapshot": "project/pyproject.toml",
+      "bytes": 549,
+      "sha256": "b112a546f8e8f61f150438aadf5b9f43d24872149803cd0eabb62e11788c7919"
+    },
+    {
+      "source": "PROJECT_HANDOFF.md",
+      "snapshot": "project/PROJECT_HANDOFF.md",
+      "bytes": 40209,
+      "sha256": "4a0c48e5469b5f96ecd8198c97c6c9a8f58a4ede799b57299e3914af2ddda0f7"
+    },
+    {
+      "source": "README.md",
+      "snapshot": "project/README.md",
+      "bytes": 1461,
+      "sha256": "4018fa0686011a4c77f8e2840e1219153231227f4e529bcc578a347701c53ce0"
+    }
+  ],
+  "base_cache_files": [
+    {
+      "source": ".cache/huggingface/models--HuggingFaceTB--SmolLM2-135M-Instruct/snapshots/12fd25f77366fa6b3b4b768ec3050bf629380bac/config.json",
+      "bytes": 861,
+      "sha256": "8eb740e8bbe4cff95ea7b4588d17a2432deb16e8075bc5828ff7ba9be94d982a"
+    },
+    {
+      "source": ".cache/huggingface/models--HuggingFaceTB--SmolLM2-135M-Instruct/snapshots/12fd25f77366fa6b3b4b768ec3050bf629380bac/generation_config.json",
+      "bytes": 132,
+      "sha256": "87b916edaaab66b3899b9d0dd0752727dff6666686da0504d89ae0a6e055a013"
+    },
+    {
+      "source": ".cache/huggingface/models--HuggingFaceTB--SmolLM2-135M-Instruct/snapshots/12fd25f77366fa6b3b4b768ec3050bf629380bac/merges.txt",
+      "bytes": 466391,
+      "sha256": "0b54e8aa4e53d5383e2e4bc635a56b43f9647f7b13832d5d9ecd8f82dac4f510"
+    },
+    {
+      "source": ".cache/huggingface/models--HuggingFaceTB--SmolLM2-135M-Instruct/snapshots/12fd25f77366fa6b3b4b768ec3050bf629380bac/model.safetensors",
+      "bytes": 269060552,
+      "sha256": "5af571cbf074e6d21a03528d2330792e532ca608f24ac70a143f6b369968ab8c"
+    },
+    {
+      "source": ".cache/huggingface/models--HuggingFaceTB--SmolLM2-135M-Instruct/snapshots/12fd25f77366fa6b3b4b768ec3050bf629380bac/special_tokens_map.json",
+      "bytes": 655,
+      "sha256": "2b7379f3ae813529281a5c602bc5a11c1d4e0a99107aaa597fe936c1e813ca52"
+    },
+    {
+      "source": ".cache/huggingface/models--HuggingFaceTB--SmolLM2-135M-Instruct/snapshots/12fd25f77366fa6b3b4b768ec3050bf629380bac/tokenizer.json",
+      "bytes": 2104556,
+      "sha256": "9ca9acddb6525a194ec8ac7a87f24fbba7232a9a15ffa1af0c1224fcd888e47c"
+    },
+    {
+      "source": ".cache/huggingface/models--HuggingFaceTB--SmolLM2-135M-Instruct/snapshots/12fd25f77366fa6b3b4b768ec3050bf629380bac/tokenizer_config.json",
+      "bytes": 3764,
+      "sha256": "4ec77d44f62efeb38d7e044a1db318f6a939438425312dfa333b8382dbad98df"
+    },
+    {
+      "source": ".cache/huggingface/models--HuggingFaceTB--SmolLM2-135M-Instruct/snapshots/12fd25f77366fa6b3b4b768ec3050bf629380bac/vocab.json",
+      "bytes": 800662,
+      "sha256": "82b84012e3add4d01d12ba14442026e49b8cbbaead1f79ecf3d919784f82dc79"
+    }
+  ],
+  "base_weights_copied": false
+}

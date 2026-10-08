@@ -92,9 +92,9 @@ Windows 虚拟环境的 `Scripts` 保存 python、pip 与激活脚本。两个�
 
 缓存：项目 `.cache/huggingface`，已有 tokenizer 和基础模型权重；现有脚本可通过 `--local-files-only` 离线运行。先前安装训练依赖时禁用 pip 缓存以避免受限环境默认缓存写入问题，这与 HF 模型缓存不是同一回事。
 
-当前未初始化 Git：在项目根目录执行 git status 返回 not a git repository。`.gitignore` 虽然存在，但不是已建立版本管理的证据；尚未推送此新项目。
+2026-10-08 已初始化 Git，分支为 `main`。现有 Phase 1/Phase 2 与 Phase 3 基线冻结分为两次本地提交，可用 `git log --oneline` 查看；尚未配置远程仓库或推送。首次提交是在实验完成后整理当前文件，不是对历史每次实验的逐步提交记录。
 
-`.gitignore` 排除了 `.venv`、`.cache`、checkpoint、evaluation、日志与部分原始数据目录。未来初始化 Git 后，adapter 和结果不会自动被提交；发布/迁移必须另行备份或选择性保存。只分享此 Markdown 不会携带权重。
+`.gitignore` 排除了 `.venv`、`.cache`、checkpoint、evaluation、日志与部分原始数据目录，以及完整基线快照；仅允许跟踪 `artifacts/baselines/sft-v2-phase3/manifest.json`，记录文件哈希、条件与指标。adapter 和完整逐题产物未纳入 Git，发布/迁移必须另行备份或选择性保存。只分享此 Markdown 或克隆仓库不会携带权重。`.gitattributes` 统一文本文件使用 LF，避免 Windows 换行转换影响后续校验。
 
 ## 3. 主体框架与真实数据流
 
@@ -176,7 +176,9 @@ SFT JSONL（system/prompt/response 文本）
 
 尚未收尾：稳定的措辞/空格/顺序鲁棒性，真正未查看的最终测试集，单变量消融和多随机种子证据。不要无限追求原 20 题 100%，也不要把阶段内诊断开发集当最终成绩。
 
-### Phase 3：DPO 最小真实训练闭环——未开始，建议下一条后训练主线
+### Phase 3：DPO 最小真实训练闭环——已开始基线冻结，尚未训练
+
+2026-10-08 用户已选择依次执行：冻结 v2 基线 → 小规模偏好数据构造与审计 → DPO 训练/保存/重载 → SFT-only 与 SFT＋DPO 逐项行为对比。第 1 步的快照目录为 `artifacts/baselines/sft-v2-phase3`，说明见 `reports/phase3-dpo-baseline.md`，创建/校验入口为 `scripts/freeze_sft_baseline.py`。快照复制 adapter、tokenizer、历史训练和评测记录、数据与相关实现，使用 SHA256 校验；基础模型权重只校验本地缓存、不重复复制。policy/reference 的初始化都固定为 base＋v2 SFT adapter。偏好数据与 DPO trainer 尚未实现。
 
 学什么：chosen/rejected 数据质量、序列 log probability、冻结参考模型、beta、隐式 reward 与偏好 margin，长度偏差与训练/评测隔离。
 
@@ -424,7 +426,8 @@ base 0/20 是本任务严格 JSON 协议下的失败，不等于基础模型没�
 - [ ] 推理服务、第二种工具、RAG、多 Agent（均不属于目前实现）。
 - [ ] 通用 device/批处理生成迁移；当前 helper 创建 CPU tensor。
 - [ ] 训练断点续跑、optimizer/scheduler 状态、完整配置/数据锁定。
-- [ ] Git 初始化、远程仓库、CI、云端 Docker、权重/评测产物备份发布。
+- [x] Git 初始化，Phase 1/Phase 2 与 Phase 3 基线冻结的两次本地提交。
+- [ ] 远程仓库、CI、云端 Docker、权重/评测产物备份发布。
 - [ ] 新项目的部署性能 benchmark 或岗位成果包装。
 
 ## 9. 下一步建议：承接当前诊断，不直接跳过它
