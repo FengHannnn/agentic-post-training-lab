@@ -1,0 +1,104 @@
+{
+  "baseline_id": "sft-v2-phase3",
+  "baseline_manifest_sha256": "a40ef7a505c3f76bbdaf485106a588679bda02d8bab852e0d1a91c8aa9d70f0f",
+  "model_revision": "12fd25f77366fa6b3b4b768ec3050bf629380bac",
+  "max_length": 192,
+  "generation": {
+    "device": "cpu",
+    "dtype": "float32",
+    "attention": "eager",
+    "do_sample": false,
+    "num_beams": 1,
+    "max_new_tokens": 64,
+    "seed": 42,
+    "cpu_threads": 2
+  },
+  "versions": {
+    "torch": "2.14.0+cpu",
+    "transformers": "4.57.6",
+    "peft": "0.17.1"
+  },
+  "audit": {
+    "train": {
+      "pairs": 28,
+      "families": 10,
+      "routes": {
+        "tool_call": 24,
+        "final": 4
+      },
+      "categories": {
+        "right_grouped": 6,
+        "right_plain": 6,
+        "left_grouped": 6,
+        "left_plain": 6,
+        "greeting": 4
+      },
+      "rejected_sources": {
+        "synthetic_counterexample": 15,
+        "v2_greedy_generation": 13
+      },
+      "rejected_failures": {
+        "wrong_arguments": 24,
+        "wrong_route": 4
+      },
+      "tokens": {
+        "chosen": {
+          "max_total": 88,
+          "min_response": 12,
+          "mean_response": 25.5
+        },
+        "rejected": {
+          "max_total": 88,
+          "min_response": 24,
+          "mean_response": 26.785714285714285
+        }
+      }
+    },
+    "development": {
+      "pairs": 10,
+      "families": 4,
+      "routes": {
+        "tool_call": 8,
+        "final": 2
+      },
+      "categories": {
+        "right_grouped": 2,
+        "right_plain": 2,
+        "left_grouped": 2,
+        "left_plain": 2,
+        "greeting": 2
+      },
+      "rejected_sources": {
+        "v2_greedy_generation": 3,
+        "synthetic_counterexample": 7
+      },
+      "rejected_failures": {
+        "wrong_arguments": 8,
+        "wrong_route": 2
+      },
+      "tokens": {
+        "chosen": {
+          "max_total": 90,
+          "min_response": 12,
+          "mean_response": 25.8
+        },
+        "rejected": {
+          "max_total": 89,
+          "min_response": 24,
+          "mean_response": 27.5
+        }
+      }
+    }
+  },
+  "protected_case_records": 406,
+  "files": {
+    "train.jsonl": "43be5a09a7d7d060ad06a9cb0c900d70bf3966c0b1f58b634586cd727e824dd0",
+    "development.jsonl": "580a0571e1d3c1b0991d809b2516f423f7072feb8d541947c5c316a4ecbb95b2"
+  },
+  "limitations": [
+    "开发数据，共享训练措辞模板，不证明模板外泛化",
+    "chosen 标签由确定性模板产生并人工复查",
+    "rejected 混合真实模型错误与合成对照",
+    "没有最终未查看测试集"
+  ]
+}

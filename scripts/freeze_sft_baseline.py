@@ -111,7 +111,7 @@ def main():
         "base_weights_copied": False,
     }
     (baseline / "manifest.json").write_text(
-        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     verify(baseline)
 
 

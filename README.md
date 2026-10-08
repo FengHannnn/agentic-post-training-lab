@@ -23,6 +23,7 @@ Phase 1 已实现并验证 SFT、DPO、GRPO 基础损失。Phase 2 已接入真�
 - [Phase 2：乘法与括号组合数据 v2](reports/phase2-bracket-data.md)
 - [Phase 2：括号与文字问法诊断](reports/phase2-bracket-diagnostic.md)
 - [Phase 3：冻结 v2 SFT 基线](reports/phase3-dpo-baseline.md)
+- [Phase 3：小规模偏好数据](reports/phase3-preference-data.md)
 
 ## 运行测试与数据检查
 

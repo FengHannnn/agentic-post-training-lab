@@ -176,9 +176,11 @@ SFT JSONL（system/prompt/response 文本）
 
 尚未收尾：稳定的措辞/空格/顺序鲁棒性，真正未查看的最终测试集，单变量消融和多随机种子证据。不要无限追求原 20 题 100%，也不要把阶段内诊断开发集当最终成绩。
 
-### Phase 3：DPO 最小真实训练闭环——已开始基线冻结，尚未训练
+### Phase 3：DPO 最小真实训练闭环——基线与偏好数据已准备，尚未训练
 
-2026-10-08 用户已选择依次执行：冻结 v2 基线 → 小规模偏好数据构造与审计 → DPO 训练/保存/重载 → SFT-only 与 SFT＋DPO 逐项行为对比。第 1 步的快照目录为 `artifacts/baselines/sft-v2-phase3`，说明见 `reports/phase3-dpo-baseline.md`，创建/校验入口为 `scripts/freeze_sft_baseline.py`。快照复制 adapter、tokenizer、历史训练和评测记录、数据与相关实现，使用 SHA256 校验；基础模型权重只校验本地缓存、不重复复制。policy/reference 的初始化都固定为 base＋v2 SFT adapter。偏好数据与 DPO trainer 尚未实现。
+2026-10-08 用户已选择依次执行：冻结 v2 基线 → 小规模偏好数据构造与审计 → DPO 训练/保存/重载 → SFT-only 与 SFT＋DPO 逐项行为对比。第 1 步的快照目录为 `artifacts/baselines/sft-v2-phase3`，说明见 `reports/phase3-dpo-baseline.md`，创建/校验入口为 `scripts/freeze_sft_baseline.py`。快照复制 adapter、tokenizer、历史训练和评测记录、数据与相关实现，使用 SHA256 校验；基础模型权重只校验本地缓存、不重复复制。policy/reference 的初始化都固定为 base＋v2 SFT adapter。
+
+第 2 步已完成 `data/preferences/dpo_v1/`：28 train（24 算术＋4 问候）、10 development（8 算术＋2 问候）；真实 v2 错误 rejected 分别为 13/3，合成负例分别为 15/7。chosen 为人工复核的模板标签。family 分组，现有 SFT/eval 的 ID、prompt、精确 AST 隔离通过；真实 tokenizer 的完整长度最大 90，未截断。train/dev 共用措辞模板，仍是开发数据，没有最终未查看测试。入口 `scripts/build_dpo_preferences.py --audit-only`，包内审计 `data/preferences.py`，说明 `reports/phase3-preference-data.md`。完整生成日志在 `artifacts/evaluations/dpo-preferences-v1/`，偏好 JSONL 自身也保留逐题 provenance。当前测试 70 项通过；DPO trainer 尚未实现，未进行 DPO 更新。
 
 学什么：chosen/rejected 数据质量、序列 log probability、冻结参考模型、beta、隐式 reward 与偏好 margin，长度偏差与训练/评测隔离。
 
@@ -419,7 +421,8 @@ base 0/20 是本任务严格 JSON 协议下的失败，不等于基础模型没�
 - [ ] v3 多措辞/空格/运算顺序训练数据与新的受控 SFT 实验。
 - [ ] 从未查看、未用于调参的最终测试集；更广泛任务/语言泛化。
 - [ ] 固定数据/步数/预算的消融，多 seed，LoRA rank/target 对照。
-- [ ] 真正 chosen/rejected 偏好数据和 DPO trainer。
+- [x] 小规模 chosen/rejected 偏好数据、来源记录、隔离与真实 token 审计。
+- [ ] DPO trainer、真实更新、保存重载与行为对比。
 - [ ] 组采样、显式 reward、reference/old policy 管理和完整 GRPO trainer。
 - [ ] TRL 集成、vLLM/SGLang rollout、GPU/云端环境。
 - [ ] 工具结果回传、多轮 Agent、错误恢复、轨迹 reward。
