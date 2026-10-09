@@ -1,19 +1,19 @@
 # AgenticPostTrainingLab：项目全景与对话交接文档
 
-更新时间：2026-10-08。本文依据当前本地代码、配置、数据、训练 summary 和评测产物核对整理。面向接手本项目的另一个对话，尽量不依赖原聊天记录。
+更新时间：2026-10-09。本文依据当前本地代码、配置、数据、训练 summary 和评测产物核对整理。面向接手本项目的另一个对话，尽量不依赖原聊天记录。
 
 ## 0. 接手前先读：当前状态与边界
 
 项目根目录：`C:\Users\app\Documents\Codex\2026-9-28\AgenticPostTrainingLab`。
 
-当前进度：Phase 0 的概念学习和 Phase 1 的张量级损失实现已经推进；Phase 2 已跑通真实 tokenizer、CPU SFT＋LoRA、保存重载、工具请求评测、两版数据扩充，以及括号/问法诊断。最近完成的工作是诊断对照，不是新的训练。
+当前进度：Phase 0/1 基础与张量损失已推进；Phase 2 已跑通真实 tokenizer、CPU SFT＋LoRA、保存重载、工具请求评测和括号/问法诊断。Phase 3 已冻结 v2 基线、构造并审计小规模偏好数据，完成首轮 CPU DPO 训练与保存重载；下一步是 SFT-only 与 SFT＋DPO 的逐项行为对比。
 
 一句话定位：这是从后训练目标函数出发，逐步走向工具调用模型的 SFT、偏好优化、可验证奖励强化学习与 Agent 评测的学习型实验项目；目前并不是完整的 RL 训练框架或生产级 Agent 系统。
 
 必须避免的误读：
 
-- DPO 和 GRPO 已有损失函数与单元测试，但尚未接入真实模型训练。
-- 当前真实训练只有 SFT＋LoRA。LoRA 是参数高效训练方式，不是 SFT 之后的第二道训练工序。
+- DPO 已接入真实 CPU 训练，GRPO 仍只有张量损失与单元测试，没有真实更新闭环。
+- 当前真实训练包含 SFT＋LoRA 和在 v2 adapter 上继续执行的 DPO＋LoRA。LoRA 是参数高效训练方式，不是 SFT 之后的第二道训练工序。
 - vLLM、SGLang、TRL 尚未接入，不能说项目已经用它们完成 rollout 或训练。
 - 工具评测闭环止于模型输出请求、解析、计算器执行与评分；尚未将工具结果传回模型生成最终答复。
 - 20 条原工具评测题已被反复查看并用于指导数据扩充，虽然文件名/ID 有 holdout 含义，现在只能当开发诊断集。
@@ -21,7 +21,7 @@
 - 现有小样本高通过率、低开发 loss 不能证明全面泛化，也不能证明已学会稳定的自然语言运算顺序。
 - 当前没有 NVIDIA GPU；真实运行均为本机 Windows CPU。大规模 GPU 实验需要后续另行规划云端环境和预算。
 
-最新验证：本次交接整理时重跑 `pytest tests -q`，64 项通过、1 条 PEFT 警告；重跑 v2 数据审计，标签、划分、真实 token 长度检查通过。
+最新验证：2026-10-09 重跑 `pytest tests -q`，71 项通过；偏好数据审计及冻结基线校验通过，真实 DPO 的参数冻结、更新与保存重载检查通过。此前 v2 SFT 数据审计已通过。
 
 ## 1. 用户背景、目标与协作偏好
 
@@ -118,7 +118,7 @@ SFT JSONL（system/prompt/response 文本）
   → AST/数值/成对诊断指标与逐题日志
 ```
 
-尚未实现的主干：偏好样本构造 → DPO 训练；同 prompt 多回答 rollout → reward → advantage → GRPO 真实更新；工具结果回传 → 多步 Agent。
+已增加偏好样本构造 → 审计 → 固定 reference 分数 → DPO 更新 → 保存重载。尚未实现的主干：DPO 行为对比；同 prompt 多回答 rollout → reward → advantage → GRPO 真实更新；工具结果回传 → 多步 Agent。
 
 ### 3.2 目录与职责
 
@@ -176,11 +176,13 @@ SFT JSONL（system/prompt/response 文本）
 
 尚未收尾：稳定的措辞/空格/顺序鲁棒性，真正未查看的最终测试集，单变量消融和多随机种子证据。不要无限追求原 20 题 100%，也不要把阶段内诊断开发集当最终成绩。
 
-### Phase 3：DPO 最小真实训练闭环——基线与偏好数据已准备，尚未训练
+### Phase 3：DPO 最小真实训练闭环——首轮训练与保存重载完成，待行为对比
 
 2026-10-08 用户已选择依次执行：冻结 v2 基线 → 小规模偏好数据构造与审计 → DPO 训练/保存/重载 → SFT-only 与 SFT＋DPO 逐项行为对比。第 1 步的快照目录为 `artifacts/baselines/sft-v2-phase3`，说明见 `reports/phase3-dpo-baseline.md`，创建/校验入口为 `scripts/freeze_sft_baseline.py`。快照复制 adapter、tokenizer、历史训练和评测记录、数据与相关实现，使用 SHA256 校验；基础模型权重只校验本地缓存、不重复复制。policy/reference 的初始化都固定为 base＋v2 SFT adapter。
 
-第 2 步已完成 `data/preferences/dpo_v1/`：28 train（24 算术＋4 问候）、10 development（8 算术＋2 问候）；真实 v2 错误 rejected 分别为 13/3，合成负例分别为 15/7。chosen 为人工复核的模板标签。family 分组，现有 SFT/eval 的 ID、prompt、精确 AST 隔离通过；真实 tokenizer 的完整长度最大 90，未截断。train/dev 共用措辞模板，仍是开发数据，没有最终未查看测试。入口 `scripts/build_dpo_preferences.py --audit-only`，包内审计 `data/preferences.py`，说明 `reports/phase3-preference-data.md`。完整生成日志在 `artifacts/evaluations/dpo-preferences-v1/`，偏好 JSONL 自身也保留逐题 provenance。当前测试 70 项通过；DPO trainer 尚未实现，未进行 DPO 更新。
+第 2 步已完成 `data/preferences/dpo_v1/`：28 train（24 算术＋4 问候）、10 development（8 算术＋2 问候）；真实 v2 错误 rejected 分别为 13/3，合成负例分别为 15/7。chosen 为人工复核的模板标签。family 分组，现有 SFT/eval 的 ID、prompt、精确 AST 隔离通过；真实 tokenizer 的完整长度最大 90，未截断。train/dev 共用措辞模板，仍是开发数据，没有最终未查看测试。入口 `scripts/build_dpo_preferences.py --audit-only`，包内审计 `data/preferences.py`，说明 `reports/phase3-preference-data.md`。完整生成日志在 `artifacts/evaluations/dpo-preferences-v1/`，偏好 JSONL 自身也保留逐题 provenance。
+
+第 3 步于 2026-10-09 完成：`trainers/dpo.py` 接入 Phase 1 的序列 log probability 与 sigmoid DPO，`scripts/train_dpo.py` 在独立 CPU policy/reference 上运行；reference 分数预先缓存并 detach，policy 仅更新 LoRA。配置 `configs/dpo_cpu.json`，28 步、lr=1e-4、beta=0.1。产物 `artifacts/checkpoints/dpo-lora-20261009-205045-21dd3596`，train/dev loss 0.693147→0.465978/0.461117，相对偏好 accuracy 25/28、9/10；初始平局按严格 >0 记为 0。reference 参数不变/无梯度、policy 冻结参数不变/可训练参数有更新、保存重载 logits_match=true、最大差0.0。chosen 平均 log probability 也下降，不能把相对偏好改善当生成正确率。尚未开展第 4 步行为对比。说明 `reports/phase3-dpo-training.md`。当前测试 71 项通过。首轮 PEFT 保存尝试远程 config 后回退成功；当前脚本已显式禁用 embedding 保存和设置离线模式，未重跑首轮训练。
 
 学什么：chosen/rejected 数据质量、序列 log probability、冻结参考模型、beta、隐式 reward 与偏好 margin，长度偏差与训练/评测隔离。
 
@@ -414,7 +416,7 @@ base 0/20 是本任务严格 JSON 协议下的失败，不等于基础模型没�
 - [x] 受限计算器与严格请求评分。
 - [x] 20 题 base/LoRA 对照、v1/v2 数据和审计。
 - [x] 48 主诊断＋12 单变量控制，逐题报告。
-- [x] 当前 64 项测试通过。
+- [x] 当前 71 项测试通过。
 
 ### 当前明确未完成
 
@@ -422,7 +424,8 @@ base 0/20 是本任务严格 JSON 协议下的失败，不等于基础模型没�
 - [ ] 从未查看、未用于调参的最终测试集；更广泛任务/语言泛化。
 - [ ] 固定数据/步数/预算的消融，多 seed，LoRA rank/target 对照。
 - [x] 小规模 chosen/rejected 偏好数据、来源记录、隔离与真实 token 审计。
-- [ ] DPO trainer、真实更新、保存重载与行为对比。
+- [x] DPO trainer、首轮 CPU 真实更新与保存重载验证。
+- [ ] SFT-only 与 SFT＋DPO 逐项行为对比。
 - [ ] 组采样、显式 reward、reference/old policy 管理和完整 GRPO trainer。
 - [ ] TRL 集成、vLLM/SGLang rollout、GPU/云端环境。
 - [ ] 工具结果回传、多轮 Agent、错误恢复、轨迹 reward。
@@ -435,7 +438,7 @@ base 0/20 是本任务严格 JSON 协议下的失败，不等于基础模型没�
 
 ## 9. 下一步建议：承接当前诊断，不直接跳过它
 
-建议首先与用户确认：继续 Phase 2 的小规模受控修正，还是把当前 SFT 保存为基线进入 DPO。不要未经确认再次改训练步数、换大模型或租 GPU。
+用户已选择进入 Phase 3 并完成前三步。当前下一步是固定上述 DPO 产物，与冻结 v2 做逐项行为比较；先让用户按学习节奏阅读训练代码。不要未经确认再次改训练步数、换大模型或租 GPU。以下保留继续 Phase 2 的可选修正路线。
 
 若继续 Phase 2：
 
@@ -515,7 +518,7 @@ Set-Location "C:\Users\app\Documents\Codex\2026-9-28\AgenticPostTrainingLab"
 | test_bracket_diagnostic.py | 48 题/24 对设计、数值与严格区别、前缀控制、成对要求 |
 | integration/test_lora_training.py | 随机 tiny Llama＋真实 PEFT，基础参数不变、adapter 更新、保存恢复 |
 
-集成测试不下载 SmolLM2；正式模型结果来自另外运行的训练/评测脚本。缺少 PEFT/Transformers 时集成测试会跳过，所以不能只看 pytest 命令结束就声称完整覆盖；当前本机确实安装了依赖，64 项无 skip。
+集成测试不下载 SmolLM2；正式模型结果来自另外运行的训练/评测脚本。缺少 PEFT/Transformers 时集成测试会跳过，所以不能只看 pytest 命令结束就声称完整覆盖；当前本机确实安装了依赖，71 项无 skip。新增 test_preferences.py 检查偏好审计边界，integration/test_dpo_training.py 检查真实 PEFT 的 DPO 更新方向、reference 冻结与保存重载。
 
 当前唯一警告来自随机 tiny 模型保存时 PEFT 找不到原始 config 路径并假定 vocabulary 未修改；测试通过，不是实际模型训练失败。
 
@@ -542,7 +545,7 @@ reports 中 phase2-sft-data.md、phase2-real-tokenizer.md 等是阶段性教学�
 
 可给接手对话的提示：
 
-> 请完整阅读 C:\Users\app\Documents\Codex\2026-9-28\AgenticPostTrainingLab\PROJECT_HANDOFF.md，核对当前代码和最近诊断产物后继续。我们已完成 CPU SFT＋LoRA 和括号/文字问法对照，DPO/GRPO 目前只有张量级损失，没有真实训练；不要复用 MiniServe 环境，也不要把现有诊断集当最终测试。先向我说明你理解的当前进度和下一步选项，再按我的选择推进。所有新增 Markdown 用中文。
+> 请完整阅读 C:\Users\app\Documents\Codex\2026-9-28\AgenticPostTrainingLab\PROJECT_HANDOFF.md，核对当前代码和训练产物后继续。我们已完成 CPU SFT＋LoRA、v2 基线冻结、偏好数据审计与首轮真实 DPO 保存重载；下一步是 SFT-only 和 SFT＋DPO 的逐项行为对比，GRPO 尚未真实训练。不要复用 MiniServe 环境，也不要把现有诊断集当最终测试。先说明当前进度，再按学习节奏推进。所有新增 Markdown 用中文。
 
 若接手对话没有本机文件访问能力，需要上传本文和相关代码/summary；Markdown 中的本地路径本身不会把文件传给它。
 
