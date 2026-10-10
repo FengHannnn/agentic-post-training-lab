@@ -26,6 +26,7 @@ Phase 1 已实现并验证 SFT、DPO、GRPO 基础损失。Phase 2 已接入真�
 - [Phase 3：小规模偏好数据](reports/phase3-preference-data.md)
 - [Phase 3：DPO 训练、保存与重载](reports/phase3-dpo-training.md)
 - [Phase 3：SFT 与 DPO 行为比较](reports/phase3-behavior-comparison.md)
+- [Phase 3 后续：偏好概率诊断与受控对照设计](reports/phase3-preference-diagnostic.md)
 
 ## 运行测试与数据检查
 

@@ -21,7 +21,7 @@
 - 现有小样本高通过率、低开发 loss 不能证明全面泛化，也不能证明已学会稳定的自然语言运算顺序。
 - 当前没有 NVIDIA GPU；真实运行均为本机 Windows CPU。大规模 GPU 实验需要后续另行规划云端环境和预算。
 
-最新验证：2026-10-10 重跑 `pytest tests -q`，75 项通过、1 条已有 PEFT 提示；偏好数据审计及冻结基线校验通过，真实 DPO 的参数冻结、更新与保存重载检查通过。行为比较重新生成 180 次，原三组 80 条 SFT prediction 与历史文本全部一致。
+最新验证：2026-10-10 重跑 `pytest tests -q`，78 项通过、1 条已有 PEFT 提示；偏好数据审计及冻结基线校验通过，真实 DPO 的参数冻结、更新与保存重载检查通过。行为比较重新生成 180 次，原三组 80 条 SFT prediction 与历史文本全部一致；后续偏好分组诊断重现了训练后的汇总指标。
 
 ## 1. 用户背景、目标与协作偏好
 
@@ -418,7 +418,7 @@ base 0/20 是本任务严格 JSON 协议下的失败，不等于基础模型没�
 - [x] 受限计算器与严格请求评分。
 - [x] 20 题 base/LoRA 对照、v1/v2 数据和审计。
 - [x] 48 主诊断＋12 单变量控制，逐题报告。
-- [x] 当前 75 项测试通过。
+- [x] 当前 78 项测试通过。
 
 ### 当前明确未完成
 
@@ -440,7 +440,7 @@ base 0/20 是本任务严格 JSON 协议下的失败，不等于基础模型没�
 
 ## 9. 下一步建议：承接当前诊断，不直接跳过它
 
-用户已选择进入 Phase 3，四步最小闭环已完成。当前先按学习节奏阅读行为比较代码、总结结果，再选择受控改进或后续 Phase。不要未经确认再次改训练步数、换大模型或租 GPU。以下保留继续 Phase 2 的可选修正路线。
+用户已选择进入 Phase 3，四步最小闭环已完成。读完行为比较代码后，2026-10-10 已按受控改进路线完成偏好概率分组诊断：入口 `scripts/diagnose_dpo_preferences.py`，汇总 `evaluation/preference_diagnostics.py`，说明 `reports/phase3-preference-diagnostic.md`，产物 `artifacts/evaluations/dpo-preference-diagnostic-20261010-181453-22baa0cd`。重新评分38对数据，两模型共76次前向，复现训练后汇总；train25对相对改善中9对chosen下降，dev9对中4对chosen下降。括号题chosen平均增加，无括号题平均下降；left_plain训练仅3/6相对改善，开发两题生成均错。来源与题型混杂，不能因果归因于真实/合成来源。下一步拟从同一v2起点做chosen-only继续SFT对照，控制28个chosen的曝光、28次更新、seed与学习率，并另记token/计算量；尚未启动此对照训练。先让用户按学习节奏阅读诊断代码。不要直接改DPO步数、换大模型或租GPU。以下保留继续Phase2的可选修正路线。
 
 若继续 Phase 2：
 
@@ -520,7 +520,7 @@ Set-Location "C:\Users\app\Documents\Codex\2026-9-28\AgenticPostTrainingLab"
 | test_bracket_diagnostic.py | 48 题/24 对设计、数值与严格区别、前缀控制、成对要求 |
 | integration/test_lora_training.py | 随机 tiny Llama＋真实 PEFT，基础参数不变、adapter 更新、保存恢复 |
 
-集成测试不下载 SmolLM2；正式模型结果来自另外运行的训练/评测脚本。缺少 PEFT/Transformers 时集成测试会跳过，所以不能只看 pytest 命令结束就声称完整覆盖；当前本机确实安装了依赖，75 项无 skip。新增 test_preferences.py 检查偏好审计边界，integration/test_dpo_training.py 检查真实 PEFT 的 DPO 更新方向、reference 冻结与保存重载；test_behavior_comparison.py 检查 ID 对齐与改善/退步统计。
+集成测试不下载 SmolLM2；正式模型结果来自另外运行的训练/评测脚本。缺少 PEFT/Transformers 时集成测试会跳过，所以不能只看 pytest 命令结束就声称完整覆盖；当前本机确实安装了依赖，78 项无 skip。新增 test_preferences.py 检查偏好审计边界，integration/test_dpo_training.py 检查真实 PEFT 的 DPO 更新方向、reference 冻结与保存重载；test_behavior_comparison.py 检查 ID 对齐与改善/退步统计；test_preference_diagnostics.py 检查相对改善与chosen绝对变化的区分及分组汇总。
 
 当前唯一警告来自随机 tiny 模型保存时 PEFT 找不到原始 config 路径并假定 vocabulary 未修改；测试通过，不是实际模型训练失败。
 
