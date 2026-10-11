@@ -1,6 +1,6 @@
 # AgenticPostTrainingLab：项目全景与对话交接文档
 
-更新时间：2026-10-10。本文依据当前本地代码、配置、数据、训练 summary 和评测产物核对整理。面向接手本项目的另一个对话，尽量不依赖原聊天记录。
+更新时间：2026-10-11。本文依据当前本地代码、配置、数据、训练 summary 和评测产物核对整理。面向接手本项目的另一个对话，尽量不依赖原聊天记录。
 
 ## 0. 接手前先读：当前状态与边界
 
@@ -21,7 +21,7 @@
 - 现有小样本高通过率、低开发 loss 不能证明全面泛化，也不能证明已学会稳定的自然语言运算顺序。
 - 当前没有 NVIDIA GPU；真实运行均为本机 Windows CPU。大规模 GPU 实验需要后续另行规划云端环境和预算。
 
-最新验证：2026-10-10 重跑 `pytest tests -q`，78 项通过、1 条已有 PEFT 提示；偏好数据审计及冻结基线校验通过，真实 DPO 的参数冻结、更新与保存重载检查通过。行为比较重新生成 180 次，原三组 80 条 SFT prediction 与历史文本全部一致；后续偏好分组诊断重现了训练后的汇总指标。
+最新验证：2026-10-11 重跑 `pytest tests -q`，78 项通过、1 条已有 PEFT 提示；偏好数据审计及冻结基线校验通过，真实 DPO 的参数冻结、更新与保存重载检查通过。行为比较重新生成 180 次，原三组 80 条 SFT prediction 与历史文本全部一致；后续偏好分组诊断重现了训练后的汇总指标。chosen-only继续SFT已完成28步、冻结/更新/保存重载检查，新生成90题三分支对照完成。
 
 ## 1. 用户背景、目标与协作偏好
 
@@ -184,7 +184,7 @@ SFT JSONL（system/prompt/response 文本）
 
 第 3 步于 2026-10-09 完成：`trainers/dpo.py` 接入 Phase 1 的序列 log probability 与 sigmoid DPO，`scripts/train_dpo.py` 在独立 CPU policy/reference 上运行；reference 分数预先缓存并 detach，policy 仅更新 LoRA。配置 `configs/dpo_cpu.json`，28 步、lr=1e-4、beta=0.1。产物 `artifacts/checkpoints/dpo-lora-20261009-205045-21dd3596`，train/dev loss 0.693147→0.465978/0.461117，相对偏好 accuracy 25/28、9/10；初始平局按严格 >0 记为 0。reference 参数不变/无梯度、policy 冻结参数不变/可训练参数有更新、保存重载 logits_match=true、最大差0.0。chosen 平均 log probability 也下降，不能把相对偏好改善当生成正确率。说明 `reports/phase3-dpo-training.md`。首轮 PEFT 保存尝试远程 config 后回退成功；当前脚本已显式禁用 embedding 保存和设置离线模式，未重跑首轮训练。
 
-第 4 步于 2026-10-10 完成：`scripts/compare_sft_dpo.py` 和 `evaluation/comparison.py` 在同一 base、两个命名 adapter、同一 tokenizer/模板、CPU 贪心 64-token 条件下各生成 90 题。结果目录 `artifacts/evaluations/sft-dpo-20261010-150134-fc7e5e9a`；说明 `reports/phase3-behavior-comparison.md`。严格通过 SFT→DPO：原工具题19/20→20/20；括号33/48→33/48（3改善、3退步），成对11/24→10/24；空格控制12/12→11/12；偏好开发生成7/10→8/10。数值变化与严格变化一致，两模型 JSON/schema/route 均合法，无生成上限命中。原三组 80 条 SFT 文本完全复现。原失败题 2*(6+5) 改善，但 3*41+12 在不同问法下退步；natural 主诊断仍6/12。仍是开发诊断，含已见 SFT 表达式探针、没有最终未查看测试，也没有同预算继续 SFT 对照。当前测试75项通过。
+第 4 步于 2026-10-10 完成：`scripts/compare_sft_dpo.py` 和 `evaluation/comparison.py` 在同一 base、两个命名 adapter、同一 tokenizer/模板、CPU 贪心 64-token 条件下各生成 90 题。结果目录 `artifacts/evaluations/sft-dpo-20261010-150134-fc7e5e9a`；说明 `reports/phase3-behavior-comparison.md`。严格通过 SFT→DPO：原工具题19/20→20/20；括号33/48→33/48（3改善、3退步），成对11/24→10/24；空格控制12/12→11/12；偏好开发生成7/10→8/10。数值变化与严格变化一致，两模型 JSON/schema/route 均合法，无生成上限命中。原三组 80 条 SFT 文本完全复现。原失败题 2*(6+5) 改善，但 3*41+12 在不同问法下退步；natural 主诊断仍6/12。仍是开发诊断，含已见 SFT 表达式探针、没有最终未查看测试，该轮当时尚无继续 SFT 对照；后续对照见第9节。该轮当时测试75项通过。
 
 学什么：chosen/rejected 数据质量、序列 log probability、冻结参考模型、beta、隐式 reward 与偏好 margin，长度偏差与训练/评测隔离。
 
@@ -440,7 +440,7 @@ base 0/20 是本任务严格 JSON 协议下的失败，不等于基础模型没�
 
 ## 9. 下一步建议：承接当前诊断，不直接跳过它
 
-用户已选择进入 Phase 3，四步最小闭环已完成。读完行为比较代码后，2026-10-10 已按受控改进路线完成偏好概率分组诊断：入口 `scripts/diagnose_dpo_preferences.py`，汇总 `evaluation/preference_diagnostics.py`，说明 `reports/phase3-preference-diagnostic.md`，产物 `artifacts/evaluations/dpo-preference-diagnostic-20261010-181453-22baa0cd`。重新评分38对数据，两模型共76次前向，复现训练后汇总；train25对相对改善中9对chosen下降，dev9对中4对chosen下降。括号题chosen平均增加，无括号题平均下降；left_plain训练仅3/6相对改善，开发两题生成均错。来源与题型混杂，不能因果归因于真实/合成来源。下一步拟从同一v2起点做chosen-only继续SFT对照，控制28个chosen的曝光、28次更新、seed与学习率，并另记token/计算量；尚未启动此对照训练。先让用户按学习节奏阅读诊断代码。不要直接改DPO步数、换大模型或租GPU。以下保留继续Phase2的可选修正路线。
+用户已选择进入 Phase 3，四步最小闭环已完成。读完行为比较代码后，2026-10-10 已按受控改进路线完成偏好概率分组诊断：入口 `scripts/diagnose_dpo_preferences.py`，汇总 `evaluation/preference_diagnostics.py`，说明 `reports/phase3-preference-diagnostic.md`，产物 `artifacts/evaluations/dpo-preference-diagnostic-20261010-181453-22baa0cd`。重新评分38对数据，两模型共76次前向，复现训练后汇总；train25对相对改善中9对chosen下降，dev9对中4对chosen下降。括号题chosen平均增加，无括号题平均下降；left_plain训练仅3/6相对改善，开发两题生成均错。来源与题型混杂，不能因果归因于真实/合成来源。2026-10-11已完成同一v2起点的chosen-only继续SFT对照，控制28个chosen的曝光、28次更新、seed与学习率，逐步匹配DPO样本顺序。入口`scripts/train_sft_control.py`、`scripts/compare_sft_control.py`；说明`reports/phase3-sft-control.md`；训练目录`artifacts/checkpoints/continued-sft-20261011-181322-52e2bc03`，评测目录`artifacts/evaluations/sft-control-20261011-181518-0ef09401`。train/dev回答token加权CE 0.102634/0.096143→0.041592/0.044478；训练34.84秒、输入2277token、监督回答714token。仅LoRA更新、冻结参数不变、重载logits最大差0.0。原SFT/DPO预测经身份/数据/汇总核对后复用，新模型生成90题。严格通过继续SFT为19/20、33/48、12/12、8/10；括号数值34/48、成对12/24。括号组相对原SFT3改善3退步，且出现一条invalid JSON；两种方法收益分布不同，没有全面胜出。下一步先让用户阅读对照代码，再规划更均衡的数据扩充实验；不能把本轮固定28对数据结果当作样本规模的因果验证。不要直接改DPO步数、换大模型或租GPU。以下保留继续Phase2的可选修正路线。
 
 若继续 Phase 2：
 
