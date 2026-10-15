@@ -1,6 +1,6 @@
 # AgenticPostTrainingLab：项目全景与对话交接文档
 
-更新时间：2026-10-11。本文依据当前本地代码、配置、数据、训练 summary 和评测产物核对整理。面向接手本项目的另一个对话，尽量不依赖原聊天记录。
+更新时间：2026-10-15。本文依据当前本地代码、配置、数据、训练 summary 和评测产物核对整理。面向接手本项目的另一个对话，尽量不依赖原聊天记录。
 
 ## 0. 接手前先读：当前状态与边界
 
@@ -21,7 +21,7 @@
 - 现有小样本高通过率、低开发 loss 不能证明全面泛化，也不能证明已学会稳定的自然语言运算顺序。
 - 当前没有 NVIDIA GPU；真实运行均为本机 Windows CPU。大规模 GPU 实验需要后续另行规划云端环境和预算。
 
-最新验证：2026-10-11 重跑 `pytest tests -q`，78 项通过、1 条已有 PEFT 提示；偏好数据审计及冻结基线校验通过，真实 DPO 的参数冻结、更新与保存重载检查通过。行为比较重新生成 180 次，原三组 80 条 SFT prediction 与历史文本全部一致；后续偏好分组诊断重现了训练后的汇总指标。chosen-only继续SFT已完成28步、冻结/更新/保存重载检查，新生成90题三分支对照完成。
+最新验证：2026-10-15 重跑 `pytest tests -q`，81 项通过、1 条已有 PEFT 提示；偏好数据审计及冻结基线校验通过，真实 DPO 的参数冻结、更新与保存重载检查通过。行为比较重新生成 180 次，原三组 80 条 SFT prediction 与历史文本全部一致；后续偏好分组诊断重现了训练后的汇总指标。chosen-only继续SFT已完成28步、冻结/更新/保存重载检查，新生成90题三分支对照完成。
 
 ## 1. 用户背景、目标与协作偏好
 
@@ -440,7 +440,10 @@ base 0/20 是本任务严格 JSON 协议下的失败，不等于基础模型没�
 
 ## 9. 下一步建议：承接当前诊断，不直接跳过它
 
-用户已选择进入 Phase 3，四步最小闭环已完成。读完行为比较代码后，2026-10-10 已按受控改进路线完成偏好概率分组诊断：入口 `scripts/diagnose_dpo_preferences.py`，汇总 `evaluation/preference_diagnostics.py`，说明 `reports/phase3-preference-diagnostic.md`，产物 `artifacts/evaluations/dpo-preference-diagnostic-20261010-181453-22baa0cd`。重新评分38对数据，两模型共76次前向，复现训练后汇总；train25对相对改善中9对chosen下降，dev9对中4对chosen下降。括号题chosen平均增加，无括号题平均下降；left_plain训练仅3/6相对改善，开发两题生成均错。来源与题型混杂，不能因果归因于真实/合成来源。2026-10-11已完成同一v2起点的chosen-only继续SFT对照，控制28个chosen的曝光、28次更新、seed与学习率，逐步匹配DPO样本顺序。入口`scripts/train_sft_control.py`、`scripts/compare_sft_control.py`；说明`reports/phase3-sft-control.md`；训练目录`artifacts/checkpoints/continued-sft-20261011-181322-52e2bc03`，评测目录`artifacts/evaluations/sft-control-20261011-181518-0ef09401`。train/dev回答token加权CE 0.102634/0.096143→0.041592/0.044478；训练34.84秒、输入2277token、监督回答714token。仅LoRA更新、冻结参数不变、重载logits最大差0.0。原SFT/DPO预测经身份/数据/汇总核对后复用，新模型生成90题。严格通过继续SFT为19/20、33/48、12/12、8/10；括号数值34/48、成对12/24。括号组相对原SFT3改善3退步，且出现一条invalid JSON；两种方法收益分布不同，没有全面胜出。下一步先让用户阅读对照代码，再规划更均衡的数据扩充实验；不能把本轮固定28对数据结果当作样本规模的因果验证。不要直接改DPO步数、换大模型或租GPU。以下保留继续Phase2的可选修正路线。
+用户已选择进入 Phase 3，四步最小闭环已完成。读完行为比较代码后，2026-10-10 已按受控改进路线完成偏好概率分组诊断：入口 `scripts/diagnose_dpo_preferences.py`，汇总 `evaluation/preference_diagnostics.py`，说明 `reports/phase3-preference-diagnostic.md`，产物 `artifacts/evaluations/dpo-preference-diagnostic-20261010-181453-22baa0cd`。重新评分38对数据，两模型共76次前向，复现训练后汇总；train25对相对改善中9对chosen下降，dev9对中4对chosen下降。括号题chosen平均增加，无括号题平均下降；left_plain训练仅3/6相对改善，开发两题生成均错。来源与题型混杂，不能因果归因于真实/合成来源。2026-10-11已完成同一v2起点的chosen-only继续SFT对照，控制28个chosen的曝光、28次更新、seed与学习率，逐步匹配DPO样本顺序。入口`scripts/train_sft_control.py`、`scripts/compare_sft_control.py`；说明`reports/phase3-sft-control.md`；训练目录`artifacts/checkpoints/continued-sft-20261011-181322-52e2bc03`，评测目录`artifacts/evaluations/sft-control-20261011-181518-0ef09401`。train/dev回答token加权CE 0.102634/0.096143→0.041592/0.044478；训练34.84秒、输入2277token、监督回答714token。仅LoRA更新、冻结参数不变、重载logits最大差0.0。原SFT/DPO预测经身份/数据/汇总核对后复用，新模型生成90题。严格通过继续SFT为19/20、33/48、12/12、8/10；括号数值34/48、成对12/24。括号组相对原SFT3改善3退步，且出现一条invalid JSON；两种方法收益分布不同，没有全面胜出。继续SFT对照代码已读完；2026-10-15进入均衡数据扩充，见下段。不能把固定28对数据结果当作样本规模的因果验证。不要直接改DPO步数、换大模型或租GPU。
+
+2026-10-15已构造并重审`data/preferences/dpo_v2/`：train168（144算术+24问候）、train_small28（24+4，完整family嵌套子集）、development56（48+8）。数字family为12/2/4，每个12条（4形式×3措辞），问候family6/1/2，每个4条；train/dev按family及精确ID/prompt/AST隔离，并保护444条现有SFT/eval/v1目标记录。全部负例为合成错误分组或错误路由，不是模型真实采样；chosen来自确定性模板。最长训练93、开发95token，无截断；真实tokenizer与评分器重审通过，81项测试通过。新增包内`data/balanced_preferences.py`、入口`scripts/build_balanced_preferences.py --audit-only`、说明`reports/phase3-balanced-preferences.md`。本步只构造数据，没有训练或采集新基线预测。旧v1保持不变；v1→v2同时改来源、措辞、数字和规模，不能作为纯样本量对照。下一步先按学习节奏读模板/子集/审计代码，再接入训练集文件选择，计划DPO新小集28步、小集168步、大集168步，分别检查重复更新和覆盖；三者共享56题新开发集并保留旧90题诊断。现有train_sft_control.py仍是原28步专用入口，不能直接用于168步。没有启动后续Phase4或付费资源。
+以下保留继续Phase2的可选修正路线。
 
 若继续 Phase 2：
 
@@ -520,7 +523,7 @@ Set-Location "C:\Users\app\Documents\Codex\2026-9-28\AgenticPostTrainingLab"
 | test_bracket_diagnostic.py | 48 题/24 对设计、数值与严格区别、前缀控制、成对要求 |
 | integration/test_lora_training.py | 随机 tiny Llama＋真实 PEFT，基础参数不变、adapter 更新、保存恢复 |
 
-集成测试不下载 SmolLM2；正式模型结果来自另外运行的训练/评测脚本。缺少 PEFT/Transformers 时集成测试会跳过，所以不能只看 pytest 命令结束就声称完整覆盖；当前本机确实安装了依赖，78 项无 skip。新增 test_preferences.py 检查偏好审计边界，integration/test_dpo_training.py 检查真实 PEFT 的 DPO 更新方向、reference 冻结与保存重载；test_behavior_comparison.py 检查 ID 对齐与改善/退步统计；test_preference_diagnostics.py 检查相对改善与chosen绝对变化的区分及分组汇总。
+集成测试不下载 SmolLM2；正式模型结果来自另外运行的训练/评测脚本。缺少 PEFT/Transformers 时集成测试会跳过，所以不能只看 pytest 命令结束就声称完整覆盖；当前本机确实安装了依赖，81 项无 skip。新增 test_preferences.py 检查偏好审计边界，integration/test_dpo_training.py 检查真实 PEFT 的 DPO 更新方向、reference 冻结与保存重载；test_behavior_comparison.py 检查 ID 对齐与改善/退步统计；test_preference_diagnostics.py 检查相对改善与chosen绝对变化的区分及分组汇总；test_balanced_preferences.py 检查v2合法偏好与隔离、重复模板格拒绝、小子集内容一致性。
 
 当前唯一警告来自随机 tiny 模型保存时 PEFT 找不到原始 config 路径并假定 vocabulary 未修改；测试通过，不是实际模型训练失败。
 
