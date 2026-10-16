@@ -1,5 +1,6 @@
 """Small preference pairs with executable targets and split isolation checks."""
 
+import hashlib
 import json
 from collections import Counter
 from dataclasses import dataclass, field
@@ -54,6 +55,24 @@ def load_preferences(path):
     if len({row.id for row in rows}) != len(rows):
         raise ValueError("duplicate preference ID")
     return rows
+
+
+
+def load_preference_splits(folder, manifest, train_file="train.jsonl"):
+    """Select a manifest-pinned training file; keep development out of training."""
+    folder = Path(folder).resolve()
+    if train_file == "development.jsonl" or train_file not in manifest["files"]:
+        raise ValueError("training file must be a manifest-pinned training split")
+    if "development.jsonl" not in manifest["files"]:
+        raise ValueError("development split must be manifest-pinned")
+    for name, expected_hash in manifest["files"].items():
+        path = (folder / name).resolve()
+        if path.parent != folder:
+            raise ValueError("preference files must stay directly inside the dataset folder")
+        if hashlib.sha256(path.read_bytes()).hexdigest() != expected_hash:
+            raise ValueError(f"preference data hash mismatch: {name}")
+    return {"train": load_preferences(folder / train_file),
+            "development": load_preferences(folder / "development.jsonl")}
 
 
 def semantic_pass(score, kind):
