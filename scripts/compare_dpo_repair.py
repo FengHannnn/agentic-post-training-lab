@@ -36,11 +36,11 @@ def read_rows(path):
 
 
 def verify_control(original, repaired, original_history, repaired_history, expected_anchor_weight=1.0, expected_learning_rate=None):
-    """Only the declared chosen-NLL term may change the training setup."""
+    """Only the declared objective weight or learning rate may change."""
     ignored = {"experiment_id", "chosen_nll_weight"} if expected_learning_rate is None else {"experiment_id", "learning_rate"}
     configs = [{k: v for k, v in item["config"].items() if k not in ignored} for item in (original, repaired)]
     if configs[0] != configs[1]:
-        raise ValueError("repair must match the pure DPO setup")
+        raise ValueError("repair must match the declared training control setup")
     if expected_learning_rate is None:
         if original["config"].get("chosen_nll_weight", 0) != 0:
             raise ValueError("anchor control must start from pure DPO")

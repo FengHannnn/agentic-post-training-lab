@@ -80,3 +80,19 @@ alpha = 1
 第三轮从同一冻结SFT重新出发：保持alpha=5、168对/168步/seed/顺序/beta/裁剪不变，只把学习率从1e-4降至2e-5。相对第二轮只改变学习率；相对原C则同时改变监督目标与学习率，不能将全部差异归因于其中一个因素。配置`configs/dpo_v2_large_168_anchor5_lr2e5.json`，验收标准不变。没有从已退化权重接着更新。
 
 为减少反复评分耗时，第三轮通过可选`--reference-cache-run`复用第二轮保存的reference分数。核对文件SHA、完整数据manifest、模型revision与初始参数digest、训练文件/max_length、评分实现SHA、所有224对张量形状/有限值/无梯度、冻结状态，并用新policy/reference分别对train/dev首对做四次前向复现。初始汇总复用同一权重/输入的已测值，记录其来源，并非声称重新前向了全部初始样本；训练后仍重新评分全部数据、检查reference/基础权重未变、保存重载。默认不传该参数时仍按原流程计算。第三轮在第二轮生成结束后运行，避免CPU进程互相争用。
+
+
+## 第二轮完成结果与第三轮进度
+
+第二轮alpha=5：训练`artifacts/checkpoints/dpo-lora-20261016-184519-79d1335a`；评测`artifacts/evaluations/dpo-anchor-20261016-190110-56ef6fae`。五组严格通过依次36/56、19/20、34/48、12/12、6/10；新开发数值36/56，算术28/48、成对6/24、问候8/8。JSON/schema/路由各53/56，无生成上限命中。原SFT新算术按symbolic/natural/sequence数值为16/4/16，第二轮为12/7/9：自然语言略有收益，但损伤原有算式与步骤能力。
+
+第二轮仍未满足四项验收条件，只有新严格至少36通过。reference不变、仅LoRA更新、重载logits最大差0。438条重新评分（含semantic重算）、15预测哈希、10对照/变化文件和3源码SHA检查全部一致，见verification.json。
+
+第三轮训练目录已创建：`artifacts/checkpoints/dpo-lora-20261016-191348-bfddf667`。缓存来源/四次前向探针已通过，首步的pair_id、总loss、DPO loss、chosen NLL、log probability、relative margin及grad_norm与第二轮逐项精确一致，仅learning_rate不同，证明缓存复用没有改变该初始更新的梯度。第三轮完整结果仍待生成验收。当前完整102项测试通过。
+
+
+## 第四轮单变量修复计划
+
+第三轮新56题严格35、数值42，JSON/schema/路由56/56；原工具20/20。比第二轮改善，但新开发仍低于原SFT，未达到预先标准。第三轮完整旧题继续评测，保留结果。
+
+第四轮仍从冻结SFT出发，alpha=5、168对/168步、seed/顺序/beta/裁剪均保持不变，只把学习率从2e-5再减半至1e-5。相对第二/第三轮均只改变学习率，训练控制入口仍用第二轮（1e-4、alpha5），另会逐项比较第三与第四轮生成。配置`configs/dpo_v2_large_168_anchor5_lr1e5.json`；复用同一已核验reference缓存，验收条件不变。第四轮排在第三轮生成结束后运行，不同时占用CPU。

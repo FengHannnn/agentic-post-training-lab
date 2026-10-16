@@ -1,0 +1,14 @@
+{
+  "baseline": "artifacts/baselines/sft-v2-phase3",
+  "preference_data": "data/preferences/dpo_v2",
+  "max_length": 192,
+  "max_steps": 168,
+  "learning_rate": 1e-05,
+  "beta": 0.1,
+  "max_grad_norm": 1.0,
+  "seed": 42,
+  "cpu_threads": 2,
+  "train_file": "train.jsonl",
+  "experiment_id": "dpo_v2_large_168_chosen_anchor5_lr1e5",
+  "chosen_nll_weight": 5.0
+}
