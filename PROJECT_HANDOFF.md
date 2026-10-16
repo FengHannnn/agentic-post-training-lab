@@ -21,9 +21,11 @@
 - 现有小样本高通过率、低开发 loss 不能证明全面泛化，也不能证明已学会稳定的自然语言运算顺序。
 - 当前没有 NVIDIA GPU；真实运行均为本机 Windows CPU。大规模 GPU 实验需要后续另行规划云端环境和预算。
 
+最新恢复结果：四轮监督/LR控制已完成，最后恢复新集严格36/数值44、工具20/20、括号34/48。严重退化显著缓解，但尚有结构退步，新增开发收益未达标，baseline未替换；见第9节及reports/phase3-dpo-repair.md。
+
 最新生成结果：v2规模对照A/B/C已全部完成，新56题严格通过36/33/7/4（SFT/A/B/C）；C单独加载的两题复现一致，未发现切换adapter造成的定点偏差。详见第9节及reports/phase3-dpo-scaling-behavior.md。
 
-最新验证：2026-10-16 重跑 `pytest tests -q`，89 项通过、1 条已有 PEFT 提示；偏好数据审计及冻结基线校验通过，真实 DPO 的参数冻结、更新与保存重载检查通过。行为比较重新生成 180 次，原三组 80 条 SFT prediction 与历史文本全部一致；后续偏好分组诊断重现了训练后的汇总指标。chosen-only继续SFT已完成28步、冻结/更新/保存重载检查，新生成90题三分支对照完成。
+最新验证：2026-10-16 重跑 `pytest tests -q`，103 项通过、1 条已有 PEFT 提示；偏好数据审计及冻结基线校验通过，真实 DPO 的参数冻结、更新与保存重载检查通过。行为比较重新生成 180 次，原三组 80 条 SFT prediction 与历史文本全部一致；后续偏好分组诊断重现了训练后的汇总指标。chosen-only继续SFT已完成28步、冻结/更新/保存重载检查，新生成90题三分支对照完成。
 
 ## 1. 用户背景、目标与协作偏好
 
@@ -455,15 +457,25 @@ base 0/20 是本任务严格 JSON 协议下的失败，不等于基础模型没�
 
 下一步先阅读本次代码与失败样本，解释固定偏好改善但chosen绝对概率/实际生成退化，再设计一个受控实验。当前仍是单种子、单次子集、共享模板、合成负例，无最终未查看测试；没有新v2数据的SFT168步对照、没有开启GPU或Phase4。旧compare_sft_dpo.py/diagnose_dpo_preferences.py仍有train.jsonl默认假设，使用小集分支前必须适配实际train_file/selected_data_files；本次入口已按实际训练文件处理。
 
-### 2026-10-16 正在进行：DPO退化修复
+### 2026-10-16 已完成：四轮退化诊断与恢复尝试，仍未完全修复
 
-用户要求解决C严重退化。已检查DPO符号/shift/mask/reference及保存重载，没有发现明显实现错误；新增DPO+chosen token平均NLL，默认权重0保持原损失和梯度。入口仍train_dpo.py，新比较入口compare_dpo_repair.py；说明reports/phase3-dpo-repair.md，配置dpo_v2_large_168_anchor*.json。完整102项测试通过、1条已有PEFT提示。所有新试验从冻结SFT重新开始，旧C与旧数据不覆盖。
+用户要求解决C严重退化。四轮受控修复实验已完成，详见reports/phase3-dpo-repair.md。train_dpo.py支持chosen_nll_weight（默认0保持纯DPO）、可选reference缓存复用；compare_dpo_repair.py比较并做预先质量门；audit_dpo_repair.py独立重算。完整103项测试通过、1条已有PEFT提示；四轮冻结/LoRA更新/重载通过，logits最大差0。
 
-第一轮alpha=1/学习率1e-4：训练artifacts/checkpoints/dpo-lora-20261016-180833-e336ae0b，评测artifacts/evaluations/dpo-anchor-20261016-182453-d989d3f1。新开发31/56、工具19/20、括号29/48、空格12/12、旧偏好5/10；chosen均值升至−2.850504仍未修复，五项预先验收均失败。438条记录、15预测哈希、10对照、3源码SHA复算通过。
+四轮同冻结SFT起点、168训练/56开发、168步、seed/顺序/beta/裁剪/token曝光。权重1/LR1e-4、权重5/LR1e-4、权重5/LR2e-5、权重5/LR1e-5的新开发严格31/36/35/36、数值31/36/42/44。最后候选工具20/20、括号34/48、空格12/12、旧偏好7/10，新算术成对16/24，新56条结构/路由全通过；全部146条各145通过，有1条新增坏JSON，无上限命中。新56题相对SFT严格/语义均0改善0退步。四个回归恢复门通过，但“新开发严格或数值超过SFT”门未过，全部五门仍未通过；不晋升新baseline、不宣称纯DPO胜出。旧工具/括号各净增1只属小幅开发诊断收益。
 
-第二轮alpha=5/同学习率：训练artifacts/checkpoints/dpo-lora-20261016-184519-79d1335a，评测artifacts/evaluations/dpo-anchor-20261016-190110-56ef6fae仍在运行；已有非法JSON，未满足完整修复条件。训练后chosen均值−1.539517，冻结/更新/重载通过；保存224对reference缓存并验证哈希、有限值/冻结与初始均值一致。前两轮启动时的精确训练/比较源码保存于各评测目录source，SHA与当时清单一致；当前源码已扩展，不能直接用当前入口SHA冒充前两轮版本。
+总汇artifacts/evaluations/dpo-repair-summary-20261016-201033-4f337b8d。四轮训练/评测完整路径见总汇summary与阶段报告。最后训练artifacts/checkpoints/dpo-lora-20261016-194142-df9d5829；评测artifacts/evaluations/dpo-anchor-20261016-195656-ae7cb3a7。每轮438记录重算（含复用SFT/C）、15预测哈希、10对照/changes、源码/缓存/质量门核验；另有15份相邻单变量changes。580次新生成，584候选记录含4次重复输入；不合并独立测试准确率。
 
-第三轮alpha=5/学习率2e-5，其他训练条件保持不变。当前流水线等待第二轮评测summary后启动；日志artifacts/logs/dpo-anchor5-lr2e5-20261016-190947-492d6e71/。从第二轮训练目录复用reference缓存，检查模型/数据/编码/实现哈希及四次新模型前向探针；初始汇总明确复用同一模型已测值，训练后仍实际重新评分、冻结核验、保存重载。不要同时对同一流水线重复启动。当前只是计划与运行中状态，不宣称修复成功；验收标准见报告，完成后更新本文。源码及首轮诊断提交49d976a。
+证据：原C chosen均值−3.64→−17.49而rejected下降更多；算术共享17至19前缀token，公共结构在直接概率差中抵消；固定权重5降低LR后恢复稳定。SFT49/56固定对chosen概率更高而生成语义44/56，12道实际错题仅3道与rejected算式/结果匹配。未发现shift/mask/符号/reference错误；机制线索不等于各项独立因果已确定。
+
+第二轮保存224对reference分数及SHA，第三/四轮复用前核对模型/数据/编码/评分实现及4次前向；首步loss/logp/梯度与未复用控制精确一致。初始汇总明确复用相同模型已测值；训练后完整重新评分和冻结/重载。前两轮精确源码在评测source目录，SHA匹配清单。所有流水线已完成，不要重跑四轮；源码/方案提交49d976a、6d95dd3、f9174f8，最后汇总与质量拒收入口另行提交。
+
+下一步优先采集训练输入真实SFT错误重建偏好，补同数据同预算chosen-only SFT控制；新开发净提升仍未完成。开发答案不加入训练，不继续盲扫当前合成数据LR。尚无新v2纯SFT168步控制、最终未查看测试、GPU或Phase4。先读修复代码与报告再推进。
+
+## 最终审计补充：总分会掩盖失败类型恶化
+
+第四轮旧括号题`bracket-seen_large-sequence-left_plain`，输入`Multiply 12 by 3 first, then add that result to 41.`。SFT输出合法JSON但表达式为`12*3`，参数错误；候选输出`{"type":"tool_call","name":"calculator","arguments":{"expression":"12*3+"41"}}`，变成非法JSON。两者端到端都失败，因此总通过数与端到端transition没有显示新结构退步。
+
+审计现在额外逐题拒收任何新JSON/schema/路由退步，测试覆盖总成功数和总结构数都不变仍有单题恶化的情形。该门是审计发现后新增的独立保护，不改写原五项预先验收历史；第四轮此门也未通过，不能替换冻结SFT。完整提升与该结构问题都仍需解决。本轮没有把失败的候选标为成功。
 
 以下保留继续Phase2的可选修正路线。
 
@@ -545,7 +557,7 @@ Set-Location "C:\Users\app\Documents\Codex\2026-9-28\AgenticPostTrainingLab"
 | test_bracket_diagnostic.py | 48 题/24 对设计、数值与严格区别、前缀控制、成对要求 |
 | integration/test_lora_training.py | 随机 tiny Llama＋真实 PEFT，基础参数不变、adapter 更新、保存恢复 |
 
-集成测试不下载 SmolLM2；正式模型结果来自另外运行的训练/评测脚本。缺少 PEFT/Transformers 时集成测试会跳过，所以不能只看 pytest 命令结束就声称完整覆盖；当前本机确实安装了依赖，89 项无 skip。新增 test_preferences.py 检查偏好审计边界，integration/test_dpo_training.py 检查真实 PEFT 的 DPO 更新方向、reference 冻结与保存重载；test_behavior_comparison.py 检查 ID 对齐与改善/退步统计；test_preference_diagnostics.py 检查相对改善与chosen绝对变化的区分及分组汇总；test_balanced_preferences.py 检查v2合法偏好与隔离、重复模板格拒绝、小子集内容一致性；test_preference_selection.py 检查训练文件选择、共同开发集、禁止开发/未固定文件、全文件哈希与目录范围；test_scaling_behavior.py检查实际小集/大集暴露、24完整算术对及问候分离、数值等价与严格AST的区别。
+集成测试不下载 SmolLM2；正式模型结果来自另外运行的训练/评测脚本。缺少 PEFT/Transformers 时集成测试会跳过，所以不能只看 pytest 命令结束就声称完整覆盖；当前本机确实安装了依赖，103 项无 skip。新增 test_preferences.py 检查偏好审计边界，integration/test_dpo_training.py 检查真实 PEFT 的 DPO 更新方向、reference 冻结与保存重载；test_behavior_comparison.py 检查 ID 对齐与改善/退步统计；test_preference_diagnostics.py 检查相对改善与chosen绝对变化的区分及分组汇总；test_balanced_preferences.py 检查v2合法偏好与隔离、重复模板格拒绝、小子集内容一致性；test_preference_selection.py 检查训练文件选择、共同开发集、禁止开发/未固定文件、全文件哈希与目录范围；test_scaling_behavior.py检查实际小集/大集暴露、24完整算术对及问候分离、数值等价与严格AST的区别；test_dpo_anchor.py检查混合目标与公共前缀梯度；test_dpo_repair_control.py检查声明的权重/LR变化及逐步曝光；PEFT集成同时覆盖纯DPO与混合目标。
 
 当前唯一警告来自随机 tiny 模型保存时 PEFT 找不到原始 config 路径并假定 vocabulary 未修改；测试通过，不是实际模型训练失败。
 
@@ -555,7 +567,7 @@ Set-Location "C:\Users\app\Documents\Codex\2026-9-28\AgenticPostTrainingLab"
 
 ## 12. 文档阅读索引与新对话启动方式
 
-建议新对话阅读顺序：本文 → README → 最新括号诊断报告 → trainers/sft_lora.py、train_sft_lora.py → tool_calls.py、generation.py、diagnose_brackets.py → 相关数据/测试。
+建议新对话阅读顺序：本文 → README → reports/phase3-dpo-repair.md → 最新括号诊断报告 → trainers/sft_lora.py、train_sft_lora.py → tool_calls.py、generation.py、diagnose_brackets.py → 相关数据/测试。
 
 reports 中 phase2-sft-data.md、phase2-real-tokenizer.md 等是阶段性教学文档，其“当前尚未训练”等描述反映当时进度；与现状冲突时，以本文更新时间、实际代码和产物为准。不要因为早期文档一句“后续再接 LoRA”就重做已完成的训练闭环。
 
@@ -572,7 +584,7 @@ reports 中 phase2-sft-data.md、phase2-real-tokenizer.md 等是阶段性教学�
 
 可给接手对话的提示：
 
-> 请完整阅读 C:\Users\app\Documents\Codex\2026-9-28\AgenticPostTrainingLab\PROJECT_HANDOFF.md，核对当前代码和训练/评测产物后继续。我们已完成 CPU SFT＋LoRA 与 Phase 3 的基线冻结、偏好数据、首轮 DPO 保存重载、逐项行为比较。结果有改善也有退步，GRPO 尚未真实训练。不要复用 MiniServe 环境，也不要把现有诊断集当最终测试。先说明当前进度，再按学习节奏推进。所有新增 Markdown 用中文。
+> 请完整阅读 C:\Users\app\Documents\Codex\2026-9-28\AgenticPostTrainingLab\PROJECT_HANDOFF.md，核对当前代码和训练/评测产物后继续。我们已完成 CPU SFT＋LoRA 与 Phase 3 的基线冻结、偏好数据、首轮 DPO 保存重载、逐项行为比较。随后完成v2规模对照与四轮恢复尝试；尚有一条结构退步且新开发净收益未达标，先看phase3-dpo-repair.md，不重跑四轮。GRPO尚未真实训练。不要复用 MiniServe 环境，也不要把现有诊断集当最终测试。先说明当前进度，再按学习节奏推进。所有新增 Markdown 用中文。
 
 若接手对话没有本机文件访问能力，需要上传本文和相关代码/summary；Markdown 中的本地路径本身不会把文件传给它。
 

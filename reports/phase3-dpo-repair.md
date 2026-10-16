@@ -1,98 +1,119 @@
-# Phase 3：定位并修复DPO生成退化
+# Phase 3：DPO退化定位与稳定性恢复
 
 日期：2026-10-16。
 
-## 问题与已知证据
+## 本轮结论
 
-原C从冻结v2 SFT出发，用168对偏好训练168步，新56题严格通过从36降到4，48条算术数值通过为0。格式、schema与路由同时退化，不能当作正常的微小指标波动，也不能据此宣称DPO训练成功。
+四轮修复后，`chosen_nll_weight=5、learning_rate=1e-5`的混合目标候选显著缓解了大规模退化：新开发严格36/56、数值44/56、成对16/24，恢复SFT水平；工具20/20、括号34/48、空格12/12、旧偏好7/10。新56条JSON/schema/路由均正确；全部146条各145通过，仍有1条新增坏JSON，无生成上限命中。
 
-已核对损失正负号、单次causal shift、回答与EOS掩码、PAD不计损失、独立冻结reference、LoRA更新和保存重载；没有发现这些环节的明显错误。LoRA dropout和attention dropout均为0。B/C单adapter定点复现与原生成一致；这只覆盖各两道题。
+第四轮通过四项回归恢复检查，但新开发集无严格或语义净提升，未通过预先声明的第五项条件。因此全部五项质量验收仍未通过，不把恢复候选晋升为新baseline，也不宣称纯DPO全面优于SFT。旧工具/括号各净增1只代表小幅开发诊断收益。
 
-C固定开发答案的平均序列log probability：chosen从−3.643747降到−17.491135，rejected从−9.124099降到−41.487884。因此相对间隔扩大，但正确序列绝对概率下降。训练前28步chosen每token NLL均值0.178523，最后28步0.718707；这些是不同训练题的在线轨迹，不是固定集前后CE比较。梯度裁剪一直启用，早28步全裁剪、末28步24次裁剪；裁剪不能代替生成质量约束。
+## 全部结果
 
-标准sigmoid DPO优化chosen与rejected相对reference的对数概率差，不直接要求chosen绝对概率上升。算术正负答案共享JSON/calculator前缀，在确定性teacher forcing下，共同前缀项及其直接梯度会在差值中抵消。后续不同token产生的共享参数更新仍可能改变该前缀。问候负例对比路由，但算术负例只对比运算分组；数据也没有覆盖本次生成出现的全部坏格式与错误路由。这些是机制线索，尚未确定各自的因果贡献。
+| 数据组严格通过 | 冻结SFT | 原C纯DPO | 监督1/LR1e-4 | 监督5/LR1e-4 | 监督5/LR2e-5 | 监督5/LR1e-5 |
+| --- | --- | --- | --- | --- | --- | --- |
+| preference_v2_development | 36/56 | 4/56 | 31/56 | 36/56 | 35/56 | 36/56 |
+| tool_calls | 19/20 | 2/20 | 19/20 | 19/20 | 20/20 | 20/20 |
+| brackets | 33/48 | 1/48 | 29/48 | 34/48 | 34/48 | 34/48 |
+| spacing_control | 12/12 | 0/12 | 12/12 | 12/12 | 12/12 | 12/12 |
+| preference_v1_development | 7/10 | 1/10 | 5/10 | 6/10 | 7/10 | 7/10 |
 
-## 预先声明的单变量修复
+| 模型 | 新56题数值/路由 | 算术成对数值（24对） | 新JSON/schema/路由（各56） |
+| --- | --- | --- | --- |
+| 冻结SFT | 44/56 | 16 | 56/56/56 |
+| 原C纯DPO | 4/56 | 0 | 43/28/4 |
+| 监督1/LR1e-4 | 31/56 | 5 | 53/45/45 |
+| 监督5/LR1e-4 | 36/56 | 6 | 54/53/53 |
+| 监督5/LR2e-5 | 42/56 | 13 | 56/56/56 |
+| 监督5/LR1e-5 | 44/56 | 16 | 56/56/56 |
 
-保持原C的base、SFT起点、168条训练数据、56条开发数据、seed42、样本顺序、168步、学习率1e-4、beta0.1、裁剪1、CPU设置完全相同。从原冻结SFT重新出发，不从已退化C继续更新。
+相对SFT，新56题严格和语义均为0改善、0退步。其他组的逐题改善/退步见末尾；分组总分持平不意味着逐条没有变化。各组含重复输入、已见表达式探针，不合并成独立测试准确率。成对要求grouped/plain两题同时数值通过，8问候不进入算术分母。数值正确不证明符号等价。
 
-仅增加正确答案的回答token平均负对数似然：
+## 为什么会退化
+
+1. **相对目标允许正确答案概率下降。** 原C开发chosen平均序列log probability从−3.643747降至−17.491135，rejected从−9.124099降至−41.487884。间隔扩大但正确输出本身更不容易生成，概率质量可能流向固定偏好对之外的回答。偏好accuracy衡量相对reference的改善，不等于chosen已比rejected更可能，更不是greedy生成通过率。
+2. **公共格式缺少直接偏好信号。** 144条算术训练偏好平均共享18个回答token（17至19），包含JSON/calculator前缀；确定性teacher forcing下，共同前缀项在chosen−rejected中抵消。后续不同token的梯度通过共享LoRA参数仍可能损伤前缀。原C随后出现大量格式/路由错误。这是机制线索，不声称已量化各项独立因果贡献。
+3. **更新幅度影响稳定性。** 只加监督权重1未修复；权重5仍未修复；固定权重5后降低学习率逐步恢复结构和旧能力。后三轮相邻对照只改变学习率。这支持该模型/数据组合对更新幅度敏感，不意味着1e-4对所有DPO都不合适。
+4. **固定负例与真实错误存在覆盖缺口。** 原SFT已在49/56对中给chosen更高概率，但生成语义通过44/56；5道生成错题仍更偏好固定chosen。12道实际错误仅3道与预设rejected的AST或结果相同。更多同类合成负例不等于更针对实际错误；也不能据此证明来源是全部退化原因。逐条见baseline_pair_coverage.json。
+
+未发现DPO符号、causal shift、EOS/PAD掩码、独立reference冻结或保存重载的明显实现错误。LoRA与attention dropout均为0。原B/C另有单adapter各两题复现，与主生成一致。严格与数值同时下降，不能靠放宽AST标准解决。
+
+## 修复目标与控制
 
 ```text
-L = L_DPO + alpha * ( -log pi(chosen | prompt) / chosen_response_tokens )
-alpha = 1
+L = L_DPO + alpha * (-log pi(chosen | prompt) / chosen_response_tokens)
 ```
 
-分母只含causal shift后被loss_mask选中的chosen token，包含终止符，不含prompt或padding。DPO继续使用序列log probability总和。chosen NLL复用同一前向图，不额外增加chosen曝光或前向次数。alpha=0保留原纯DPO的损失与梯度。alpha=1不代表两项尺度相等：DPO使用序列总和，chosen NLL使用token平均；算术回答约30 token，权重需要结合这个约定解释。
+DPO使用回答序列log probability总和；监督项用token平均，包含终止符、不含prompt和padding。alpha=1不代表两项尺度相等，算术回答约30 token；alpha=0保留原DPO损失及梯度。参考[TRL官方混合目标说明](https://huggingface.co/docs/trl/main/en/dpo_trainer#multi-loss-combinations)，本项目记录自己的归一化约定，不依赖安装TRL。
 
-这是一项DPO＋chosen监督的混合目标；通过修复不能声称原纯DPO有效，也不能声称DPO项比纯SFT有额外收益。TRL官方支持组合sigmoid与sft目标，见[官方DPO说明](https://huggingface.co/docs/trl/main/en/dpo_trainer#multi-loss-combinations)；本项目明确记录自身token平均和权重约定，不依赖安装TRL。
+四轮都从同一冻结SFT重新开始，同168对训练/56对开发、168步、seed42、beta0.1、裁剪1、相同LoRA与CPU设置。每轮chosen4500、rejected4788个回答token；初始化、逐步样本顺序和token曝光均核对一致。
 
-## 生成前声明的验收条件
+第一→二轮只改监督权重1→5；第二→三轮只改LR1e-4→2e-5；第三→四轮只改LR2e-5→1e-5。相对原C，最后方案同时改变监督目标和学习率，不能把全部收益归因于其中一项，也未证明两项各自必需。没有同数据同预算的纯SFT控制，不能把混合目标收益归因于DPO项。
 
-1. 新56题严格至少36、数值至少44，恢复到SFT水平；JSON/schema/路由56条全部合法正确。
-2. 原工具、括号、空格、旧偏好开发严格通过分别至少19/20、33/48、12/12、7/10。
-3. 新56题严格或数值至少一项超过SFT。
-4. 起点、数据、逐步样本顺序、token曝光、冻结/更新/重载全部核验；实际生成按原CPU greedy64设置。
+## 预先质量门
 
-若只是比原C的4/56好，不能算完整修复；若恢复旧能力但新集未改善，须明确报告。全部题仍是已查看开发诊断，没有最终未查看测试，不通过生成后挑选子集改变验收标准。
+在生成前声明：新严格至少36、数值至少44；新56条结构/路由全部通过；旧组严格至少19/20、33/48、12/12、7/10；并要求新严格或数值至少一项超过SFT。实际结果：
 
-## 实现与阅读顺序
+```json
+{
+  "new_strict_at_least_sft": true,
+  "new_semantic_at_least_sft": true,
+  "new_json_schema_route_all_valid": true,
+  "legacy_strict_not_lower_than_sft": true,
+  "new_strict_or_semantic_exceeds_sft": false
+}
+```
 
-1. `trainers/dpo.py`新增anchored_objective及可选chosen_nll_weight；train_log明确区分总loss、dpo_loss和chosen_nll。
-2. `configs/dpo_v2_large_168_anchor.json`只修改声明的目标项和实验名称。
-3. `scripts/train_dpo.py`记录目标；before/after的loss仍是纯DPO诊断，不能与训练总loss混称。
-4. `scripts/compare_dpo_repair.py`核验原C与修复训练配置/起点/逐步曝光，复用已核验SFT/C记录，单独加载修复adapter生成145种输入，保存146条记录和逐项对照。
-5. `test_dpo_anchor.py`检验零权重一致性、共同前缀梯度抵消及监督项的修复方向、非法参数；tiny PEFT集成同时覆盖纯DPO与混合目标的更新/冻结/重载。
+没有随结果放宽条件。第一至三轮失败记录全部保留。源码/失败诊断/方案提交49d976a、6d95dd3、f9174f8，后两轮方案在其生成前固定。当前显著缓解退化，但仍有结构退步且新增收益未完成，不能称为完整修复成功。
 
-## 本轮执行结果
+## 核验与缓存
 
-第一轮alpha=1：训练`artifacts/checkpoints/dpo-lora-20261016-180833-e336ae0b`，生成评测`artifacts/evaluations/dpo-anchor-20261016-182453-d989d3f1`。
+- 完整103项测试通过，无skip；唯一提示来自已有tiny PEFT保存配置。
+- 四轮reference无梯度且参数不变、仅LoRA更新、基础参数不变、重载logits最大差0。
+- 每轮438条保存记录重新评分（含semantic），15份预测哈希、10组对照/changes、运行与训练源码、质量门均核对一致。438条包含重复引用的SFT/C，不是438道独立新题。四轮共580次新生成，584条候选记录含4次重复输入复用。
+- 第二轮保存224对reference分数及SHA。第三/四轮复用前核对模型revision/初始参数digest/完整数据manifest/编码与评分实现、全部张量与冻结状态；新policy/reference各对train/dev首对前向，共4次复现。初始汇总明确复用相同模型已测值，训练后仍完整重新评分。
+- 第三/四轮首步loss、chosen/rejected log probability、chosen NLL和grad_norm与第二轮精确一致，只有学习率不同。reference_log_probs.pt是固定分数，不是模型权重。
+- 前两轮启动时的精确训练/比较源码保存在各评测source目录，SHA匹配当时清单；不能用扩展后的当前入口冒充历史源码。
 
-| 数据组严格通过 | SFT | 原C | alpha=1 |
-| --- | --- | --- | --- |
-| 新开发 | 36/56 | 4/56 | 31/56 |
-| 工具 | 19/20 | 2/20 | 19/20 |
-| 括号 | 33/48 | 1/48 | 29/48 |
-| 空格 | 12/12 | 0/12 | 12/12 |
-| 旧偏好开发 | 7/10 | 1/10 | 5/10 |
+## 产物与代码阅读
 
-第一轮新算术数值23/48、成对5/24、问候8/8；JSON53/56、schema与路由45/56，所有组无生成上限命中。新开发按措辞的算术数值为symbolic13/16、sequence6/16、natural4/16。五项预先验收条件全部未通过，因此明确记作未修复。
+总汇：`artifacts/evaluations/dpo-repair-summary-20261016-201033-4f337b8d`。summary.json含全部模型/配置/控制与质量门；report.md给总表，15份相邻控制changes保留全部改善/退步；baseline_pair_coverage.json给固定负例覆盖诊断。
 
-第一轮reference不变、仅LoRA更新、重载logits最大差0；逐步曝光/配置/起点控制核验通过。开发chosen平均log probability提高到−2.850504，rejected降到−23.454333，偏好相对改善56/56，纯DPO loss0.327434。仍然不能用均值提高或偏好率100%代替生成验证。
+- 监督1/LR1e-4：训练`artifacts/checkpoints/dpo-lora-20261016-180833-e336ae0b`；评测`artifacts/evaluations/dpo-anchor-20261016-182453-d989d3f1`。
+- 监督5/LR1e-4：训练`artifacts/checkpoints/dpo-lora-20261016-184519-79d1335a`；评测`artifacts/evaluations/dpo-anchor-20261016-190110-56ef6fae`。
+- 监督5/LR2e-5：训练`artifacts/checkpoints/dpo-lora-20261016-191348-bfddf667`；评测`artifacts/evaluations/dpo-anchor-20261016-192955-24ca2895`。
+- 监督5/LR1e-5：训练`artifacts/checkpoints/dpo-lora-20261016-194142-df9d5829`；评测`artifacts/evaluations/dpo-anchor-20261016-195656-ae7cb3a7`。
 
-438条记录重新评分、15份预测哈希、10组汇总/变化文件、3份入口/评测源码哈希均一致，见第一轮verification.json。实际新生成145次，同输入复用1次，其余292条SFT/C记录来自已核验历史。第二轮结果待完成后追加。
+阅读顺序：
 
+1. `trainers/dpo.py`的anchored_objective、train_dpo：原DPO、chosen平均NLL、反向/裁剪/更新。
+2. `configs/dpo_v2_large_168_anchor*.json`：四轮只改声明的权重/LR。
+3. `scripts/train_dpo.py`：目标日志、reference缓存身份/探针、冻结与重载；before/after loss仍是纯DPO诊断，train_log loss是训练总目标。
+4. `scripts/compare_dpo_repair.py`：训练控制、历史身份、候选生成与预先质量门。
+5. `scripts/audit_dpo_repair.py`：不加载模型，重新核对记录、源码、缓存、汇总和质量门。
+6. `test_dpo_anchor.py`、`test_dpo_repair_control.py`和PEFT集成：零权重一致、公共前缀梯度、非法参数、单变量与曝光、冻结/更新/重载。
 
+```powershell
+& ".\.venv\Scripts\python.exe" scripts\audit_dpo_repair.py --behavior artifacts\evaluations\dpo-anchor-20261016-195656-ae7cb3a7
+```
 
-## 第二轮单变量修复计划
+第四轮相对SFT的逐组严格改善/退步：
 
-第一轮alpha=1已完成168步，chosen开发平均log probability改善到−2.850504，但初始实际生成已出现schema错误，违反预先声明的完整格式验收条件。保留第一轮完整五组生成与全部结果，不把它替换成成功记录。
+- preference_v2_development：改善0，退步0。
+- tool_calls：改善1，退步0。
+- brackets：改善1，退步0。
+- spacing_control：改善0，退步0。
+- preference_v1_development：改善0，退步0。
 
-2026-10-16 18:27启动第二轮：仍从同一冻结SFT出发、同168对/168步/顺序/学习率/beta，仅把chosen监督权重加强到5；配置`configs/dpo_v2_large_168_anchor5.json`。与原C相比依然只改变监督目标项。验收标准不变。不是从第一轮模型接着训练。
+## 最终审计补充：总分会掩盖失败类型恶化
 
-第二轮训练额外保存固定reference分数及其哈希，属于可复核产物，不改变目标或计算顺序。第一轮启动时的训练/比较入口精确源码已保存在其评测目录source子目录，SHA256与当时summary/run_manifest完全一致；后续入口增加可声明权重参数，避免把当前源码哈希冒充第一轮实际运行版本。
+第四轮旧括号题`bracket-seen_large-sequence-left_plain`，输入`Multiply 12 by 3 first, then add that result to 41.`。SFT输出合法JSON但表达式为`12*3`，参数错误；候选输出`{"type":"tool_call","name":"calculator","arguments":{"expression":"12*3+"41"}}`，变成非法JSON。两者端到端都失败，因此总通过数与端到端transition没有显示新结构退步。
 
+审计现在额外逐题拒收任何新JSON/schema/路由退步，测试覆盖总成功数和总结构数都不变仍有单题恶化的情形。该门是审计发现后新增的独立保护，不改写原五项预先验收历史；第四轮此门也未通过，不能替换冻结SFT。完整提升与该结构问题都仍需解决。本轮没有把失败的候选标为成功。
 
-## 第三轮单变量修复计划
+## 下一步边界
 
-第二轮alpha=5的实际生成仍出现非法JSON与非法表达式，已违反相同验收条件。第二轮完整评测继续保留。
+本轮不再扫当前合成数据的LR，也不把恢复到基线包装为新开发提升。优先在训练输入上采集冻结SFT真实错误，用可执行目标审计偏好，补齐错误覆盖；开发答案不进入训练。同时补同数据同预算chosen-only SFT控制，区分正例监督与偏好项贡献。方案冻结后还需真正未查看的最终测试。
 
-第三轮从同一冻结SFT重新出发：保持alpha=5、168对/168步/seed/顺序/beta/裁剪不变，只把学习率从1e-4降至2e-5。相对第二轮只改变学习率；相对原C则同时改变监督目标与学习率，不能将全部差异归因于其中一个因素。配置`configs/dpo_v2_large_168_anchor5_lr2e5.json`，验收标准不变。没有从已退化权重接着更新。
-
-为减少反复评分耗时，第三轮通过可选`--reference-cache-run`复用第二轮保存的reference分数。核对文件SHA、完整数据manifest、模型revision与初始参数digest、训练文件/max_length、评分实现SHA、所有224对张量形状/有限值/无梯度、冻结状态，并用新policy/reference分别对train/dev首对做四次前向复现。初始汇总复用同一权重/输入的已测值，记录其来源，并非声称重新前向了全部初始样本；训练后仍重新评分全部数据、检查reference/基础权重未变、保存重载。默认不传该参数时仍按原流程计算。第三轮在第二轮生成结束后运行，避免CPU进程互相争用。
-
-
-## 第二轮完成结果与第三轮进度
-
-第二轮alpha=5：训练`artifacts/checkpoints/dpo-lora-20261016-184519-79d1335a`；评测`artifacts/evaluations/dpo-anchor-20261016-190110-56ef6fae`。五组严格通过依次36/56、19/20、34/48、12/12、6/10；新开发数值36/56，算术28/48、成对6/24、问候8/8。JSON/schema/路由各53/56，无生成上限命中。原SFT新算术按symbolic/natural/sequence数值为16/4/16，第二轮为12/7/9：自然语言略有收益，但损伤原有算式与步骤能力。
-
-第二轮仍未满足四项验收条件，只有新严格至少36通过。reference不变、仅LoRA更新、重载logits最大差0。438条重新评分（含semantic重算）、15预测哈希、10对照/变化文件和3源码SHA检查全部一致，见verification.json。
-
-第三轮训练目录已创建：`artifacts/checkpoints/dpo-lora-20261016-191348-bfddf667`。缓存来源/四次前向探针已通过，首步的pair_id、总loss、DPO loss、chosen NLL、log probability、relative margin及grad_norm与第二轮逐项精确一致，仅learning_rate不同，证明缓存复用没有改变该初始更新的梯度。第三轮完整结果仍待生成验收。当前完整102项测试通过。
-
-
-## 第四轮单变量修复计划
-
-第三轮新56题严格35、数值42，JSON/schema/路由56/56；原工具20/20。比第二轮改善，但新开发仍低于原SFT，未达到预先标准。第三轮完整旧题继续评测，保留结果。
-
-第四轮仍从冻结SFT出发，alpha=5、168对/168步、seed/顺序/beta/裁剪均保持不变，只把学习率从2e-5再减半至1e-5。相对第二/第三轮均只改变学习率，训练控制入口仍用第二轮（1e-4、alpha5），另会逐项比较第三与第四轮生成。配置`configs/dpo_v2_large_168_anchor5_lr1e5.json`；复用同一已核验reference缓存，验收条件不变。第四轮排在第三轮生成结束后运行，不同时占用CPU。
+单种子、共享措辞模板、训练多为两位数而新开发含三位数等限制仍在。v2 baseline、原C及全部失败实验保留；未启用GPU、付费资源或Phase 4。
+正式拒收检查可在审计命令末尾加`--require-admission`；质量未达标时返回退出码2。默认审计退出0只表示记录一致，不代表模型质量通过。

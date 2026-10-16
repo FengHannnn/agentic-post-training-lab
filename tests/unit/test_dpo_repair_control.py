@@ -61,6 +61,19 @@ def test_learning_rate_control_checks_the_actual_step_log(control):
         verify(original, repaired, history, history, 5.0, 2e-5)
 
 
+def test_new_structure_failure_is_rejected_even_when_success_totals_are_unchanged(monkeypatch):
+    monkeypatch.syspath_prepend(str(Path(__file__).resolve().parents[2] / "scripts"))
+    audit = importlib.import_module("audit_dpo_repair").structural_regressions
+    # Both examples fail end-to-end before and after; aggregate structure counts
+    # also stay equal, but a previously valid output becomes malformed.
+    valid = {"json_valid": True, "schema_valid": True, "route_correct": True, "end_to_end_pass": False}
+    malformed = {key: False for key in valid}
+    before = [{"id": "a", **valid}, {"id": "b", **malformed}]
+    after = [{"id": "a", **malformed}, {"id": "b", **valid}]
+    assert sum(row["end_to_end_pass"] for row in before) == sum(row["end_to_end_pass"] for row in after)
+    assert audit(before, after) == {"json_valid": 1, "schema_valid": 1, "route_correct": 1}
+
+
 def test_repair_rejects_changed_exposure_order(control):
     verify, original, repaired, history = control
     changed = copy.deepcopy(history)
