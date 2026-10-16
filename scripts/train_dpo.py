@@ -36,6 +36,7 @@ def main():
     from peft import PeftModel
     config = json.loads(args.config.read_text(encoding="utf-8"))
     config.setdefault("train_file", "train.jsonl")
+    config.setdefault("chosen_nll_weight", 0.0)
     if config["cpu_threads"] <= 0:
         raise ValueError("cpu_threads must be positive")
     torch.set_num_threads(config["cpu_threads"])
@@ -103,6 +104,7 @@ def main():
     stamp = datetime.now(timezone(timedelta(hours=8))).strftime("%Y%m%d-%H%M%S")
     output = ROOT / "artifacts/checkpoints" / f"dpo-lora-{stamp}-{uuid4().hex[:8]}"
     output.mkdir(parents=True, exist_ok=False)
+    torch.save(caches, output / "reference_log_probs.pt")
     print(json.dumps({"before": before}, ensure_ascii=False), flush=True)
     with (output / "train_log.jsonl").open("w", encoding="utf-8", newline="\n") as log:
         def record(row):
@@ -119,7 +121,8 @@ def main():
         started = time.perf_counter()
         history = train_dpo(policy, pairs["train"], caches["train"], tokenizer.pad_token_id,
             max_steps=config["max_steps"], learning_rate=config["learning_rate"], beta=config["beta"],
-            max_grad_norm=config["max_grad_norm"], seed=config["seed"], on_step=record)
+            max_grad_norm=config["max_grad_norm"], seed=config["seed"], on_step=record,
+            chosen_nll_weight=config["chosen_nll_weight"])
         training_seconds = time.perf_counter() - started
     print("更新完成；评测 train/development 并检查冻结参数。", flush=True)
     after = {split: evaluate_preferences(policy, selected, caches[split], tokenizer.pad_token_id, config["beta"])
@@ -167,7 +170,10 @@ def main():
         "policy_updated": policy_updated, "initial_policy_reference_match": True,
         "reload_logits_match": bool(match), "reload_max_abs_error": (expected - actual).abs().max().item(),
         "reference_cache": "fixed v2 response-only summed log probabilities; detached; no sampling",
+        "reference_cache_sha256": hashlib.sha256((output / "reference_log_probs.pt").read_bytes()).hexdigest(),
         "checkpoint_scope": "adapter and tokenizer; optimizer state not saved",
+        "training_objective": "DPO + chosen_nll_weight * response-token-mean chosen NLL",
+        "evaluation_loss": "before/after loss is pure DPO; train_log loss is the training objective",
     }
     (output / "summary.json").write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(json.dumps({"after": after, "reference_unchanged": reference_unchanged,

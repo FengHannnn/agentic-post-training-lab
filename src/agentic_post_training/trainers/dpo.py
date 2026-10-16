@@ -53,6 +53,18 @@ def objective(policy_log_probs, reference_log_probs, beta):
                     reference_log_probs[:1].detach(), reference_log_probs[1:].detach(), beta=beta)
 
 
+def anchored_objective(policy_log_probs, reference_log_probs, beta, chosen_tokens, chosen_nll_weight=0.0):
+    """DPO plus response-token-mean chosen NLL; zero weight preserves pure DPO."""
+    if not math.isfinite(chosen_nll_weight) or chosen_nll_weight < 0:
+        raise ValueError("chosen_nll_weight must be finite and non-negative")
+    if chosen_tokens <= 0:
+        raise ValueError("chosen_tokens must be positive")
+    output = objective(policy_log_probs, reference_log_probs, beta)
+    chosen_nll = -policy_log_probs[0] / chosen_tokens
+    loss = output.loss if chosen_nll_weight == 0 else output.loss + chosen_nll_weight * chosen_nll
+    return loss, output, chosen_nll
+
+
 @torch.no_grad()
 def evaluate_preferences(policy, pairs, reference_cache, pad_token_id, beta):
     if not pairs or len(pairs) != len(reference_cache):
@@ -72,11 +84,13 @@ def evaluate_preferences(policy, pairs, reference_cache, pad_token_id, beta):
 
 
 def train_dpo(policy, pairs, reference_cache, pad_token_id, *, max_steps, learning_rate,
-              beta=0.1, max_grad_norm=1.0, seed=42, on_step=None):
+              beta=0.1, max_grad_norm=1.0, seed=42, on_step=None, chosen_nll_weight=0.0):
     if not pairs or len(pairs) != len(reference_cache) or max_steps <= 0:
         raise ValueError("non-empty pairs, matching cache and positive steps required")
     if any(not math.isfinite(value) or value <= 0 for value in (learning_rate, beta, max_grad_norm)):
         raise ValueError("learning_rate, beta and max_grad_norm must be finite and positive")
+    if not math.isfinite(chosen_nll_weight) or chosen_nll_weight < 0:
+        raise ValueError("chosen_nll_weight must be finite and non-negative")
     parameters = [parameter for name, parameter in policy.named_parameters() if parameter.requires_grad]
     if not parameters or any("lora_" not in name for name, parameter in policy.named_parameters()
                              if parameter.requires_grad):
@@ -92,13 +106,17 @@ def train_dpo(policy, pairs, reference_cache, pad_token_id, *, max_steps, learni
         index = order[step % len(pairs)]
         optimizer.zero_grad(set_to_none=True)
         log_probs = pair_log_probs(policy, pairs[index], pad_token_id)
-        output = objective(log_probs, reference_cache[index], beta)
-        if not torch.isfinite(output.loss).item():
+        chosen_tokens = sum(pairs[index][0]["loss_mask"][1:])
+        loss, output, chosen_nll = anchored_objective(log_probs, reference_cache[index], beta,
+                                                     chosen_tokens, chosen_nll_weight)
+        if not torch.isfinite(loss).item():
             raise ValueError("DPO training loss must be finite")
-        output.loss.backward()
+        loss.backward()
         norm = torch.nn.utils.clip_grad_norm_(parameters, max_grad_norm, error_if_nonfinite=True)
         optimizer.step()
-        record = {"step": step + 1, "pair_index": index, "loss": output.loss.item(),
+        record = {"step": step + 1, "pair_index": index, "loss": loss.item(),
+                  "dpo_loss": output.loss.item(), "chosen_nll": chosen_nll.item(),
+                  "chosen_nll_weight": chosen_nll_weight,
                   "relative_margin": output.logits.item(), "preference_accuracy": output.preference_accuracy.item(),
                   "chosen_log_prob": log_probs[0].item(), "rejected_log_prob": log_probs[1].item(),
                   "grad_norm": norm.item(), "learning_rate": learning_rate}

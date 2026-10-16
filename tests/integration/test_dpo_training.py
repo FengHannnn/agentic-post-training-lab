@@ -15,7 +15,8 @@ from agentic_post_training.trainers.dpo import (
 )
 
 
-def test_dpo_freezes_reference_updates_policy_and_reloads(tmp_path):
+@pytest.mark.parametrize("chosen_nll_weight", [0.0, 1.0])
+def test_dpo_freezes_reference_updates_policy_and_reloads(tmp_path, chosen_nll_weight):
     previous_threads = torch.get_num_threads()
     torch.set_num_threads(1)
     try:
@@ -55,7 +56,8 @@ def test_dpo_freezes_reference_updates_policy_and_reloads(tmp_path):
         # A trainable reference is rejected, rather than silently optimized.
         with pytest.raises(ValueError, match="reference must be frozen"):
             cache_reference(policy, pairs, 0)
-        history = train_dpo(policy, pairs, cached, 0, max_steps=4, learning_rate=0.01)
+        history = train_dpo(policy, pairs, cached, 0, max_steps=4, learning_rate=0.01,
+                            chosen_nll_weight=chosen_nll_weight)
         after = evaluate_preferences(policy, pairs, cached, 0, 0.1)
         assert after["relative_margin"] > before["relative_margin"]
         assert after["loss"] < before["loss"]
