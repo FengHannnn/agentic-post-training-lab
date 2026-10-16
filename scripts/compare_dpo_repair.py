@@ -35,12 +35,18 @@ def read_rows(path):
     return [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
 
 
-def verify_control(original, repaired, original_history, repaired_history, expected_anchor_weight=1.0):
+def verify_control(original, repaired, original_history, repaired_history, expected_anchor_weight=1.0, expected_learning_rate=None):
     """Only the declared chosen-NLL term may change the training setup."""
-    ignored = {"experiment_id", "chosen_nll_weight"}
+    ignored = {"experiment_id", "chosen_nll_weight"} if expected_learning_rate is None else {"experiment_id", "learning_rate"}
     configs = [{k: v for k, v in item["config"].items() if k not in ignored} for item in (original, repaired)]
-    if configs[0] != configs[1] or original["config"].get("chosen_nll_weight", 0) != 0:
+    if configs[0] != configs[1]:
         raise ValueError("repair must match the pure DPO setup")
+    if expected_learning_rate is None:
+        if original["config"].get("chosen_nll_weight", 0) != 0:
+            raise ValueError("anchor control must start from pure DPO")
+    elif (original["config"].get("chosen_nll_weight") != expected_anchor_weight
+          or repaired["config"]["learning_rate"] != expected_learning_rate):
+        raise ValueError("learning rate differs from the declared repair")
     if repaired["config"].get("chosen_nll_weight") != expected_anchor_weight:
         raise ValueError("chosen_nll_weight differs from the declared repair")
     for key in ("model", "resolved_revision", "baseline_manifest_sha256", "data_manifest",
@@ -56,6 +62,10 @@ def verify_control(original, repaired, original_history, repaired_history, expec
     for left, right in zip(original_history, repaired_history):
         for key in ("step", "pair_index", "pair_id", "epoch", "chosen_response_tokens",
                     "rejected_response_tokens", "input_tokens", "padded_input_tokens", "learning_rate"):
+            if key == "learning_rate" and expected_learning_rate is not None:
+                if left[key] != original["config"][key] or right[key] != expected_learning_rate:
+                    raise ValueError("training learning rate differs")
+                continue
             if left[key] != right[key]:
                 raise ValueError(f"training exposure differs: {key}")
 
@@ -67,6 +77,8 @@ def main():
     parser.add_argument("--run", type=Path, required=True)
     parser.add_argument("--original-behavior", type=Path, required=True)
     parser.add_argument("--expected-anchor-weight", type=float, default=1.0)
+    parser.add_argument("--training-control-run", type=Path)
+    parser.add_argument("--expected-learning-rate", type=float)
     args = parser.parse_args()
     os.environ["HF_HUB_OFFLINE"] = "1"
     os.environ["TRANSFORMERS_OFFLINE"] = "1"
@@ -83,8 +95,14 @@ def main():
     if (file_hash(Path(old_behavior["training_comparison"]) / "summary.json") != old_behavior["training_summary_sha256"]
         or file_hash(pure_run / "summary.json") != training_inventory["summary_sha256"]["large_168"]):
         raise ValueError("original training identity differs")
-    verify_control(original, repaired, read_rows(pure_run / "train_log.jsonl"), read_rows(run / "train_log.jsonl"),
-                   args.expected_anchor_weight)
+    control_run = args.training_control_run.resolve() if args.training_control_run else pure_run
+    control = read_json(control_run / "summary.json")
+    if bool(args.training_control_run) != (args.expected_learning_rate is not None):
+        raise ValueError("learning rate repair requires an explicit training control and rate")
+    if args.training_control_run:
+        verify_control(original, control, read_rows(pure_run / "train_log.jsonl"), read_rows(control_run / "train_log.jsonl"), args.expected_anchor_weight)
+    verify_control(control, repaired, read_rows(control_run / "train_log.jsonl"), read_rows(run / "train_log.jsonl"),
+                   args.expected_anchor_weight, args.expected_learning_rate)
     baseline = ROOT / repaired["config"]["baseline"]
     verify(baseline)
     if file_hash(baseline / "manifest.json") != repaired["baseline_manifest_sha256"]:
@@ -142,6 +160,8 @@ def main():
         "training_summary_sha256": file_hash(run / "summary.json"), "adapter_sha256": file_hash(run / "adapter/adapter_model.safetensors"),
         "baseline_manifest_sha256": repaired["baseline_manifest_sha256"], "generation": settings,
         "chosen_nll_weight": args.expected_anchor_weight,
+        "training_control_run": str(control_run), "training_control_summary_sha256": file_hash(control_run / "summary.json"),
+        "declared_learning_rate": args.expected_learning_rate,
         "versions": {name: version(name) for name in ("torch", "transformers", "peft")},
         "source_sha256": {str(path.relative_to(ROOT)): file_hash(path) for path in (Path(__file__),
             ROOT / "src/agentic_post_training/evaluation/scaling.py", ROOT / "src/agentic_post_training/evaluation/generation.py")}}
@@ -199,7 +219,9 @@ def main():
         "acceptance_checks": gates, "all_acceptance_checks_pass": all(gates.values()),
         "prediction_files_sha256": {f"{label}_{suite}.jsonl": file_hash(output / f"{label}_{suite}.jsonl") for label in records for suite in suites}}
     write_json(output / "summary.json", result)
-    lines = ["# DPO正确答案监督修复：受控生成对照", "", f"同一数据、起点、顺序、步数、学习率，只增加chosen token平均NLL权重{args.expected_anchor_weight:g}。全部为已查看开发诊断。", "",
+    description = (f"与原C相比仅增加chosen token平均NLL权重{args.expected_anchor_weight:g}。" if args.expected_learning_rate is None else
+        f"与权重{args.expected_anchor_weight:g}上一轮相比仅将学习率降低至{args.expected_learning_rate:g}；与原C相比同时增加监督项与降低学习率。")
+    lines = ["# DPO正确答案监督修复：受控生成对照", "", description + "同一数据、起点、顺序、步数。全部为已查看开发诊断。", "",
         "| 数据组 | SFT严格 | 原C纯DPO | DPO+chosen NLL |", "| --- | --- | --- | --- |"]
     for suite in suites:
         cells = [f"{summaries[label][suite]['metrics']['end_to_end_pass']['passed']}/{len(suites[suite])}" for label in records]

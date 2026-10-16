@@ -20,6 +20,7 @@ from agentic_post_training.data.hf_tokenizer import HFChatTokenizer
 from agentic_post_training.data.preferences import load_preferences, load_preference_splits, validate_preferences
 from agentic_post_training.trainers.dpo import (
     cache_reference, encode_pair, evaluate_preferences, parameter_digest, train_dpo,
+    pair_log_probs,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -29,6 +30,7 @@ def main():
     sys.stdout.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description="CPU DPO 训练与保存重载验证")
     parser.add_argument("--config", type=Path, default=ROOT / "configs/dpo_cpu.json")
+    parser.add_argument("--reference-cache-run", type=Path)
     args = parser.parse_args()
     os.environ["HF_HUB_OFFLINE"] = "1"
     os.environ["TRANSFORMERS_OFFLINE"] = "1"
@@ -96,9 +98,54 @@ def main():
         raise ValueError("policy/reference did not start from identical parameters")
     frozen_digest = parameter_digest(policy, frozen_only=True)
     print("初始参数一致；缓存 train/development 的固定 reference 分数。", flush=True)
-    caches = {split: cache_reference(reference, selected, tokenizer.pad_token_id) for split, selected in pairs.items()}
-    before = {split: evaluate_preferences(policy, selected, caches[split], tokenizer.pad_token_id, config["beta"])
-              for split, selected in pairs.items()}
+    cache_origin = None
+    if args.reference_cache_run is None:
+        caches = {split: cache_reference(reference, selected, tokenizer.pad_token_id) for split, selected in pairs.items()}
+        before = {split: evaluate_preferences(policy, selected, caches[split], tokenizer.pad_token_id, config["beta"])
+                  for split, selected in pairs.items()}
+    else:
+        source_run = args.reference_cache_run.resolve()
+        source = json.loads((source_run / "summary.json").read_text(encoding="utf-8"))
+        cache_file = source_run / "reference_log_probs.pt"
+        if hashlib.sha256(cache_file.read_bytes()).hexdigest() != source["reference_cache_sha256"]:
+            raise ValueError("reference cache hash mismatch")
+        if any(source[key] != value for key, value in (
+            ("baseline_manifest_sha256", baseline_hash), ("data_manifest", data_manifest),
+            ("model", manifest["model"]), ("resolved_revision", manifest["resolved_revision"]),
+            ("initial_policy_sha256", initial_digest), ("initial_reference_sha256", reference_digest))):
+            raise ValueError("reference cache model/data identity differs")
+        if any(source["config"][key] != config[key] for key in ("baseline", "preference_data", "max_length", "train_file")):
+            raise ValueError("reference cache encoding configuration differs")
+        trainer_path = ROOT / "src/agentic_post_training/trainers/dpo.py"
+        if source["source_sha256"][str(trainer_path.relative_to(ROOT))] != hashlib.sha256(trainer_path.read_bytes()).hexdigest():
+            raise ValueError("reference scoring implementation differs")
+        if not source["reference_unchanged"] or not source["reference_no_grad"]:
+            raise ValueError("reference cache source was not frozen")
+        caches = torch.load(cache_file, map_location="cpu", weights_only=True)
+        if set(caches) != set(pairs):
+            raise ValueError("reference cache splits differ")
+        errors = []
+        for split, selected in pairs.items():
+            if len(caches[split]) != len(selected) or any(value.shape != (2,) or value.requires_grad
+                or not torch.isfinite(value).all().item() for value in caches[split]):
+                raise ValueError("invalid reference cache values")
+            with torch.no_grad():
+                for model in (reference, policy):
+                    model.eval()
+                    actual = pair_log_probs(model, selected[0], tokenizer.pad_token_id)
+                    errors.append((actual - caches[split][0]).abs().max().item())
+                    if not torch.allclose(actual, caches[split][0], atol=1e-6, rtol=1e-6):
+                        raise ValueError("reference cache probe differs")
+            for side, key in ((0, "chosen_log_prob"), (1, "rejected_log_prob")):
+                if abs(sum(value[side].item() for value in caches[split]) / len(selected) - source["before"][split][key]) > 1e-6:
+                    raise ValueError("initial reference metrics differ")
+        # Same parameter digest, input hashes and scoring implementation: reuse the
+        # measured initial metrics, with both fresh models probed on both splits.
+        before = source["before"]
+        cache_origin = {"run": str(source_run), "summary_sha256": hashlib.sha256((source_run / "summary.json").read_bytes()).hexdigest(),
+            "cache_sha256": source["reference_cache_sha256"], "probe_max_abs_error": max(errors),
+            "initial_metrics": "reused from verified identical initial model/data; four fresh forward probes"}
+        print(json.dumps({"reference_cache_origin": cache_origin}, ensure_ascii=False), flush=True)
     if any(abs(value["relative_margin"]) > 1e-5 for value in before.values()):
         raise ValueError("policy/reference initial relative margin must be zero")
     stamp = datetime.now(timezone(timedelta(hours=8))).strftime("%Y%m%d-%H%M%S")
@@ -171,6 +218,7 @@ def main():
         "reload_logits_match": bool(match), "reload_max_abs_error": (expected - actual).abs().max().item(),
         "reference_cache": "fixed v2 response-only summed log probabilities; detached; no sampling",
         "reference_cache_sha256": hashlib.sha256((output / "reference_log_probs.pt").read_bytes()).hexdigest(),
+        "reference_cache_origin": cache_origin,
         "checkpoint_scope": "adapter and tokenizer; optimizer state not saved",
         "training_objective": "DPO + chosen_nll_weight * response-token-mean chosen NLL",
         "evaluation_loss": "before/after loss is pure DPO; train_log loss is the training objective",

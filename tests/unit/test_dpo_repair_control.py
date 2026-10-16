@@ -40,6 +40,27 @@ def test_repair_weight_must_match_the_declared_experiment(control):
     verify(original, repaired, history, history, expected_anchor_weight=5.0)
 
 
+def test_learning_rate_control_preserves_anchor_and_all_other_settings(control):
+    verify, original, repaired, history = control
+    original["config"]["chosen_nll_weight"] = 5.0
+    repaired["config"].update(chosen_nll_weight=5.0, learning_rate=2e-5)
+    changed = copy.deepcopy(history)
+    for row in changed:
+        row["learning_rate"] = 2e-5
+    verify(original, repaired, history, changed, 5.0, 2e-5)
+    repaired["config"]["chosen_nll_weight"] = 1.0
+    with pytest.raises(ValueError, match="setup"):
+        verify(original, repaired, history, changed, 5.0, 2e-5)
+
+
+def test_learning_rate_control_checks_the_actual_step_log(control):
+    verify, original, repaired, history = control
+    original["config"]["chosen_nll_weight"] = 5.0
+    repaired["config"].update(chosen_nll_weight=5.0, learning_rate=2e-5)
+    with pytest.raises(ValueError, match="training learning rate"):
+        verify(original, repaired, history, history, 5.0, 2e-5)
+
+
 def test_repair_rejects_changed_exposure_order(control):
     verify, original, repaired, history = control
     changed = copy.deepcopy(history)

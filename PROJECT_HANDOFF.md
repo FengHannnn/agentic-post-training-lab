@@ -455,6 +455,16 @@ base 0/20 是本任务严格 JSON 协议下的失败，不等于基础模型没�
 
 下一步先阅读本次代码与失败样本，解释固定偏好改善但chosen绝对概率/实际生成退化，再设计一个受控实验。当前仍是单种子、单次子集、共享模板、合成负例，无最终未查看测试；没有新v2数据的SFT168步对照、没有开启GPU或Phase4。旧compare_sft_dpo.py/diagnose_dpo_preferences.py仍有train.jsonl默认假设，使用小集分支前必须适配实际train_file/selected_data_files；本次入口已按实际训练文件处理。
 
+### 2026-10-16 正在进行：DPO退化修复
+
+用户要求解决C严重退化。已检查DPO符号/shift/mask/reference及保存重载，没有发现明显实现错误；新增DPO+chosen token平均NLL，默认权重0保持原损失和梯度。入口仍train_dpo.py，新比较入口compare_dpo_repair.py；说明reports/phase3-dpo-repair.md，配置dpo_v2_large_168_anchor*.json。完整102项测试通过、1条已有PEFT提示。所有新试验从冻结SFT重新开始，旧C与旧数据不覆盖。
+
+第一轮alpha=1/学习率1e-4：训练artifacts/checkpoints/dpo-lora-20261016-180833-e336ae0b，评测artifacts/evaluations/dpo-anchor-20261016-182453-d989d3f1。新开发31/56、工具19/20、括号29/48、空格12/12、旧偏好5/10；chosen均值升至−2.850504仍未修复，五项预先验收均失败。438条记录、15预测哈希、10对照、3源码SHA复算通过。
+
+第二轮alpha=5/同学习率：训练artifacts/checkpoints/dpo-lora-20261016-184519-79d1335a，评测artifacts/evaluations/dpo-anchor-20261016-190110-56ef6fae仍在运行；已有非法JSON，未满足完整修复条件。训练后chosen均值−1.539517，冻结/更新/重载通过；保存224对reference缓存并验证哈希、有限值/冻结与初始均值一致。前两轮启动时的精确训练/比较源码保存于各评测目录source，SHA与当时清单一致；当前源码已扩展，不能直接用当前入口SHA冒充前两轮版本。
+
+第三轮alpha=5/学习率2e-5，其他训练条件保持不变。当前流水线等待第二轮评测summary后启动；日志artifacts/logs/dpo-anchor5-lr2e5-20261016-190947-492d6e71/。从第二轮训练目录复用reference缓存，检查模型/数据/编码/实现哈希及四次新模型前向探针；初始汇总明确复用同一模型已测值，训练后仍实际重新评分、冻结核验、保存重载。不要同时对同一流水线重复启动。当前只是计划与运行中状态，不宣称修复成功；验收标准见报告，完成后更新本文。源码及首轮诊断提交49d976a。
+
 以下保留继续Phase2的可选修正路线。
 
 若继续 Phase 2：
