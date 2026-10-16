@@ -21,7 +21,9 @@
 - 现有小样本高通过率、低开发 loss 不能证明全面泛化，也不能证明已学会稳定的自然语言运算顺序。
 - 当前没有 NVIDIA GPU；真实运行均为本机 Windows CPU。大规模 GPU 实验需要后续另行规划云端环境和预算。
 
-最新验证：2026-10-16 重跑 `pytest tests -q`，86 项通过、1 条已有 PEFT 提示；偏好数据审计及冻结基线校验通过，真实 DPO 的参数冻结、更新与保存重载检查通过。行为比较重新生成 180 次，原三组 80 条 SFT prediction 与历史文本全部一致；后续偏好分组诊断重现了训练后的汇总指标。chosen-only继续SFT已完成28步、冻结/更新/保存重载检查，新生成90题三分支对照完成。
+最新生成结果：v2规模对照A/B/C已全部完成，新56题严格通过36/33/7/4（SFT/A/B/C）；C单独加载的两题复现一致，未发现切换adapter造成的定点偏差。详见第9节及reports/phase3-dpo-scaling-behavior.md。
+
+最新验证：2026-10-16 重跑 `pytest tests -q`，89 项通过、1 条已有 PEFT 提示；偏好数据审计及冻结基线校验通过，真实 DPO 的参数冻结、更新与保存重载检查通过。行为比较重新生成 180 次，原三组 80 条 SFT prediction 与历史文本全部一致；后续偏好分组诊断重现了训练后的汇总指标。chosen-only继续SFT已完成28步、冻结/更新/保存重载检查，新生成90题三分支对照完成。
 
 ## 1. 用户背景、目标与协作偏好
 
@@ -445,9 +447,13 @@ base 0/20 是本任务严格 JSON 协议下的失败，不等于基础模型没�
 2026-10-15已构造并重审`data/preferences/dpo_v2/`：train168（144算术+24问候）、train_small28（24+4，完整family嵌套子集）、development56（48+8）。数字family为12/2/4，每个12条（4形式×3措辞），问候family6/1/2，每个4条；train/dev按family及精确ID/prompt/AST隔离，并保护444条现有SFT/eval/v1目标记录。全部负例为合成错误分组或错误路由，不是模型真实采样；chosen来自确定性模板。最长训练93、开发95token，无截断；真实tokenizer与评分器重审通过，81项测试通过。新增包内`data/balanced_preferences.py`、入口`scripts/build_balanced_preferences.py --audit-only`、说明`reports/phase3-balanced-preferences.md`。本步只构造数据，没有训练或采集新基线预测。旧v1保持不变；v1→v2同时改来源、措辞、数字和规模，不能作为纯样本量对照。该数据步骤当时只提出DPO新小集28步、小集168步、大集168步方案；数据代码已读完，2026-10-16执行情况见下段。现有train_sft_control.py仍是原28步专用入口，不能直接用于168步。没有启动后续Phase4或付费资源。
 2026-10-16已完成v2 DPO三分支真实CPU训练：A新小集28对/28步、B同小集28对/168步、C大集168对/168步；三者从同一冻结v2 SFT初始化，共享56对开发集。`data/preferences.py`新增`load_preference_splits`，按manifest固定文件选择训练集，禁止把development当训练并校验全部数据哈希；旧配置默认train.jsonl。`scripts/train_dpo.py`新增v2设计/保护集检查、epoch与token/耗时/初始参数/源码哈希日志，核心DPO目标未改。配置`configs/dpo_v2_small_28.json`、`dpo_v2_small_168.json`、`dpo_v2_large_168.json`；新增`scripts/summarize_dpo_scaling.py`核对共同起点、固定配置、A/B前28步数值与顺序、每轮覆盖/曝光和token账目，全部通过。新增5项检查，完整86项测试通过。
 
-训练目录：A `artifacts/checkpoints/dpo-lora-20261016-141339-249a77f0`；B `artifacts/checkpoints/dpo-lora-20261016-142317-5d529ace`；C `artifacts/checkpoints/dpo-lora-20261016-145728-bc1fc34c`。汇总`artifacts/evaluations/dpo-v2-scaling-training-20261016-152209-97915019`；批次日志/索引`artifacts/logs/dpo-v2-scaling-20261016-141008-2f738fcf/`；说明`reports/phase3-dpo-scaling-training.md`。三组reference不变无梯度、policy冻结参数不变/LoRA更新、重载logits最大差0.0。开发相对偏好改善45/56、53/56、55/56，loss 0.575274、0.258704、0.250463；开发chosen平均log probability相对原SFT下降1.790009、11.897777、13.847387，rejected下降更多。这些都是固定答案评分，未运行新生成评测，不可称为工具通过率或断言样本量是原问题主因。B/C回答token分别均4500 chosen+4788 rejected；padding输入28932/28964，只差32，但完整运行还含不同数量前后评分，成本不同。
+训练目录：A `artifacts/checkpoints/dpo-lora-20261016-141339-249a77f0`；B `artifacts/checkpoints/dpo-lora-20261016-142317-5d529ace`；C `artifacts/checkpoints/dpo-lora-20261016-145728-bc1fc34c`。汇总`artifacts/evaluations/dpo-v2-scaling-training-20261016-152209-97915019`；批次日志/索引`artifacts/logs/dpo-v2-scaling-20261016-141008-2f738fcf/`；说明`reports/phase3-dpo-scaling-training.md`。三组reference不变无梯度、policy冻结参数不变/LoRA更新、重载logits最大差0.0。开发相对偏好改善45/56、53/56、55/56，loss 0.575274、0.258704、0.250463；开发chosen平均log probability相对原SFT下降1.790009、11.897777、13.847387，rejected下降更多。这些是当时训练步骤的固定答案评分，后续真实生成结果见下段；不可称为工具通过率或断言样本量是原问题主因。B/C回答token分别均4500 chosen+4788 rejected；padding输入28932/28964，只差32，但完整运行还含不同数量前后评分，成本不同。
 
-下一步先让用户阅读本轮选择/日志/汇总代码，再对冻结SFT与A/B/C做同条件逐题生成。保留旧90题开发诊断，新增56题基线尚未生成；新开发48条算术可按contrast_id组成24对，8条问候单独汇总。旧compare_sft_dpo.py/diagnose_dpo_preferences.py仍有train.jsonl默认假设，使用小集分支前必须适配实际train_file/selected_data_files，避免训练曝光标记或train汇总错误。当前仍是单种子、单次子集、共享模板、合成负例，无最终未查看测试。没有新SFT168步对照、没有开启GPU或Phase4。
+2026-10-16已完成冻结SFT与A/B/C的同条件实际生成评测，入口`scripts/compare_dpo_scaling.py`，元数据/成对汇总`evaluation/scaling.py`，说明`reports/phase3-dpo-scaling-behavior.md`；产物`artifacts/evaluations/dpo-v2-scaling-behavior-20261016-163551-cb6e9477`。新56题严格通过SFT/A/B/C为36/33/7/4，数值通过44/41/7/4；48条算术成对数值通过16/13/0/0（分母24），问候通过8/8/4/4（分母8）。原工具题19/19/4/2（分母20），括号33/34/4/1（48），空格12/12/3/0（12），旧偏好开发7/5/1/1（10）。C的新算术数值0/48，结构/路由退化明显。新56题SFT→C为0改善32退步，B→C为0改善3退步；扩大覆盖没有挽回本次退化，不支持仅凭样本量解释。
+
+正式584条记录：SFT旧90条经身份/数据/代码/设置校验后复用，另有3条实际生成探针完全重现；SFT新56与各DPO145种输入真实生成，三分支各有1条重复输入缓存。额外分别全新基础模型只加载B或C，各2题复现四项生成字段一致，见single_adapter_verification*.json；合计498次实际生成。逐条重算584评分、20组汇总和25组变化文件、核对20预测与6源码哈希通过，见verification.json。新增test_scaling_behavior.py的3项检查，完整89项测试通过。严格AST与数值、24道互补算术对与chosen/rejected偏好对分开统计，8问候不进入算术成对分母。历史组有重复/已见探针，不能合并独立测试总分。
+
+下一步先阅读本次代码与失败样本，解释固定偏好改善但chosen绝对概率/实际生成退化，再设计一个受控实验。当前仍是单种子、单次子集、共享模板、合成负例，无最终未查看测试；没有新v2数据的SFT168步对照、没有开启GPU或Phase4。旧compare_sft_dpo.py/diagnose_dpo_preferences.py仍有train.jsonl默认假设，使用小集分支前必须适配实际train_file/selected_data_files；本次入口已按实际训练文件处理。
 
 以下保留继续Phase2的可选修正路线。
 
@@ -529,7 +535,7 @@ Set-Location "C:\Users\app\Documents\Codex\2026-9-28\AgenticPostTrainingLab"
 | test_bracket_diagnostic.py | 48 题/24 对设计、数值与严格区别、前缀控制、成对要求 |
 | integration/test_lora_training.py | 随机 tiny Llama＋真实 PEFT，基础参数不变、adapter 更新、保存恢复 |
 
-集成测试不下载 SmolLM2；正式模型结果来自另外运行的训练/评测脚本。缺少 PEFT/Transformers 时集成测试会跳过，所以不能只看 pytest 命令结束就声称完整覆盖；当前本机确实安装了依赖，86 项无 skip。新增 test_preferences.py 检查偏好审计边界，integration/test_dpo_training.py 检查真实 PEFT 的 DPO 更新方向、reference 冻结与保存重载；test_behavior_comparison.py 检查 ID 对齐与改善/退步统计；test_preference_diagnostics.py 检查相对改善与chosen绝对变化的区分及分组汇总；test_balanced_preferences.py 检查v2合法偏好与隔离、重复模板格拒绝、小子集内容一致性；test_preference_selection.py 检查训练文件选择、共同开发集、禁止开发/未固定文件、全文件哈希与目录范围。
+集成测试不下载 SmolLM2；正式模型结果来自另外运行的训练/评测脚本。缺少 PEFT/Transformers 时集成测试会跳过，所以不能只看 pytest 命令结束就声称完整覆盖；当前本机确实安装了依赖，89 项无 skip。新增 test_preferences.py 检查偏好审计边界，integration/test_dpo_training.py 检查真实 PEFT 的 DPO 更新方向、reference 冻结与保存重载；test_behavior_comparison.py 检查 ID 对齐与改善/退步统计；test_preference_diagnostics.py 检查相对改善与chosen绝对变化的区分及分组汇总；test_balanced_preferences.py 检查v2合法偏好与隔离、重复模板格拒绝、小子集内容一致性；test_preference_selection.py 检查训练文件选择、共同开发集、禁止开发/未固定文件、全文件哈希与目录范围；test_scaling_behavior.py检查实际小集/大集暴露、24完整算术对及问候分离、数值等价与严格AST的区别。
 
 当前唯一警告来自随机 tiny 模型保存时 PEFT 找不到原始 config 路径并假定 vocabulary 未修改；测试通过，不是实际模型训练失败。
 
