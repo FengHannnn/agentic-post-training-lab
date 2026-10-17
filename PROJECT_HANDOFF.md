@@ -1,5 +1,7 @@
 # AgenticPostTrainingLab：项目全景与对话交接文档
 
+> 2026-10-18 交接更新：请优先阅读 [完整交接（当前状态与全部实验索引）](C:/Users/app/Documents/Codex/2026-9-28/AgenticPostTrainingLab/PROJECT_HANDOFF_2026-10-18.md)。本文保留历史逐步记录；其中旧的“下一步/尚未完成”须结合后续日期解读。新文档统一了 Phase 3 已收尾、Phase 4 CPU rollout 已验证及 GPU/GRPO 待推进的状态。
+
 更新时间：2026-10-17。本文依据当前本地代码、配置、数据、训练 summary 和评测产物核对整理。面向接手本项目的另一个对话，尽量不依赖原聊天记录。
 
 ## 0. 接手前先读：当前状态与边界

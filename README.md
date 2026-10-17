@@ -2,7 +2,7 @@
 
 面向工具调用 Agent 的 SFT、DPO、GRPO、vLLM rollout 与评测项目。
 
-完整进度、阶段路线、实验结果和接手续作说明见 [项目交接文档](PROJECT_HANDOFF.md)。其中已实现内容与未来计划分别标注。
+当前完整进度、阶段路线、结果与接手续作见 [2026-10-18 完整交接](C:/Users/app/Documents/Codex/2026-9-28/AgenticPostTrainingLab/PROJECT_HANDOFF_2026-10-18.md)；原始逐步记录保留在 [历史交接文档](C:/Users/app/Documents/Codex/2026-9-28/AgenticPostTrainingLab/PROJECT_HANDOFF.md)。已实现内容与未来计划分别标注。
 
 ## 运行环境
 
