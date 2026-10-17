@@ -1,6 +1,6 @@
 # AgenticPostTrainingLab：项目全景与对话交接文档
 
-更新时间：2026-10-16。本文依据当前本地代码、配置、数据、训练 summary 和评测产物核对整理。面向接手本项目的另一个对话，尽量不依赖原聊天记录。
+更新时间：2026-10-17。本文依据当前本地代码、配置、数据、训练 summary 和评测产物核对整理。面向接手本项目的另一个对话，尽量不依赖原聊天记录。
 
 ## 0. 接手前先读：当前状态与边界
 
@@ -23,9 +23,11 @@
 
 最新恢复结果：四轮监督/LR控制已完成，最后恢复新集严格36/数值44、工具20/20、括号34/48。严重退化显著缓解，但尚有结构退步，新增开发收益未达标，baseline未替换；见第9节及reports/phase3-dpo-repair.md。
 
+最新数据检查点：2026-10-17已在v2的168条训练输入上采集冻结SFT，严格108、语义130，得到38对真实错误候选（36算式、2坏JSON），12个算术family；自然/符号/顺序候选29/7/2，问候0。22条数值正确但AST不同的回答已排除。开发输入未用于生成训练负例；候选尚未冻结为新训练集、未启动新训练。详见reports/phase3-sft-training-errors.md。
+
 最新生成结果：v2规模对照A/B/C已全部完成，新56题严格通过36/33/7/4（SFT/A/B/C）；C单独加载的两题复现一致，未发现切换adapter造成的定点偏差。详见第9节及reports/phase3-dpo-scaling-behavior.md。
 
-最新验证：2026-10-16 重跑 `pytest tests -q`，103 项通过、1 条已有 PEFT 提示；偏好数据审计及冻结基线校验通过，真实 DPO 的参数冻结、更新与保存重载检查通过。行为比较重新生成 180 次，原三组 80 条 SFT prediction 与历史文本全部一致；后续偏好分组诊断重现了训练后的汇总指标。chosen-only继续SFT已完成28步、冻结/更新/保存重载检查，新生成90题三分支对照完成。
+最新验证：2026-10-17 重跑 `pytest tests -q`，111 项通过、1 条已有 PEFT 提示；偏好数据审计及冻结基线校验通过，真实 DPO 的参数冻结、更新与保存重载检查通过。行为比较重新生成 180 次，原三组 80 条 SFT prediction 与历史文本全部一致；后续偏好分组诊断重现了训练后的汇总指标。chosen-only继续SFT已完成28步、冻结/更新/保存重载检查，新生成90题三分支对照完成。
 
 ## 1. 用户背景、目标与协作偏好
 
@@ -477,6 +479,14 @@ base 0/20 是本任务严格 JSON 协议下的失败，不等于基础模型没�
 
 审计现在额外逐题拒收任何新JSON/schema/路由退步，测试覆盖总成功数和总结构数都不变仍有单题恶化的情形。该门是审计发现后新增的独立保护，不改写原五项预先验收历史；第四轮此门也未通过，不能替换冻结SFT。完整提升与该结构问题都仍需解决。本轮没有把失败的候选标为成功。
 
+### 2026-10-17 已完成：训练输入真实错误采集，收紧Phase 3范围
+
+入口scripts/collect_sft_training_errors.py，仅对data/preferences/dpo_v2/train.jsonl的168输入做冻结SFT贪心生成；原v2数据与基线不改。产物artifacts/evaluations/sft-training-errors-20261017-200708-66935487，含sft_train.jsonl、candidate_preferences.jsonl、run_manifest.json、summary.json、report.md及补充synthetic_coverage.json。168条严格108/语义130，38候选覆盖12算术family（每族2—4条，无完整12格），36算式错误/2非法JSON。22个数值等价严格失败排除；无空、上限或超长过滤。候选完整编码chosen/rejected最大90/91；与56原开发和444条保护记录隔离审计通过。38个实际错误中12个与原同题合成负例AST/数值匹配，26个不匹配；不据此声称负例来源是退化的唯一原因。
+
+已完成--audit-only：核验冻结文件和数据身份，重算168条评分/筛选、38候选内容、分组与审计，无须加载模型权重。新增8项筛选测试，全套111通过、1条已有PEFT提示。候选training_ready=false，不要直接当作平衡v3数据或已训练结果。
+
+用户提出Phase 3耗时偏长。本阶段最小闭环早已完成，后续是扩展诊断；不以DPO必须胜出作为结业条件。下一步只冻结有限对照：优先复用38个相同输入/chosen，做chosen-only SFT、真实负例纯DPO，若归因来源再加同题合成负例DPO。配置、步数、曝光及评估方案先冻结，分别记录token量；现有train_sft_control.py仍为旧v1/28步专用，须适配才能用于新对照。本轮未实施新数据清单/新训练。若有限对照无收益，如实收尾Phase 3，不再无限调LR；仍保留旧能力与新增结构退步检查，不使用开发题补训练。
+
 以下保留继续Phase2的可选修正路线。
 
 若继续 Phase 2：
@@ -557,7 +567,7 @@ Set-Location "C:\Users\app\Documents\Codex\2026-9-28\AgenticPostTrainingLab"
 | test_bracket_diagnostic.py | 48 题/24 对设计、数值与严格区别、前缀控制、成对要求 |
 | integration/test_lora_training.py | 随机 tiny Llama＋真实 PEFT，基础参数不变、adapter 更新、保存恢复 |
 
-集成测试不下载 SmolLM2；正式模型结果来自另外运行的训练/评测脚本。缺少 PEFT/Transformers 时集成测试会跳过，所以不能只看 pytest 命令结束就声称完整覆盖；当前本机确实安装了依赖，103 项无 skip。新增 test_preferences.py 检查偏好审计边界，integration/test_dpo_training.py 检查真实 PEFT 的 DPO 更新方向、reference 冻结与保存重载；test_behavior_comparison.py 检查 ID 对齐与改善/退步统计；test_preference_diagnostics.py 检查相对改善与chosen绝对变化的区分及分组汇总；test_balanced_preferences.py 检查v2合法偏好与隔离、重复模板格拒绝、小子集内容一致性；test_preference_selection.py 检查训练文件选择、共同开发集、禁止开发/未固定文件、全文件哈希与目录范围；test_scaling_behavior.py检查实际小集/大集暴露、24完整算术对及问候分离、数值等价与严格AST的区别；test_dpo_anchor.py检查混合目标与公共前缀梯度；test_dpo_repair_control.py检查声明的权重/LR变化及逐步曝光；PEFT集成同时覆盖纯DPO与混合目标。
+集成测试不下载 SmolLM2；正式模型结果来自另外运行的训练/评测脚本。缺少 PEFT/Transformers 时集成测试会跳过，所以不能只看 pytest 命令结束就声称完整覆盖；当前本机确实安装了依赖，111 项无 skip。新增 test_preferences.py 检查偏好审计边界，integration/test_dpo_training.py 检查真实 PEFT 的 DPO 更新方向、reference 冻结与保存重载；test_behavior_comparison.py 检查 ID 对齐与改善/退步统计；test_preference_diagnostics.py 检查相对改善与chosen绝对变化的区分及分组汇总；test_balanced_preferences.py 检查v2合法偏好与隔离、重复模板格拒绝、小子集内容一致性；test_preference_selection.py 检查训练文件选择、共同开发集、禁止开发/未固定文件、全文件哈希与目录范围；test_scaling_behavior.py检查实际小集/大集暴露、24完整算术对及问候分离、数值等价与严格AST的区别；test_dpo_anchor.py检查混合目标与公共前缀梯度；test_dpo_repair_control.py检查声明的权重/LR变化及逐步曝光；PEFT集成同时覆盖纯DPO与混合目标。test_training_error_selection.py新增8项真实错误筛选测试，覆盖数值等价、空/截断/超长、完整坏JSON、错误chosen及来源记录。
 
 当前唯一警告来自随机 tiny 模型保存时 PEFT 找不到原始 config 路径并假定 vocabulary 未修改；测试通过，不是实际模型训练失败。
 

@@ -32,6 +32,7 @@ Phase 1 已实现并验证 SFT、DPO、GRPO 基础损失。Phase 2 已接入真�
 - [Phase 3 后续：v2 DPO 规模对照训练](reports/phase3-dpo-scaling-training.md)
 - [Phase 3 后续：v2 DPO 规模对照的实际生成评测](reports/phase3-dpo-scaling-behavior.md)
 - [Phase 3 后续：定位并修复 DPO 生成退化](reports/phase3-dpo-repair.md)
+- [Phase 3 后续：采集冻结 SFT 的训练错误](reports/phase3-sft-training-errors.md)
 
 ## 运行测试与数据检查
 
