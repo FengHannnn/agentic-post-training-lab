@@ -1,0 +1,173 @@
+{
+  "dataset_id": "dpo-v3-matched-training-errors",
+  "baseline_manifest_sha256": "a40ef7a505c3f76bbdaf485106a588679bda02d8bab852e0d1a91c8aa9d70f0f",
+  "files": {
+    "train_real.jsonl": "7ed326326dbe825d34be9ba8e565017410a2a81624eef354a37d523cd337f19b",
+    "train_synthetic.jsonl": "3fa63b7ea599e694b8fc702b8dd587502b2aa1aeb35f80019526d0e5905ced09",
+    "train_chosen.jsonl": "b3f42739271e04a23e1e130855e22a7f820cb90afc828d7f1a90d2b26ae6525c",
+    "development.jsonl": "ccafe79518709ac61eaeb23cd604863bdfb552e48d9cec96ba25e2a1a9b75218"
+  },
+  "plan_sha256": "a3520bf40a59e07e058b0cb0804571e4d999b197c3ca36de0b110b5601465405",
+  "max_length": 192,
+  "source_collection": "artifacts\\evaluations\\sft-training-errors-20261017-200708-66935487",
+  "source_collection_sha256": "84dce9d295ecff21521734aeefafbfc520af83f66812b70be3d28dafa63c3096",
+  "source_v2_manifest_sha256": "b4ff943098f425f587b4a359a4c9553c97fcdb4e34c46d5ff4f8b8200fd80559",
+  "builder_sha256": "6a126e4009df7e0a05418bfcb4d919fe96a8cc281a75eb3638fabbc92e945f81",
+  "protected_v1_data_sha256": {
+    "train.jsonl": "43be5a09a7d7d060ad06a9cb0c900d70bf3966c0b1f58b634586cd727e824dd0",
+    "development.jsonl": "580a0571e1d3c1b0991d809b2516f423f7072feb8d541947c5c316a4ecbb95b2"
+  },
+  "protected_targets_sha256": "2da88c00ca02b4805488ee22c6767abd4169add41a0c124d10e954308ae3c164",
+  "design": {
+    "pairs_per_dpo_arm": 38,
+    "chosen_examples": 38,
+    "development": 56,
+    "families": 12,
+    "wordings": {
+      "symbolic": 7,
+      "natural": 29,
+      "sequence": 2
+    },
+    "same_rejected_text": 12
+  },
+  "audit": {
+    "train_real": {
+      "train": {
+        "pairs": 38,
+        "families": 12,
+        "routes": {
+          "tool_call": 38
+        },
+        "categories": {
+          "left_grouped": 6,
+          "right_plain": 13,
+          "left_plain": 14,
+          "right_grouped": 5
+        },
+        "rejected_sources": {
+          "frozen_sft_greedy_training_error": 38
+        },
+        "rejected_failures": {
+          "wrong_arguments": 36,
+          "invalid_json": 2
+        },
+        "tokens": {
+          "chosen": {
+            "max_total": 90,
+            "min_response": 29,
+            "mean_response": 29.157894736842106
+          },
+          "rejected": {
+            "max_total": 91,
+            "min_response": 26,
+            "mean_response": 27.44736842105263
+          }
+        }
+      },
+      "development": {
+        "pairs": 56,
+        "families": 6,
+        "routes": {
+          "tool_call": 48,
+          "final": 8
+        },
+        "categories": {
+          "right_grouped": 12,
+          "right_plain": 12,
+          "left_grouped": 12,
+          "left_plain": 12,
+          "greeting": 8
+        },
+        "rejected_sources": {
+          "synthetic_counterexample": 56
+        },
+        "rejected_failures": {
+          "wrong_arguments": 48,
+          "wrong_route": 8
+        },
+        "tokens": {
+          "chosen": {
+            "max_total": 95,
+            "min_response": 12,
+            "mean_response": 27.642857142857142
+          },
+          "rejected": {
+            "max_total": 95,
+            "min_response": 24,
+            "mean_response": 29.357142857142858
+          }
+        }
+      }
+    },
+    "train_synthetic": {
+      "train": {
+        "pairs": 38,
+        "families": 12,
+        "routes": {
+          "tool_call": 38
+        },
+        "categories": {
+          "left_grouped": 6,
+          "right_plain": 13,
+          "left_plain": 14,
+          "right_grouped": 5
+        },
+        "rejected_sources": {
+          "synthetic_counterexample": 38
+        },
+        "rejected_failures": {
+          "wrong_arguments": 38
+        },
+        "tokens": {
+          "chosen": {
+            "max_total": 90,
+            "min_response": 29,
+            "mean_response": 29.157894736842106
+          },
+          "rejected": {
+            "max_total": 91,
+            "min_response": 29,
+            "mean_response": 29.36842105263158
+          }
+        }
+      },
+      "development": {
+        "pairs": 56,
+        "families": 6,
+        "routes": {
+          "tool_call": 48,
+          "final": 8
+        },
+        "categories": {
+          "right_grouped": 12,
+          "right_plain": 12,
+          "left_grouped": 12,
+          "left_plain": 12,
+          "greeting": 8
+        },
+        "rejected_sources": {
+          "synthetic_counterexample": 56
+        },
+        "rejected_failures": {
+          "wrong_arguments": 48,
+          "wrong_route": 8
+        },
+        "tokens": {
+          "chosen": {
+            "max_total": 95,
+            "min_response": 12,
+            "mean_response": 27.642857142857142
+          },
+          "rejected": {
+            "max_total": 95,
+            "min_response": 24,
+            "mean_response": 29.357142857142858
+          }
+        }
+      }
+    }
+  },
+  "data_audit_passed": true,
+  "training_started": false,
+  "runner_adaptation_required": true
+}

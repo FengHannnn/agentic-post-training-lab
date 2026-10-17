@@ -1,0 +1,113 @@
+{
+  "experiment_id": "phase3-matched-errors-38-single-pass",
+  "baseline": "artifacts/baselines/sft-v2-phase3",
+  "baseline_manifest_sha256": "a40ef7a505c3f76bbdaf485106a588679bda02d8bab852e0d1a91c8aa9d70f0f",
+  "preference_data": "data/preferences/dpo_v3_matched_errors",
+  "data_files_sha256": {
+    "train_real.jsonl": "7ed326326dbe825d34be9ba8e565017410a2a81624eef354a37d523cd337f19b",
+    "train_synthetic.jsonl": "3fa63b7ea599e694b8fc702b8dd587502b2aa1aeb35f80019526d0e5905ced09",
+    "train_chosen.jsonl": "b3f42739271e04a23e1e130855e22a7f820cb90afc828d7f1a90d2b26ae6525c",
+    "development.jsonl": "ccafe79518709ac61eaeb23cd604863bdfb552e48d9cec96ba25e2a1a9b75218"
+  },
+  "common": {
+    "max_steps": 38,
+    "learning_rate": 1e-05,
+    "max_grad_norm": 1.0,
+    "seed": 42,
+    "cpu_threads": 2,
+    "max_length": 192,
+    "batch_pairs_or_chosen": 1,
+    "optimizer": "AdamW",
+    "weight_decay": 0.0,
+    "scheduler": null
+  },
+  "arms": {
+    "chosen_sft": {
+      "objective": "response-token-mean chosen CE",
+      "train_file": "train_chosen.jsonl"
+    },
+    "synthetic_dpo": {
+      "objective": "pure sigmoid DPO",
+      "train_file": "train_synthetic.jsonl",
+      "beta": 0.1,
+      "chosen_nll_weight": 0.0
+    },
+    "real_dpo": {
+      "objective": "pure sigmoid DPO",
+      "train_file": "train_real.jsonl",
+      "beta": 0.1,
+      "chosen_nll_weight": 0.0
+    }
+  },
+  "order": "torch.randperm(38, generator=torch.Generator().manual_seed(42)); same ID order in every arm",
+  "budget": {
+    "training_runs": 3,
+    "steps_per_run": 38,
+    "chosen_exposures_per_arm": 38,
+    "same_response_token_compute": false,
+    "report_actual_tokens_and_seconds": true,
+    "extra_hyperparameter_trials": 0
+  },
+  "evaluation": {
+    "generation": {
+      "device": "cpu",
+      "dtype": "float32",
+      "attention": "eager",
+      "do_sample": false,
+      "num_beams": 1,
+      "max_new_tokens": 64,
+      "seed": 42,
+      "cpu_threads": 2
+    },
+    "historical_behavior": "artifacts\\evaluations\\dpo-v2-scaling-behavior-20261016-163551-cb6e9477",
+    "historical_summary_sha256": "79a17ce52a4ee6e144ba066ffe5a6048355a1423e0b6b29d2d08d828711830f3",
+    "historical_sft_prediction_sha256": {
+      "sft_preference_v2_development.jsonl": "3a33b2832a4623f98f501a5545ab97b51933d8d29ca673aa26fc5d7bc022ebe5",
+      "sft_tool_calls.jsonl": "319c7636aba01a44bcc34b7b5ded039ec514a15a594d78eff751fd2653ad2160",
+      "sft_brackets.jsonl": "7a03653fc8925e11a3834375f491d1e2171d9eac330de71ffb3cd53c91155743",
+      "sft_spacing_control.jsonl": "4d382197ae81423181c2a570cfa93aac39d8c75371fd43900cc9e6a6c12b7e4f",
+      "sft_preference_v1_development.jsonl": "3d37301f0ed4a1353beace63f28495d4cddd8c5704ba90f0384a1653b4e371d3"
+    },
+    "suites": {
+      "preference_v2_development": 56,
+      "tool_calls": 20,
+      "brackets": 48,
+      "spacing_control": 12,
+      "preference_v1_development": 10
+    },
+    "baseline_strict": {
+      "preference_v2_development": 36,
+      "tool_calls": 19,
+      "brackets": 33,
+      "spacing_control": 12,
+      "preference_v1_development": 7
+    },
+    "baseline_v2_semantic": 44,
+    "reuse_sft_requires": "identity/settings/tokenizer/source checks, full rescoring and 3 fresh generation probes",
+    "report": [
+      "strict/semantic/JSON/schema/route",
+      "paired arithmetic and greetings separately",
+      "per-ID improved/regressed/both_pass/both_fail",
+      "all 3 arm contrasts plus frozen baseline",
+      "new per-ID structure failures, even for both_fail examples",
+      "token limits and subgroup failures"
+    ],
+    "final_unseen_test": false
+  },
+  "acceptance": {
+    "artifact_invariants": "initial weights equal; only LoRA updates; base/reference unchanged; save/reload logits agree",
+    "candidate_recovery": "new strict>=36 and semantic>=44; old suite strict>=baseline; no new per-ID JSON/schema/route failures versus baseline; no new token-limit failures",
+    "conditional_dpo_added_value": "DPO must also have new strict and semantic >= chosen_sft with at least one strictly greater; old suite strict >= chosen_sft; no new per-ID structure or token-limit failures versus chosen_sft",
+    "source_effect": "compare real_dpo versus synthetic_dpo on identical inputs/chosen/settings; report tradeoffs without claiming universal causality",
+    "automatic_baseline_replacement": false
+  },
+  "stop_rule": "Run each arm and the common generation comparison once. Record conditional negative results if no DPO added value; do not append LR/beta/anchor sweeps.",
+  "limitations": [
+    "单种子、38个错误条件选择输入、仅12个相关family，不是38个独立任务",
+    "措辞/形式不平衡且没有问候训练，不声称完整family设计",
+    "相同步数和chosen曝光，不是相同token计算量或各算法最优超参数",
+    "1e-5为预先选择的保守学习率，不能保证纯DPO或SFT充分学习",
+    "只观察一次冻结SFT贪心错误，26个负例文本改变、12个不变",
+    "开发集已反复查看且数字范围不同，无最终未查看泛化证据"
+  ]
+}
