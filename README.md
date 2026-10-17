@@ -35,6 +35,7 @@ Phase 1 已实现并验证 SFT、DPO、GRPO 基础损失。Phase 2 已接入真�
 - [Phase 3 后续：采集冻结 SFT 的训练错误](reports/phase3-sft-training-errors.md)
 - [Phase 3 回顾与38同题三组对照方案](reports/phase3-matched-control-plan.md)
 - [Phase 3：38同题三组对照执行与结果](reports/phase3-matched-control-results.md)
+- [Phase 4：CPU 随机采样与 rollout 数据接口](reports/phase4-rollout-contract.md)
 
 ## 运行测试与数据检查
 

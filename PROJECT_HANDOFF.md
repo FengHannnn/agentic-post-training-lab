@@ -8,6 +8,8 @@
 
 当前进度：Phase 0/1 基础与张量损失已推进；Phase 2 已跑通真实 tokenizer、CPU SFT＋LoRA、保存重载、工具请求评测和括号/问法诊断。Phase 3 的四步最小闭环已完成：冻结 v2 基线、偏好数据构造与审计、首轮 CPU DPO 训练与保存重载、SFT-only 与 SFT＋DPO 逐项行为比较。结果混合，有改善也有退步，尚未证明全面泛化或 DPO 优于继续 SFT。
 
+Phase 3有限同题对照也已收尾，当前进入Phase 4：CPU随机rollout记录接口已验证，GPU环境与vLLM引擎待资源规划；GRPO仍没有真实训练更新。
+
 一句话定位：这是从后训练目标函数出发，逐步走向工具调用模型的 SFT、偏好优化、可验证奖励强化学习与 Agent 评测的学习型实验项目；目前并不是完整的 RL 训练框架或生产级 Agent 系统。
 
 必须避免的误读：
@@ -27,9 +29,11 @@
 
 最新执行：38同题三组已全部训练、生成与重审。新56严格36/语义44四模型相同；工具/括号为基线19/33、继续SFT20/34、合成DPO19/33、真实DPO20/34，空格12、旧偏好7均相同。三个新模型均在同题新增坏JSON，不通过结构门；两组DPO无额外新集收益。438次新生成含3基线探针，584记录重算、六组对照/30份changes一致；125项测试通过，冻结/更新/重载通过且误差0。训练artifacts/checkpoints/matched-control-v3-20261017-01，生成artifacts/evaluations/matched-control-v3-20261017-01；代码0bf89a7，详见reports/phase3-matched-control-results.md。按冻结停止条件收尾本轮，不重跑、不追加调参、不替换baseline。
 
+Phase 4最新执行：已从冻结SFT对4个偏好训练输入各随机采样4次，另1次复现探针；原生token、policy/behavior logp、长度mask与EOS已核验，完整前向最大差4.1962e-5。16条严格8/语义9，4组严格结果均恒定、只有1组语义结果有差异；这是接口检查，不是性能提升结论。权重不变、无梯度、无训练、无开发采样；137项测试通过。产物artifacts/trajectories/rollout-smoke-phase4-20261017-01，详见reports/phase4-rollout-contract.md。vLLM/GPU仍未接入，未启用付费资源。
+
 最新生成结果：v2规模对照A/B/C已全部完成，新56题严格通过36/33/7/4（SFT/A/B/C）；C单独加载的两题复现一致，未发现切换adapter造成的定点偏差。详见第9节及reports/phase3-dpo-scaling-behavior.md。
 
-最新验证：2026-10-17 重跑 `pytest tests -q`，125 项通过、1 条已有 PEFT 提示；偏好数据审计及冻结基线校验通过，真实 DPO 的参数冻结、更新与保存重载检查通过。行为比较重新生成 180 次，原三组 80 条 SFT prediction 与历史文本全部一致；后续偏好分组诊断重现了训练后的汇总指标。chosen-only继续SFT已完成28步、冻结/更新/保存重载检查，新生成90题三分支对照完成。
+最新验证：2026-10-17 重跑 `pytest tests -q`，137 项通过、1 条已有 PEFT 提示；偏好数据审计及冻结基线校验通过，真实 DPO 的参数冻结、更新与保存重载检查通过。行为比较重新生成 180 次，原三组 80 条 SFT prediction 与历史文本全部一致；后续偏好分组诊断重现了训练后的汇总指标。chosen-only继续SFT已完成28步、冻结/更新/保存重载检查，新生成90题三分支对照完成。
 
 ## 1. 用户背景、目标与协作偏好
 
@@ -126,7 +130,7 @@ SFT JSONL（system/prompt/response 文本）
   → AST/数值/成对诊断指标与逐题日志
 ```
 
-已增加偏好样本构造 → 审计 → 固定 reference 分数 → DPO 更新 → 保存重载 → 同条件逐题行为比较。尚未实现的主干：同 prompt 多回答 rollout → reward → advantage → GRPO 真实更新；工具结果回传 → 多步 Agent。
+已增加偏好样本构造 → 审计 → 固定 reference 分数 → DPO 更新 → 保存重载 → 同条件逐题行为比较。另已实现冻结SFT同prompt多回答的CPU随机rollout、原生token/概率记录与规则评分观察。尚未形成reward定义 → advantage → GRPO真实更新，也未接GPU引擎或工具结果回传 → 多步Agent。
 
 ### 3.2 目录与职责
 
@@ -158,7 +162,8 @@ SFT JSONL（system/prompt/response 文本）
 | `reports/` | 中文阶段说明及诊断解读 |
 | `artifacts/checkpoints/` | 本地真实训练产物 |
 | `artifacts/evaluations/` | 本地逐题预测、summary、中文报告 |
-| 包内 `rewards/`、`rollouts/`、`benchmarks/`；`docker/` | 当前为空目录，不能视作已实现功能 |
+| 包内 `rollouts/records.py`、`rollouts/hf_sampling.py` | CPU随机采样、原始ID/两类logp、EOS长度mask与前向重算；不是vLLM |
+| 包内 `rewards/`、`benchmarks/`；`docker/` | 当前为空目录，不能视作已实现功能 |
 
 这里“包内 data”是 `src/agentic_post_training/data`，根目录 `data` 是数据文件，两者不要混淆。
 
@@ -202,7 +207,9 @@ SFT JSONL（system/prompt/response 文本）
 
 验收：训练可运行、参考冻结、策略有更新、保存恢复正确，有至少一组受控行为对照。TRL 的具体 API/版本在接入当时查官方文档并验证，当前未安装或锁定。
 
-### Phase 4：GPU 环境与 rollout 引擎——未开始，可按需要与 Phase 3 调整顺序
+### Phase 4：GPU 环境与 rollout 引擎——CPU接口前置验证完成，GPU/引擎待推进
+
+2026-10-17已完成不产生外部费用的前置步骤：冻结SFT的4题×4次随机采样，保存原生token、模型/采样两类logp，完整前向重算、长度mask、一次复现与无模型审计。没有训练，没有vLLM/GPU或付费资源。全套137测试通过；见reports/phase4-rollout-contract.md。下一子步需资源与环境方案，不能把CPU接口验证视作本阶段引擎验收完成。
 
 学什么：vLLM 的批量采样/调度与训练侧 log probability 的接口；推理吞吐、并发、采样参数、权重/adapter 版本对齐。SGLang 可作为可选对照，先掌握一个引擎即可，不要求两套同时实现。
 
@@ -446,7 +453,9 @@ base 0/20 是本任务严格 JSON 协议下的失败，不等于基础模型没�
 - [ ] 远程仓库、CI、云端 Docker、权重/评测产物备份发布。
 - [ ] 新项目的部署性能 benchmark 或岗位成果包装。
 
-## 9. 下一步建议：承接当前诊断，不直接跳过它
+## 9. 阶段执行记录与下一步边界
+
+下文保留各时点的诊断与下一步建议。当前以最新完成段、顶部状态和Phase 4报告为准，不要把早期建议当作尚未执行而重跑Phase 3。
 
 用户已选择进入 Phase 3，四步最小闭环已完成。读完行为比较代码后，2026-10-10 已按受控改进路线完成偏好概率分组诊断：入口 `scripts/diagnose_dpo_preferences.py`，汇总 `evaluation/preference_diagnostics.py`，说明 `reports/phase3-preference-diagnostic.md`，产物 `artifacts/evaluations/dpo-preference-diagnostic-20261010-181453-22baa0cd`。重新评分38对数据，两模型共76次前向，复现训练后汇总；train25对相对改善中9对chosen下降，dev9对中4对chosen下降。括号题chosen平均增加，无括号题平均下降；left_plain训练仅3/6相对改善，开发两题生成均错。来源与题型混杂，不能因果归因于真实/合成来源。2026-10-11已完成同一v2起点的chosen-only继续SFT对照，控制28个chosen的曝光、28次更新、seed与学习率，逐步匹配DPO样本顺序。入口`scripts/train_sft_control.py`、`scripts/compare_sft_control.py`；说明`reports/phase3-sft-control.md`；训练目录`artifacts/checkpoints/continued-sft-20261011-181322-52e2bc03`，评测目录`artifacts/evaluations/sft-control-20261011-181518-0ef09401`。train/dev回答token加权CE 0.102634/0.096143→0.041592/0.044478；训练34.84秒、输入2277token、监督回答714token。仅LoRA更新、冻结参数不变、重载logits最大差0.0。原SFT/DPO预测经身份/数据/汇总核对后复用，新模型生成90题。严格通过继续SFT为19/20、33/48、12/12、8/10；括号数值34/48、成对12/24。括号组相对原SFT3改善3退步，且出现一条invalid JSON；两种方法收益分布不同，没有全面胜出。继续SFT对照代码已读完；2026-10-15进入均衡数据扩充，见下段。不能把固定28对数据结果当作样本规模的因果验证。后续DPO步数应按受控方案改变，不盲目调参；换大模型或租GPU需另行规划。
 
@@ -510,6 +519,18 @@ base 0/20 是本任务严格 JSON 协议下的失败，不等于基础模型没�
 新生成435次加3次冻结SFT探针，共438次，3条同模型重复输入缓存；baseline146历史输出复用，身份/版本/源码/评分和探针重现通过。--audit-only --require-admission实际退出2，verification.json artifact_audit_passed=true但any_dpo_added_value=false；584记录、20预测哈希、六个对照、30份changes、训练模型/日志及固定分数身份核对一致。supplemental_checks.json记录三组相同坏JSON与两个DPO首步相同负例时指标一致。质量拒收不是审计程序报错。
 
 按事前方案本轮收尾，不追加LR/beta/anchor/步数扫描；如实保留条件性负结果。Phase 3最小闭环及本条扩展诊断已完成。后续可按项目路线讨论rollout/环境与预算，不因未胜出继续无边界训练；GPU/付费资源仍未授权或启用。
+
+### 2026-10-17 已完成：Phase 4 CPU rollout接口验证
+
+新增configs/rollout_cpu_smoke.json、rollouts/records.py、rollouts/hf_sampling.py、scripts/collect_rollout_smoke.py，以及unit/test_rollout_records.py和integration/test_rollout_sampling.py，共12项新测试；全套137通过、1条已有PEFT提示。未改旧生成器、评分器或训练源码。
+
+固定baseline v2，采样来自dpo_v2/train的4题：12/47/20符号right_grouped、natural right_plain、sequence left_plain、greeting-0-0。4次/题，seed42+group_index*1000+sample_index，temperature1/top_p1/top_k0，不继承模型隐藏生成默认值。17次实际生成包含首样本复现。16条均EOS结束，400响应token，response_batch [4,4,41]；EOS16个保留、256个padding排除。strict8/16、semantic9/16、坏JSON4，文本unique组数1/3/3/4，四组严格得分均恒定；语义仅sequence组1/4成功。样本共享family且人为选题，不是开发评测或泛化提升证据。
+
+采样raw policy logp与processed behavior logp在本配置实际相同，最大差0；每条实际响应ID直接重算完整前向，最大误差4.1962e-5，通过atol=rtol1e-4。模型初末SHA均9b77c99e51b68d12dc0249ccfaf9f642e7c049ecf99c7f7c53d2c0b83d72cadb、全冻结无梯度，首样本同设备版本/seed复现。不可用跨硬件同seed必然同token的说法。
+
+产物artifacts/trajectories/rollout-smoke-phase4-20261017-01：run_manifest、rollouts.jsonl、run_checks、response_batch.pt、summary、verification。--audit-only已完成，不加载模型，重算token解码、规则评分、分组、mask与张量并核对身份；概率前向重算发生在采集时，无模型审计不重跑前向。复核不必再采样。
+
+当前仅Transformers CPU采样，不是GRPO trainer、vLLM或多轮Agent；未定义新训练reward。若直接以严格通过二元reward，四组advantage均为0；不能用文本多样性冒充可学习信号。下一步先规划GPU/引擎资源，或明确调整顺序做离线奖励审计；付费环境预算仍需用户明确，不能直接租机。官方环境与概率接口链接、代码阅读和下一步接入核验见reports/phase4-rollout-contract.md。
 
 以下保留继续Phase2的可选修正路线。
 
@@ -591,7 +612,7 @@ Set-Location "C:\Users\app\Documents\Codex\2026-9-28\AgenticPostTrainingLab"
 | test_bracket_diagnostic.py | 48 题/24 对设计、数值与严格区别、前缀控制、成对要求 |
 | integration/test_lora_training.py | 随机 tiny Llama＋真实 PEFT，基础参数不变、adapter 更新、保存恢复 |
 
-集成测试不下载 SmolLM2；正式模型结果来自另外运行的训练/评测脚本。缺少 PEFT/Transformers 时集成测试会跳过，所以不能只看 pytest 命令结束就声称完整覆盖；当前本机确实安装了依赖，125 项无 skip。新增 test_preferences.py 检查偏好审计边界，integration/test_dpo_training.py 检查真实 PEFT 的 DPO 更新方向、reference 冻结与保存重载；test_behavior_comparison.py 检查 ID 对齐与改善/退步统计；test_preference_diagnostics.py 检查相对改善与chosen绝对变化的区分及分组汇总；test_balanced_preferences.py 检查v2合法偏好与隔离、重复模板格拒绝、小子集内容一致性；test_preference_selection.py 检查训练文件选择、共同开发集、禁止开发/未固定文件、全文件哈希与目录范围；test_scaling_behavior.py检查实际小集/大集暴露、24完整算术对及问候分离、数值等价与严格AST的区别；test_dpo_anchor.py检查混合目标与公共前缀梯度；test_dpo_repair_control.py检查声明的权重/LR变化及逐步曝光；PEFT集成同时覆盖纯DPO与混合目标。test_training_error_selection.py新增8项真实错误筛选测试，覆盖数值等价、空/截断/超长、完整坏JSON、错误chosen及来源记录。
+集成测试不下载 SmolLM2；正式模型结果来自另外运行的训练/评测脚本。缺少 PEFT/Transformers 时集成测试会跳过，所以不能只看 pytest 命令结束就声称完整覆盖；当前本机确实安装了依赖，137 项无 skip。新增 test_preferences.py 检查偏好审计边界，integration/test_dpo_training.py 检查真实 PEFT 的 DPO 更新方向、reference 冻结与保存重载；test_behavior_comparison.py 检查 ID 对齐与改善/退步统计；test_preference_diagnostics.py 检查相对改善与chosen绝对变化的区分及分组汇总；test_balanced_preferences.py 检查v2合法偏好与隔离、重复模板格拒绝、小子集内容一致性；test_preference_selection.py 检查训练文件选择、共同开发集、禁止开发/未固定文件、全文件哈希与目录范围；test_scaling_behavior.py检查实际小集/大集暴露、24完整算术对及问候分离、数值等价与严格AST的区别；test_dpo_anchor.py检查混合目标与公共前缀梯度；test_dpo_repair_control.py检查声明的权重/LR变化及逐步曝光；PEFT集成同时覆盖纯DPO与混合目标。test_training_error_selection.py新增8项真实错误筛选测试，覆盖数值等价、空/截断/超长、完整坏JSON、错误chosen及来源记录。
 
 当前唯一警告来自随机 tiny 模型保存时 PEFT 找不到原始 config 路径并假定 vocabulary 未修改；测试通过，不是实际模型训练失败。
 
@@ -618,7 +639,7 @@ reports 中 phase2-sft-data.md、phase2-real-tokenizer.md 等是阶段性教学�
 
 可给接手对话的提示：
 
-> 请完整阅读 C:\Users\app\Documents\Codex\2026-9-28\AgenticPostTrainingLab\PROJECT_HANDOFF.md，核对当前代码和训练/评测产物后继续。我们已完成 CPU SFT＋LoRA 与 Phase 3 的基线冻结、偏好数据、首轮 DPO 保存重载、逐项行为比较。随后完成v2规模对照与四轮恢复尝试；尚有一条结构退步且新开发净收益未达标，先看phase3-dpo-repair.md，不重跑四轮。GRPO尚未真实训练。不要复用 MiniServe 环境，也不要把现有诊断集当最终测试。先说明当前进度，再按学习节奏推进。所有新增 Markdown 用中文。
+> 请完整阅读 C:\Users\app\Documents\Codex\2026-9-28\AgenticPostTrainingLab\PROJECT_HANDOFF.md，核对当前代码和训练/评测产物后继续。我们已完成 CPU SFT＋LoRA 与 Phase 3 的基线冻结、偏好数据、首轮 DPO 保存重载、逐项行为比较。随后完成v2规模对照、四轮修复与38同题三组对照，无DPO额外新集收益且仍有结构退步，Phase 3有限实验已收尾，不重跑。当前Phase 4的CPU随机rollout接口已验证，先看phase4-rollout-contract.md与phase3-matched-control-results.md，再规划GPU/引擎与预算。vLLM/GPU未接入，GRPO尚未真实训练。不要复用 MiniServe 环境，也不要把现有诊断集当最终测试。先说明当前进度，再按学习节奏推进。所有新增 Markdown 用中文。
 
 若接手对话没有本机文件访问能力，需要上传本文和相关代码/summary；Markdown 中的本地路径本身不会把文件传给它。
 
