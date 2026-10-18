@@ -25,6 +25,19 @@
 
 没有创建 trainer；eligible 门、old/new/reference 的冻结与 detach、采样分布校正、KL 和 ratio 契约仍须后续实现。零 advantage 只说明奖励策略项没有相对信号，不表示未来带 KL 的总目标必然无梯度。
 
+## 代码阅读顺序
+
+以下路径相对项目根目录。先理解单条奖励，再看分组审计和命令入口，最后用测试检查边界。
+
+1. `src/agentic_post_training/rewards/contract.py` → `score_reward`：本次首先阅读。看清 eligible、finish_reason、严格通过如何共同决定 reward，以及 reason、semantic_only 的含义。
+2. `src/agentic_post_training/evaluation/tool_calls.py` → `score_output`：已有依赖，按需回看。确认 JSON/schema、路由、表达式执行、AST 和结果检查的先后关系。
+3. `src/agentic_post_training/rewards/audit.py` → `audit_records`：理解记录重建、同组目标与输入检查、旧评分重算、sample_index 排序，以及奖励与 advantage 的逐条对齐。
+4. `src/agentic_post_training/algorithms/losses.py` → `group_relative_advantages`：已有依赖，重点回看总体标准差、零方差分支，并对应 `[1,0]` 与 `[1,1]` 两组奖励的优势。
+5. `scripts/audit_rewards.py` → `main`：串起 JSONL 读取、调用审计、输入/源码哈希和新报告写出，理解哪些身份检查由本入口完成。
+6. `tests/unit/test_reward_contract.py`：先读 `test_reward_counterexamples`、`test_truncation_and_greeting_scope`，再读 `test_signal_and_order`、`test_reject_corrupt_records`，验证误奖、漏奖、组内信号与坏记录边界。
+
+阅读后对照本报告下方的四组结果，并查看 `artifacts/evaluations/reward-contract-v1-20261018/audit.json` 中的 groups 和 records。无需重新采样即可理解本步流程。
+
 ## 现有样本实际结果
 
 输入：`artifacts/trajectories/rollout-smoke-phase4-20261017-01/rollouts.jsonl`。
