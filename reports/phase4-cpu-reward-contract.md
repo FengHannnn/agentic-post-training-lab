@@ -1,8 +1,8 @@
-# CPU reward 契约与离线审计（2026-10-18）
+# Phase 4：CPU reward 契约与离线审计（2026-10-18）
 
 ## 路线与范围
 
-用户选择在租用云 GPU 前，先完成 CPU reward 契约与审计。因此提前完成 Phase 5 的奖励前置工作；Phase 4 的 GPU 引擎接入仍待进行。本步不训练、不加载模型、不重新采样，不修改冻结基线、旧评分器或历史 rollout。
+当前仍处于 Phase 4（GPU 环境与 rollout 引擎）。用户选择在租用云 GPU 前，先完成 CPU reward 契约与审计，作为 rollout 到训练之间的接口准备。原路线将 verifier/reward 与 GRPO 列在 Phase 5，本步提前准备其中的奖励接口，不代表进入或完成 Phase 5。Phase 4 的 GPU 引擎接入仍待进行。本步不训练、不加载模型、不重新采样，不修改冻结基线、旧评分器或历史 rollout。
 
 ## 契约 arithmetic-strict-v1
 
