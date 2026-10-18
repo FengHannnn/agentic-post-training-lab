@@ -14,6 +14,8 @@ Phase 1 已实现并验证 SFT、DPO、GRPO 基础损失。Phase 2 已接入真�
 
 ## 阶段文档
 
+最新进展（2026-10-18）：按用户选择，在云 GPU 接入前完成 CPU reward 契约与离线审计。严格算术奖励第一版已实现，现有 3 个算术组均为零方差；真实 GRPO 更新尚未开始。全套 160 项测试通过。详见下方 Phase 5 报告。
+
 - [Phase 1：后训练目标函数基础](reports/phase1-foundations.md)
 - [Phase 2：SFT 数据流水线与 LoRA 训练](reports/phase2-sft-data.md)
 - [Phase 2：接入真实 tokenizer](reports/phase2-real-tokenizer.md)
@@ -36,6 +38,7 @@ Phase 1 已实现并验证 SFT、DPO、GRPO 基础损失。Phase 2 已接入真�
 - [Phase 3 回顾与38同题三组对照方案](reports/phase3-matched-control-plan.md)
 - [Phase 3：38同题三组对照执行与结果](reports/phase3-matched-control-results.md)
 - [Phase 4：CPU 随机采样与 rollout 数据接口](reports/phase4-rollout-contract.md)
+- [Phase 5 前置：CPU reward 契约与离线审计](reports/phase5-cpu-reward-contract.md)
 
 ## 运行测试与数据检查
 
