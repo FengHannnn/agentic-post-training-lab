@@ -35,3 +35,9 @@ export TRANSFORMERS_OFFLINE=1
 4. `src/agentic_post_training/rollouts/hf_sampling.py`：按需回看 CPU 限制；本次尚未把 CPU 采样器改为 GPU，不直接调用它来冒充新引擎验收。
 
 完成上传和核验后，下一步才实现并执行固定 SFT 的 vLLM 最小加载与原生 token 采集。仍属于 Phase 4，不开始真实 GRPO 更新。
+
+## 本地实际迁移验证
+
+已生成 phase4-cloud-bundle-20261019.zip，280241467 字节（约 280MB），包含 245 个有哈希记录的文件；包内源码提交 d14c1331147924de61e41d6a29cfaf02e5d2e7b8。ZIP SHA256 为 d87e010eb28acd12191123827a9996385d6219d39bb4fcc898183bf4b4696f82。
+
+已在独立本地目录完整解压并实际运行 verify_cloud_bundle.py：245 文件校验通过，历史基线 74 个文件与 8 个模型缓存文件通过。额外修改解压副本中的 README 后，核验正确拒绝，随后恢复副本。此验证不依赖 GPU，不代替云端上传后的核验或模型加载验证。包内报告为打包时版本，当前报告补充了这些打包后的检查结果；后续文档提交不改写原 ZIP 的源码身份。
