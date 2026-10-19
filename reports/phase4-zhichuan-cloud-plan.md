@@ -65,3 +65,28 @@
 ## 紧接下一步
 
 需要从智川云控制台取得候选卡型、显存、小时价格，以及可选镜像名称与版本（含 CUDA/PyTorch，如有）。据此锁定具体环境组合，准备上传材料和最小引擎脚本，再开始首轮付费运行。当前不需要账号密码、密钥或充值凭据。
+
+## 2026-10-19 首台成功运行实例与安装候选
+
+用户截图确认：原海南 4090 长时间排队后改选上海3区 RTX 4090D 24GB，页面按量报价 1.08 元/小时；实际账单尚未获取，不能据此断言累计消费为零。新实例已运行，截图显示定时关机为北京时间当日 19:49。此前海南实例是否确已停止，仍需用户在控制台确认。
+
+终端截图实际观察：GPU NVIDIA GeForce RTX 4090 D，24564MiB 总显存、0MiB 占用；驱动 580.119.02，nvidia-smi 显示 CUDA Version 13.0；Python 3.10.20、conda 26.3.2；数据盘挂载 /root/rivermind-data，约 49GB 可用。nvidia-smi 的 CUDA Version 表示驱动支持能力，不是当前 Python 环境的 torch.version.cuda，也不是镜像 CUDA Toolkit 的安装版本。
+
+安装候选固定为 Python 3.11、vLLM 0.11.0、其声明要求的 torch 2.8.0/CUDA 12.8 wheel、transformers 4.57.6、PEFT 0.17.1。选择固定旧版用于本次离线小模型接口验证，非推荐最新生产部署版本。当前仅查阅了发布要求，尚未在实例安装、导入、加载模型或验证数值正确性。vLLM 0.11.0 的 [CUDA 依赖](https://raw.githubusercontent.com/vllm-project/vllm/v0.11.0/requirements/cuda.txt) 固定 torch 2.8.0，[通用依赖](https://raw.githubusercontent.com/vllm-project/vllm/v0.11.0/requirements/common.txt) 要求 transformers>=4.55.2；[版本化安装说明](https://docs.vllm.ai/en/v0.11.0/getting_started/installation/gpu.html) 提供 CUDA 12.8 安装路径。
+
+新环境放数据盘，避免挤占 30GB 系统盘。安装命令是待用户在云端执行的步骤，不是已执行记录：
+
+```bash
+mkdir -p /root/rivermind-data/envs /root/rivermind-data/tmp /root/rivermind-data/conda-pkgs /root/rivermind-data/setup-logs
+export CONDA_PKGS_DIRS=/root/rivermind-data/conda-pkgs
+export TMPDIR=/root/rivermind-data/tmp
+conda create -p /root/rivermind-data/envs/apt-vllm python=3.11 pip -c conda-forge --override-channels -y
+conda activate /root/rivermind-data/envs/apt-vllm
+python -m pip install --no-cache-dir --only-binary=:all: "vllm==0.11.0" "transformers==4.57.6" "peft==0.17.1" --extra-index-url https://download.pytorch.org/whl/cu128
+python -m pip check
+python -m pip freeze > /root/rivermind-data/setup-logs/requirements-installed.txt
+```
+
+only-binary 防止意外启动昂贵的源码编译；若缺 wheel 或安装报错，停止在该步并保留日志，不自动换版本。本候选 torch 2.8.0 不满足项目 pyproject.toml 的本地 CPU torch 范围，后续需明确独立引擎环境的导入/打包方式，不执行常规 pip install -e . 来触发 torch 变更。
+
+本段代码阅读顺序：先读 mkdir/export（数据盘目录与下载临时空间），再读 conda create/activate（独立 Python 环境），接着读 pip install 的版本与 wheel 限制，最后读 pip check/freeze（依赖检查与安装快照）。仍需通过 CUDA 实际运算和引擎导入后才能称环境验证通过。
