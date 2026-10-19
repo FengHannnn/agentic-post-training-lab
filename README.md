@@ -41,6 +41,7 @@ Phase 1 已实现并验证 SFT、DPO、GRPO 基础损失。Phase 2 已接入真�
 - [Phase 4：CPU reward 契约与离线审计](reports/phase4-cpu-reward-contract.md)
 - [Phase 4：智川云资源与接入方案（总预算 200 元）](reports/phase4-zhichuan-cloud-plan.md)
 - [Phase 4：云端环境检查与固定产物迁移](reports/phase4-cloud-transfer.md)
+- [Phase 4：云端固定 SFT 最小模型加载](reports/phase4-cloud-model-smoke.md)
 
 ## 运行测试与数据检查
 
