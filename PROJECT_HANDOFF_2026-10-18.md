@@ -1,5 +1,7 @@
 # AgenticPostTrainingLab 完整交接：截至 2026-10-18
 
+> 2026-10-20 最新执行：L40S 的 4×4 随机 rollout 已生成并取回完整 ZIP，记录/评分/mask/reward/源码身份重审一致，但 10/16 条在原 0.001 概率误差门上失败，最大 0.023653745651245117（已纠正此前截图误读）。3 个算术组仍零方差。已准备对 4 条已有序列做 FP16 完整/缓存强制评分与 FP32 计算对照，不重新采样、不调高阈值、不扩大到 192 条。全套 218 项测试通过；云端有限诊断尚待执行。最新入口为 [数值差异诊断报告](reports/phase4-rollout-numeric-diagnosis.md)，仍处 Phase 4，无训练更新。
+
 > 2026-10-20 后续进展：克隆到 L40S 后，HF/vLLM 固定 SFT 最小生成均成功，54 prompt/28 response token 完全一致，单序列完整前向概率重算在 0.001 逐 token 绝对误差限内通过。用户已读完重算代码并要求进入随机 rollout；已交付固定 4×4 vLLM 采样、分进程重算和无模型奖励/产物审计代码，真实随机运行仍待云端执行。本地全套 211 项测试通过。当前仍是 Phase 4，无 GRPO 参数更新；后续以 [GPU 随机 rollout 报告](reports/phase4-vllm-random-rollout.md) 为最新入口。
 
 > 2026-10-18 后续更新：当前阶段仍是 Phase 4。用户选择先在 CPU 完成 reward 契约与离线审计，再推进云 GPU 资源与引擎接入。奖励接口是对后续 Phase 5 的准备，不表示已进入 Phase 5。新增 23 项测试，全套 160 项通过；现有 3 个算术组均为零方差，真实 GRPO 更新尚未开始。详见 [Phase 4：CPU reward 契约与离线审计](reports/phase4-cpu-reward-contract.md)。下文保留交接整理当时的历史状态。

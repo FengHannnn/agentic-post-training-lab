@@ -1,6 +1,6 @@
 # Phase 4：GPU 4×4 随机 rollout 与概率、奖励审计（2026-10-20）
 
-> 云端执行更新：用户已提供 L40S 运行 summary 截图。16 条采样已保存，但 10 条概率重算超出 0.001 限，最大误差约 0.03265；rollout_interface_checks_passed=false。以下“待执行”是交付时状态，实际观察见文末。暂不扩大到 192 条、不重采样、不改阈值。
+> 云端执行更新：用户已提供 L40S 运行 summary 截图及完整 ZIP。16 条采样已保存，但 10 条概率重算超出 0.001 限，原始 JSON 最大误差为 0.023653745651245117；rollout_interface_checks_passed=false。此前从截图误读为 0.03265，已纠正。以下“待执行”是交付时状态，实际观察见文末。暂不扩大到 192 条、不重采样、不改阈值。
 
 ## 本步范围与执行状态
 
@@ -105,7 +105,7 @@ python scripts/collect_vllm_rollout.py --stage audit
 
 16 条加 1 次首条复现；全部 EOS，无截断；严格 8、语义 10、坏 JSON 1；3/3 有效算术组零方差，has_reward_learning_signal=false。response_batch_shape=[4,4,29]，有效 token 378、padding 86、保留 EOS 16。首条复现通过，生效 chunked prefill=true。截图报告采样调用约 15.82 秒、评分约 0.77 秒，不含引擎加载，不视为大批量吞吐测量。
 
-最大逐 token logp 误差约 0.03265375，10/16 条超出 0.001，rollout_interface_checks_passed=false，training_updates=0、training_admitted=false。此时默认编排在 replay 阶段退出 2，不会继续自动执行 audit；这是预设失败处理，不表示已保存数据需要丢弃。产物应保留，手动 --stage audit 可分别验证记录一致性。
+最大逐 token logp 误差为 0.023653745651245117（后续从 ZIP 中原始 JSON 核对，纠正截图误读），10/16 条超出 0.001，rollout_interface_checks_passed=false，training_updates=0、training_admitted=false。此时默认编排在 replay 阶段退出 2，不会继续自动执行 audit；这是预设失败处理，不表示已保存数据需要丢弃。产物应保留，手动 --stage audit 可分别验证记录一致性。
 
 随机采样可能包含贪心样本未覆盖的低概率 token；FP16、批处理/增量执行、attention/LoRA 路径是待检查因素，不能仅凭此截图把差异全部归因于精度，也不能据此认定 shift 错误。下一步取回 rollouts.jsonl、replay_checks.json、generation_checks.json、run_manifest.json、summary.json 等原始文件，定位最大误差 token、logp 范围、长度/位置关联。根据定位再做同一原始 ID 的有限 FP32/HF 路径诊断，不重新生成，不自动把阈值抬到观测误差之上。
 

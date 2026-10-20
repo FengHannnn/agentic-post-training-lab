@@ -44,6 +44,7 @@ Phase 1 已实现并验证 SFT、DPO、GRPO 基础损失。Phase 2 已接入真�
 - [Phase 4：云端固定 SFT 最小模型加载](reports/phase4-cloud-model-smoke.md)
 - [Phase 4：云端单序列完整前向概率重算](reports/phase4-cloud-probability-replay.md)
 - [Phase 4：GPU 4×4 随机 rollout 与概率、奖励审计](reports/phase4-vllm-random-rollout.md)
+- [Phase 4：随机 rollout 数值差异定位与有限路径诊断](reports/phase4-rollout-numeric-diagnosis.md)
 
 ## 运行测试与数据检查
 

@@ -1,0 +1,12 @@
+{
+  "diagnostic_version": "l40s-fixed-rollout-paths-v1",
+  "input_sha256": {
+    "rollouts.jsonl": "d81a6ef5a6de2b04e606de12df80fc2ae18c26aa04a17610fdeccaa05abf64be",
+    "replay_checks.json": "63533683ea805b55d9eef71f415afc05f64c0fd125f3d8d12ab3be7459da0592",
+    "generation_checks.json": "13d282ce1ccd13f580f0a8fd8ac9ba453b1ca3b34432b7a5259d45fae40025f9",
+    "summary.json": "cd7a8a33d73024072d8cd117361f9fd823edea61a0ab73653d9b9e2d210c06d6",
+    "run_manifest.json": "6908caef37edbc9ac4df0903e3e755440a84e9dd95f3f50398a69b69ae94b8a1"
+  },
+  "selected_flat_indices": [0, 4, 9, 13],
+  "original_absolute_logp_limit": 0.001
+}
