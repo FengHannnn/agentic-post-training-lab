@@ -56,3 +56,23 @@ vLLM 日志时间为 17:34:51 至 17:35:41，识别 LlamaForCausalLM，V1 引擎
 生效配置的偏差：脚本 enable_chunked_prefill=False，而调度器日志和引擎最终配置均报告 chunked_prefill_enabled=True。后续采集器应保存生效配置并核实引擎调整逻辑，不伪报已禁用或静默修改既有实验身份。
 
 原始日志归档于 artifacts/evaluations/cloud-model-smoke-20261020/vllm-console.txt（来自用户粘贴文本，不是本地重跑）。HF/vllm JSON 当前在云端 artifacts/trajectories/cloud-model-smoke/ 下；待取回核对。下一步先比对两文件的身份/原生 ID/逐 token 分数，再实现完整前向概率重算；尚未进行随机 4×4 rollout、GRPO 或基线晋升。
+
+## 2026-10-20 取回 JSON 后的实际核对
+
+已读取用户提供的 hf.json 与 vllm.json，原样归档到 artifacts/evaluations/cloud-model-smoke-20261020/，比较结果保存为该目录的 hf-vllm-comparison.json。此前“待取回”状态由本节更新。
+
+实际核验：两文件记录的版本、L40S 设备、float16、题目和源码/基线/adapter 哈希一致，且三项文件哈希与本地源文件一致。54 个 prompt token 和 28 个 response token 逐项完全一致，真实 EOS 为末尾 ID 2。用本地冻结 tokenizer 重新编码 prompt、解码回答，并重新计算详细评测，均与两份记录相符。没有加载模型权重或重新生成。
+
+| raw policy logp 比较 | 实际值 |
+| --- | ---: |
+| 逐 token 最大绝对差 | 0.0003072153776884079 |
+| 逐 token 平均绝对差 | 0.000021324957499148566 |
+| HF 回答序列 logp 总和 | -0.03623845550964688 |
+| vLLM 回答序列 logp 总和 | -0.03662333364627557 |
+| 序列 logp 总和绝对差 | 0.00038487813662868575 |
+
+最大差发生在零起始 index=19（第 20 个回答 token），ID=20679，单 token 解码为 `*(`。二者 raw 分数并非完全相等；FP16、attention 后端和 LoRA 执行路径可能影响数值，但未独立定位各因素贡献。这是单题贪心采样的观察，不能认定全分布校准或训练准入通过；没有事先冻结本比较的数值验收阈值，不根据观察结果事后宣布阈值通过，也不套用旧 CPU float32 的 1e-4。
+
+原始文件 SHA256：hf.json 为 a98ebcaa5a329e7d1f5624c070ff669b0b3acb8d0cf3fd8c65f4bf641c36444e；vllm.json 为 ba7c97e15f8e7381f1ceb525f39a2b70956911cd2bea331511a1221edfb19d87。
+
+下一步仍是同一实际 token 序列的完整 teacher-forced 前向重算，与 HF 增量生成和 vLLM raw logp 两条路径比较；先制定精度/容差与失败处理方案，再执行云端评分。当前 probabilities_replayed=false、training_admitted=false 保持不变。代码阅读顺序沿用上节，本次仅补充已保存产物的核验结果。
