@@ -1,5 +1,7 @@
 # Phase 4：GPU 4×4 随机 rollout 与概率、奖励审计（2026-10-20）
 
+> 云端执行更新：用户已提供 L40S 运行 summary 截图。16 条采样已保存，但 10 条概率重算超出 0.001 限，最大误差约 0.03265；rollout_interface_checks_passed=false。以下“待执行”是交付时状态，实际观察见文末。暂不扩大到 192 条、不重采样、不改阈值。
+
 ## 本步范围与执行状态
 
 用户读完单序列完整前向重算代码后，要求生成随机 rollout。本步使用已有 L40S 和固定 SFT v2，在原来的 4 个训练输入上各生成 4 条随机回答，并逐条完整前向重算、分组打包及应用已冻结的 arithmetic-strict-v1 reward。无优化器、无参数反向更新；仍为 Phase 4，不是 GRPO trainer。
@@ -89,3 +91,22 @@ python scripts/collect_vllm_rollout.py --stage audit
 测试覆盖原生结果数量/身份/概率对齐、非法分数、EOS与截断、采样契约变更、固定组编号/种子、behavior、mask、reward、重算映射、前置文件/源码/summary 篡改及模型无关完整产物重审。测试和实际云端运行结果在完成后补记。
 
 2026-10-20 本地实际结果：新增 30 项测试通过，全套 211 项通过，无 skip，1 条已有 tiny PEFT 配置提示。真实 vLLM 初始化、GPU 采样及重算仍待用户执行，不能将上述测试数量当作本批 16 条采样已完成的证据。
+
+## L40S 首轮随机运行：已采样，数值门未通过
+
+证据来自用户 summary 截图，原始 JSON/逐 token 分数尚未取回，以下不是本地重跑或完整产物重审。
+
+| 组 | 不同文本 | 严格通过/4 | 语义通过/4 | 训练 reward |
+| --- | ---: | ---: | ---: | --- |
+| symbolic | 1 | 4 | 4 | [1,1,1,1] |
+| natural | 1 | 0 | 0 | [0,0,0,0] |
+| sequence | 4 | 0 | 2 | [0,0,0,0] |
+| greeting | 4 | 4 | 4 | 不进入奖励训练范围 |
+
+16 条加 1 次首条复现；全部 EOS，无截断；严格 8、语义 10、坏 JSON 1；3/3 有效算术组零方差，has_reward_learning_signal=false。response_batch_shape=[4,4,29]，有效 token 378、padding 86、保留 EOS 16。首条复现通过，生效 chunked prefill=true。截图报告采样调用约 15.82 秒、评分约 0.77 秒，不含引擎加载，不视为大批量吞吐测量。
+
+最大逐 token logp 误差约 0.03265375，10/16 条超出 0.001，rollout_interface_checks_passed=false，training_updates=0、training_admitted=false。此时默认编排在 replay 阶段退出 2，不会继续自动执行 audit；这是预设失败处理，不表示已保存数据需要丢弃。产物应保留，手动 --stage audit 可分别验证记录一致性。
+
+随机采样可能包含贪心样本未覆盖的低概率 token；FP16、批处理/增量执行、attention/LoRA 路径是待检查因素，不能仅凭此截图把差异全部归因于精度，也不能据此认定 shift 错误。下一步取回 rollouts.jsonl、replay_checks.json、generation_checks.json、run_manifest.json、summary.json 等原始文件，定位最大误差 token、logp 范围、长度/位置关联。根据定位再做同一原始 ID 的有限 FP32/HF 路径诊断，不重新生成，不自动把阈值抬到观测误差之上。
+
+代码阅读顺序沿用上节；当前重点回看 replay 中的 compare_logps、summarize 的 numeric 门及退出 2 分支。奖励零方差与概率门失败是两件独立的事情，不能通过更换 reward 来修复概率差异。
