@@ -14,7 +14,7 @@ Phase 1 已实现并验证 SFT、DPO、GRPO 基础损失。Phase 2 已接入真�
 
 ## 阶段文档
 
-最新进展（2026-10-18）：当前仍处于 Phase 4。按用户选择，在云 GPU 接入前完成 CPU reward 契约与离线审计，作为后续训练的接口准备。严格算术奖励第一版已实现，现有 3 个算术组均为零方差；GPU 引擎接入仍待进行，Phase 5 真实 GRPO 闭环尚未开始。全套 160 项测试通过。详见下方 Phase 4 reward 报告。
+最新进展（2026-10-21）：当前仍处于 Phase 4。L40S/vLLM 原生 LoRA、随机采样、reward 审计、有限数值诊断、HF FP32 无更新 ratio 与 token TIS 策略项均已实现并检查。已按用户要求准备一次性 48×4 收尾、串行/批量测量、费用追踪与自动回传 ZIP；云端最终批次尚待执行，Phase 5 真实 GRPO 闭环尚未开始。见下方一次性收尾报告。
 
 - [Phase 1：后训练目标函数基础](reports/phase1-foundations.md)
 - [Phase 2：SFT 数据流水线与 LoRA 训练](reports/phase2-sft-data.md)
@@ -47,6 +47,7 @@ Phase 1 已实现并验证 SFT、DPO、GRPO 基础损失。Phase 2 已接入真�
 - [Phase 4：随机 rollout 数值差异定位与有限路径诊断](reports/phase4-rollout-numeric-diagnosis.md)
 - [Phase 4：训练侧概率契约与无更新 ratio 检查](reports/phase4-trainer-probability-contract.md)
 - [Phase 4：采样分布校正契约与策略损失接入](reports/phase4-rollout-correction-contract.md)
+- [Phase 4：一次性收尾安排与执行入口](reports/phase4-closeout-plan.md)
 
 ## 运行测试与数据检查
 

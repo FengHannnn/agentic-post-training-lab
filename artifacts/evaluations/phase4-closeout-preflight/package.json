@@ -1,0 +1,21 @@
+{
+  "bundle_sha256": "ff7e700e8ffa9bba3b3bb646dc65300396bf464279557b6b94abff00d6a4dade",
+  "bundle_files": [
+    "configs/phase4_closeout.json",
+    "scripts/finish_phase4.py",
+    "src/agentic_post_training/rollouts/closeout.py",
+    "tests/unit/test_phase4_closeout.py",
+    "tests/unit/test_phase4_closeout_audit.py",
+    "configs/rollout_correction_contract.json",
+    "src/agentic_post_training/algorithms/rollout_correction.py",
+    "scripts/audit_rollout_correction.py",
+    "tests/unit/test_rollout_correction.py",
+    "reports/phase4-closeout-plan.md",
+    "reports/phase4-rollout-correction-contract.md"
+  ],
+  "bytes": 27709,
+  "zip_verified": true,
+  "existing_cloud_paths_overwritten": 0,
+  "full_suite_passed": 269,
+  "gpu_run_completed": false
+}

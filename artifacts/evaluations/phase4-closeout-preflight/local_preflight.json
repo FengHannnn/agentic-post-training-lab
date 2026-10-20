@@ -1,0 +1,22 @@
+{
+  "local_preflight_passed": true,
+  "selected_training_cases": 48,
+  "wording_counts": {
+    "natural": 16,
+    "sequence": 16,
+    "symbolic": 16
+  },
+  "categories": {
+    "left_grouped": 12,
+    "left_plain": 12,
+    "right_grouped": 12,
+    "right_plain": 12
+  },
+  "max_prompt_tokens": 64,
+  "max_prompt_plus_response_tokens": 128,
+  "base_cache_exists": true,
+  "cloud_bundle_manifest_checked_locally": false,
+  "frozen_baseline_verified_locally": true,
+  "gpu_loaded": false,
+  "generation_calls": 0
+}
