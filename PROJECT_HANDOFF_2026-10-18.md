@@ -1,5 +1,7 @@
 # AgenticPostTrainingLab 完整交接：截至 2026-10-18
 
+> 2026-10-20 当前进展：已实现训练侧 HF FP32 概率契约与无更新 ratio 检查，新增 14 项 CPU 测试通过，原始 FP32 SFT 参数身份与 LoRA 可训练参数数目核验一致。使用全部已有 16 条 token，分开记录 vLLM sampler behavior 与 trainer old/new；不生成、不反向、不更新。云端检查尚待执行，training_admitted=false；旧跨引擎门失败与 reward 零方差状态保留。最新入口：[训练侧概率契约报告](reports/phase4-trainer-probability-contract.md)。下方为历史更新。
+
 > 2026-10-20 数值诊断已执行：四条 HF FP16 full 重复评分与旧值完全一致；HF 自身 full/cached 最大差 0.0207724571；将同一 FP16 舍入权重转成 FP32 计算后，与旧 vLLM 分数仍不全部对齐，最大 0.0287253857。diagnostic.json 已取回，身份和 24 组误差统计复核一致。本轮有限诊断收尾，不自动提高阈值/追加精度搜索；下一步先明确 sampler behavior 与 trainer old/new 评分契约及无更新 ratio≈1，尚未实现该契约或 GRPO 更新。见 [诊断实际结果与后续边界](reports/phase4-rollout-numeric-diagnosis.md)。
 
 > 2026-10-20 最新执行：L40S 的 4×4 随机 rollout 已生成并取回完整 ZIP，记录/评分/mask/reward/源码身份重审一致，但 10/16 条在原 0.001 概率误差门上失败，最大 0.023653745651245117（已纠正此前截图误读）。3 个算术组仍零方差。已准备对 4 条已有序列做 FP16 完整/缓存强制评分与 FP32 计算对照，不重新采样、不调高阈值、不扩大到 192 条。全套 218 项测试通过；云端有限诊断尚待执行。最新入口为 [数值差异诊断报告](reports/phase4-rollout-numeric-diagnosis.md)，仍处 Phase 4，无训练更新。
