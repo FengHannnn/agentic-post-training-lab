@@ -1,0 +1,10 @@
+{
+  "contract_version": "l40s-single-sequence-replay-v1",
+  "dtype": "float16",
+  "log_softmax_dtype": "float32",
+  "absolute_logp_tolerance": 0.001,
+  "input_sha256": {
+    "hf": "a98ebcaa5a329e7d1f5624c070ff669b0b3acb8d0cf3fd8c65f4bf641c36444e",
+    "vllm": "ba7c97e15f8e7381f1ceb525f39a2b70956911cd2bea331511a1221edfb19d87"
+  }
+}
