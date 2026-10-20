@@ -1,0 +1,24 @@
+{
+  "summary_sha256": "f3c5df02a15531ffc680f2d1363164724c7dd3aef4489a1f122d1935c8073d93",
+  "local_record_audit_passed": true,
+  "records": 16,
+  "response_tokens": 378,
+  "eligible_response_tokens": 325,
+  "source_and_input_hashes_verified": true,
+  "all_token_ratios_exactly_one": true,
+  "sampler_trainer_max_logp_difference": 0.028886795043945312,
+  "per_group_max_logp_difference": {
+    "dpo-v2-train-12-47-20-symbolic-right_grouped": 0.0003216573968529701,
+    "dpo-v2-train-12-47-20-natural-right_plain": 0.012339115142822266,
+    "dpo-v2-train-12-47-20-sequence-left_plain": 0.020781278610229492,
+    "dpo-v2-train-greeting-0-0": 0.028886795043945312
+  },
+  "observed_sequence_p_over_q_range": [
+    0.9955152485627757,
+    1.0289367538307634
+  ],
+  "model_loaded_during_local_audit": false,
+  "cloud_gradient_and_weight_claims_independently_rerun": false,
+  "trainer_score_batch_received": false,
+  "training_admitted": false
+}

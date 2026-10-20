@@ -1,6 +1,6 @@
 # Phase 4：训练侧概率契约与无更新 ratio 检查
 
-日期：2026-10-20。当前仍属于 Phase 4，真实 GRPO 更新尚未开始。本次新增实现与 CPU 验证已完成，L40S 实测待执行。
+日期：2026-10-20；2026-10-21 补充云端实测与本地复核。当前仍属于 Phase 4，真实 GRPO 更新尚未开始。训练侧无更新检查已在 L40S 通过。
 
 ## 为什么进入这一小步
 
@@ -65,3 +65,26 @@ python scripts/check_trainer_probability_contract.py
 新增 14 项 CPU 单元测试通过；按项目入口 python -m pytest tests -q 全套 232 项通过，无 skip，1 条已有 tiny PEFT 配置提示。最初不指定 tests 目录的命令误收集了冻结基线里的历史测试副本，造成模块名冲突；限定实际测试目录后完整通过，未改动历史快照。真实模型在 CPU 上只进行了原始 FP32 参数身份核验，摘要和 230400 个可训练参数均匹配，未执行真实模型前向。云端实际 no-update ratio 尚无结果。
 
 下一步必须先复核云端结果，再决定采样分布校正与有上限的奖励信号诊断；本步通过也不代表可以直接启动 GRPO。
+
+## 2026-10-21 云端实际结果与本地复核
+
+用户回传 summary.json，SHA256=f3c5df02a15531ffc680f2d1363164724c7dd3aef4489a1f122d1935c8073d93。原样归档于 artifacts/evaluations/trainer-probability-contract-v1/summary.json，同目录 local_audit.json 保存本地复核结论。
+
+核对配置、5 份源码哈希、4 份 rollout 输入哈希及诊断哈希均一致。16 条回答的 token、原 vLLM behavior 分数、reward、advantage、eligible 与已归档数据一致。重算每条 old/new 差、逐 token ratio 及 sampler/trainer 差异，与输出统计完全一致。
+
+- 378 个回答 token 的 old/new logp 完全一致，所有 ratio=1；最大差和最大 ratio 偏离均为 0。
+- 训练数据打包形状为 [4,4,29]；真实 token 共 378，其中 eligible token 为 325。本地从原记录长度重算数量，未收到 trainer_score_batch.pt，未独立检查该二进制文件。
+- 云端报告前后参数摘要均为固定原始 FP32 身份，120 个 LoRA 参数张量、230400 个可训练参数；new 与 ratio 保留梯度图，old 不带梯度，所有 parameter.grad 为空。云端未生成、未反向、未执行优化器步骤。本地此次未加载模型，这些运行时状态依据云端报告及已核对的执行源码，未独立重跑 GPU。
+
+| 组别 | sampler 与 trainer old 的最大逐 token logp 差 |
+| --- | ---: |
+| symbolic | 0.0003216574 |
+| natural | 0.0123391151 |
+| sequence | 0.0207812786 |
+| greeting（不纳入奖励训练） | 0.0288867950 |
+
+全部已观测回答的 exp(sum(logp-logq)) 范围约为 [0.99551525,1.02893675]，仅描述这些已采到序列的比值，不是完整分布距离或重要性校正有效性的证明。未实际应用任何校正。
+
+本次结论是训练侧内部 no-update ratio 契约通过。原跨引擎门仍失败，三个算术组零方差率仍为 1、advantage 全为 0，training_admitted=false。下一步应先明确采样分布校正契约，再开展有上限的输入扩展以诊断奖励信号；此处未实现新校正或扩大采样。
+
+本轮未改运行代码，未重跑此前通过的 232 项测试。代码阅读顺序沿用上节，结合本节结果优先回看 no_update_metrics 和 sampler_trainer_difference，区分两个比值的分母。
