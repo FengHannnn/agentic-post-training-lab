@@ -1,5 +1,7 @@
 # Phase 4：随机 rollout 数值差异定位与有限路径诊断（2026-10-20）
 
+> 最新状态：用户已在 L40S 完成四条有限路径诊断并取回 diagnostic.json。本地核对身份及 24 组比较统计一致。原实验仍未通过 0.001 门；FP16 下 HF 自身完整/缓存路径差异最大约 0.02077，单改 HF 为 FP32 不能对齐全部 vLLM 分数。本轮有限诊断收尾，不追加精度搜索，下一步先明确采样分布与训练侧 old/new 概率契约。
+
 ## 原始证据与重审结果
 
 用户上传 rollout-vllm-review-20261020.zip，35 个目录/文件条目，展开文件合计 194748 字节。已检查解压路径并完整保留到本地 artifacts/trajectories/rollout-vllm-phase4-20261020-01。原始采样、重算、reward、mask 和源文件快照不修改。
@@ -72,3 +74,33 @@ python scripts/diagnose_rollout_numerics.py
 ## 验证状态
 
 本地新增 7 项 tiny 模型/边界测试通过；全套 218 项通过，无 skip，1 条已有 tiny PEFT 配置提示。未进行本地 GPU 或正式模型评分。L40S 四条路径诊断尚待用户执行。
+
+## L40S 实际诊断与本地复核
+
+用户提供的 diagnostic.json SHA256=0fa2d981a182ba08f7b7e6f5f5c95276529a9e7446a7819148fb802c5c722f92，归档于 artifacts/evaluations/rollout-numeric-diagnostic/。本地未加载模型，重新核对脚本/配置和原始五份输入哈希、四条序列的 ID 与旧生成/重算分数，并从五个分数向量重算六组比较，共 24 组统计，全部一致。local_audit.json 保存本地核验结论。报告中的向量名称包括旧保存值，因此实际存在五个键，但旧 HF full 与本次 HF full 逐项相同。
+
+| 序列 | vLLM vs HF FP16 full 最大误差 | HF FP16 full vs cached 最大误差 | vLLM vs HF FP32 compute 最大误差 |
+| --- | ---: | ---: | ---: |
+| symbolic sample0 | 0.0005218470 | 0.0003070980 | 0.0003197715 |
+| natural sample0 | 0.0222837925 | 0.0084521770 | 0.0122158825 |
+| sequence sample1 | 0.0137250423 | 0.0207724571 | 0.0051701069 |
+| greeting sample1 | 0.0236537457 | 0.0140683651 | 0.0287253857 |
+
+四条 FP16 full 重复评分与旧 full 分数完全一致，最大误差均为 0。这说明该路径在本次重跑中可复现；不能泛化为跨硬件/版本严格可复现。
+
+HF FP16 full/cached 在三个困难样本上自身就超过 0.001，即使不涉及 vLLM 也存在执行路径相关差异。改用 HF cached 后，三个困难样本与 vLLM 的差异有所缩小，但仍均未通过；对 symbolic 则略增。因此不能把 cached 路径当作通用修复。
+
+FP32 计算保留同一套 FP16 舍入参数，natural/sequence 更接近 vLLM，而 greeting 的差异从约 0.02365 增到 0.02873。该结果证明改变计算精度会改变分数，不能据此认定 FP16 是唯一原因，也不能认定只换 HF 为 FP32 就修复跨引擎对齐。initial_tf32=false、initial_matmul_precision=highest，原 FP16 reduced precision reduction=true；本轮未单独改变或归因于这一 reduction 开关。
+
+## 诊断收尾与下一步设计边界
+
+本轮完成记录一致性和有限数值路径定位；原随机 rollout 数值门仍失败，training_admitted=false。保留所有原始文件和 0.001 门，不追加一串新的 dtype/attention/LoRA 组合来追逐通过结果。当前证据支持“计算精度与执行路径都有贡献”，但没有逐项量化 vLLM attention、批处理及 LoRA 内核的全部贡献，更不能声称实现无任何缺陷。
+
+下一子步先写清概率契约，暂不进行参数更新：
+
+- 采样器的 raw policy/behavior logp 描述 vLLM FP16 的实际采样计算路径；T=1 无过滤时两者相同，不表示它们与 HF 训练评分路径逐位相同。
+- 未来用于 PPO/GRPO 的 trainer old/new 分数，应固定同一训练侧权重表示、精度、attention、完整序列形状和回答 mask，先验证“没有参数更新时 ratio≈1”。不能直接把跨引擎原分数当分母而把新路径分数当分子，默认认为初始化 ratio 精确为 1。
+- 在训练侧重新计算 old logp 可以消除 old/new 执行路径不一致，但不会使已有样本的采样分布自动变成训练侧分布。若采用不同后端的采样分布 q 与训练策略 p，必须另行定义是否采用重要性校正及其估计/裁剪方式；不能把重算称为已经解决所有采样偏差。
+- 这是一份后续设计要求，不是已经实现的 trainer 或正式路线切换。原 16 条数据仍拒绝训练准入；后续新契约使用新版本，不能回写旧门为通过。奖励零方差也仍是独立问题，稍后用有上限的输入扩展诊断，不改 reward 造信号。
+
+本次没有新增运行代码或重跑已通过的全套测试。代码阅读顺序沿用上节，建议先回看 full_logps/cached_logps，再结合本节表格理解为何“同模型身份”并不意味着 FP16 下不同计算路径数值逐位相等。
