@@ -1,0 +1,48 @@
+{
+  "contract": {
+    "contract_version": "token-tis-policy-surrogate-v1",
+    "aggregation": "token",
+    "upper_cap": 2.0,
+    "clip_epsilon": 0.2,
+    "weight_normalization": "none",
+    "loss_reduction": "eligible_token_mean",
+    "beta": 0.0,
+    "stop_gradient_weights": true,
+    "unbiased_sequence_or_group_correction_claimed": false,
+    "trainer_summary_sha256": "f3c5df02a15531ffc680f2d1363164724c7dd3aef4489a1f122d1935c8073d93",
+    "training_admitted": false
+  },
+  "records": 16,
+  "eligible_tokens": 325,
+  "correction_weights": {
+    "min_weight": 0.9942519650161349,
+    "max_weight": 1.020998712956494,
+    "mean_weight": 1.0002122303977048,
+    "cap_fraction": 0.0,
+    "weights_require_grad": false
+  },
+  "corrected_policy_loss": -0.0,
+  "max_abs_score_gradient": 0.0,
+  "zero_advantage_expectation_passed": true,
+  "has_reward_learning_signal": false,
+  "original_cross_engine_gate_passed": false,
+  "model_loaded": false,
+  "score_tensor_autograd_checked": true,
+  "model_backward_calls": 0,
+  "new_generation_calls": 0,
+  "optimizer_steps": 0,
+  "training_admitted": false,
+  "source_sha256": {
+    "scripts/audit_rollout_correction.py": "f978e9e43715a42358634068d2844f3c600a4e229bce0768ce1db8fe03161179",
+    "configs/rollout_correction_contract.json": "7fe6647b391f64bfb68b17d37285cc729f80d7a20c0f00bfb22ade46c8590a0c",
+    "src/agentic_post_training/algorithms/rollout_correction.py": "451521fe0e0c511c5f44128e250d6393a1bb132a01cf65388f8da6f1cf1ce5a0",
+    "src/agentic_post_training/rollouts/trainer_scores.py": "261674bcfb217215fae1c53f6f70f3995a855a53041af82448c095b6bc259c5c"
+  },
+  "input_summary_sha256": "f3c5df02a15531ffc680f2d1363164724c7dd3aef4489a1f122d1935c8073d93",
+  "input_rollout_sha256": {
+    "run_manifest.json": "6908caef37edbc9ac4df0903e3e755440a84e9dd95f3f50398a69b69ae94b8a1",
+    "rollouts.jsonl": "d81a6ef5a6de2b04e606de12df80fc2ae18c26aa04a17610fdeccaa05abf64be",
+    "replay_checks.json": "63533683ea805b55d9eef71f415afc05f64c0fd125f3d8d12ab3be7459da0592",
+    "reward_audit.json": "83e74056775bf0fd0b28c11a3d251bcb297d016ece4723f744ba47cfc8b4ffc6"
+  }
+}

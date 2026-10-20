@@ -1,5 +1,7 @@
 # AgenticPostTrainingLab 完整交接：截至 2026-10-18
 
+> 2026-10-21 当前进展：已实现独立 token TIS 策略损失，固定 w=min(2,p_old/q_sampler) 且停止权重梯度，与训练侧 PPO ratio=p_new/p_old 分开。只作条件 token 的有偏近似，不宣称完整轨迹/组级无偏，不含 KL。已有 325 个算术 token 的权重范围约 0.99425–1.02100，无截断；advantage 全 0，损失和分数梯度为 0。CPU 新增 18 项测试，全套 250 项通过。无真实模型加载/反向/更新，无需云端执行。下一步有限扩大 rollout 诊断奖励信号，仍 Phase 4、training_admitted=false。见 [校正契约与代码阅读顺序](reports/phase4-rollout-correction-contract.md)。
+
 > 2026-10-21 最新结果：L40S 训练侧无更新概率检查通过。回传 summary.json 已归档并核对源码/输入哈希及全部 16 条、378 token；old/new logp 差为 0、ratio 全为 1，云端报告参数摘要不变、无反向/更新。sampler/trainer 最大逐 token 差 0.0288867950；原跨引擎门失败与算术组零方差不变，training_admitted=false。未收到二进制 batch，未在本地重跑 GPU。下一步先明确采样分布校正契约及有限奖励信号诊断，仍属 Phase 4。见 [实际结果与复核边界](reports/phase4-trainer-probability-contract.md)。
 
 > 2026-10-20 当前进展：已实现训练侧 HF FP32 概率契约与无更新 ratio 检查，新增 14 项 CPU 测试通过，原始 FP32 SFT 参数身份与 LoRA 可训练参数数目核验一致。使用全部已有 16 条 token，分开记录 vLLM sampler behavior 与 trainer old/new；不生成、不反向、不更新。云端检查尚待执行，training_admitted=false；旧跨引擎门失败与 reward 零方差状态保留。最新入口：[训练侧概率契约报告](reports/phase4-trainer-probability-contract.md)。下方为历史更新。

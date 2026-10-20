@@ -46,6 +46,7 @@ Phase 1 已实现并验证 SFT、DPO、GRPO 基础损失。Phase 2 已接入真�
 - [Phase 4：GPU 4×4 随机 rollout 与概率、奖励审计](reports/phase4-vllm-random-rollout.md)
 - [Phase 4：随机 rollout 数值差异定位与有限路径诊断](reports/phase4-rollout-numeric-diagnosis.md)
 - [Phase 4：训练侧概率契约与无更新 ratio 检查](reports/phase4-trainer-probability-contract.md)
+- [Phase 4：采样分布校正契约与策略损失接入](reports/phase4-rollout-correction-contract.md)
 
 ## 运行测试与数据检查
 
