@@ -1,0 +1,8 @@
+{
+  "scoring_seconds": 9.186461119001251,
+  "initial_parameter_sha256": "9b77c99e51b68d12dc0249ccfaf9f642e7c049ecf99c7f7c53d2c0b83d72cadb",
+  "final_parameter_sha256": "9b77c99e51b68d12dc0249ccfaf9f642e7c049ecf99c7f7c53d2c0b83d72cadb",
+  "no_grad_accumulated": true,
+  "model_backward_calls": 0,
+  "optimizer_steps": 0
+}

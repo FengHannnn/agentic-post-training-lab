@@ -1,0 +1,13 @@
+{
+  "contract_version": "token-tis-policy-surrogate-v1",
+  "aggregation": "token",
+  "upper_cap": 2.0,
+  "clip_epsilon": 0.2,
+  "weight_normalization": "none",
+  "loss_reduction": "eligible_token_mean",
+  "beta": 0.0,
+  "stop_gradient_weights": true,
+  "unbiased_sequence_or_group_correction_claimed": false,
+  "trainer_summary_sha256": "f3c5df02a15531ffc680f2d1363164724c7dd3aef4489a1f122d1935c8073d93",
+  "training_admitted": false
+}

@@ -1,0 +1,18 @@
+{
+  "local_artifact_audit_passed": true,
+  "saved_summary_recomputed": true,
+  "numeric_comparison_relative_tolerance": 1e-06,
+  "numeric_comparison_absolute_tolerance": 1e-08,
+  "model_loaded": false,
+  "gpu_replayed_locally": false,
+  "cloud_bundle_manifest_checked_locally": false,
+  "baseline_verified_locally": true,
+  "records": 192,
+  "group_count": 48,
+  "response_tokens": 5400,
+  "new_contract_interface_passed": true,
+  "original_cross_engine_gate_passed": false,
+  "training_admitted": false,
+  "phase4_engineering_acceptance": "complete_with_documented_numeric_limits",
+  "archive_sha256": "12a2ea9a5fc7f785dab225d298a27378c90334ecb3d5322629e71884ad35cfef"
+}

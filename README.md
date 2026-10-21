@@ -14,7 +14,7 @@ Phase 1 已实现并验证 SFT、DPO、GRPO 基础损失。Phase 2 已接入真�
 
 ## 阶段文档
 
-最新进展（2026-10-21）：当前仍处于 Phase 4。L40S/vLLM 原生 LoRA、随机采样、reward 审计、有限数值诊断、HF FP32 无更新 ratio 与 token TIS 策略项均已实现并检查。已按用户要求准备一次性 48×4 收尾、串行/批量测量、费用追踪与自动回传 ZIP；云端最终批次尚待执行，Phase 5 真实 GRPO 闭环尚未开始。见下方一次性收尾报告。
+最新进展（2026-10-21）：Phase 4 工程主线已按新契约验收，保留原跨引擎数值门失败和调度 logp 差异限制。L20 的 48×4 最终包已取回重审：192 条 EOS，严格成功 97，19 组全对、19 组全错、10 组混合；训练侧无更新 ratio=1，单次串行/批量测量约 3.59 倍。Phase 5 真实 GRPO 更新尚未开始，建议先用全部 144 个算术训练输入×8 做有限信号扩展。见下方最终验收报告。
 
 - [Phase 1：后训练目标函数基础](reports/phase1-foundations.md)
 - [Phase 2：SFT 数据流水线与 LoRA 训练](reports/phase2-sft-data.md)
@@ -48,6 +48,7 @@ Phase 1 已实现并验证 SFT、DPO、GRPO 基础损失。Phase 2 已接入真�
 - [Phase 4：训练侧概率契约与无更新 ratio 检查](reports/phase4-trainer-probability-contract.md)
 - [Phase 4：采样分布校正契约与策略损失接入](reports/phase4-rollout-correction-contract.md)
 - [Phase 4：一次性收尾安排与执行入口](reports/phase4-closeout-plan.md)
+- [Phase 4：最终验收与后续数据规模建议](reports/phase4-closeout-results.md)
 
 ## 运行测试与数据检查
 

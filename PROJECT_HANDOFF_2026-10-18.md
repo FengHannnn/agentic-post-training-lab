@@ -1,5 +1,7 @@
 # AgenticPostTrainingLab 完整交接：截至 2026-10-18
 
+> 2026-10-21 最新验收：L20 的 phase4-closeout-review-20261021.zip 已取回，7 份产物哈希、23 份源码快照与当前源码一致，全部 192 条 token/奖励/训练分数/mask 和 summary 本地重算通过。Phase 4 工程主线完成，保留原数值门失败与调度 raw logp 差异限制；真实 GRPO 尚未更新。48 组为 19 全对、19 全错、10 混合，严格成功 97/192；old/new 完全一致；配对 token 全复现但 logp 原门仅 3/16；作业约 109 秒、按作业时长估算约 0.0661 元。用户认为可扩大规模，建议 Phase 5 准备使用全部 144 个算术训练输入×8=1152 条，不使用开发集、不按对错筛样本；尚未启动这个新批次。详见 [最终验收与代码阅读顺序](reports/phase4-closeout-results.md)。
+
 > 2026-10-21 用户选择暂停逐步阅读，一次性完成 Phase 4。剩余合并为 48×4 算术训练 rollout、16+16 热身后串行/批量配对、全部 HF FP32 old/new 评分、审计、耗时/费用估算与自动 ZIP。已实现 finish_phase4.py 和固定输入清单；新文件增量上传，不覆盖原始云包哈希文件。一次上限约 30 分钟、估算不超过 min(10元,200元剩额)，运行时输入真实时价和已花金额；无自动重试/训练/实例关机。最终云端运行和回传验收尚未完成，不提前标记 Phase 4 完成。零方差不成为无限延长本阶段的理由；SGLang/TRL/真实 GRPO 不加入收尾范围。详见 [一次性收尾报告](reports/phase4-closeout-plan.md)。
 
 > 2026-10-21 当前进展：已实现独立 token TIS 策略损失，固定 w=min(2,p_old/q_sampler) 且停止权重梯度，与训练侧 PPO ratio=p_new/p_old 分开。只作条件 token 的有偏近似，不宣称完整轨迹/组级无偏，不含 KL。已有 325 个算术 token 的权重范围约 0.99425–1.02100，无截断；advantage 全 0，损失和分数梯度为 0。CPU 新增 18 项测试，全套 250 项通过。无真实模型加载/反向/更新，无需云端执行。下一步有限扩大 rollout 诊断奖励信号，仍 Phase 4、training_admitted=false。见 [校正契约与代码阅读顺序](reports/phase4-rollout-correction-contract.md)。

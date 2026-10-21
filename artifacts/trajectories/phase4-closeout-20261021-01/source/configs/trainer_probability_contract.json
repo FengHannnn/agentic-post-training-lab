@@ -1,0 +1,14 @@
+{
+  "contract_version": "hf-fp32-no-update-ratio-v1",
+  "dtype": "float32",
+  "attention": "eager",
+  "use_cache": false,
+  "tf32": false,
+  "absolute_old_new_logp_tolerance": 0.00001,
+  "expected_trainable_parameters": 230400,
+  "frozen_fp32_parameter_sha256": "9b77c99e51b68d12dc0249ccfaf9f642e7c049ecf99c7f7c53d2c0b83d72cadb",
+  "diagnostic_sha256": "0fa2d981a182ba08f7b7e6f5f5c95276529a9e7446a7819148fb802c5c722f92",
+  "rollout_manifest_sha256": "6908caef37edbc9ac4df0903e3e755440a84e9dd95f3f50398a69b69ae94b8a1",
+  "behavior_correction_applied": false,
+  "training_updates": 0
+}
