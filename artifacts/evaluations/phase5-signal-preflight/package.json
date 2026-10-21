@@ -1,0 +1,16 @@
+{
+  "files": [
+    "configs/phase5_rollout_signal.json",
+    "scripts/collect_phase5_signal.py",
+    "src/agentic_post_training/rollouts/phase5_signal.py",
+    "tests/unit/test_phase5_signal.py",
+    "tests/unit/test_phase5_signal_audit.py",
+    "reports/phase5-rollout-signal-preparation.md"
+  ],
+  "zip_verified": true,
+  "existing_cloud_paths_overwritten": 0,
+  "bytes": 17480,
+  "sha256": "ec3c0de28c0ba722eae46f68be62c0f0331ee76ad25c4e5424ef4d1983db0ef4",
+  "full_suite_passed": 289,
+  "cloud_generation_executed": false
+}

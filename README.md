@@ -16,6 +16,8 @@ Phase 1 已实现并验证 SFT、DPO、GRPO 基础损失。Phase 2 已接入真�
 
 最新进展（2026-10-21）：Phase 4 工程主线已按新契约验收，保留原跨引擎数值门失败和调度 logp 差异限制。L20 的 48×4 最终包已取回重审：192 条 EOS，严格成功 97，19 组全对、19 组全错、10 组混合；训练侧无更新 ratio=1，单次串行/批量测量约 3.59 倍。Phase 5 真实 GRPO 更新尚未开始，建议先用全部 144 个算术训练输入×8 做有限信号扩展。见下方最终验收报告。
 
+Phase 5 已进入数据准备：144×8 采样、评分和信号审计的一键入口已实现，全套 289 项测试通过，真实新批次待云端执行；没有模型更新。
+
 - [Phase 1：后训练目标函数基础](reports/phase1-foundations.md)
 - [Phase 2：SFT 数据流水线与 LoRA 训练](reports/phase2-sft-data.md)
 - [Phase 2：接入真实 tokenizer](reports/phase2-real-tokenizer.md)
@@ -49,6 +51,7 @@ Phase 1 已实现并验证 SFT、DPO、GRPO 基础损失。Phase 2 已接入真�
 - [Phase 4：采样分布校正契约与策略损失接入](reports/phase4-rollout-correction-contract.md)
 - [Phase 4：一次性收尾安排与执行入口](reports/phase4-closeout-plan.md)
 - [Phase 4：最终验收与后续数据规模建议](reports/phase4-closeout-results.md)
+- [Phase 5：144×8 随机 rollout 与训练信号准备](reports/phase5-rollout-signal-preparation.md)
 
 ## 运行测试与数据检查
 

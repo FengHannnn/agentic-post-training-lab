@@ -1,0 +1,25 @@
+{
+  "local_preflight_passed": true,
+  "selected_training_cases": 144,
+  "samples_per_input": 8,
+  "generation_requests": 1152,
+  "engine_generate_calls": 18,
+  "wording_counts": {
+    "natural": 48,
+    "sequence": 48,
+    "symbolic": 48
+  },
+  "categories": {
+    "left_grouped": 36,
+    "left_plain": 36,
+    "right_grouped": 36,
+    "right_plain": 36
+  },
+  "max_prompt_tokens": 64,
+  "max_prompt_plus_response_tokens": 128,
+  "frozen_baseline_verified": true,
+  "cloud_bundle_manifest_checked_locally": false,
+  "gpu_loaded": false,
+  "new_generation_calls": 0,
+  "training_admitted": false
+}
