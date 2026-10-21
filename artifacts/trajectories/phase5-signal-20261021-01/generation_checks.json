@@ -1,0 +1,38 @@
+{
+  "effective_engine": {
+    "dtype": "torch.float16",
+    "logprobs_mode": "raw_logprobs",
+    "max_model_len": 512,
+    "enforce_eager": true,
+    "enable_prefix_caching": false,
+    "enable_chunked_prefill": true,
+    "max_num_seqs": 4,
+    "max_num_batched_tokens": 512,
+    "max_lora_rank": 8
+  },
+  "sampling_parameters": {
+    "n": 1,
+    "temperature": 1,
+    "top_p": 1,
+    "top_k": -1,
+    "max_tokens": 64,
+    "min_tokens": 0,
+    "repetition_penalty": 1,
+    "presence_penalty": 0,
+    "frequency_penalty": 0,
+    "logprobs": 1,
+    "stop_token_ids": [
+      2
+    ],
+    "ignore_eos": false,
+    "detokenize": false
+  },
+  "engine_load_seconds": 9.507005702002061,
+  "generation_seconds": 277.19933997899716,
+  "response_tokens": 32296,
+  "generation_response_tokens_per_second": 116.50821391727341,
+  "generation_requests": 1152,
+  "engine_generate_calls": 18,
+  "chunk_requests": 64,
+  "engine_shutdown_called": true
+}

@@ -1,0 +1,42 @@
+{
+  "local_artifact_audit_passed": true,
+  "saved_summary_recomputed": true,
+  "numeric_relative_tolerance": 1e-06,
+  "numeric_absolute_tolerance": 1e-08,
+  "archive_sha256": "c008077b529a70127268b449a9f8cc28950c20acd7aa1424255df8b45c12b071",
+  "records": 1152,
+  "response_tokens": 32296,
+  "source_hashes_verified": 23,
+  "artifact_hashes_verified": 7,
+  "signal_collection_interface_passed": true,
+  "model_loaded_locally": false,
+  "gpu_replayed_locally": false,
+  "frozen_baseline_verified_locally": true,
+  "cloud_bundle_manifest_checked_locally": false,
+  "training_admitted": false,
+  "phase5_signal_preparation_accepted": true,
+  "failure_counts": {
+    "wrong_arguments": 507,
+    "invalid_json": 46,
+    "invalid_expression": 12,
+    "invalid_schema": 15
+  },
+  "group_outcomes_by_style": {
+    "natural": {
+      "all_correct": 2,
+      "all_wrong": 25,
+      "mixed": 21
+    },
+    "sequence": {
+      "mixed": 17,
+      "all_wrong": 24,
+      "all_correct": 7
+    },
+    "symbolic": {
+      "mixed": 24,
+      "all_correct": 22,
+      "all_wrong": 2
+    }
+  },
+  "cost_arithmetic_verified": true
+}

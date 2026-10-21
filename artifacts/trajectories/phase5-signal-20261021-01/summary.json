@@ -1,0 +1,76 @@
+{
+  "contract_version": "phase5-signal-144x8-v1",
+  "artifact_audit_passed": true,
+  "samples": 1152,
+  "groups": 144,
+  "generation_requests": 1152,
+  "response_tokens": 32296,
+  "finish_reasons": {
+    "eos": 1152
+  },
+  "strict_pass": 572,
+  "semantic_pass": 731,
+  "invalid_json": 46,
+  "reward_sum": 572.0,
+  "zero_variance_rate": 0.5694444444444444,
+  "has_reward_learning_signal": true,
+  "group_outcomes": {
+    "all_correct": 31,
+    "all_wrong": 51,
+    "mixed": 62
+  },
+  "prefix4_mixed_groups": 47,
+  "full8_mixed_groups": 62,
+  "extra_mixed_groups_from_samples_5_to_8": 15,
+  "samples_in_nonzero_advantage_groups": 496,
+  "by_style": {
+    "natural": {
+      "groups": 48,
+      "successes": 108.0,
+      "samples": 384,
+      "mixed": 21
+    },
+    "sequence": {
+      "groups": 48,
+      "successes": 159.0,
+      "samples": 384,
+      "mixed": 17
+    },
+    "symbolic": {
+      "groups": 48,
+      "successes": 305.0,
+      "samples": 384,
+      "mixed": 24
+    }
+  },
+  "same_path_no_update_ratio_passed": true,
+  "parameters_unchanged": true,
+  "max_old_new_logp_delta": 0.0,
+  "max_ratio_minus_one": 0.0,
+  "sampler_trainer_max_logp_difference": 0.1388685703277588,
+  "correction_weights": {
+    "min_weight": 0.9085090004360628,
+    "max_weight": 1.1489730809241885,
+    "mean_weight": 1.0000207192183992,
+    "cap_fraction": 0.0,
+    "weights_require_grad": false
+  },
+  "corrected_policy_loss_diagnostic": -0.0008627223432995379,
+  "generation_seconds": 277.19933997899716,
+  "generation_response_tokens_per_second": 116.50821391727341,
+  "scoring_seconds": 53.41991779700038,
+  "original_cross_engine_gate_passed": false,
+  "signal_collection_interface_passed": true,
+  "training_admitted": false,
+  "model_backward_calls": 0,
+  "optimizer_steps": 0,
+  "files_sha256": {
+    "run_manifest.json": "d4945255adb09eb9a8dd3fb0d33d714dc18172e66e27138587335fc244e7da94",
+    "generation_checks.json": "c357226c6d14b7aa61eff38d3315f8b213863a6185e263d265c1ec44d753d10c",
+    "rollouts.jsonl": "e183f44c3bae4cdb41cce157696bbe5813e76a0337764ee6ae45efd0edff8720",
+    "trainer_scores.jsonl": "70e3efd5d227b3b528335d078173483bdab53809c18c92efc271f8141650fa25",
+    "trainer_checks.json": "f936d26d87c9eacf0df90b87440e74e0bd94ba88cb8b743e1f36185a065d168e",
+    "reward_audit.json": "0bd388cc662cdc5fc44eb7e2761bb6bd0af226196b35f94497369a8a7cc04248",
+    "trainer_score_batch.pt": "2a6a1719cda8d847a513432586441099b0a5862642220ecc1e78c1aeeab51173"
+  }
+}

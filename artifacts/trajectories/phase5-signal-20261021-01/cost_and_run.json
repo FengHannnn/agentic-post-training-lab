@@ -1,0 +1,25 @@
+{
+  "hourly_price_yuan": 2.18,
+  "elapsed_run_seconds": 358.47139555699687,
+  "estimated_run_cost_yuan": 0.21707434508729256,
+  "max_run_seconds": 1790.0,
+  "max_run_cost_yuan": 10,
+  "stages": [
+    {
+      "stage": "generate",
+      "exit_code": 0
+    },
+    {
+      "stage": "score",
+      "exit_code": 0
+    },
+    {
+      "stage": "audit",
+      "exit_code": 0
+    }
+  ],
+  "error": null,
+  "global_200_yuan_limit_enforced": false,
+  "billing_scope": "job elapsed estimate only; boot/idle/storage/rounding excluded",
+  "instance_automatically_shutdown": false
+}
