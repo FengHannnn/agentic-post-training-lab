@@ -1,0 +1,17 @@
+{
+  "files": [
+    "configs/grpo_first_update.json",
+    "scripts/train_grpo_first.py",
+    "src/agentic_post_training/trainers/grpo.py",
+    "tests/integration/test_grpo_first_update.py",
+    "tests/unit/test_grpo_first_objective.py",
+    "tests/unit/test_grpo_first_comparison.py",
+    "reports/phase5-first-grpo-update.md"
+  ],
+  "bytes": 21112,
+  "bundle_sha256": "b9e9828efbe968f533f6e366d4333336c7ba74c8f656217bc8e0a1f66bc35ba4",
+  "zip_verified": true,
+  "existing_cloud_paths_overwritten": 0,
+  "full_suite_passed": 305,
+  "pretrained_gpu_training_executed": false
+}

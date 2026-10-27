@@ -18,6 +18,8 @@ Phase 1 已实现并验证 SFT、DPO、GRPO 基础损失。Phase 2 已接入真�
 
 Phase 5 数据准备已完成：L20 的 144×8 实际包取回并重审通过，62 个混合奖励组、496 条非零 advantage 回答；同批前4条有47个混合组，增至8条多发现15组。全套已有289项测试通过；真实 GRPO 更新、KL、监控与行为对照尚待实现。
 
+2026-10-27：首次有限真实GRPO更新代码已实现，加入冻结reference、sampled k3、最多16步、LoRA反向、Adam恢复与同条件生成对照；全套305项测试通过。135M模型的云端更新尚待执行，不提前宣称训练有效。
+
 - [Phase 1：后训练目标函数基础](reports/phase1-foundations.md)
 - [Phase 2：SFT 数据流水线与 LoRA 训练](reports/phase2-sft-data.md)
 - [Phase 2：接入真实 tokenizer](reports/phase2-real-tokenizer.md)
@@ -53,6 +55,7 @@ Phase 5 数据准备已完成：L20 的 144×8 实际包取回并重审通过，
 - [Phase 4：最终验收与后续数据规模建议](reports/phase4-closeout-results.md)
 - [Phase 5：144×8 随机 rollout 与训练信号准备](reports/phase5-rollout-signal-preparation.md)
 - [Phase 5：144×8 训练信号批次实际结果与验收](reports/phase5-rollout-signal-results.md)
+- [Phase 5：有限真实GRPO更新与保存恢复方案](reports/phase5-first-grpo-update.md)
 
 ## 运行测试与数据检查
 

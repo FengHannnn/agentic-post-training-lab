@@ -1,5 +1,7 @@
 # AgenticPostTrainingLab 完整交接：截至 2026-10-18
 
+> 2026-10-27 当前：已实现首次有限真实GRPO更新入口 train_grpo_first.py 和 trainers/grpo.py。复用已验收1152条中的62混合组，一轮16个逻辑minibatch、496回答，LR1e-5、beta .02、TIS cap2；独立冻结SFT reference，sampled k3非无偏KL声明，KL/clip停止。第1步保存，丢弃第2步不中断探针后恢复并继续候选轨迹；完整运行实际17次optimizer调用但候选16步。最终adapter重载、48训练诊断+56开发greedy对照、结构退化单独标出，不自动晋升基线。新增16项测试，全套305通过，真实输入预检通过；135M云端更新仍待用户执行，新包 grpo-first-update-20261027.zip，回传包位于项目根目录。见 [首轮方案与代码阅读顺序](reports/phase5-first-grpo-update.md)。
+
 > 2026-10-21 当前结果：Phase 5 的144×8包已从L20取回，7份产物/23份源码身份与1152条完整审计通过；全EOS，严格572、语义731、非法JSON46，31组全对/51全错/62混合、496条非零advantage回答。同批前4条47混合→全8条62混合，增加15组；不能称模型已提升。old/new差0、参数不变，原跨引擎门仍失败，token TIS权重约0.9085–1.1490。作业358.47秒、估算0.2171元，不含空闲等。数据准备验收完成，不继续盲目扩量；下一步设计并实现有限真实GRPO更新、reference/KL、监控、保存恢复与行为对照，尚未更新模型。见 [实际结果与代码阅读顺序](reports/phase5-rollout-signal-results.md)。
 
 > 2026-10-21 当前进入 Phase 5 数据准备：已实现 collect_phase5_signal.py 与独立 phase5_signal 模块，全部 144 算术训练输入×8=1152，请求 seed 更新、64 请求分块、保存全部回答；无筛样本/更新/重试。固定 reward/原始 FP32 old/new，额外统计同八条的前4/全8混合组，回传 ZIP 放项目根目录。按用户预算放宽移除旧累计200元阻断，仍保留单作业约30分钟/估算10元边界。新增20项测试，全套289通过；真实 tokenizer 最长 prompt64，真实新采样待云端运行。下一步先取回信号批次，再定有限真实更新与KL/监控/评测方案。见 [Phase 5 准备报告与代码阅读顺序](reports/phase5-rollout-signal-preparation.md)。
