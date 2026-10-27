@@ -1,0 +1,15 @@
+{
+  "passed": true,
+  "max_abs_logp_error": 0.0,
+  "greedy_token_checks": [
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true,
+    true
+  ],
+  "reloaded_parameter_sha256": "853c4027c91b968faadba67d46e3e9f2f239f107ab7bf8e58f276b0a643fe55b"
+}

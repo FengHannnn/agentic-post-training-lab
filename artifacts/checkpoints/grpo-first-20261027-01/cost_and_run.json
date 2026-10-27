@@ -1,0 +1,9 @@
+{
+  "elapsed_run_seconds": 309.83186452800874,
+  "hourly_price_yuan": 2.18,
+  "estimated_run_cost_yuan": 0.187620406853072,
+  "error": null,
+  "max_run_seconds": 1790.0,
+  "billing_scope": "job estimate only; boot/idle/storage/rounding excluded",
+  "instance_automatically_shutdown": false
+}

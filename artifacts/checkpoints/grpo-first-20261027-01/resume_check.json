@@ -1,0 +1,10 @@
+{
+  "max_adapter_abs_error": 0.0,
+  "passed": true,
+  "max_optimizer_state_abs_error": 0.0,
+  "optimizer_state_passed": true,
+  "uninterrupted_loss": 0.01226642944000581,
+  "restored_loss": 0.01226642944000581,
+  "restored_step": 1,
+  "extra_probe_optimizer_steps": 1
+}

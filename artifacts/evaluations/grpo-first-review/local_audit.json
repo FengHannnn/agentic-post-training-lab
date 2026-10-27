@@ -1,0 +1,34 @@
+{
+  "prediction_records_redecoded_and_rescored": 208,
+  "evaluation_summary_recomputed": true,
+  "logical_steps": 16,
+  "actual_optimizer_calls": 17,
+  "backward_calls": 528,
+  "candidate_groups": 62,
+  "optimizer_checkpoints": {
+    "checkpoint-step1": {
+      "step": 1,
+      "lora_tensors": 120,
+      "finite_adam_moments": true
+    },
+    "final-checkpoint": {
+      "step": 16,
+      "lora_tensors": 120,
+      "finite_adam_moments": true
+    }
+  },
+  "source_and_plan_binding_verified": true,
+  "step_history_verified": true,
+  "cost_arithmetic_verified": true,
+  "loss_recomposition_absolute_tolerance": 1e-07,
+  "max_loss_recomposition_error": 1.7877049457005974e-08,
+  "model_forward_replayed_locally": false,
+  "reference_runtime_independently_replayed": false,
+  "artifact_hashes_verified": 46,
+  "source_hashes_verified": 26,
+  "archive_sha256": "df068ba95ba4b03da76bd77e2bbff8bcbc32921c69f73e26e9ced389cf4e1e2f",
+  "engineering_review_accepted": true,
+  "strict_behavior_improvement_demonstrated": false,
+  "baseline_promoted": false,
+  "weight_audit_file": "weight_audit.json"
+}

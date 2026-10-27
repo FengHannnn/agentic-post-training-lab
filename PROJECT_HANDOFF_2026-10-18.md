@@ -1,5 +1,7 @@
 # AgenticPostTrainingLab 完整交接：截至 2026-10-18
 
+> 2026-10-27 最新实际结果：grpo-first-review包已回传，48文件约10.97MB；46产物/26源码哈希核对，208预测重评分、16步history、checkpoint Adam状态均复核通过。CPU重建原始/step1/最终参数，120个LoRA张量全部变化，最终853c4027…与云端相同，基础摘要不变。候选16步、含恢复探针实际17次optimizer/528次backward，resume与reload误差0。工程true、行为安全true但无严格收益：训练诊断28/48→28/48、开发36/56→36/56，训练语义35→36，开发44不变，无新结构退化。基线不晋升。作业309.83秒/估算0.1876元。仅单次old-rollout策略迭代，尚未更新后刷新rollout；下一步应做新策略版本与有限数据刷新，不无界复用旧1152条。详见 [真实更新结果与代码阅读顺序](reports/phase5-first-grpo-results.md)。
+
 > 2026-10-27 当前：已实现首次有限真实GRPO更新入口 train_grpo_first.py 和 trainers/grpo.py。复用已验收1152条中的62混合组，一轮16个逻辑minibatch、496回答，LR1e-5、beta .02、TIS cap2；独立冻结SFT reference，sampled k3非无偏KL声明，KL/clip停止。第1步保存，丢弃第2步不中断探针后恢复并继续候选轨迹；完整运行实际17次optimizer调用但候选16步。最终adapter重载、48训练诊断+56开发greedy对照、结构退化单独标出，不自动晋升基线。新增16项测试，全套305通过，真实输入预检通过；135M云端更新仍待用户执行，新包 grpo-first-update-20261027.zip，回传包位于项目根目录。见 [首轮方案与代码阅读顺序](reports/phase5-first-grpo-update.md)。
 
 > 2026-10-21 当前结果：Phase 5 的144×8包已从L20取回，7份产物/23份源码身份与1152条完整审计通过；全EOS，严格572、语义731、非法JSON46，31组全对/51全错/62混合、496条非零advantage回答。同批前4条47混合→全8条62混合，增加15组；不能称模型已提升。old/new差0、参数不变，原跨引擎门仍失败，token TIS权重约0.9085–1.1490。作业358.47秒、估算0.2171元，不含空闲等。数据准备验收完成，不继续盲目扩量；下一步设计并实现有限真实GRPO更新、reference/KL、监控、保存恢复与行为对照，尚未更新模型。见 [实际结果与代码阅读顺序](reports/phase5-rollout-signal-results.md)。

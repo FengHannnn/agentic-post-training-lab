@@ -1,0 +1,27 @@
+{
+  "checkpoint_weight_checks": {
+    "original_sft": {
+      "parameter_sha256": "9b77c99e51b68d12dc0249ccfaf9f642e7c049ecf99c7f7c53d2c0b83d72cadb",
+      "frozen_parameter_sha256": "e72fa38da3ed620a2f0879d8f11b0a6fe908e965f058b95b52738417bae1a4b6",
+      "lora_tensors": 120
+    },
+    "step1": {
+      "parameter_sha256": "d3bae1be3b26b5214f90d9f5f1220cb8c1b974f8edeff9a93c2bbd36979fd667",
+      "frozen_parameter_sha256": "e72fa38da3ed620a2f0879d8f11b0a6fe908e965f058b95b52738417bae1a4b6",
+      "lora_tensors": 120,
+      "changed_lora_tensors": 120,
+      "max_lora_abs_change": 1.0000541806221008e-05
+    },
+    "final": {
+      "parameter_sha256": "853c4027c91b968faadba67d46e3e9f2f239f107ab7bf8e58f276b0a643fe55b",
+      "frozen_parameter_sha256": "e72fa38da3ed620a2f0879d8f11b0a6fe908e965f058b95b52738417bae1a4b6",
+      "lora_tensors": 120,
+      "changed_lora_tensors": 120,
+      "max_lora_abs_change": 0.00016011018306016922
+    }
+  },
+  "original_and_final_full_parameter_digests_match_cloud": true,
+  "frozen_base_digest_unchanged": true,
+  "pretrained_model_forward_calls": 0,
+  "gpu_replayed": false
+}

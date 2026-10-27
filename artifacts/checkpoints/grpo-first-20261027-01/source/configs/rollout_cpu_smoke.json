@@ -1,0 +1,19 @@
+{
+  "baseline": "artifacts/baselines/sft-v2-phase3",
+  "preference_data": "data/preferences/dpo_v2",
+  "case_ids": [
+    "dpo-v2-train-12-47-20-symbolic-right_grouped",
+    "dpo-v2-train-12-47-20-natural-right_plain",
+    "dpo-v2-train-12-47-20-sequence-left_plain",
+    "dpo-v2-train-greeting-0-0"
+  ],
+  "group_size": 4,
+  "base_seed": 42,
+  "seed_group_stride": 1000,
+  "max_new_tokens": 64,
+  "temperature": 1.0,
+  "top_p": 1.0,
+  "top_k": 0,
+  "cpu_threads": 2,
+  "reproduction_probes": 1
+}
