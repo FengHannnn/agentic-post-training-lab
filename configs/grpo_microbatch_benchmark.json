@@ -1,0 +1,22 @@
+{
+  "contract_version": "grpo-microbatch-benchmark-v1",
+  "source_training_run": "artifacts/checkpoints/grpo-first-20261027-01",
+  "source_training_summary_sha256": "1816932fd3df9a5aa6bb3e18c402cb4775378d50c78c2311c1910950194213ad",
+  "microbatch_sizes": [
+    1,
+    4,
+    8
+  ],
+  "effective_minibatch_groups": 4,
+  "effective_completions": 32,
+  "timing_repeats": 3,
+  "logp_absolute_tolerance": 1e-05,
+  "loss_absolute_tolerance": 1e-06,
+  "gradient_max_absolute_tolerance": 1e-06,
+  "gradient_relative_l2_tolerance": 0.0001,
+  "adapter_absolute_tolerance": 1e-06,
+  "optimizer_absolute_tolerance": 1e-07,
+  "published_candidate_updates": 0,
+  "max_wall_seconds": 1800,
+  "max_run_cost_yuan": 10.0
+}
