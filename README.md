@@ -2,7 +2,9 @@
 
 面向工具调用 Agent 的 SFT、DPO、GRPO、vLLM rollout 与评测项目。
 
-当前完整进度、阶段路线、结果与接手续作见 [2026-10-18 完整交接](C:/Users/app/Documents/Codex/2026-9-28/AgenticPostTrainingLab/PROJECT_HANDOFF_2026-10-18.md)；原始逐步记录保留在 [历史交接文档](C:/Users/app/Documents/Codex/2026-9-28/AgenticPostTrainingLab/PROJECT_HANDOFF.md)。已实现内容与未来计划分别标注。
+当前完整进度、主体框架、阶段路线、结果与接手续作见 [2026-10-27 完整交接](PROJECT_HANDOFF_2026-10-27.md)。[2026-10-18 交接](PROJECT_HANDOFF_2026-10-18.md)和[原始逐步记录](PROJECT_HANDOFF.md)保留历史状态；其中旧的“下一步/尚未开始”以最新交接为准。
+
+最新结论：Phase 4 工程已收尾；Phase 5 首次真实 GRPO 更新完成，开发严格36/56不变、基线未晋升，更新后刷新rollout尚未实现。L20微批8对固定32回答测得6.46倍加速，但logp门未通过，正式训练仍保留串行；最新测试记录327项通过。详见[微批实际结果](reports/phase5-grpo-microbatch-results.md)。下方按日期保留阶段推进记录。
 
 ## 运行环境
 
