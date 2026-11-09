@@ -166,7 +166,7 @@ def probability_probe(engine, tok, lora, generation, cfg, seed=None, worker_proo
              'extra_generated_tokens': len(result.outputs[0].token_ids)}
     if not all(math.isfinite(x) for x in reference):
         raise ValueError('nonfinite probability probe')
-    if cfg.get('curriculum_schema') in ('outcome_curriculum_v1','fine_credit_ablation_v1') and worker_proof is not None:
+    if cfg.get('curriculum_schema') in ('outcome_curriculum_v1','fine_credit_ablation_v1','alias_curriculum_v1') and worker_proof is not None:
         from grpo_sampler_probe import verify_capture,METHOD
         from dataclasses import asdict
         if len(worker_proof)!=1 or 'same_forward_capture' not in worker_proof[0]:

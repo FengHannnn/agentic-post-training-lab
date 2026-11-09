@@ -1,0 +1,51 @@
+{
+  "date": "2026-11-09",
+  "timezone": "Asia/Shanghai",
+  "scope": "local_cpu_project_consolidation",
+  "passed": true,
+  "environment": {
+    "python": "3.11.5",
+    "torch": "2.14.0+cpu",
+    "transformers": "4.57.6",
+    "peft": "0.17.1",
+    "sqlite": "3.54.1"
+  },
+  "tests": {
+    "v1": {
+      "passed": 435,
+      "failed": 0,
+      "warnings": 1,
+      "seconds": 59.92,
+      "log": ".local/project-consolidation-20261109/v1-tests.log"
+    },
+    "v2": {
+      "passed": 478,
+      "failed": 0,
+      "warnings": 4,
+      "seconds": 966.17,
+      "log": ".local/project-consolidation-20261109/v2-tests.log"
+    }
+  },
+  "python_syntax": {
+    "passed": true,
+    "files": 289
+  },
+  "source_binding": {
+    "source_tree_verified": 291,
+    "project_tree_verified": 291,
+    "git_index_verified": 281,
+    "clean_checkout_verified": 281
+  },
+  "source_archive": {
+    "filename": "grpo-alias-curriculum-v1-20261109-review-attempt-003.zip",
+    "bytes": 290041670,
+    "sha256": "4a97429fae19131191e0dec3f53e21922091644ead514dddaacdbcf5ac3c1c34"
+  },
+  "git": {
+    "v1_backfill_commit": "eea5d34b566f0413be6f326ec31af6b9abc2cdf4",
+    "pre_import_snapshot_commit": "7f29ff6030d4fbbd2114c6c829ae88f4c6c6a922"
+  },
+  "documentation_links_passed": true,
+  "git_whitespace_check_passed": true,
+  "terminal_progress_bar_matches": 13
+}

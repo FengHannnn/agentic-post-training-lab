@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "final_zip_install_cli_passed": true,
+  "idempotent_cli_passed": true,
+  "runner_help_passed": true,
+  "protected_files_verified_unchanged": 1466,
+  "actual_updates": {
+    "control": 25,
+    "curriculum": 37
+  },
+  "elapsed_seconds_preserved": 14489.504450344015
+}

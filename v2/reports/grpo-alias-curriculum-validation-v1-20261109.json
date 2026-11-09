@@ -1,0 +1,41 @@
+{
+  "passed": true,
+  "study_phase": "alias_curriculum",
+  "local_full_grpo_regression": {
+    "passed": 260,
+    "failed": 0,
+    "seconds": 317.8384752003476
+  },
+  "additional_root_audit": {
+    "passed": 1,
+    "failed": 0
+  },
+  "new_tests_total": 28,
+  "native_token_budget": {
+    "passed": true,
+    "starts": 160,
+    "max_prefix_prompt_tokens": 1345,
+    "max_expert_response_tokens": 142,
+    "max_expert_prompt_tokens": 1968,
+    "max_model_len": 8192,
+    "max_new_tokens": 256,
+    "tokenizer_hash_verified": true
+  },
+  "paired_training": {
+    "maximum_groups_per_branch": 48,
+    "maintenance_fraction": 0.5,
+    "k": 4,
+    "midpoint_group_cursor": 24
+  },
+  "execution_scope": "local task/environment replay, tiny LoRA gradients, native sampler observer, paired driver and resume; L40S training via published runner",
+  "clean_archive_verification": {
+    "passed": true,
+    "tests_passed": 28,
+    "tests_failed": 0,
+    "seconds": 94.28685349971056,
+    "bound_files_verified": 276,
+    "all_source_syntax_passed": true,
+    "runner_present": true,
+    "tested_runtime_binding_sha256": "1a478654249143207f4d55f9a8cf749eec006b716fde602f27faede1c846399a"
+  }
+}

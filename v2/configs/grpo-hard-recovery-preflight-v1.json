@@ -1,0 +1,45 @@
+{
+  "base_model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "base_dir": ".cache/qwen2.5-1.5b-instruct",
+  "initial_dir": "artifacts/inputs/grpo-w-20261105",
+  "adapter_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f",
+  "required_gpu_name": "NVIDIA L40S",
+  "required_min_gpu_bytes": 48000000000,
+  "required_packages": {
+    "vllm": "0.11.0",
+    "transformers": "4.57.6",
+    "peft": "0.17.1"
+  },
+  "sampling": {
+    "temperature": 1,
+    "top_p": 1,
+    "top_k": -1,
+    "min_p": 0,
+    "repetition_penalty": 1,
+    "presence_penalty": 0,
+    "frequency_penalty": 0,
+    "min_tokens": 0,
+    "max_new_tokens": 256,
+    "max_model_len": 8192,
+    "logprobs_mode": "processed_logprobs"
+  },
+  "inference": {
+    "gpu_memory_utilization": 0.7,
+    "lora_dtype": "bfloat16"
+  },
+  "tool_cost": 0.01,
+  "k": 4,
+  "epsilon": 1e-8,
+  "run_id": "grpo-hard-recovery-preflight-v1-20261109",
+  "study_phase": "hard_recovery_preflight",
+  "seed": 2026110917,
+  "max_wall_seconds": 7200,
+  "packaging_reserve_seconds": 180,
+  "new_training_updates": 0,
+  "credit_method": "outcome_local_verified_v2",
+  "expected_episodes": 96,
+  "release_manifest": "grpo_hard_release_manifest.json",
+  "contract_report": "reports/grpo-hard-recovery-preflight-contract-20261109.md",
+  "validation_report": "reports/grpo-hard-recovery-preflight-validation-20261109.json"
+}

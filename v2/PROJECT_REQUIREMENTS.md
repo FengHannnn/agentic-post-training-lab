@@ -1,25 +1,53 @@
 # Project V2 Requirements
 
-Initial confirmation: 2026-10-29. Latest confirmed closeout scope: 2026-11-03.
+初始确认：2026-10-29。当前状态整理：2026-11-09。
 
-- Goal: internship-ready project in about 10–11 days, averaging 6 hours/day; prioritize LLM post-training / RL algorithm internships, then Agent development.
-- Main model: Qwen/Qwen2.5-1.5B-Instruct. Current observed cloud GPU (2026-11-04): NVIDIA L40S.
-- Main approach: real multi-turn SQLite tool interactions, verifiable evidence, error recovery, and fine-grained turn-level credit assignment.
-- Required closeout: one bounded DPO supplementary comparison, outcome-reward GRPO, one fine-grained-credit GRPO variant, one small genuine dependency-horizon extension, and reproducible results/materials.
-- Current experiment status (2026-11-05): conservative short DPO from weighted SFT completed and passed local review. Run dpo-sft-start-short-v1-20261105 stopped at the first passing checkpoint12: sampled complete16/16 versus SFT16/16; sampled recovery59/84 versus62/84; greedy complete4/4 both; greedy recovery21/28 versus20/28. The fixed practical closeout criteria are met. Candidate checkpoint-0012 SHA77c737965c25dfd3110177bb0856938a651cb387bc7153b588b3ce56adf6fc7e has ancestry SFT513/DPO23 and48 pair exposures from12 new DPO updates. DPO supplementary comparison is ready for phase closeout.
-- Latest user decision: the user authorized the conservative SFT-start short DPO round; its first passing checkpoint12 is now reviewed and archived. End this supplementary DPO search under the predeclared criteria and return to the original GRPO plan next. The current turn reviewed the returned job and archived results; no new GPU job was launched. E1–E4 mechanism work is now included as extension material in the GRPO handoff; the late-model four-branch inference confirmation stays outside the main path.
-- Latest DPO goal: better than or close to the best weighted SFT; checkpoint12 met the fixed practical development criteria. GRPO should strive to improve over the existing candidates.
-- Both new GRPO branches start from hard-recovery-sft-weighted-v1-20261103, SHA256 f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f, ancestry SFT513 / DPO11. Preserve the historical pure-SFT baseline separately.
-- GDPval, broad multi-file office tooling, a web UI and extra algorithm branches are optional. Multi-teacher token routing / OPD is excluded.
-- Primary metric: final task success; core secondary: complete recovery success. Track tool/evidence/SQL failures, no-progress repetition, tokens and time.
-- Review progress and freeze new features around day 7; reserve the final 3 days for evaluation, explanation and deliverables.
-- Overall training-run cap is not fixed. Discuss material budget/scope changes; each run has finite steps/time and stopping criteria, progress bars and failure packaging.
-- Deliver code/config/model identities, curves/tables, recovery cases, README, technical report, resume bullets and interview explanations; demo may be a report, terminal or recording.
-- Read new training/probability/credit/reward/evaluation core code closely; summarize repetitive runners, logging and packaging.
-- Reports lead with results and evidence, use concise Chinese and avoid defensive repetition. Briefly summarize report results in chat and provide links without automatically opening. English filenames; store originals under project v2.
-- Cloud jobs are run by the user from uploaded ZIPs; give direct commands, default upload location is cloud v2, ZIP layout contains v2/. No price parameters or cost estimates.
-- Keep train/development/test provenance explicit. Existing four test tasks are historical regression cases; freeze new task families/seeds for final confirmation. If GDPval is added, isolate its tasks, source files and gold materials from training.
-- Preserve V1 archive, prior run outputs, model/optimizer/RNG identities and frozen source snapshots.
+## 项目目标与范围
 
-Canonical closeout plan: reports/project-roadmap-v2-20261103.md.
-Latest comprehensive handoff: handoff/PROJECT_HANDOFF_V2_GRPO_2026-11-05.md.
+目标是形成面向大模型后训练 / RL 算法实习的可复现项目，同时兼顾 Agent 开发。核心工作包括真实多轮 SQLite 工具交互、SFT / DPO / GRPO、错误恢复、逐动作信用分配和训练证据审计。
+
+模型为 Qwen/Qwen2.5-1.5B-Instruct，固定 revision 为 989aa7980e4cf806f80c7fef2b1adb7bc71aa306。V1 已封存，V2 为当前主线。历史约 10–11 天、日均 6 小时的安排作为工作量参考。
+
+## 当前阶段
+
+| 工作 | 状态 |
+| --- | --- |
+| SQL 加权 SFT、恢复偏好与短程 DPO | 已完成 |
+| outcome / fine GRPO 闭环与同预算比较 | 已完成 |
+| SQLite 真实依赖环境与专家因果验证 | 已完成；模型流程能力与训练覆盖待提升 |
+| C4 独立确认 | 已完成；两候选效果验收未通过 |
+| 学习率、local 信用、困难预检、alias 课程 | 已完成，W 继续作为正式基线 |
+| 主项目源码、报告与 Git 补交 | 见本次整理记录 |
+| 训练 SQL verifier 空退款边界 | 已定位，修复与新版本验证待进行 |
+| 原复合缺别名首次有效认证 | 当前优先实验问题 |
+| 新的最终确认及统一技术交付 | 候选与协议确定后继续 |
+
+GRPO 正式起点与 reference 为 W，adapter SHA256 为 f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f，血缘 SFT513 / DPO11 / RL0。不同实验独立从 W 初始化。短程 DPO12 保留为独立阶段成果，血缘 SFT513 / DPO23。历史纯 SFT 基线单独保留。
+
+## 实验与验收
+
+- 最终任务成功率为主指标。仅同轮 W 完整任务采样达到 100% 时，恢复作为主指标。
+- 当前开发选择要求 sample 完整、sample 恢复、greedy 完整、greedy 恢复均不低于同轮 W，主指标严格增加，全部质量门槛通过。
+- C4 的恢复 +6/252 是其独立冻结协议；新实验预先明确自己的门槛。
+- 逐轮冻结任务、方法、seed、采样组数、墙钟预算、停止与选择规则。新 verifier 使用新版本和新 run_id，W 与候选在同版本重评。
+- 完整终局、恢复终局、首动作有效、新认证率、重复错误、tokens、动作数和时间分别报告；逐例配对。
+- 组数、实际 optimizer.step、跳过数与计算量分别记录。额外 SFT / CE 和混合信用方法单独登记。
+- train 身份准入；开发、历史回归和新的独立确认保持清晰来源。已使用的旧 test / C4 保留为历史结果和诊断资料。
+- 专家在相同动作预算内完成；恢复前缀计入总预算。真实依赖深度通过删除 / 篡改前阶段状态的反事实验证。
+
+## 执行与留存
+
+- 新 GPU 作业的范围、对照与预算随新方案确定。云端由用户上传已核验 ZIP 并执行。
+- 作业包含有限组数 / 时间、真实进度条、中断恢复、失败状态和 partial review 打包。
+- 累计预算覆盖准备、W 评测、训练、刷新、中点、最终评测、审计与打包。
+- 保存原生 token / q、old / ref cache、LoRA 身份、Adam/RNG、冻结源码和 source_revisions。
+- 同机 fresh 评测 W 与候选；设备迁移按新运行记录。严格历史回放匹配 SQLite 3.54.1。
+- 原始 ZIP、历史评分、失败记录和 V1 封存资料保留；Git 管理源码、配置、测试、报告与来源清单。
+
+## 交付与沟通
+
+中文交流。新报告英文文件名、中文正文、结果先行，路径使用项目内相对路径，写入本项目，不自动打开。报告直接写观察、收益和失败项目。代码阅读清单只列本轮新增 / 改动文件与作用。脚本终端显示实时进度条。
+
+最终交付包含统一复现入口、模型与数据身份、曲线 / 表格、恢复案例、README、技术报告、简历要点与面试解释。GDPval、网页 UI、更多算法 / 种子属于扩展，multi-OPD 已排除。
+
+当前入口：[README](README.md)、[GRPO 后续交接](handoff/PROJECT_HANDOFF_V2_GRPO_CONTINUATION_2026-11-09.md)、[SFT / DPO 结果](handoff/PROJECT_HANDOFF_V2_SFT_DPO_RESULTS_2026-11-09.md)、[整理记录](reports/project-consolidation-20261109.md)。

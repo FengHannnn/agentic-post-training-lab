@@ -86,7 +86,7 @@ def collect(output, index, before):
     episodes = []
     tokens = 0
     try:
-        if cfg.get('curriculum_schema') in ('outcome_curriculum_v1','fine_credit_ablation_v1'):
+        if cfg.get('curriculum_schema') in ('outcome_curriculum_v1','fine_credit_ablation_v1','alias_curriculum_v1'):
             setup={'seed':spec['seed'],'policy_sha256':before['adapter_sha256'],'token_limit':16,'sampling':cfg['sampling']}
             engine, tok, lora = engine_and_tokenizer(cfg, adapter, setup)
         else:

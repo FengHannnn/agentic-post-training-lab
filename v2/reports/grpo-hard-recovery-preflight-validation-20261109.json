@@ -1,0 +1,69 @@
+{
+  "passed": true,
+  "run_id": "grpo-hard-recovery-preflight-v1-20261109",
+  "source_targeted_tests": {
+    "passed": 13,
+    "pytest_seconds": 44.39
+  },
+  "expert_contexts": 24,
+  "expert_max_total_turns": 11,
+  "token_budget": {
+    "passed": true,
+    "starts": 24,
+    "max_prefix_prompt_tokens": 1590,
+    "max_expert_response_tokens": 142,
+    "max_expert_prompt_tokens": 1967,
+    "max_model_len": 8192,
+    "max_new_tokens": 256,
+    "tokenizer_hash_verified": true
+  },
+  "cli": {
+    "passed": true,
+    "checks": [
+      {
+        "script": "run_v2_grpo_hard_preflight.py",
+        "passed": true
+      },
+      {
+        "script": "grpo_hard_worker.py",
+        "passed": true
+      },
+      {
+        "script": "build_v2_grpo_hard_release.py",
+        "passed": true
+      }
+    ]
+  },
+  "clean_release": {
+    "passed": true,
+    "tests_passed": 233,
+    "pytest_seconds": 232.6,
+    "test_files": 18,
+    "manifest_files_checked": 265,
+    "required_runner_config_files_present": true,
+    "cli_checks_passed": [
+      "run_v2_grpo_hard_preflight.py",
+      "grpo_hard_worker.py",
+      "build_v2_grpo_hard_release.py"
+    ],
+    "initial_W_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f"
+  },
+  "scope": "CPU environment/expert checks, simulated native collection and resume, historical native-probability regressions, real Qwen tokenizer budgets and complete release verification; L40S W sampling is performed by the supplied cloud command",
+  "change_scope": {
+    "passed": true,
+    "prior_release_shared_files_unchanged": 256,
+    "added_files": [
+      "v2/configs/grpo-hard-recovery-preflight-v1.json",
+      "v2/grpo_hard_release_manifest.json",
+      "v2/reports/grpo-hard-recovery-preflight-contract-20261109.md",
+      "v2/reports/grpo-hard-recovery-preflight-validation-20261109.json",
+      "v2/scripts/build_v2_grpo_hard_release.py",
+      "v2/scripts/grpo_hard_common.py",
+      "v2/scripts/grpo_hard_worker.py",
+      "v2/scripts/run_v2_grpo_hard_preflight.py",
+      "v2/src/apt_v2/grpo_hard_preflight.py",
+      "v2/tests/test_grpo_hard_preflight_v2.py"
+    ],
+    "modified_shared_files": []
+  }
+}

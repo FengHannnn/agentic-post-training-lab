@@ -1,4 +1,4 @@
 * text=auto eol=lf
 
 # Preserve V2 source/evidence SHA256 identities across checkouts.
-/v2/** -text
+/v2/** -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol

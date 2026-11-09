@@ -1,0 +1,19 @@
+{
+  "run_id": "grpo-alias-curriculum-v1-20261109",
+  "study_phase": "alias_curriculum",
+  "max_wall_seconds": 21600,
+  "groups_per_branch": 48,
+  "packaging_reserve_seconds": 180,
+  "midpoint_group_cursor": 24,
+  "branches": {
+    "control": "configs/grpo-alias-control-v1.json",
+    "curriculum": "configs/grpo-alias-curriculum-arm-v1.json"
+  },
+  "selection_rule": "primary_gain_greedy_guard_then_recovery_v1",
+  "budget_policy": "paired_cycle_with_midpoint_and_final_reservation_v1",
+  "clone_policy": "new L40S allowed at job start; same GPU/runtime/driver within job",
+  "extra_sft_updates": 0,
+  "extra_dpo_updates": 0,
+  "contract_report": "reports/grpo-alias-curriculum-contract-v1-20261109.md",
+  "validation_report": "reports/grpo-alias-curriculum-validation-v1-20261109.json"
+}

@@ -1,0 +1,10 @@
+{
+  "run_id": "grpo-hard-recovery-preflight-v1-20261109",
+  "archive": "grpo-hard-recovery-preflight-v1-20261109-run.zip",
+  "sha256": "d9eeb9fbe8eb24aff1db4fc3de30b1a0db78b6ee53af51014f5029d25a64197b",
+  "bytes": 4695534,
+  "entries": 266,
+  "bound_files": 265,
+  "crc_and_hashes_passed": true,
+  "initial_W_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f"
+}

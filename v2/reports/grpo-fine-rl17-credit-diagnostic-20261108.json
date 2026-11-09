@@ -1,0 +1,646 @@
+{
+  "counts": {
+    "groups": 24,
+    "eligible_groups": 17,
+    "outcome_zero_variance_groups": 8,
+    "actions": 651,
+    "nonzero_advantage_actions": 403,
+    "zero_advantage_actions": 248,
+    "new_metric_actions": 159,
+    "new_metric_zero": 67,
+    "successful_submit_actions": 60,
+    "successful_submit_zero": 28,
+    "new_metric_positive": 77,
+    "successful_submit_positive": 32,
+    "new_metric_negative": 15,
+    "zero_due_single_active": 19
+  },
+  "depths": {
+    "active_4": 133,
+    "eligible_active_4": 92,
+    "active_3": 18,
+    "eligible_active_3": 5,
+    "active_1": 19,
+    "active_2": 23,
+    "eligible_active_2": 10
+  },
+  "extra_eligible_groups_due_potential": [
+    19
+  ],
+  "max_first_action_advantage_difference_vs_outcome": 2.220446049250313e-16,
+  "group19": [
+    {
+      "group": 19,
+      "task": "train-009",
+      "scenario": "repeat_evidence_error",
+      "relative_turn": 2,
+      "episode_returns": [
+        -0.11999999999999998,
+        -0.11999999999999998,
+        -0.11999999999999998,
+        -0.11999999999999998
+      ],
+      "potential_before": [
+        0.6000000000000001,
+        0.4,
+        0.6000000000000001,
+        0.6000000000000001
+      ],
+      "turn_returns": [
+        -0.6300000000000001,
+        -0.43000000000000005,
+        -0.6300000000000001,
+        -0.6300000000000001
+      ],
+      "turn_advantages": [
+        -0.5773502025229672,
+        1.7320506075689002,
+        -0.5773502025229672,
+        -0.5773502025229672
+      ],
+      "tools": [
+        "check_result",
+        "calculate_change",
+        "check_result",
+        "check_result"
+      ]
+    },
+    {
+      "group": 19,
+      "task": "train-009",
+      "scenario": "repeat_evidence_error",
+      "relative_turn": 3,
+      "episode_returns": [
+        -0.11999999999999998,
+        -0.11999999999999998,
+        -0.11999999999999998,
+        -0.11999999999999998
+      ],
+      "potential_before": [
+        0.6000000000000001,
+        0.4,
+        0.6000000000000001,
+        0.6000000000000001
+      ],
+      "turn_returns": [
+        -0.6200000000000001,
+        -0.42000000000000004,
+        -0.6200000000000001,
+        -0.6200000000000001
+      ],
+      "turn_advantages": [
+        -0.5773502025229672,
+        1.7320506075689002,
+        -0.5773502025229672,
+        -0.5773502025229672
+      ],
+      "tools": [
+        "check_result",
+        "calculate_change",
+        "check_result",
+        "check_result"
+      ]
+    },
+    {
+      "group": 19,
+      "task": "train-009",
+      "scenario": "repeat_evidence_error",
+      "relative_turn": 4,
+      "episode_returns": [
+        -0.11999999999999998,
+        -0.11999999999999998,
+        -0.11999999999999998,
+        -0.11999999999999998
+      ],
+      "potential_before": [
+        0.6000000000000001,
+        0.4,
+        0.6000000000000001,
+        0.6000000000000001
+      ],
+      "turn_returns": [
+        -0.6100000000000001,
+        -0.41000000000000003,
+        -0.6100000000000001,
+        -0.6100000000000001
+      ],
+      "turn_advantages": [
+        -0.5773502025229672,
+        1.7320506075689002,
+        -0.5773502025229672,
+        -0.5773502025229672
+      ],
+      "tools": [
+        "check_result",
+        "check_result",
+        "check_result",
+        "check_result"
+      ]
+    }
+  ],
+  "negative_progress_examples": [
+    {
+      "group": 1,
+      "episode": 2,
+      "turn": 0,
+      "tool": "query_sql",
+      "potential_before": 0,
+      "potential_after": 0.2,
+      "new_metrics": [
+        "current_net_cents"
+      ],
+      "advantage": -0.5773502562446424,
+      "return_to_go": -0.08000000000000007,
+      "episode_success": false
+    },
+    {
+      "group": 1,
+      "episode": 2,
+      "turn": 1,
+      "tool": "query_sql",
+      "potential_before": 0.2,
+      "potential_after": 0.4,
+      "new_metrics": [
+        "prior_net_cents"
+      ],
+      "advantage": -0.7234417859901265,
+      "return_to_go": -0.2700000000000001,
+      "episode_success": false
+    },
+    {
+      "group": 1,
+      "episode": 2,
+      "turn": 2,
+      "tool": "calculate_change",
+      "potential_before": 0.4,
+      "potential_after": 0.6000000000000001,
+      "new_metrics": [
+        "change_cents"
+      ],
+      "advantage": -0.8487431422905032,
+      "return_to_go": -0.4600000000000001,
+      "episode_success": false
+    },
+    {
+      "group": 1,
+      "episode": 3,
+      "turn": 0,
+      "tool": "query_sql",
+      "potential_before": 0,
+      "potential_after": 0.2,
+      "new_metrics": [
+        "current_net_cents"
+      ],
+      "advantage": -0.5773502562446424,
+      "return_to_go": -0.08000000000000007,
+      "episode_success": false
+    },
+    {
+      "group": 1,
+      "episode": 3,
+      "turn": 1,
+      "tool": "query_sql",
+      "potential_before": 0.2,
+      "potential_after": 0.4,
+      "new_metrics": [
+        "prior_net_cents"
+      ],
+      "advantage": -0.7234417859901265,
+      "return_to_go": -0.2700000000000001,
+      "episode_success": false
+    },
+    {
+      "group": 1,
+      "episode": 3,
+      "turn": 2,
+      "tool": "calculate_change",
+      "potential_before": 0.4,
+      "potential_after": 0.6000000000000001,
+      "new_metrics": [
+        "change_cents"
+      ],
+      "advantage": -0.8487431422905032,
+      "return_to_go": -0.4600000000000001,
+      "episode_success": false
+    },
+    {
+      "group": 3,
+      "episode": 0,
+      "turn": 0,
+      "tool": "query_sql",
+      "potential_before": 0.2,
+      "potential_after": 0.4,
+      "new_metrics": [
+        "current_net_cents"
+      ],
+      "advantage": -0.9999999805825246,
+      "return_to_go": -0.2700000000000001,
+      "episode_success": false
+    },
+    {
+      "group": 3,
+      "episode": 1,
+      "turn": 0,
+      "tool": "query_sql",
+      "potential_before": 0.2,
+      "potential_after": 0.4,
+      "new_metrics": [
+        "current_net_cents"
+      ],
+      "advantage": -0.9999999805825246,
+      "return_to_go": -0.2700000000000001,
+      "episode_success": false
+    }
+  ],
+  "group19_action_evidence": [
+    {
+      "episode": 0,
+      "episode_return": -0.11999999999999998,
+      "turns": [
+        {
+          "relative_turn": 2,
+          "action": {
+            "tool": "check_result",
+            "arguments": {
+              "values": {
+                "current_net_cents": 403747,
+                "prior_net_cents": 14646,
+                "change_cents": 62
+              },
+              "evidence": {
+                "current_net_cents": "q2",
+                "prior_net_cents": "q3",
+                "change_cents": "c4"
+              },
+              "policy_id": "revenue-v1"
+            }
+          },
+          "potential_before": 0.6000000000000001,
+          "potential_after": 0.6000000000000001,
+          "observation": {
+            "passed": false,
+            "checks": {
+              "policy": true,
+              "schema": true,
+              "current_net_cents": false,
+              "prior_net_cents": true,
+              "change_cents": true
+            },
+            "submitted": false
+          },
+          "advantage": -0.5773502025229672
+        },
+        {
+          "relative_turn": 3,
+          "action": {
+            "tool": "check_result",
+            "arguments": {
+              "values": {
+                "current_net_cents": 403747,
+                "prior_net_cents": 14646,
+                "change_cents": 62
+              },
+              "evidence": {
+                "current_net_cents": "q2",
+                "prior_net_cents": "q3",
+                "change_cents": "c4"
+              },
+              "policy_id": "revenue-v1"
+            }
+          },
+          "potential_before": 0.6000000000000001,
+          "potential_after": 0.6000000000000001,
+          "observation": {
+            "passed": false,
+            "checks": {
+              "policy": true,
+              "schema": true,
+              "current_net_cents": false,
+              "prior_net_cents": true,
+              "change_cents": true
+            },
+            "submitted": false
+          },
+          "advantage": -0.5773502025229672
+        },
+        {
+          "relative_turn": 4,
+          "action": {
+            "tool": "check_result",
+            "arguments": {
+              "values": {
+                "current_net_cents": 403747,
+                "prior_net_cents": 14646,
+                "change_cents": 62
+              },
+              "evidence": {
+                "current_net_cents": "q2",
+                "prior_net_cents": "q3",
+                "change_cents": "c4"
+              },
+              "policy_id": "revenue-v1"
+            }
+          },
+          "potential_before": 0.6000000000000001,
+          "potential_after": 0,
+          "observation": {
+            "passed": false,
+            "checks": {
+              "policy": true,
+              "schema": true,
+              "current_net_cents": false,
+              "prior_net_cents": true,
+              "change_cents": true
+            },
+            "submitted": false
+          },
+          "advantage": -0.5773502025229672
+        }
+      ]
+    },
+    {
+      "episode": 1,
+      "episode_return": -0.11999999999999998,
+      "turns": [
+        {
+          "relative_turn": 2,
+          "action": {
+            "tool": "calculate_change",
+            "arguments": {
+              "current_evidence": "q4",
+              "prior_evidence": "q5"
+            }
+          },
+          "potential_before": 0.4,
+          "potential_after": 0.4,
+          "observation": {
+            "error": "provide verified monthly evidence IDs",
+            "recoverable": true
+          },
+          "advantage": 1.7320506075689002
+        },
+        {
+          "relative_turn": 3,
+          "action": {
+            "tool": "calculate_change",
+            "arguments": {
+              "current_evidence": "q4",
+              "prior_evidence": "q5"
+            }
+          },
+          "potential_before": 0.4,
+          "potential_after": 0.4,
+          "observation": {
+            "error": "provide verified monthly evidence IDs",
+            "recoverable": true
+          },
+          "advantage": 1.7320506075689002
+        },
+        {
+          "relative_turn": 4,
+          "action": {
+            "tool": "check_result",
+            "arguments": {
+              "values": {
+                "current_net_cents": 403747,
+                "prior_net_cents": 14646,
+                "change_cents": 289101
+              },
+              "evidence": {
+                "current_net_cents": "q2",
+                "prior_net_cents": "q3",
+                "change_cents": "q5"
+              },
+              "policy_id": "revenue-v1"
+            }
+          },
+          "potential_before": 0.4,
+          "potential_after": 0,
+          "observation": {
+            "passed": false,
+            "checks": {
+              "policy": true,
+              "schema": true,
+              "current_net_cents": false,
+              "prior_net_cents": true,
+              "change_cents": false
+            },
+            "submitted": false
+          },
+          "advantage": 1.7320506075689002
+        }
+      ]
+    },
+    {
+      "episode": 2,
+      "episode_return": -0.11999999999999998,
+      "turns": [
+        {
+          "relative_turn": 2,
+          "action": {
+            "tool": "check_result",
+            "arguments": {
+              "values": {
+                "current_net_cents": 403747,
+                "prior_net_cents": 14646,
+                "change_cents": 62
+              },
+              "evidence": {
+                "current_net_cents": "q2",
+                "prior_net_cents": "q3",
+                "change_cents": "c4"
+              },
+              "policy_id": "revenue-v1"
+            }
+          },
+          "potential_before": 0.6000000000000001,
+          "potential_after": 0.6000000000000001,
+          "observation": {
+            "passed": false,
+            "checks": {
+              "policy": true,
+              "schema": true,
+              "current_net_cents": false,
+              "prior_net_cents": true,
+              "change_cents": true
+            },
+            "submitted": false
+          },
+          "advantage": -0.5773502025229672
+        },
+        {
+          "relative_turn": 3,
+          "action": {
+            "tool": "check_result",
+            "arguments": {
+              "values": {
+                "current_net_cents": null,
+                "prior_net_cents": 14646,
+                "change_cents": 62
+              },
+              "evidence": {
+                "current_net_cents": "q2",
+                "prior_net_cents": "q3",
+                "change_cents": "c4"
+              },
+              "policy_id": "revenue-v1"
+            }
+          },
+          "potential_before": 0.6000000000000001,
+          "potential_after": 0.6000000000000001,
+          "observation": {
+            "passed": false,
+            "checks": {
+              "policy": true,
+              "schema": true,
+              "current_net_cents": false,
+              "prior_net_cents": true,
+              "change_cents": true
+            },
+            "submitted": false
+          },
+          "advantage": -0.5773502025229672
+        },
+        {
+          "relative_turn": 4,
+          "action": {
+            "tool": "check_result",
+            "arguments": {
+              "values": {
+                "current_net_cents": 403747,
+                "prior_net_cents": null,
+                "change_cents": 62
+              },
+              "evidence": {
+                "current_net_cents": "q2",
+                "prior_net_cents": "q3",
+                "change_cents": "c4"
+              },
+              "policy_id": "revenue-v1"
+            }
+          },
+          "potential_before": 0.6000000000000001,
+          "potential_after": 0,
+          "observation": {
+            "passed": false,
+            "checks": {
+              "policy": true,
+              "schema": true,
+              "current_net_cents": false,
+              "prior_net_cents": false,
+              "change_cents": true
+            },
+            "submitted": false
+          },
+          "advantage": -0.5773502025229672
+        }
+      ]
+    },
+    {
+      "episode": 3,
+      "episode_return": -0.11999999999999998,
+      "turns": [
+        {
+          "relative_turn": 2,
+          "action": {
+            "tool": "check_result",
+            "arguments": {
+              "values": {
+                "current_net_cents": 403747,
+                "prior_net_cents": 14646,
+                "change_cents": 62
+              },
+              "evidence": {
+                "current_net_cents": "q2",
+                "prior_net_cents": "q3",
+                "change_cents": "c4"
+              },
+              "policy_id": "revenue-v1"
+            }
+          },
+          "potential_before": 0.6000000000000001,
+          "potential_after": 0.6000000000000001,
+          "observation": {
+            "passed": false,
+            "checks": {
+              "policy": true,
+              "schema": true,
+              "current_net_cents": false,
+              "prior_net_cents": true,
+              "change_cents": true
+            },
+            "submitted": false
+          },
+          "advantage": -0.5773502025229672
+        },
+        {
+          "relative_turn": 3,
+          "action": {
+            "tool": "check_result",
+            "arguments": {
+              "values": {
+                "current_net_cents": 403747,
+                "prior_net_cents": 14646,
+                "change_cents": 62
+              },
+              "evidence": {
+                "current_net_cents": "q2",
+                "prior_net_cents": "q3",
+                "change_cents": "c4"
+              },
+              "policy_id": "revenue-v1"
+            }
+          },
+          "potential_before": 0.6000000000000001,
+          "potential_after": 0.6000000000000001,
+          "observation": {
+            "passed": false,
+            "checks": {
+              "policy": true,
+              "schema": true,
+              "current_net_cents": false,
+              "prior_net_cents": true,
+              "change_cents": true
+            },
+            "submitted": false
+          },
+          "advantage": -0.5773502025229672
+        },
+        {
+          "relative_turn": 4,
+          "action": {
+            "tool": "check_result",
+            "arguments": {
+              "values": {
+                "current_net_cents": 403747,
+                "prior_net_cents": 14646,
+                "change_cents": 62
+              },
+              "evidence": {
+                "current_net_cents": "q4",
+                "prior_net_cents": "c4",
+                "change_cents": "c4"
+              },
+              "policy_id": "revenue-v1"
+            }
+          },
+          "potential_before": 0.6000000000000001,
+          "potential_after": 0,
+          "observation": {
+            "passed": false,
+            "checks": {
+              "policy": true,
+              "schema": true,
+              "current_net_cents": false,
+              "prior_net_cents": false,
+              "change_cents": true
+            },
+            "submitted": false
+          },
+          "advantage": -0.5773502025229672
+        }
+      ]
+    }
+  ],
+  "interpretation": "Observed sample credit assignment and mathematical identity, not an isolated causal estimate of final model performance; next matched experiment must test alternatives."
+}

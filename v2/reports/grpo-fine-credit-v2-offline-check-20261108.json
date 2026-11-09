@@ -1,0 +1,132 @@
+{
+  "prototype_only": true,
+  "trained": false,
+  "formula": "A_new(i,t) = A_outcome(i) + 0.2 * len(new_verified_metrics(i,t))",
+  "process_weight": 1.0,
+  "terminal_reset_penalty_excluded": true,
+  "method_scope": "custom outcome-GRPO advantage plus immediate verified-progress auxiliary signal; changed credit objective, not potential-equivalent shaping",
+  "counts": {
+    "actions": 651,
+    "nonzero": 542,
+    "progress_actions": 159,
+    "no_spurious_progress_signal_when_outcome_equal": 109,
+    "progress_positive_with_equal_outcome": 67,
+    "eligible_groups": 24
+  },
+  "group19": [
+    {
+      "episode": 0,
+      "turn": 2,
+      "tool": "check_result",
+      "new_verified_metrics": [],
+      "old_advantage": -0.5773502025229672,
+      "new_advantage": 0.0,
+      "outcome_advantage": 0.0
+    },
+    {
+      "episode": 0,
+      "turn": 3,
+      "tool": "check_result",
+      "new_verified_metrics": [],
+      "old_advantage": -0.5773502025229672,
+      "new_advantage": 0.0,
+      "outcome_advantage": 0.0
+    },
+    {
+      "episode": 0,
+      "turn": 4,
+      "tool": "check_result",
+      "new_verified_metrics": [],
+      "old_advantage": -0.5773502025229672,
+      "new_advantage": 0.0,
+      "outcome_advantage": 0.0
+    },
+    {
+      "episode": 1,
+      "turn": 2,
+      "tool": "calculate_change",
+      "new_verified_metrics": [],
+      "old_advantage": 1.7320506075689002,
+      "new_advantage": 0.0,
+      "outcome_advantage": 0.0
+    },
+    {
+      "episode": 1,
+      "turn": 3,
+      "tool": "calculate_change",
+      "new_verified_metrics": [],
+      "old_advantage": 1.7320506075689002,
+      "new_advantage": 0.0,
+      "outcome_advantage": 0.0
+    },
+    {
+      "episode": 1,
+      "turn": 4,
+      "tool": "check_result",
+      "new_verified_metrics": [],
+      "old_advantage": 1.7320506075689002,
+      "new_advantage": 0.0,
+      "outcome_advantage": 0.0
+    },
+    {
+      "episode": 2,
+      "turn": 2,
+      "tool": "check_result",
+      "new_verified_metrics": [],
+      "old_advantage": -0.5773502025229672,
+      "new_advantage": 0.0,
+      "outcome_advantage": 0.0
+    },
+    {
+      "episode": 2,
+      "turn": 3,
+      "tool": "check_result",
+      "new_verified_metrics": [],
+      "old_advantage": -0.5773502025229672,
+      "new_advantage": 0.0,
+      "outcome_advantage": 0.0
+    },
+    {
+      "episode": 2,
+      "turn": 4,
+      "tool": "check_result",
+      "new_verified_metrics": [],
+      "old_advantage": -0.5773502025229672,
+      "new_advantage": 0.0,
+      "outcome_advantage": 0.0
+    },
+    {
+      "episode": 3,
+      "turn": 2,
+      "tool": "check_result",
+      "new_verified_metrics": [],
+      "old_advantage": -0.5773502025229672,
+      "new_advantage": 0.0,
+      "outcome_advantage": 0.0
+    },
+    {
+      "episode": 3,
+      "turn": 3,
+      "tool": "check_result",
+      "new_verified_metrics": [],
+      "old_advantage": -0.5773502025229672,
+      "new_advantage": 0.0,
+      "outcome_advantage": 0.0
+    },
+    {
+      "episode": 3,
+      "turn": 4,
+      "tool": "check_result",
+      "new_verified_metrics": [],
+      "old_advantage": -0.5773502025229672,
+      "new_advantage": 0.0,
+      "outcome_advantage": 0.0
+    }
+  ],
+  "reward_hacking_controls": [
+    "each newly verified metric counted once per episode",
+    "repeated queries of existing metric receive zero local bonus",
+    "invalid evidence calls receive zero local bonus",
+    "terminal potential reset is not interpreted as negative local progress"
+  ]
+}

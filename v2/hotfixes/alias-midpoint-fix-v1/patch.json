@@ -1,0 +1,21 @@
+{
+  "fix_id": "alias-midpoint-fix-v1",
+  "original_release_manifest_sha256": "a309e2bd25cbe90a6f9e2521600e5804f2bdfa5af56767a9a6d74b1f59bfeff1",
+  "targets": {
+    "scripts/run_v2_grpo_alias_curriculum.py": {
+      "before": "45b5a4e4926861a6e25988878637ffa922b2127506f32e7a0fcdf4a7a6c654d7",
+      "after": "0a56e44ab98f74efcca6e7fb734ef18dc6834e67e5e0031171b427854a2b8b18"
+    },
+    "tests/test_grpo_alias_driver_v2.py": {
+      "before": "a9a0d12464c9c5ebae2a8a7bb78964b604f3fc5ce4134a8639d8ce476412339c",
+      "after": "00f8c2148d1838a34412670ea82d98c166eb1c6cf77cc97ecacbf9353b273002"
+    }
+  },
+  "bundle_files": {
+    "hotfixes/alias-midpoint-fix-v1/apply.py": "a5fe9d9c04aa83d9272ce377b3b122fd92b4f1b3c790fd084c7736eeb173ea71",
+    "hotfixes/alias-midpoint-fix-v1/payload/scripts/run_v2_grpo_alias_curriculum.py": "0a56e44ab98f74efcca6e7fb734ef18dc6834e67e5e0031171b427854a2b8b18",
+    "hotfixes/alias-midpoint-fix-v1/payload/tests/test_grpo_alias_driver_v2.py": "00f8c2148d1838a34412670ea82d98c166eb1c6cf77cc97ecacbf9353b273002",
+    "reports/grpo-alias-midpoint-fix-v1-20261109.md": "363a401effc0080c7862ed500cfa8c89f746bd9a34416f2031f6452ebf37911a",
+    "reports/grpo-alias-midpoint-fix-validation-v1-20261109.json": "bb012fc7c8274ff0db25017f7e48c50be89c7588a2993c193df546864572cb1e"
+  }
+}

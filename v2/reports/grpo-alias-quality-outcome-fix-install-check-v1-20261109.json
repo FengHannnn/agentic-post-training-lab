@@ -1,0 +1,9 @@
+{
+  "passed": true,
+  "final_zip_cli_install_passed": true,
+  "idempotent_cli_passed": true,
+  "runner_help_passed": true,
+  "protected_files_verified_unchanged": 1478,
+  "elapsed_seconds_preserved": 16783.154231989058,
+  "quality_gate_waived": false
+}

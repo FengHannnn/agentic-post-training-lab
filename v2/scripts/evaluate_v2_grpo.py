@@ -20,6 +20,25 @@ def quality_specs(cfg):
     return [{'task_id': task.id, 'scenario': s} for s in SCENARIOS[:cfg['protocol']['quality_contexts_per_model']]]
 
 
+def finish_quality_check(output,label,spec,check,targeted_check):
+    """A rejected alias model remains rejected while the other arm is evaluated."""
+    cfg=read(output/'config.json')
+    if cfg.get('curriculum_schema')!='alias_curriculum_v1':
+        if not check['passed']:
+            raise ValueError('evaluation quality/calendar gate failed: '+str(check['checks']))
+        return
+    failed=[key for key,passed in check['checks'].items() if not passed]
+    if targeted_check is not None and not targeted_check['passed']:
+        failed.append('targeted_calendar_final_evidence')
+    status={'passed':not failed,'structural_verification_passed':True,'failed_checks':failed,
+            'config_sha256':file_hash(output/'config.json'),'policy_sha256':spec['policy']['adapter_sha256'],
+            'evaluation_sha256':file_hash(output/'evaluations'/(label+'.json')),
+            'original_quality_thresholds_preserved':True}
+    atomic_json(output/'evaluations'/(label+'-quality-status.json'),status)
+    print('Evaluation '+label+': quality '+('PASSED' if status['passed'] else 'REJECTED; saved outcome retained'),flush=True)
+    return status
+
+
 def verify_evaluation(output, label, spec, tok, local=False, data=None):
     cfg = verify_inputs(output, runtime=False, local=local)
     if not re.fullmatch(r'weighted_sft|grpo_g[0-9]{4}', label):
@@ -103,10 +122,11 @@ def evaluate(output, label, spec_path):
     if target.exists():
         tok = AutoTokenizer.from_pretrained(output/'tokenizer', local_files_only=True, trust_remote_code=False)
         result = verify_evaluation(output, label, spec, tok)
-        if not result['passed']:
+        if not result['passed'] and cfg.get('curriculum_schema')!='alias_curriculum_v1':
             raise ValueError('committed evaluation quality check failed')
         verify_closing_evaluation(output,label,spec,tok)
-        verify_targeted_evaluation(output,label,spec,tok)
+        targeted_check=verify_targeted_evaluation(output,label,spec,tok)
+        finish_quality_check(output,label,spec,result,targeted_check)
         return
     adapter = under(output, spec['policy']['checkpoint'])/'adapter'
     if file_hash(adapter/'adapter_model.safetensors') != spec['policy']['adapter_sha256']:
@@ -194,11 +214,10 @@ def evaluate(output, label, spec_path):
                 'max_loras': 1, 'lora_id': 1, 'seed_protocol': 'same_as_dpo_sft_start_development'}
         check = verify_evaluation(output, label, spec, tok, data=data)
         verify_closing_evaluation(output,label,spec,tok,data)
-        verify_targeted_evaluation(output,label,spec,tok,data)
+        targeted_check=verify_targeted_evaluation(output,label,spec,tok,data)
         atomic_json(output/'evaluations'/(label+'-audit.json'), check)
         atomic_json(target, data)
-        if not check['passed']:
-            raise ValueError('evaluation quality/calendar gate failed: '+str(check['checks']))
+        finish_quality_check(output,label,spec,check,targeted_check)
     finally:
         if engine is not None:
             shutdown(engine)
@@ -237,6 +256,7 @@ def verify_targeted_evaluation(output,label,spec,tok,data=None):
     actual={evaluation_key(e):e for e in rows};expected={plan_key(p):p for p in plan}
     if len(actual)!=len(rows) or actual.keys()!=expected.keys():raise ValueError('targeted evaluation coverage differs')
     tasks={t.id:t for t in development_tasks(cfg)}
+    calendar=[]
     for key,e in actual.items():
         p=expected[key];task=tasks[e['task_id']]
         if (e['sampling']!={**cfg['sampling'],'temperature':p['temperature']} or e['seed']!=p['seed']
@@ -246,11 +266,15 @@ def verify_targeted_evaluation(output,label,spec,tok,data=None):
         replay(task,e,tok,target_context)
         cal=calendar_episode_audit(task,[x['row'] for x in e['start']['prefix']]+e['turns'],
                                    e['success'],e['artifact'],allowed_split='development')
-        if e['success'] and not cal['calendar_consistent_success']:raise ValueError('targeted calendar evidence differs')
+        calendar.append({'key':list(key),'result':cal})
+        if e['success'] and not cal['calendar_consistent_success'] and cfg.get('curriculum_schema')!='alias_curriculum_v1':
+            raise ValueError('targeted calendar evidence differs')
     summary=summarize_targeted(rows)
     if data.get('targeted_summary')!=summary:raise ValueError('targeted summary differs')
-    return {'passed':True,'summary':summary,'episodes_replayed':len(rows),
-            'actions_replayed':sum(len(e['turns']) for e in rows)}
+    result={'passed':all(not r['result']['environment_success'] or r['result']['calendar_consistent_success'] for r in calendar),
+            'summary':summary,'episodes_replayed':len(rows),'actions_replayed':sum(len(e['turns']) for e in rows)}
+    if cfg.get('curriculum_schema')=='alias_curriculum_v1':result['calendar']=calendar
+    return result
 
 
 if __name__ == '__main__':

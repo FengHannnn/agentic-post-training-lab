@@ -1,0 +1,63 @@
+{
+  "passed": true,
+  "related_regression": {
+    "tests_passed": 85,
+    "failed": 0,
+    "seconds": 142.40046409983188
+  },
+  "original_gate_failure_reproduced": true,
+  "independent_real_evaluation_replay": {
+    "passed": true,
+    "sqlite": "3.54.1",
+    "models": {
+      "weighted_sft": {
+        "passed": true,
+        "checks": {
+          "complete_episode_coverage": true,
+          "repeated_greedy_tokens_identical": true,
+          "calendar_final_evidence": true
+        },
+        "targeted_passed": true,
+        "episodes_replayed": 164,
+        "raw_evaluation_sha256_unchanged": true,
+        "failed_checks": []
+      },
+      "grpo_g0048": {
+        "passed": false,
+        "checks": {
+          "complete_episode_coverage": true,
+          "repeated_greedy_tokens_identical": false,
+          "calendar_final_evidence": false
+        },
+        "targeted_passed": true,
+        "episodes_replayed": 164,
+        "raw_evaluation_sha256_unchanged": true,
+        "failed_checks": [
+          "repeated_greedy_tokens_identical",
+          "calendar_final_evidence"
+        ]
+      }
+    },
+    "gpu_regenerations": 0,
+    "seconds": 50.37850799970329
+  },
+  "installer_real_artifact_check": {
+    "passed": true,
+    "protected_files_verified_unchanged": 1478,
+    "actual_updates": {
+      "control": 25,
+      "curriculum": 37
+    },
+    "committed_groups": {
+      "control": 48,
+      "curriculum": 48
+    },
+    "elapsed_seconds_preserved": 16783.154231989058,
+    "remaining_budget_seconds": 4816.845768010942,
+    "training_restarted": false,
+    "config_changed": false
+  },
+  "acceptance_thresholds_changed": false,
+  "failed_quality_blocks_all_candidate_selection": true,
+  "saved_control_evaluation_regenerated": false
+}

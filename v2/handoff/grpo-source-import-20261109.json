@@ -1,0 +1,404 @@
+{
+  "date": "2026-11-09",
+  "timezone": "Asia/Shanghai",
+  "source_archive": {
+    "filename": "grpo-alias-curriculum-v1-20261109-review-attempt-003.zip",
+    "bytes": 290041670,
+    "sha256": "4a97429fae19131191e0dec3f53e21922091644ead514dddaacdbcf5ac3c1c34"
+  },
+  "published_manifest": "grpo_alias_release_manifest.json",
+  "source_manifest_verified_files": 291,
+  "source_migrations": [
+    {
+      "fix_id": "alias-midpoint-fix-v1",
+      "reason": "remove duplicate post-training midpoint invocation",
+      "targets": {
+        "scripts/run_v2_grpo_alias_curriculum.py": {
+          "before": "45b5a4e4926861a6e25988878637ffa922b2127506f32e7a0fcdf4a7a6c654d7",
+          "after": "0a56e44ab98f74efcca6e7fb734ef18dc6834e67e5e0031171b427854a2b8b18"
+        },
+        "tests/test_grpo_alias_driver_v2.py": {
+          "before": "a9a0d12464c9c5ebae2a8a7bb78964b604f3fc5ce4134a8639d8ce476412339c",
+          "after": "00f8c2148d1838a34412670ea82d98c166eb1c6cf77cc97ecacbf9353b273002"
+        }
+      },
+      "training_algorithm_changed": false
+    },
+    {
+      "fix_id": "alias-quality-outcome-fix-v1",
+      "reason": "preserve failed quality outcomes, finish the paired evaluation, retain original acceptance gates",
+      "targets": {
+        "scripts/evaluate_v2_grpo.py": {
+          "before": "342d6730ad04699b357d32fe092c68974e8bc2f6a354f1630391e889c30f12a5",
+          "after": "8df645989043b1f31353528d587035bf294f1ead414729015edcf2adcf225bc4"
+        },
+        "scripts/audit_v2_grpo_alias.py": {
+          "before": "da24b55dfa6bc5fcb738cb0894765ccea129e6cfdce3e562259e4627f2191736",
+          "after": "d17e18ec3d9047e037a895f62194205c8a3c76d9623ce066a62c5dc6b74e299c"
+        },
+        "scripts/run_v2_grpo_alias_curriculum.py": {
+          "before": "0a56e44ab98f74efcca6e7fb734ef18dc6834e67e5e0031171b427854a2b8b18",
+          "after": "62a2d96696417703d937ea589bc916ae83cccdc01d1c7170fd28c0da7159734c"
+        },
+        "tests/test_grpo_alias_quality_v2.py": {
+          "before": null,
+          "after": "6d33e54a19975e99bbc05514ee6c987854a2470bdd352805e6c5f0b399c44334"
+        }
+      },
+      "training_algorithm_changed": false
+    }
+  ],
+  "baseline_commit": "7f29ff6030d4fbbd2114c6c829ae88f4c6c6a922",
+  "v1_backfill_commit": "eea5d34b566f0413be6f326ec31af6b9abc2cdf4",
+  "imported_files": [
+    {
+      "path": "src/apt_v2/grpo_alias_curriculum.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "51f621d1b9867c0af3728de3e41fc48e503f21ef2c33e724bec76646e906064a"
+    },
+    {
+      "path": "src/apt_v2/grpo_curriculum.py",
+      "status": "updated",
+      "before_sha256": "3a57f6a64479461d79b2cef753616f9fd52ed71cd4a18f59c40ab75279166c05",
+      "after_sha256": "0ca411a7e7f698d91ae8a0c8bcfd7145ca82157f24b25a4edb83fa29db4693e9"
+    },
+    {
+      "path": "src/apt_v2/grpo_hard_preflight.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "69f794798943c4691bf08661c7baa2ba6b9e41432313c48ac44c0021d011e295"
+    },
+    {
+      "path": "scripts/audit_v2_grpo.py",
+      "status": "updated",
+      "before_sha256": "cede278f412a5defcdd00c988c89284ce899564d1d9b141d54b410ff8ad17e4a",
+      "after_sha256": "0bcc52be7f2019e15095f8af7bb662d387598bfd56833ca5fd4169c40bfc60b1"
+    },
+    {
+      "path": "scripts/audit_v2_grpo_alias.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "d17e18ec3d9047e037a895f62194205c8a3c76d9623ce066a62c5dc6b74e299c"
+    },
+    {
+      "path": "scripts/build_v2_grpo_alias_release.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "d8d4980df71a455d2c67546c3570947de98345cfc8eea749f06679408c0159ff"
+    },
+    {
+      "path": "scripts/build_v2_grpo_hard_release.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "4630dad5c78e7b749012a39ca6d44dbcf2340dfe4fa1b5de5d7f816541c09c47"
+    },
+    {
+      "path": "scripts/evaluate_v2_grpo.py",
+      "status": "updated",
+      "before_sha256": "342d6730ad04699b357d32fe092c68974e8bc2f6a354f1630391e889c30f12a5",
+      "after_sha256": "8df645989043b1f31353528d587035bf294f1ead414729015edcf2adcf225bc4"
+    },
+    {
+      "path": "scripts/grpo_alias_common.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "783374b25b266e693ced6a700aed215eac1ad8ce95af9a2fe8531e9df7aa3dc5"
+    },
+    {
+      "path": "scripts/grpo_common.py",
+      "status": "updated",
+      "before_sha256": "26565779a99ac752652d1f4c2a34467bdce811ccd53282bfc2fff45e0aaf6de0",
+      "after_sha256": "564c0334c2ddb7a08734d66e495480b305a7dab7d5b0d4bfaa3d57f83c53b3d4"
+    },
+    {
+      "path": "scripts/grpo_hard_common.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "254b3f6ec63f55f4d42689abf5cd95d310959ef4a1a244db652e56b5091358ad"
+    },
+    {
+      "path": "scripts/grpo_hard_worker.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "afb9d435a2491192af1ac47d215a9b5bcede2b9fb0b243b621552ae8a8c77a2b"
+    },
+    {
+      "path": "scripts/grpo_vllm.py",
+      "status": "updated",
+      "before_sha256": "fe226850ee56e3831b0bc9cafbd2228dea44830022e3e979a0b9711f76333e53",
+      "after_sha256": "151b95f56c95831793d512ad7e4117da7ec371e6fb64f9695c2ff7de46480533"
+    },
+    {
+      "path": "scripts/grpo_worker.py",
+      "status": "updated",
+      "before_sha256": "e832776fddab5aff0fe0cb2992b0842adb73491bd6b9850868955d5a4394e880",
+      "after_sha256": "07db52758a1af2086d96f13f52d96c6979f222644f03377014798fa5ee3f8509"
+    },
+    {
+      "path": "scripts/probe_v2_grpo_alias.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "a81ac9d6c2b219e001eb0e7b3215aca81d111b7b1f110055335b9c4557aa6bd2"
+    },
+    {
+      "path": "scripts/run_v2_grpo_alias_curriculum.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "62a2d96696417703d937ea589bc916ae83cccdc01d1c7170fd28c0da7159734c"
+    },
+    {
+      "path": "scripts/run_v2_grpo_hard_preflight.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "0625fe36fa4fffc28877da53dbd9d176450bb15e66fbc8c9f0a4e67069642a57"
+    },
+    {
+      "path": "configs/grpo-alias-control-v1.json",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "5364e66e8d26692aca802d4a5412c1c314961a663e5ec383b51f8cd0c7561958"
+    },
+    {
+      "path": "configs/grpo-alias-curriculum-arm-v1.json",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "2b2603dac91a7391f06ff9617c53cf073b56b222896fe18fa9042ab3c96ece0a"
+    },
+    {
+      "path": "configs/grpo-alias-curriculum-v1.json",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "f42436a6393d5fae165896652e62eda6d4014f15772ca35a1597c866e41bc9f2"
+    },
+    {
+      "path": "configs/grpo-hard-recovery-preflight-v1.json",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "56a5a710fb327ee40a8f0b586ada7afbeab79c2b3a9b2c88645d6320caeb9832"
+    },
+    {
+      "path": "tests/test_grpo_alias_curriculum_v2.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "b0ba372ccb52ed3081d0b2d3c3d121fb3211e60a73d81b73ed37d8d153435682"
+    },
+    {
+      "path": "tests/test_grpo_alias_driver_v2.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "00f8c2148d1838a34412670ea82d98c166eb1c6cf77cc97ecacbf9353b273002"
+    },
+    {
+      "path": "tests/test_grpo_alias_quality_v2.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "6d33e54a19975e99bbc05514ee6c987854a2470bdd352805e6c5f0b399c44334"
+    },
+    {
+      "path": "tests/test_grpo_hard_preflight_v2.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "e21350281467539e9d630a2050cb016931ed8a43e99e0f9fce82868db48cf242"
+    },
+    {
+      "path": "hotfixes/alias-midpoint-fix-v1/apply.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "a5fe9d9c04aa83d9272ce377b3b122fd92b4f1b3c790fd084c7736eeb173ea71"
+    },
+    {
+      "path": "hotfixes/alias-midpoint-fix-v1/patch.json",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "7e0ce463f98ab8d34fb95eaaf67cac6b72f6bcff5059d218bf721b73b68c848e"
+    },
+    {
+      "path": "hotfixes/alias-midpoint-fix-v1/payload/scripts/run_v2_grpo_alias_curriculum.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "0a56e44ab98f74efcca6e7fb734ef18dc6834e67e5e0031171b427854a2b8b18"
+    },
+    {
+      "path": "hotfixes/alias-midpoint-fix-v1/payload/tests/test_grpo_alias_driver_v2.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "00f8c2148d1838a34412670ea82d98c166eb1c6cf77cc97ecacbf9353b273002"
+    },
+    {
+      "path": "hotfixes/alias-quality-outcome-fix-v1/apply.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "52a3883d93d9ff40045c320e47c2d6fd0f4d61c426df7abf927961a30e8e9a92"
+    },
+    {
+      "path": "hotfixes/alias-quality-outcome-fix-v1/patch.json",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "0cedde88c71948d3c336f6e3139ecbcfae7e35f5d0691a295b55a92c0494a596"
+    },
+    {
+      "path": "hotfixes/alias-quality-outcome-fix-v1/payload/scripts/audit_v2_grpo_alias.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "d17e18ec3d9047e037a895f62194205c8a3c76d9623ce066a62c5dc6b74e299c"
+    },
+    {
+      "path": "hotfixes/alias-quality-outcome-fix-v1/payload/scripts/evaluate_v2_grpo.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "8df645989043b1f31353528d587035bf294f1ead414729015edcf2adcf225bc4"
+    },
+    {
+      "path": "hotfixes/alias-quality-outcome-fix-v1/payload/scripts/run_v2_grpo_alias_curriculum.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "62a2d96696417703d937ea589bc916ae83cccdc01d1c7170fd28c0da7159734c"
+    },
+    {
+      "path": "hotfixes/alias-quality-outcome-fix-v1/payload/tests/test_grpo_alias_quality_v2.py",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "6d33e54a19975e99bbc05514ee6c987854a2470bdd352805e6c5f0b399c44334"
+    },
+    {
+      "path": "reports/grpo-alias-curriculum-contract-v1-20261109.md",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "028024054cf1ce70c772185a640870e7e28cbc31c00ea2f7e8174a8917c68484"
+    },
+    {
+      "path": "reports/grpo-alias-curriculum-validation-v1-20261109.json",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "074f8d9ee95d35e0136fbeb824b799d77c53094c44ac00ce833961dfa5011310"
+    },
+    {
+      "path": "reports/grpo-alias-midpoint-fix-v1-20261109.md",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "363a401effc0080c7862ed500cfa8c89f746bd9a34416f2031f6452ebf37911a"
+    },
+    {
+      "path": "reports/grpo-alias-midpoint-fix-validation-v1-20261109.json",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "bb012fc7c8274ff0db25017f7e48c50be89c7588a2993c193df546864572cb1e"
+    },
+    {
+      "path": "reports/grpo-alias-quality-outcome-fix-v1-20261109.md",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "10ad5220d0890c5870ce201775300a661679267bb1abd3feb726c69a9b6aa299"
+    },
+    {
+      "path": "reports/grpo-alias-quality-outcome-fix-validation-v1-20261109.json",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "dd5fbbf65a67f338c901b5c475b81c54377b089caa73421f6aaf0ad01c9f5cf4"
+    },
+    {
+      "path": "grpo_alias_release_manifest.json",
+      "status": "added",
+      "before_sha256": null,
+      "after_sha256": "68c2e6bcec56e9a37f12597fd26676550a9cf17b6382f5b3f99a122a87bfaaa8"
+    }
+  ],
+  "supplemental_files": [
+    {
+      "path": "reports/grpo-alias-curriculum-results-receipt-v1-20261109.json",
+      "sha256": "e67446505d0cd6782f5092c61a0d5a42d20234336843fdde05c54d9f47a58a8b"
+    },
+    {
+      "path": "reports/grpo-alias-curriculum-v1-20261109-release.json",
+      "sha256": "c4c1cc4e611bf27e7278a194f3296c651cd1132ee53253016d4cc956c24807c8"
+    },
+    {
+      "path": "reports/grpo-alias-midpoint-fix-install-check-v1-20261109.json",
+      "sha256": "9b28f41fe92f9c2dfa61af10f6c31f0101cfd972816e8ca051b5ea6e8de40b0e"
+    },
+    {
+      "path": "reports/grpo-alias-midpoint-fix-release-v1-20261109.json",
+      "sha256": "a34bf67a7d4b12c4373c8ff309cc1d333672f8e6be398c7c5179e7eb9a0fb66e"
+    },
+    {
+      "path": "reports/grpo-alias-quality-outcome-fix-install-check-v1-20261109.json",
+      "sha256": "b48c36b129922e41fb7e7bdc5c435d2cee525120036fea0dc843f88787a5b5b9"
+    },
+    {
+      "path": "reports/grpo-alias-quality-outcome-fix-release-v1-20261109.json",
+      "sha256": "5de26b2ab71154304022932d5ed3b75fa4eb9125f1066f5d3af4d8637aecea90"
+    },
+    {
+      "path": "reports/grpo-fine-credit-audit-20261109.json",
+      "sha256": "a8a23d055acaddacbc0f25d5cba0dc4fa5a632f160a16f244267e452b07d45f9"
+    },
+    {
+      "path": "reports/grpo-fine-credit-results-20261109.md",
+      "sha256": "8d429453b0eb7b19d726e00048d7d9438cce691e945d8efded25d8375c90b505"
+    },
+    {
+      "path": "reports/grpo-fine-credit-results-receipt-20261109.json",
+      "sha256": "148c1c69cbf1947c0c71639f81ab170b677148735569e96e4bafd6f8a7294f4a"
+    },
+    {
+      "path": "reports/grpo-fine-credit-v1-20261108-release.json",
+      "sha256": "4e0fca0df307aa0e635cd33a9a77956f72b007fb50383a4a1f86b233cfd10a42"
+    },
+    {
+      "path": "reports/grpo-fine-credit-v2-offline-check-20261108.json",
+      "sha256": "ab3a7e9398290625e2344496babafd5e0e1b16db7f26b234212ef59bdc6de670"
+    },
+    {
+      "path": "reports/grpo-fine-rl17-credit-diagnostic-20261108.json",
+      "sha256": "eef64442125631a8b965da892dd1c29a606ea8f14a102cc80ca0f58b81c977d6"
+    },
+    {
+      "path": "reports/grpo-hard-recovery-preflight-audit-20261109.json",
+      "sha256": "155d0dd2627b7ccab11407043970f7913167c36e925972cc0a7cba9286ce69c6"
+    },
+    {
+      "path": "reports/grpo-hard-recovery-preflight-contract-20261109.md",
+      "sha256": "7c3c39a1b0b821c8aaab8e0890d34a2d78ed1fa07ad6a8fd60f0a2abc0062823"
+    },
+    {
+      "path": "reports/grpo-hard-recovery-preflight-results-20261109.md",
+      "sha256": "ad0cc7565bd2f1f97d1387d1a8dcc9e46f2342ea973758b33077a3125bf1ee65"
+    },
+    {
+      "path": "reports/grpo-hard-recovery-preflight-results-receipt-20261109.json",
+      "sha256": "5f4f358125e16be6cc7e67febfd0f96a743abda23ea981900a0ea47e560331db"
+    },
+    {
+      "path": "reports/grpo-hard-recovery-preflight-v1-20261109-release.json",
+      "sha256": "6e86f403e2550195256922c493a6e62c93c3c2c3ccaf16a5f9a01b2c9152ab2a"
+    },
+    {
+      "path": "reports/grpo-hard-recovery-preflight-validation-20261109.json",
+      "sha256": "49b0cb065b4195655a07010a6a14f293e2506bfde87480e7e31814b4a9a98982"
+    },
+    {
+      "path": "handoff/PROJECT_HANDOFF_V2_SFT_DPO_RESULTS_2026-11-09.md",
+      "sha256": "432693121654ba4efecc74fe3cb0d871d74f9611fde50e4a50c4714a260701fe",
+      "archive": "PROJECT_HANDOFF_V2_SFT_DPO_RESULTS_2026-11-09.zip"
+    },
+    {
+      "path": "handoff/PROJECT_HANDOFF_V2_GRPO_CONTINUATION_2026-11-09.md",
+      "sha256": "f74218bc6b477b86d54d88cb9239da3cc7d7574c84f0d05b11447ea9d36933b6",
+      "archive": "PROJECT_HANDOFF_V2_GRPO_CONTINUATION_2026-11-09.zip"
+    }
+  ],
+  "local_runtime": {
+    "path": ".local/sqlite3541/sqlite3.dll",
+    "version": "3.54.1",
+    "sha256": "4b59d3cded9dc1608544160f3b4b10ac974c6ac0d6ffc23064e5f4c8dbd05aea",
+    "versioned": false
+  },
+  "local_validation_environment": {
+    "python": "3.11.5",
+    "torch": "2.14.0+cpu",
+    "transformers": "4.57.6",
+    "peft": "0.17.1",
+    "sqlite": "3.54.1"
+  }
+}

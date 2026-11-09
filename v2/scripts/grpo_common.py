@@ -55,7 +55,10 @@ def validate_config(cfg):
             or method not in ('outcome','potential_rtg_depth_v1','outcome_local_verified_v2')):
         raise ValueError('algorithm and action-credit method differ')
     from apt_v2.dpo_recovery import SCENARIOS
-    if cfg.get('curriculum_schema')=='fine_credit_ablation_v1':
+    if cfg.get('curriculum_schema')=='alias_curriculum_v1':
+        from apt_v2.grpo_alias_curriculum import validate_config as validate_alias
+        validate_alias(cfg)
+    elif cfg.get('curriculum_schema')=='fine_credit_ablation_v1':
         from apt_v2.grpo_fine_study import validate_config as validate_fine
         validate_fine(cfg)
     elif cfg.get('curriculum_schema'):
@@ -63,7 +66,7 @@ def validate_config(cfg):
         validate_curriculum(cfg)
     elif set(cfg['recovery_scenarios']) != set(SCENARIOS) or len(cfg['recovery_scenarios']) != len(SCENARIOS):
         raise ValueError('seven distinct train recovery scenarios required')
-    if method=='outcome_local_verified_v2' and cfg.get('curriculum_schema')!='fine_credit_ablation_v1':
+    if method=='outcome_local_verified_v2' and cfg.get('curriculum_schema') not in ('fine_credit_ablation_v1','alias_curriculum_v1'):
         raise ValueError('local verified credit requires the frozen fine study')
     limits = (cfg['max_groups'], cfg['max_updates'], cfg['k'], cfg['max_wall_seconds'])
     if any(type(v) is not int or v <= 0 for v in limits) or cfg['max_updates'] > cfg['max_groups']:
@@ -83,7 +86,7 @@ def validate_config(cfg):
         if (not cfg['evaluation']['enabled'] or cfg['max_groups'] % 2 or cfg['max_updates'] != cfg['max_groups']
                 or not cursors or cursors != sorted(set(cursors)) or cursors[-1] != cfg['max_groups']
                 or any(type(v) is not int or v <= 0 or v % 2 for v in cursors)
-                or not 1 <= cfg['formal_job_index'] <= 3 or cfg['minimum_actual_updates'] < 1):
+                or not 1 <= cfg['formal_job_index'] <= 3 or cfg['minimum_actual_updates'] < (0 if cfg.get('curriculum_schema')=='alias_curriculum_v1' else 1)):
             raise ValueError('fixed balanced formal group budget and evaluation cursors required')
         if (cfg['eval']['max_model_len'] != cfg['sampling']['max_model_len']
                 or cfg['eval']['max_new_tokens'] != cfg['sampling']['max_new_tokens']

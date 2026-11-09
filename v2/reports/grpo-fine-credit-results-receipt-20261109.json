@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "archive": "grpo-fine-credit-results-20261109.zip",
+  "bytes": 9192488,
+  "sha256": "accd95fc24e0aae3b3aeea63f0fc7ebbabfdfcddbe0237e694375b3aa363c3a7",
+  "entries": 292,
+  "report": "grpo-fine-credit-results-20261109.md",
+  "report_sha256": "8d429453b0eb7b19d726e00048d7d9438cce691e945d8efded25d8375c90b505",
+  "original_returned_files_verified_unchanged": 2183,
+  "original_review_sha256": "4bbb1a1b5b53921c5872c889f0115d1b070bb034272fd73e1803494747ef9c00",
+  "full_independent_audit_passed": true
+}

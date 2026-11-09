@@ -1,0 +1,11 @@
+{
+  "passed": true,
+  "archive": "grpo-hard-recovery-preflight-results-20261109.zip",
+  "sha256": "e7209d3f741319fefd5cba23c1915fbb09a39c091d76a6a6d257b3738345ea1f",
+  "bytes": 11159725,
+  "entries": 388,
+  "original_returned_files_verified_unchanged": 381,
+  "original_review_sha256": "9423d4deb323cf3ea3691789801fac4d9b9a807bf339fc123f8efbed3060dafc",
+  "report_sha256": "ad0cc7565bd2f1f97d1387d1a8dcc9e46f2342ea973758b33077a3125bf1ee65",
+  "independent_audit_passed": true
+}

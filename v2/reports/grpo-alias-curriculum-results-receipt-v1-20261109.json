@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "archive": "grpo-alias-curriculum-results-v1-20261109.zip",
+  "bytes": 20342,
+  "sha256": "12a0e5a468868ca5759bd28375040ce34104570aa6e45a8217b58a60539e036d",
+  "entries": 7,
+  "original_run_archive_sha256": "4a97429fae19131191e0dec3f53e21922091644ead514dddaacdbcf5ac3c1c34",
+  "cloud_and_local_audits_identical": true,
+  "candidate_selected": null
+}

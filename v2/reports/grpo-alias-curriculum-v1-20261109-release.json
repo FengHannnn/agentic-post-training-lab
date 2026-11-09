@@ -1,0 +1,10 @@
+{
+  "run_id": "grpo-alias-curriculum-v1-20261109",
+  "archive": "grpo-alias-curriculum-v1-20261109-run.zip",
+  "sha256": "ec1ff4e7ba0e41cb2680a50651f1362db72eefe3e7c107ce23d8cfb587f1d81e",
+  "bytes": 4723733,
+  "entries": 277,
+  "bound_files": 276,
+  "crc_and_hashes_passed": true,
+  "initial_W_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f"
+}

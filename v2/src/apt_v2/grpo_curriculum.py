@@ -17,7 +17,7 @@ RECOVERY_CYCLE = ('missing_alias_pair', 'sql_unverified_requery', 'requery_stale
 
 
 def enabled(cfg):
-    return cfg.get('curriculum_schema') in (SCHEMA,'fine_credit_ablation_v1')
+    return cfg.get('curriculum_schema') in (SCHEMA,'fine_credit_ablation_v1','alias_curriculum_v1')
 
 
 def month_pair(year, month):
@@ -25,6 +25,9 @@ def month_pair(year, month):
 
 
 def training_tasks(cfg):
+    if cfg.get('curriculum_schema')=='alias_curriculum_v1':
+        from .grpo_alias_curriculum import training_tasks as alias_tasks
+        return alias_tasks(cfg)
     old = [t for t in make_tasks() if t.split == 'train']
     fresh = []
     for i in range(12):
@@ -37,6 +40,9 @@ def training_tasks(cfg):
 
 
 def development_tasks(cfg=None):
+    if cfg and cfg.get('curriculum_schema')=='alias_curriculum_v1':
+        from .grpo_alias_curriculum import development_tasks as alias_tasks
+        return alias_tasks()
     if cfg and cfg.get('curriculum_schema')=='fine_credit_ablation_v1':
         from .grpo_fine_study import development_tasks as fine_tasks
         return fine_tasks()
@@ -81,6 +87,9 @@ def assert_isolation(cfg):
 
 
 def start_spec(cfg, index):
+    if cfg.get('curriculum_schema')=='alias_curriculum_v1':
+        from .grpo_alias_curriculum import start_spec as alias_spec
+        return alias_spec(cfg,index)
     if type(index) is not int or not 0 <= index <= cfg['max_groups']:
         raise ValueError('bounded curriculum group cursor required')
     tasks = training_tasks(cfg)
@@ -93,6 +102,9 @@ def start_spec(cfg, index):
 
 
 def build_context(task, scenario, allowed_split='train'):
+    if scenario in ('missing_alias_pair__simplified','missing_alias_pair__compound'):
+        from .grpo_alias_curriculum import context
+        return context(task,scenario,allowed_split)
     if scenario in ORIGINAL_SCENARIOS:
         return original_context(task,scenario,allowed_split)
     if task.split != allowed_split or allowed_split not in ('train','development') or scenario not in TARGET_SCENARIOS:
@@ -150,6 +162,9 @@ def build_context(task, scenario, allowed_split='train'):
 
 
 def targeted_plan(cfg):
+    if cfg.get('curriculum_schema')=='alias_curriculum_v1':
+        from .grpo_alias_curriculum import targeted_plan as alias_plan
+        return alias_plan(cfg)
     if not enabled(cfg):return []
     return [{'task_id':t.id,'scenario':s,'kind':'targeted_recovery','mode':mode,'rollout_index':0,
              'seed':cfg['targeted_evaluation']['seed']+ti*100000+si*1000,
@@ -171,6 +186,9 @@ def expert_proof(task, scenario):
 
 
 def frozen_inputs(cfg):
+    if cfg.get('curriculum_schema')=='alias_curriculum_v1':
+        from .grpo_alias_curriculum import frozen_inputs as alias_inputs
+        return alias_inputs(cfg)
     tasks=training_tasks(cfg);dev=development_tasks(cfg)
     extra={}
     if cfg.get('curriculum_schema')=='fine_credit_ablation_v1':
@@ -186,6 +204,9 @@ def frozen_inputs(cfg):
 
 
 def summarize_targeted(episodes):
+    if episodes and all(e['scenario'] in ('missing_alias_pair__simplified','missing_alias_pair__compound') for e in episodes):
+        from .grpo_alias_curriculum import summarize_targeted as alias_summary
+        return alias_summary(episodes)
     def stats(rows):
         return {'episodes':len(rows),'successes':sum(e['success'] for e in rows),
                 'actions':sum(len(e['turns']) for e in rows),

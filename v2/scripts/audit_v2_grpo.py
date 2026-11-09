@@ -9,6 +9,16 @@ from grpo_worker import verify_group
 from apt_v2.grpo import digest
 
 
+def verified_zero_signal(cfg,state,groups,transitions,runner,changed_tensors):
+    """An all-skipped alias run is evidence, with an explicit unchanged W policy."""
+    return (cfg.get('curriculum_schema')=='alias_curriculum_v1' and state==initial_policy(cfg)
+            and changed_tensors==0 and bool(transitions) and len(groups)==len(transitions)+1
+            and runner['refresh_only_last_group'] and groups[-1]['policy']==state
+            and all(not g['credit']['eligible'] for g in groups[:len(transitions)])
+            and all(not r['updated'] and r['before']==state and r['after']==state
+                    and r['metrics']['skip_reason']=='zero_variance' for r in transitions))
+
+
 def audit(output, local=False):
     import torch
     from safetensors.torch import load_file
@@ -25,6 +35,10 @@ def audit(output, local=False):
     changed_tensors = 0
     for index in tqdm(expected_indices, desc='Strict GRPO replay', unit='group', file=sys.stdout, disable=False):
         g = verify_group(output, index, state, tok, local=local)
+        if cfg.get('curriculum_schema')=='alias_curriculum_v1':
+            from grpo_sampler_probe import METHOD
+            if g['probability_probe'].get('verification_method')!=METHOD:
+                raise ValueError('alias curriculum requires same-forward probability evidence')
         from grpo_vllm import projected_checkpoint_tensors
         projected = projected_checkpoint_tensors(under(output, state['checkpoint'])/'adapter')
         if any(p['tensors'] != projected or p['loaded_tensor_sha256'] != digest(projected) for p in g['worker_proof']):
@@ -89,14 +103,18 @@ def audit(output, local=False):
         raise ValueError('runner cursor or latest policy differs')
     refreshed = [g for g in groups if g['policy']['updates'] > 0]
     refresh_passed = any(g['policy'] == state for g in refreshed)
+    zero_signal=verified_zero_signal(cfg,state,groups,transitions,runner,changed_tensors)
+    if zero_signal:refresh_passed=True
     checks = {'minimum_actual_updates': state['updates'] >= cfg.get('minimum_actual_updates', cfg.get('minimum_preflight_updates', 1)),
               'post_update_sample_at_latest_version': refresh_passed,
               'all_worker_tensor_checks': all(p['passed'] for g in groups for p in g['worker_proof']),
               'all_probability_probes': all(g['probability_probe']['passed'] for g in groups),
               'actual_updated_weights': changed_tensors > 0,
               'group_cap': len(transitions) <= cfg['max_groups'], 'update_cap': state['updates'] <= cfg['max_updates']}
+    if cfg.get('curriculum_schema')=='alias_curriculum_v1':
+        checks['updated_or_verified_zero_signal']=checks.pop('actual_updated_weights') or zero_signal
     result = {'passed': all(checks.values()), 'checks': checks, 'scope': 'local_returned_files' if local else 'cloud_files_and_state',
-              'actual_updates': state['updates'], 'attempted_groups': len(transitions),
+              'actual_updates': state['updates'], 'verified_zero_signal': zero_signal, 'attempted_groups': len(transitions),
               'sampled_groups_including_refresh': len(groups),
               'eligible_training_groups': sum(g['credit']['eligible'] for g in groups[:len(transitions)]),
               'zero_variance_training_groups': sum(g['credit']['zero_variance'] for g in groups[:len(transitions)]),

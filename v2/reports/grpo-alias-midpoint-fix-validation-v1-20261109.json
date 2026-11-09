@@ -1,0 +1,45 @@
+{
+  "passed": true,
+  "regression_reproduced_before_fix": {
+    "error": "FileExistsError: midpoint-control-attempt-001.log",
+    "completed_groups_per_branch": 48,
+    "production_exclusive_log_creation": true
+  },
+  "driver_regression": {
+    "tests_passed": 6,
+    "seconds": 66.39167129993439
+  },
+  "completed_training_resume_regression": {
+    "tests_passed": 1,
+    "seconds": 23.252045100089163,
+    "training_and_midpoint_repeated": false
+  },
+  "installer_checks": [
+    "reject_corrupt_payload",
+    "reject_runtime_drift",
+    "reject_release_drift",
+    "preserve_experiment_files_and_clock",
+    "synchronize_all_source_bindings",
+    "backup_originals",
+    "idempotent_installation"
+  ],
+  "actual_returned_artifacts": {
+    "passed": true,
+    "seconds": 14.873228999786079,
+    "protected_files_verified_unchanged": 1466,
+    "actual_updates": {
+      "control": 25,
+      "curriculum": 37
+    },
+    "committed_groups": {
+      "control": 48,
+      "curriculum": 48
+    },
+    "elapsed_seconds_preserved": 14489.504450344015,
+    "remaining_budget_seconds": 7110.495549655985
+  },
+  "cloud_state_pt_policy": "all existing state.pt files included in pre/post protected-file hash comparison",
+  "configuration_changed": false,
+  "credit_method_changed": false,
+  "budget_reset": false
+}

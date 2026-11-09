@@ -1,0 +1,32 @@
+{
+  "fix_id": "alias-quality-outcome-fix-v1",
+  "original_release_manifest_sha256": "ef9f6443cea99d9a8fd2ac38fa239c1505bad9ebc04421268b76ac6eaf8b9328",
+  "expected_control_evaluation_sha256": "ff7fb65ec66161635f9b0dae2560941794f6ddc576397732543761af8986a9be",
+  "targets": {
+    "scripts/evaluate_v2_grpo.py": {
+      "before": "342d6730ad04699b357d32fe092c68974e8bc2f6a354f1630391e889c30f12a5",
+      "after": "8df645989043b1f31353528d587035bf294f1ead414729015edcf2adcf225bc4"
+    },
+    "scripts/audit_v2_grpo_alias.py": {
+      "before": "da24b55dfa6bc5fcb738cb0894765ccea129e6cfdce3e562259e4627f2191736",
+      "after": "d17e18ec3d9047e037a895f62194205c8a3c76d9623ce066a62c5dc6b74e299c"
+    },
+    "scripts/run_v2_grpo_alias_curriculum.py": {
+      "before": "0a56e44ab98f74efcca6e7fb734ef18dc6834e67e5e0031171b427854a2b8b18",
+      "after": "62a2d96696417703d937ea589bc916ae83cccdc01d1c7170fd28c0da7159734c"
+    },
+    "tests/test_grpo_alias_quality_v2.py": {
+      "before": null,
+      "after": "6d33e54a19975e99bbc05514ee6c987854a2470bdd352805e6c5f0b399c44334"
+    }
+  },
+  "bundle_files": {
+    "hotfixes/alias-quality-outcome-fix-v1/apply.py": "52a3883d93d9ff40045c320e47c2d6fd0f4d61c426df7abf927961a30e8e9a92",
+    "hotfixes/alias-quality-outcome-fix-v1/payload/scripts/evaluate_v2_grpo.py": "8df645989043b1f31353528d587035bf294f1ead414729015edcf2adcf225bc4",
+    "hotfixes/alias-quality-outcome-fix-v1/payload/scripts/audit_v2_grpo_alias.py": "d17e18ec3d9047e037a895f62194205c8a3c76d9623ce066a62c5dc6b74e299c",
+    "hotfixes/alias-quality-outcome-fix-v1/payload/scripts/run_v2_grpo_alias_curriculum.py": "62a2d96696417703d937ea589bc916ae83cccdc01d1c7170fd28c0da7159734c",
+    "hotfixes/alias-quality-outcome-fix-v1/payload/tests/test_grpo_alias_quality_v2.py": "6d33e54a19975e99bbc05514ee6c987854a2470bdd352805e6c5f0b399c44334",
+    "reports/grpo-alias-quality-outcome-fix-v1-20261109.md": "10ad5220d0890c5870ce201775300a661679267bb1abd3feb726c69a9b6aa299",
+    "reports/grpo-alias-quality-outcome-fix-validation-v1-20261109.json": "dd5fbbf65a67f338c901b5c475b81c54377b089caa73421f6aaf0ad01c9f5cf4"
+  }
+}

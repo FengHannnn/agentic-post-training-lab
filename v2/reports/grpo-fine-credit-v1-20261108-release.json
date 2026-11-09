@@ -1,0 +1,10 @@
+{
+  "run_id": "grpo-fine-credit-v1-20261108",
+  "archive": "grpo-fine-credit-v1-20261108-run.zip",
+  "sha256": "c4ecf159a6f3711ba1b8fef19aaf3ecf041b77ddff5a6bd241f172920c689e91",
+  "bytes": 4678167,
+  "entries": 259,
+  "bound_files": 258,
+  "crc_and_hashes_passed": true,
+  "initial_W_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f"
+}
