@@ -2,9 +2,9 @@
 
 面向工具调用 Agent 的 SFT、DPO、GRPO、vLLM rollout 与评测项目。
 
-当前完整进度、主体框架、阶段路线、结果与接手续作见 [2026-10-27 完整交接](PROJECT_HANDOFF_2026-10-27.md)。[2026-10-18 交接](PROJECT_HANDOFF_2026-10-18.md)和[原始逐步记录](PROJECT_HANDOFF.md)保留历史状态；其中旧的“下一步/尚未开始”以最新交接为准。
+主体框架、阶段路线与截至2026-10-27的进度见 [完整交接](PROJECT_HANDOFF_2026-10-27.md)；2026-10-28新增进展见[候选刷新与第二轮有限更新结果](reports/phase5-policy-iteration-results.md)。[2026-10-18 交接](PROJECT_HANDOFF_2026-10-18.md)和[原始逐步记录](PROJECT_HANDOFF.md)保留历史状态；旧的“下一步/尚未开始”应结合最新结果阅读。
 
-最新结论：Phase 4 工程已收尾；Phase 5 首次真实 GRPO 更新完成，开发严格36/56不变、基线未晋升，更新后刷新rollout尚未实现。L20微批8对固定32回答测得6.46倍加速，但logp门未通过，正式训练仍保留串行；最新测试记录327项通过。详见[微批实际结果](reports/phase5-grpo-microbatch-results.md)。下方按日期保留阶段推进记录。
+最新结论：Phase 4 工程已收尾；Phase 5 已完成首轮16步更新，以及从首轮候选刷新144×8 rollout后的第二轮15步更新，延续Adam累计到31步。训练诊断严格28/48→30/48，开发严格仍为36/56，基线未晋升。用户选择继续Phase 5收益排查，暂不进入Phase 6；已完成[现有记录和CPU固定概率诊断](reports/phase5-grpo-effectiveness-diagnostic.md)。选项5的[24题受控采样探索已执行并复核](reports/phase5-sampling-exploration-results.md)：固定31步候选，三个温度共2304条；1.0下每题8→32条仍未覆盖16道重点难题，高温仅覆盖同1题且格式退化。未更新模型；现已实现[离线分级奖励并重评分4920条回答](reports/phase5-graded-reward-rescore.md)，温度1.0的16道重点题有差异组从严格0→等价二元8→分级16，其中后8题仍无满分答案。原奖励与旧训练器保留，开发集没有新增训练收益；[同起点两奖励训练对照已执行并复核](reports/phase5-reward-comparison-results.md)：两组各6步，开发严格36/56、新验证正确44/56均未变化，分级组训练诊断严格30→29；未晋升基线，下一步建议补齐24道实际训练题评测；[原准备方案](reports/phase5-sampling-exploration-preparation.md)保留历史状态。正式训练保留串行；微批8的6.46倍局部加速及失败logp门仍按[原结果](reports/phase5-grpo-microbatch-results.md)保留。最新实验准备见下方记录，测试数以新准备报告为准。下方按日期保留阶段推进记录。
 
 ## 运行环境
 
@@ -61,6 +61,9 @@ Phase 5 数据准备已完成：L20 的 144×8 实际包取回并重审通过，
 - [Phase 5：144×8 训练信号批次实际结果与验收](reports/phase5-rollout-signal-results.md)
 - [Phase 5：有限真实GRPO更新与保存恢复方案](reports/phase5-first-grpo-update.md)
 - [Phase 5：首次真实GRPO更新结果与独立复核](reports/phase5-first-grpo-results.md)
+- [Phase 5：候选策略刷新与第二轮有限更新准备](reports/phase5-policy-iteration-preparation.md)
+- [Phase 5：候选刷新rollout与第二轮有限更新结果](reports/phase5-policy-iteration-results.md)
+- [Phase 5：GRPO效果停滞的现有记录与固定概率诊断](reports/phase5-grpo-effectiveness-diagnostic.md)
 
 ## 运行测试与数据检查
 
@@ -69,3 +72,19 @@ Phase 5 数据准备已完成：L20 的 144×8 实际包取回并重审通过，
 & ".\.venv\Scripts\python.exe" -m pytest tests -v
 & ".\.venv\Scripts\python.exe" scripts\inspect_sft_data.py
 ```
+
+## 2026-10-28: Correct Demonstration Warm Start
+
+按用户选择，继续Phase 5。已准备[少量正确示范SFT热启动、重新采样与有限GRPO](reports/phase5-demonstration-warmstart-preparation.md)：原31步候选A、热启动B、GRPO后C分别评测，B−A与C−B分别归因；24条chosen示范、18步SFT、B重新采样768条、仅混合正确性二元组最多6步GRPO。GRPO沿用原Adam累计31步动量，SFT使用独立优化器；云端本轮尚未执行，未宣称提升、不晋升基线。
+
+## 2026-10-28: Demonstration Warm Start Results
+
+[正确示范热启动结果已复核](reports/phase5-demonstration-warmstart-results.md)：18步SFT工程通过，实际24题验证正确13→14；原48题38→35，开发56题44→39。全部8个正确转错集中在必要括号丢失，行为验收失败后停止，新采样0条、GRPO0步。24条示范无left_grouped且无括号开头答案；下一轮建议仅调整示范覆盖、保持18步与72例次。保留原31步候选，不晋升本轮模型。
+
+## 2026-10-29: Balanced Demonstration Warm Start
+
+按用户选择，已实现[调整示范组成的受控热启动](reports/phase5-balanced-warmstart-preparation.md)：保留24条、加入12条训练集left_grouped示范，36条各两轮，仍72例次18步和5e-5学习率，新增12题单列评测。使用新脚本和目录，从原31步候选开始；旧失败结果保留。云端本轮尚未执行。
+
+## 2026-10-29: Balanced Warm Start Results
+
+[示范组成调整结果已复核](reports/phase5-balanced-warmstart-results.md)：上轮8道括号退化题在本轮B/C全部正确；18步SFT后原24题验证正确13→15，原48题38→37，开发44→44。B新采样768条，17个混合组完成5步GRPO，开发验证正确44→45、严格36→37；原24/48题C相对B不变。8道natural难题贪心仍0/8，B随机采样仅1/256正确。未达到显著提升、未晋升基线；下一步建议从C刷新采样，先核对概率与信号，不自动追加训练。

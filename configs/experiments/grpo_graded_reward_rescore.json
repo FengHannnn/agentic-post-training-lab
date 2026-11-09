@@ -1,0 +1,42 @@
+{
+  "contract_version": "arithmetic-graded-v2-offline",
+  "levels": {
+    "invalid": 0.0,
+    "executable": 0.1,
+    "components_match": 0.3,
+    "verified_correct": 1.0
+  },
+  "full_credit_rule": "Completed valid calculator call; original strict pass OR same numeric leaves and binary/unary operator counts with AST matching after Add/Mult child swaps; numeric result must also match. Integer/float spelling of equal numeric literals is normalized. No reassociation, algebraic simplification or result-only acceptance.",
+  "partial_credit_rule": "Mutually exclusive maximum tier; 0.3 for exact numeric/operator multiset coverage, 0.1 for executable but mismatched content, otherwise 0. Truncation and out-of-scope records get no arithmetic reward.",
+  "input_runs": [
+    {
+      "path": "artifacts/trajectories/phase5-signal-20261021-01",
+      "summary_sha256": "272dc316970eca29fd9bbcd0beadfa196dbfa31a7eb257f29764b53004a42d52"
+    },
+    {
+      "path": "artifacts/trajectories/grpo-refresh-20261028-01",
+      "summary_sha256": "1ab95ee3eb6a357b9faa2909b3cfcbee5823003e8a451ce7f80222c113095910"
+    },
+    {
+      "path": "artifacts/checkpoints/grpo-iteration-20261028-01",
+      "summary_sha256": "5372466ce0a9bfbf2d45d7406f244b25dd3bdd9311b21d5dfdc5fa062ca8997d"
+    },
+    {
+      "path": "artifacts/trajectories/grpo-exploration-20261028-01",
+      "summary_sha256": "39d3b0d0a188cad1e9fdcef498b139f93e0b9b2a3098f65dff6860aed35fb89d"
+    }
+  ],
+  "new_model_forwards": 0,
+  "new_generation_calls": 0,
+  "optimizer_updates": 0,
+  "training_admitted": false,
+  "old_contract_preserved": "arithmetic-strict-v1",
+  "analysis_variants": [
+    "strict",
+    "equivalent_binary",
+    "graded"
+  ],
+  "expected_rollout_records": 4608,
+  "expected_prediction_records": 312,
+  "prediction_use": "Offline comparison of existing outputs only; no development input enters training."
+}
