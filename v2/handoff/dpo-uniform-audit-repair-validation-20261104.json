@@ -1,0 +1,62 @@
+{
+  "experiment": "E2_audit_only_repair",
+  "original_archive_sha256": "d79d8632c364a23a97587948f82c6b1538fb9e1b2daca7f5ef6ed7375aeed07c",
+  "original_loop": "two deterministic failures at max_token_abs=0.00013184547424316406 > 1e-4",
+  "minimal_regression": "failed before numerical-policy fix; passed after fix",
+  "related_suite": {
+    "tests": 11,
+    "seconds": 76.06,
+    "exit_code": 0
+  },
+  "final_reference_runner_tests": {
+    "tests": 7,
+    "seconds": 0.31,
+    "exit_code": 0,
+    "includes_one_new_reviewed_artifact_tamper_test": true
+  },
+  "distinct_tests_covered": 12,
+  "compileall_passed": true,
+  "CLI_help_passed": true,
+  "actual_reference_check_passed": true,
+  "raw_original_artifacts_modified": false,
+  "GPU_training_or_inference_executed_by_repair": false,
+  "local_episode_review": {
+    "status": "passed_local_recovery_review_cloud_seal_pending",
+    "archive_sha256": "d79d8632c364a23a97587948f82c6b1538fb9e1b2daca7f5ef6ed7375aeed07c",
+    "source_files_verified": 103,
+    "provenance_files_verified": 30,
+    "real_adapters_verified": 4,
+    "optimizer_updates_verified": 258,
+    "pair_exposures_verified": 1014,
+    "optimizer_state": "cloud original audit verified state.pt before stopping at cross-run reference gate; state.pt retained on cloud",
+    "same_run_reference_maximum_difference": 0.0,
+    "cross_run_reference_numerics": {
+      "passed": true,
+      "policy": "cross_run_fp32_reference_v1",
+      "pairs": 169,
+      "tokens": 27940,
+      "maximum_token_difference": 0.00013184547424316406,
+      "mean_token_difference": 5.774124489529505e-07,
+      "maximum_sequence_sum_difference": 0.00019879266619682312,
+      "maximum_reference_margin_difference": 0.00020996632520109415,
+      "maximum_DPO_logit_difference": 2.0996632520109416e-05,
+      "maximum_DPO_loss_difference_bound": 2.0996632520109416e-05,
+      "limits": {
+        "token_rtol": 5e-05,
+        "token_atol": 0.0001,
+        "maximum_token_absolute": 0.0005,
+        "mean_token_absolute": 1e-05,
+        "maximum_sequence_sum_absolute": 0.0005,
+        "maximum_DPO_logit_absolute": 5e-05
+      },
+      "same_run_reference_check": "unchanged; independently verified by score audit"
+    },
+    "raw_score_recomputation_max_roundoff": 1.1102230246251565e-16,
+    "sqlite_version": "3.53.1",
+    "test_split_used": false,
+    "complete_episodes_replayed": 80,
+    "recovery_episodes_replayed": 448,
+    "first_actions_replayed": 448,
+    "turns_replayed": 3202
+  }
+}

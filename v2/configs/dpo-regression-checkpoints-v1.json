@@ -1,0 +1,115 @@
+{
+  "run_id": "dpo-regression-checkpoints-v1-20261103",
+  "config_name": "dpo-regression-checkpoints-v1.json",
+  "algorithm": "inference_checkpoint_diagnosis",
+  "training_enabled": false,
+  "optimizer_updates": 0,
+  "origin_run": "hard-recovery-dpo-matched-v1-20261103",
+  "origin_config_sha256": "b47b37a0b4c4166d15d48f90ac625a3cb5ce04d1f2b37902a4bf9ae8a497e27e",
+  "origin_binding_sha256": "5064665c58f59c64d5640b3c0e20e3b92a422d2954fd8103d79bfec9f859d7e8",
+  "reference_scores_sha256": "d56a36d4b95c6b9f9263c9255bd4893d0654a171e03f195c6da1763517853d0e",
+  "pairs_sha256": "c7606a3fbf7ac4437d1aa8b3277228a7b4cdae95106e5d515d55c8f72869e329",
+  "checkpoints": {
+    "parent": {
+      "run": "chosen-only-sft-v1-20261102",
+      "checkpoint": "final",
+      "new_dpo_steps": 0,
+      "total_sft_updates": 255,
+      "total_dpo_updates": 11,
+      "complete_sha256": "d95dd07c1ff513cd7dfe82d70fe68f194342a54b270b3c4ec3b5c50e2b3da469",
+      "adapter_sha256": "078182d293d37b0caeda3bdef8355d4be45439af5480228259ef8658ff868a55"
+    },
+    "weighted_sft": {
+      "run": "hard-recovery-sft-weighted-v1-20261103",
+      "checkpoint": "final",
+      "new_dpo_steps": 0,
+      "total_sft_updates": 513,
+      "total_dpo_updates": 11,
+      "complete_sha256": "49c169b985e9ecd973c91b6e8fb5d160c00db258845ab7c3121f50498ea65c26",
+      "adapter_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f"
+    },
+    "dpo_0043": {
+      "run": "hard-recovery-dpo-matched-v1-20261103",
+      "checkpoint": "checkpoint-0043",
+      "new_dpo_steps": 43,
+      "total_sft_updates": 255,
+      "total_dpo_updates": 54,
+      "complete_sha256": "0953b50b4d9b1677ce88837c1ce50981b0742a84d7db808a43ec29179839cfb8",
+      "adapter_sha256": "79053e39c945194dd1ba780c24dab8e7dbfbcf1d262fa681f70f577b11559efe"
+    },
+    "dpo_0086": {
+      "run": "hard-recovery-dpo-matched-v1-20261103",
+      "checkpoint": "checkpoint-0086",
+      "new_dpo_steps": 86,
+      "total_sft_updates": 255,
+      "total_dpo_updates": 97,
+      "complete_sha256": "d2e5716ee3955e457eaeb7727781e65f05a4d56fa9442d762ee2f06f60573c1c",
+      "adapter_sha256": "43100acde91f178de59ac7a65f29867862a02a7f1a6cbcd134b7d81a7318f46c"
+    },
+    "dpo_0129": {
+      "run": "hard-recovery-dpo-matched-v1-20261103",
+      "checkpoint": "checkpoint-0129",
+      "new_dpo_steps": 129,
+      "total_sft_updates": 255,
+      "total_dpo_updates": 140,
+      "complete_sha256": "6dc8bd4f808f9888c83bd6ba61f519c22f72cac84942dde545a45b017a4959da",
+      "adapter_sha256": "7a85d955f433b2ab4611f8a879dbd8f64dabe4a1bed2deeb76b6c05752fdafd0"
+    },
+    "dpo_0172": {
+      "run": "hard-recovery-dpo-matched-v1-20261103",
+      "checkpoint": "checkpoint-0172",
+      "new_dpo_steps": 172,
+      "total_sft_updates": 255,
+      "total_dpo_updates": 183,
+      "complete_sha256": "1c020309df6a2e305bd25ddc18ebf900fe5e3bdfe8b591b3a245a8c555c6095a",
+      "adapter_sha256": "56e89b13bf9b25e0e044066f7afb36f5e0011894b5155aee23cc4668be730a21"
+    },
+    "dpo_0215": {
+      "run": "hard-recovery-dpo-matched-v1-20261103",
+      "checkpoint": "checkpoint-0215",
+      "new_dpo_steps": 215,
+      "total_sft_updates": 255,
+      "total_dpo_updates": 226,
+      "complete_sha256": "dc4381017526d462e3888a11f3de8333f140957309da5268eae69ba95fcd1a77",
+      "adapter_sha256": "fd3b1aeb000687bee19e740c0830478b189c8dc5d2c79f36a686944856357a3b"
+    },
+    "dpo_0258": {
+      "run": "hard-recovery-dpo-matched-v1-20261103",
+      "checkpoint": "final",
+      "new_dpo_steps": 258,
+      "total_sft_updates": 255,
+      "total_dpo_updates": 269,
+      "complete_sha256": "ce1301e451d59e345cd73a7bdab11d13fd4b76fb5283cf49f661744048af822b",
+      "adapter_sha256": "80c32888da7cea2f1962632e6261068ed47b955317077d124f0165842f2d1db0"
+    }
+  },
+  "eval": {
+    "max_model_len": 8192,
+    "max_new_tokens": 256,
+    "temperature": 0,
+    "seed": 2026110300,
+    "gpu_memory_utilization": 0.6,
+    "splits": {
+      "development": 4
+    }
+  },
+  "sample_eval": {
+    "seed": 2026110302,
+    "temperature": 0.8,
+    "rollouts_per_task": 4,
+    "task_count": 4
+  },
+  "recovery_eval": {
+    "samples_per_context": 0,
+    "temperature": 0,
+    "seed": 2026110303,
+    "complete_continuation": true,
+    "modes": [
+      "greedy"
+    ]
+  },
+  "max_length": 2048,
+  "max_wall_seconds": 14400,
+  "checkpoint_selection": "diagnosis_only_no_promotion",
+  "test_split_used": false
+}

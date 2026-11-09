@@ -1,0 +1,93 @@
+{
+  "run_id": "dpo-sft-start-short-v1-20261105",
+  "tests": {
+    "passed": 11,
+    "seconds": 57.75,
+    "exit_code": 0
+  },
+  "CLI": {
+    "compiled_entrypoints": [
+      "dpo_sft_start_common.py",
+      "train_v2_dpo_sft_start.py",
+      "evaluate_v2_dpo_sft_start.py",
+      "audit_v2_dpo_sft_start.py",
+      "run_v2_dpo_sft_start.py"
+    ],
+    "CLI_help_passed": [
+      "dpo_sft_start_common.py",
+      "train_v2_dpo_sft_start.py",
+      "evaluate_v2_dpo_sft_start.py",
+      "audit_v2_dpo_sft_start.py"
+    ],
+    "GPU_experiment_executed": false
+  },
+  "local_preflight": {
+    "passed_local_metadata_and_input_checks": true,
+    "actual_initial_SFT_adapter_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f",
+    "actual_initial_SFT_tensor_parameters": 1089536,
+    "actual_initial_SFT_tensor_count": 112,
+    "base_weights_hashed_locally": false,
+    "base_weights_cloud_preflight_required": true,
+    "train_pairs": 169,
+    "source_mix": {
+      "frozen_sft_sample": 44,
+      "scripted_failure": 84,
+      "frozen_dpo_sample": 41
+    },
+    "all_pairs_tokenized_with_pinned_tokenizer": true,
+    "maximum_total_pair_length": 1376,
+    "development_tasks": 4,
+    "development_contexts": 28,
+    "train_development_prompt_overlap": false,
+    "candidate_steps": [
+      4,
+      12,
+      24
+    ],
+    "candidate_pair_exposures": [
+      16,
+      48,
+      96
+    ],
+    "reference_recomputed_from_weighted_SFT_before_step_one": true,
+    "compile_passed": true,
+    "GPU_experiment_executed": false
+  },
+  "training_enabled_in_cloud_job": true,
+  "maximum_new_optimizer_updates": 24,
+  "candidate_steps": [
+    4,
+    12,
+    24
+  ],
+  "local_GPU_experiment_executed": false,
+  "main_metric": "sample.complete",
+  "selection_rule": {
+    "order": "earliest_passing_checkpoint",
+    "minimum_sample_complete_successes": 15,
+    "maximum_complete_success_drop": 1,
+    "maximum_recovery_success_drop": 4,
+    "greedy_complete_may_drop": false,
+    "greedy_recovery_may_drop": false,
+    "baseline_required_sample_complete_successes": 16,
+    "baseline_required_greedy_complete_successes": 4,
+    "severe_complete_success_drop": 4,
+    "no_pass_rank": [
+      "sample.complete",
+      "sample.recovery",
+      "greedy.complete",
+      "greedy.recovery",
+      "earlier_step"
+    ]
+  },
+  "tested_behaviors": [
+    "real LoRA adapter serialization/reload and exact Adam/RNG continuation versus uninterrupted trajectory",
+    "uniform DPO actual backward and frozen parameters/reference",
+    "partial-pass ancestry, exposure and state tamper rejection",
+    "practical performance gates and earliest passing selection",
+    "adaptive runner passing-at4/passing-at12/step-cap/severe-drop/baseline-change stops",
+    "failure archive with partial absolute update count and old-output protection",
+    "native full and recovery replay, stage audits and final selection, first-action tamper rejection",
+    "single adapter constant LoRA position and greedy quality prompt binding"
+  ]
+}

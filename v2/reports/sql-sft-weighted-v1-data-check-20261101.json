@@ -1,0 +1,16 @@
+{
+  "examples": 252,
+  "tool_counts": {
+    "read_policy": 36,
+    "inspect_schema": 36,
+    "query_sql": 72,
+    "calculate_change": 36,
+    "check_result": 36,
+    "submit": 36
+  },
+  "dataset_sha256": "dc2ef7679af39005e91bd8f231348dd0a74932e2fd7401942f6681e93fd5819b",
+  "max_tokens": 1430,
+  "parent_adam_steps": 63,
+  "weight_mean": 1.0000000000000036,
+  "supervised_tokens": 18480
+}

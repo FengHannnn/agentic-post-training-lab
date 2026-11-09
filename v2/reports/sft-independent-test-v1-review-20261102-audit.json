@@ -1,0 +1,151 @@
+{
+  "zip_sha256": "e81ac810633028cebfaf989611ec535c4af04f5d268e8225fb732a7ebeeba4a3",
+  "source_files_verified": 33,
+  "source_matches_local": true,
+  "checkpoint_binding_matches_archived_parents": true,
+  "tokenizer_files_verified": 6,
+  "task_train_family_isolation": true,
+  "episodes_replayed": 8,
+  "turns_replayed": 78,
+  "local_audit_matches_cloud": true,
+  "candidate_adapter_sha256": "e41bef8a51d8d968bcfee4a606da364888a191c4e1ee85399215bc12b85813f0",
+  "acceptance": {
+    "criteria": {
+      "successes": 4,
+      "recovered": 2,
+      "valid_sql": 8,
+      "valid_checks": 4,
+      "valid_submits": 4
+    },
+    "checks": {
+      "successes": true,
+      "recovered": true,
+      "valid_sql": true,
+      "valid_checks": true,
+      "valid_submits": true,
+      "strict_format": true
+    },
+    "eligible_for_local_review": true
+  },
+  "optimizer_updates": 0,
+  "eos_counts": {
+    "parent": {
+      "eos": 48
+    },
+    "weighted": {
+      "eos": 30
+    }
+  },
+  "weighted_task_details": [
+    {
+      "task_id": "test-000",
+      "turns": 7,
+      "recovered": false,
+      "tools": [
+        "read_policy",
+        "inspect_schema",
+        "query_sql",
+        "query_sql",
+        "calculate_change",
+        "check_result",
+        "submit"
+      ],
+      "artifact": {
+        "values": {
+          "current_net_cents": 20142,
+          "prior_net_cents": 28669,
+          "change_cents": -8527
+        },
+        "evidence": {
+          "current_net_cents": "q1",
+          "prior_net_cents": "q2",
+          "change_cents": "c3"
+        },
+        "policy_id": "revenue-v1"
+      }
+    },
+    {
+      "task_id": "test-001",
+      "turns": 8,
+      "recovered": true,
+      "tools": [
+        "read_policy",
+        "inspect_schema",
+        "query_sql",
+        "query_sql",
+        "query_sql",
+        "calculate_change",
+        "check_result",
+        "submit"
+      ],
+      "artifact": {
+        "values": {
+          "current_net_cents": 17487,
+          "prior_net_cents": 17040,
+          "change_cents": 447
+        },
+        "evidence": {
+          "current_net_cents": "q2",
+          "prior_net_cents": "q3",
+          "change_cents": "c3"
+        },
+        "policy_id": "revenue-v1"
+      }
+    },
+    {
+      "task_id": "test-002",
+      "turns": 7,
+      "recovered": false,
+      "tools": [
+        "read_policy",
+        "inspect_schema",
+        "query_sql",
+        "query_sql",
+        "calculate_change",
+        "check_result",
+        "submit"
+      ],
+      "artifact": {
+        "values": {
+          "current_net_cents": 15966,
+          "prior_net_cents": 16783,
+          "change_cents": -817
+        },
+        "evidence": {
+          "current_net_cents": "q1",
+          "prior_net_cents": "q2",
+          "change_cents": "c3"
+        },
+        "policy_id": "revenue-v1"
+      }
+    },
+    {
+      "task_id": "test-003",
+      "turns": 8,
+      "recovered": true,
+      "tools": [
+        "read_policy",
+        "inspect_schema",
+        "query_sql",
+        "query_sql",
+        "query_sql",
+        "calculate_change",
+        "check_result",
+        "submit"
+      ],
+      "artifact": {
+        "values": {
+          "current_net_cents": 29673,
+          "prior_net_cents": 21522,
+          "change_cents": 8151
+        },
+        "evidence": {
+          "current_net_cents": "q2",
+          "prior_net_cents": "q3",
+          "change_cents": "c3"
+        },
+        "policy_id": "revenue-v1"
+      }
+    }
+  ]
+}

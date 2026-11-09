@@ -1,0 +1,23 @@
+{
+  "zip": "dpo-sft-start-short-v1-20261105-run.zip",
+  "sha256": "34fb26c49ac266b4ed6970f411a34a7e264b96ef35c88b6248ee2d4915f533b4",
+  "bytes": 436110,
+  "entries": 180,
+  "CRC_passed": true,
+  "manifest_hashes_passed": true,
+  "local_tests_passed": 11,
+  "candidate_steps": [
+    4,
+    12,
+    24
+  ],
+  "maximum_new_optimizer_updates": 24,
+  "same_job_SFT_reference": true,
+  "baseline_models": 1,
+  "maximum_candidate_checkpoints": 3,
+  "main_episodes_if_first_candidate_passes": 264,
+  "maximum_main_episodes": 528,
+  "maximum_quality_generation_calls": 56,
+  "wall_seconds_cap": 14400,
+  "GPU_experiment_executed": false
+}

@@ -1,0 +1,40 @@
+{
+  "run_id": "recovery-context-diagnostics-v1-20261102",
+  "config_name": "recovery-context-diagnostics-v1.json",
+  "algorithm": "inference_only_recovery_diagnostic",
+  "checkpoints": {
+    "before": {
+      "run": "dpo-train-v1-20261102",
+      "adapter_sha256": "fca8a4e07224169569b6cb4f81ab0daa0abe03f6d92caed0efcdf584313e6d6d"
+    },
+    "dpo": {
+      "run": "dpo-recovery-train-v2-20261102",
+      "adapter_sha256": "7393906da901516cdfa05b3f987808a604c6f49c438a410a8d5e5dc06a9c0725"
+    },
+    "sft": {
+      "run": "chosen-only-sft-v1-20261102",
+      "adapter_sha256": "078182d293d37b0caeda3bdef8355d4be45439af5480228259ef8658ff868a55"
+    }
+  },
+  "data_run": "dpo-recovery-collect-v1-20261102",
+  "pairs_sha256": "c7606a3fbf7ac4437d1aa8b3277228a7b4cdae95106e5d515d55c8f72869e329",
+  "task_counts": {
+    "train": 12,
+    "development": 4
+  },
+  "recovery_eval": {
+    "samples_per_context": 3,
+    "temperature": 0.8,
+    "seed": 2026110253,
+    "split_seed_offsets": {
+      "train": 1000000,
+      "development": 0
+    }
+  },
+  "eval": {
+    "max_model_len": 8192,
+    "max_new_tokens": 256,
+    "gpu_memory_utilization": 0.6
+  },
+  "max_wall_seconds": 14400
+}

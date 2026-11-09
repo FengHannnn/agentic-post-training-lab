@@ -1,0 +1,93 @@
+{
+  "run_id": "dpo-uniform-control-v1-20261104",
+  "experiment": "E2_uniform_weight_control",
+  "full_suite": {
+    "tests": 148,
+    "seconds": 330.08,
+    "exit_code": 0
+  },
+  "compileall_passed": true,
+  "preflight": {
+    "passed": true,
+    "experiment": "E2_uniform_weight_control",
+    "intervention": {
+      "experiment": "E2_uniform_weight_control",
+      "changed_training_fields": [
+        "hard_weight"
+      ],
+      "raw_hard_weight_before": 4,
+      "raw_hard_weight_after": 1,
+      "original_run": "hard-recovery-dpo-matched-v1-20261103",
+      "uniform_run": "dpo-uniform-control-v1-20261104",
+      "fixed_training_fields": [
+        "algorithm",
+        "initial_run",
+        "adapter_sha256",
+        "data_run",
+        "pairs_sha256",
+        "pair_count",
+        "max_length",
+        "epochs",
+        "max_steps",
+        "gradient_accumulation",
+        "learning_rate",
+        "max_grad_norm",
+        "seed",
+        "checkpoint_every",
+        "checkpoint_steps",
+        "source_sft_updates",
+        "source_dpo_updates",
+        "beta"
+      ],
+      "test_split_used": false
+    },
+    "actual_control_adapters_verified": 3,
+    "pair_count": 169,
+    "weights_unique": [
+      1.0
+    ],
+    "weight_summary": {
+      "hard_scenarios": [
+        "sql_unverified_requery",
+        "repeat_evidence_error",
+        "repeat_sql_error",
+        "failed_check_repair"
+      ],
+      "hard_examples": 84,
+      "other_examples": 85,
+      "raw_hard_weight": 1.0,
+      "normalization_mean": 1.0,
+      "normalized_mean": 1.0,
+      "hard_weight_share": 0.4970414201183432,
+      "counts_by_scenario": {
+        "original_sql": 44,
+        "format_repair": 16,
+        "unknown_tool_repair": 12,
+        "sql_unverified_requery": 24,
+        "repeat_evidence_error": 12,
+        "stale_evidence_repair": 13,
+        "repeat_sql_error": 24,
+        "failed_check_repair": 24
+      }
+    },
+    "epochs": 6,
+    "steps_per_epoch": 43,
+    "optimizer_updates_planned": 258,
+    "pair_exposures_planned": 1014,
+    "pair_order_matches_original": true,
+    "probes": 238,
+    "maximum_probe_tokens": 1527,
+    "development_contexts": 28,
+    "provenance_files_verified": 30,
+    "base_weight_verification": "cloud prepare verifies actual full cache; local review binds reviewed identity and tokenizer",
+    "base_files_bound": 7,
+    "training_executed_locally": false,
+    "expected_complete_episodes": 80,
+    "expected_recovery_episodes": 448
+  },
+  "GPU_experiment_executed": false,
+  "optimizer_updates_executed_locally": 0,
+  "optimizer_updates_planned": 258,
+  "C1_status": "failed_pending_causal_experiments",
+  "GRPO_status": "on_hold"
+}

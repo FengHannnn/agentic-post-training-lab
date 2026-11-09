@@ -1,0 +1,52 @@
+{
+  "run_id": "chosen-only-sft-v1-20261102",
+  "initial_run": "dpo-train-v1-20261102",
+  "data_run": "dpo-recovery-collect-v1-20261102",
+  "adapter_sha256": "fca8a4e07224169569b6cb4f81ab0daa0abe03f6d92caed0efcdf584313e6d6d",
+  "pairs_sha256": "c7606a3fbf7ac4437d1aa8b3277228a7b4cdae95106e5d515d55c8f72869e329",
+  "pair_count": 169,
+  "max_length": 2048,
+  "epochs": 3,
+  "max_steps": 129,
+  "gradient_accumulation": 4,
+  "learning_rate": 0.000005,
+  "max_grad_norm": 1,
+  "seed": 2026110251,
+  "checkpoint_every": 43,
+  "source_sft_updates": 126,
+  "source_dpo_updates": 11,
+  "max_wall_seconds": 10800,
+  "eval": {
+    "max_model_len": 8192,
+    "max_new_tokens": 256,
+    "temperature": 0,
+    "seed": 2026102901,
+    "gpu_memory_utilization": 0.6,
+    "splits": {
+      "train": 12,
+      "development": 4
+    }
+  },
+  "sample_eval": {
+    "seed": 2026110252,
+    "temperature": 0.8,
+    "rollouts_per_task": 4,
+    "task_count": 4
+  },
+  "recovery_eval": {
+    "split": "development",
+    "task_count": 4,
+    "samples_per_context": 3,
+    "temperature": 0.8,
+    "seed": 2026110253
+  },
+  "config_name": "chosen-only-sft-v1.json",
+  "comparison_run": "dpo-recovery-train-v2-20261102",
+  "algorithm": "chosen_only_sft",
+  "comparison_adapter_sha256": "7393906da901516cdfa05b3f987808a604c6f49c438a410a8d5e5dc06a9c0725",
+  "evaluation_branches": [
+    "before",
+    "dpo",
+    "after"
+  ]
+}

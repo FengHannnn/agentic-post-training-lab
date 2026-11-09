@@ -1,0 +1,18 @@
+{
+  "zip": "dpo-inference-confirmation-v1-20261105-run.zip",
+  "sha256": "e1ed534542934ea533a1f1e30ddda1998e0264b6dfa4e70072acaab013edaa88",
+  "bytes": 401123,
+  "entries": 170,
+  "CRC_passed": true,
+  "manifest_hashes_passed": true,
+  "tests": 4,
+  "training_enabled": false,
+  "optimizer_updates": 0,
+  "expected_complete_episodes": 80,
+  "expected_recovery_episodes": 448,
+  "repeated_control_episode_pairs": 132,
+  "unique_models": 3,
+  "one_model_per_process": true,
+  "fixed_LoRA_ID": 1,
+  "GPU_experiment_executed": false
+}

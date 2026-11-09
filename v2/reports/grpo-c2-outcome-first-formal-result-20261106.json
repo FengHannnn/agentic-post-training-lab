@@ -1,0 +1,50 @@
+{
+  "selected_on": "2026-11-06",
+  "scope": "C2 development candidate; C4 new-task confirmation follows",
+  "run_id": "grpo-outcome-formal-v1-20261105",
+  "group_cursor": 24,
+  "policy": {
+    "checkpoint": "checkpoints/group-0021",
+    "version": 16,
+    "updates": 16,
+    "adapter_sha256": "6599dcbb8286a9850c1b175ddbb95b5507e3f6dd734755fe9eb833778dd609e6"
+  },
+  "ancestry": {
+    "sft": 513,
+    "dpo": 11,
+    "rl": 16
+  },
+  "initial_W_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f",
+  "review_zip_sha256": "a1b657b7989f0bbb2384efcbc11c59644064eb8f420e46b55d422b597e0506dd",
+  "hardware": {
+    "training_and_evaluation": "NVIDIA L40S",
+    "resource_snapshots": 114,
+    "gpu_uuid": "92e14e85-628d-e5a4-af16-0db4defb2afb",
+    "clone_to_L20": "after_completed_run; user confirmed"
+  },
+  "audits": {
+    "cloud_passed": true,
+    "local_passed": true,
+    "comparison_summary_identical": true,
+    "original_source_files": 188,
+    "source_amendments": 1,
+    "input_bindings": 22
+  },
+  "primary": "sample recovery",
+  "W": {
+    "successes": 61,
+    "episodes": 84
+  },
+  "candidate": {
+    "successes": 63,
+    "episodes": 84
+  },
+  "paired": {
+    "improved": 2,
+    "regressed": 0,
+    "both_success": 61,
+    "both_failure": 21
+  },
+  "acceptance_thresholds": null,
+  "final_confirmation_phase": "C4"
+}

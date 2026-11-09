@@ -1,0 +1,25 @@
+{
+  "run_id": "grpo-outcome-curriculum-v1-20261107",
+  "study_phase": "outcome_curriculum",
+  "max_wall_seconds": 21600,
+  "packaging_reserve_seconds": 180,
+  "groups_per_branch": 48,
+  "branches": {
+    "control": "configs/grpo-outcome-curriculum-control-v1.json",
+    "lr10x": "configs/grpo-outcome-curriculum-lr10x-v1.json"
+  },
+  "contract_report": "reports/grpo-outcome-curriculum-contract-v1-20261107.md",
+  "validation_report": "reports/grpo-outcome-curriculum-validation-v1-20261107.json",
+  "selection_rule": "primary_gain_greedy_guard_then_recovery_v1",
+  "clone_policy": "new_L40S_allowed_at_start_same_GPU_software_and_driver_within_job",
+  "comparison": "same_expanded_curriculum_and_seeds_learning_rate_only",
+  "extra_sft_updates": 0,
+  "extra_dpo_updates": 0,
+  "future_confirmation": "new_frozen_tasks",
+  "budget_authorization": {
+    "hours": 6,
+    "source": "user_confirmation_2026-11-07",
+    "scope": "entire_outcome_curriculum_job_including_evaluation_and_audit"
+  }
+}
+

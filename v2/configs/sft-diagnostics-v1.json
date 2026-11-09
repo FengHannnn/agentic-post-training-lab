@@ -1,0 +1,13 @@
+{
+  "run_id": "sft-diagnostics-v1-20261101",
+  "pilot_run": "sft-pilot-v1-20261030",
+  "seed": 2026102901,
+  "max_length": 2048,
+  "max_model_len": 8192,
+  "max_new_tokens": 256,
+  "gpu_memory_utilization": 0.6,
+  "max_wall_seconds": 3600,
+  "probe_count": 8,
+  "train_task_count": 12,
+  "training_enabled": false
+}

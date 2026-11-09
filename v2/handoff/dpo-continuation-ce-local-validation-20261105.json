@@ -1,0 +1,117 @@
+{
+  "run_id": "dpo-continuation-ce-control-v1-20261105",
+  "new_validation_suite": {
+    "tests": 7,
+    "seconds": 117.19,
+    "exit_code": 0
+  },
+  "additional_contract_and_GPU_identity_test": {
+    "tests": 1,
+    "seconds": 0.34,
+    "exit_code": 0
+  },
+  "distinct_E4_tests_covered": 8,
+  "compileall_passed": true,
+  "five_stage_CLI_help_passed": true,
+  "local_preflight": {
+    "passed_local_input_harness": true,
+    "frozen_actual_adapters_verified": 4,
+    "canonical_reference_sha256": "448b6c8af6fb18ae35fcad02f904167fea1f75d293fff0c53a70968c280b2a65",
+    "reference_pair_token_alignment_verified": 169,
+    "probes": 238,
+    "maximum_probe_tokens": 1527,
+    "maximum_CE_input_tokens": 1527,
+    "CE_summary": {
+      "coverage": {
+        "pool_actions": 288,
+        "pool_contexts": 84,
+        "pool_tasks": 12,
+        "pool_tool_counts": {
+          "calculate_change": 72,
+          "check_result": 84,
+          "submit": 84,
+          "query_sql": 48
+        },
+        "sampled_actions": 1014,
+        "sampled_unique_actions": 288,
+        "minimum_exposures_per_pool_action": 3,
+        "maximum_exposures_per_pool_action": 4,
+        "sampled_tool_counts": {
+          "calculate_change": 256,
+          "submit": 295,
+          "check_result": 296,
+          "query_sql": 167
+        },
+        "sampled_task_counts": {
+          "train-001": 80,
+          "train-003": 85,
+          "train-007": 88,
+          "train-011": 85,
+          "train-006": 83,
+          "train-005": 86,
+          "train-000": 84,
+          "train-009": 84,
+          "train-002": 85,
+          "train-010": 85,
+          "train-008": 83,
+          "train-004": 86
+        },
+        "test_or_development_training_examples": 0
+      },
+      "token_budget": {
+        "DPO_pair_exposures": 1014,
+        "CE_action_exposures": 1014,
+        "DPO_chosen_response_tokens": 105486,
+        "DPO_rejected_response_tokens": 62154,
+        "DPO_input_tokens": 1941912,
+        "CE_response_tokens": 85203,
+        "CE_extra_forward_input_tokens": 1202952,
+        "CE_extra_forwards": 1014
+      },
+      "maximum_CE_input_tokens": 1527,
+      "sampler": "shuffled full-pool cycles without replacement; truncate final cycle",
+      "coefficient": 1,
+      "CE_loss": "uniform action mean of response-token mean including EOS",
+      "DPO_part": "unchanged from E3",
+      "comparison_E3_CE_response_tokens": 105486,
+      "comparison_E3_CE_extra_forwards": 0
+    },
+    "provenance_files_verified": 29,
+    "required_execution_environment": {
+      "gpu_name": "NVIDIA L40S",
+      "gpu_uuid": "086e2842-344c-9528-cbae-b8fcba665e1c",
+      "compute_capability": [
+        8,
+        9
+      ],
+      "gpu_total_memory": 50867666944,
+      "python": "3.11.17",
+      "torch": "2.8.0+cu128",
+      "cuda": "12.8",
+      "cudnn": 91002,
+      "float32_matmul_precision": "highest",
+      "allow_tf32_matmul": false,
+      "allow_tf32_cudnn": true,
+      "packages": {
+        "transformers": "4.57.6",
+        "peft": "0.17.1",
+        "vllm": "0.11.0"
+      }
+    },
+    "actual_local_GPU_verification": false,
+    "runtime_harness": "observed E3 runtime injected for local input verification; actual hardware and full runtime gate execute on cloud before updates",
+    "full_base_files_deferred_to_cloud": [
+      "model.safetensors"
+    ],
+    "training_executed": false,
+    "optimizer_updates_planned_total": 258,
+    "expected_complete_episodes": 80,
+    "expected_recovery_episodes": 448,
+    "scored_models": 5
+  },
+  "GPU_experiment_executed": false,
+  "tiny_real_LoRA_test": "4 Adam updates; independent CE forward agrees with chosen-CE control when supervised inputs match",
+  "optimizer_updates_planned_total": 258,
+  "C1_status": "failed_pending_causal_experiments",
+  "GRPO_status": "on_hold"
+}

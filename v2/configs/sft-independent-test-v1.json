@@ -1,0 +1,26 @@
+{
+  "run_id": "sft-independent-test-v1-20261102",
+  "parent_run": "sft-pilot-v1-20261030",
+  "candidate_run": "sql-sft-weighted-v1-20261101",
+  "parent_adapter_sha256": "95f908b1e9163907f9e72eb2c5aa5442da873193f7fb730352ed35382c7b379e",
+  "candidate_adapter_sha256": "e41bef8a51d8d968bcfee4a606da364888a191c4e1ee85399215bc12b85813f0",
+  "max_wall_seconds": 1200,
+  "training_enabled": false,
+  "eval": {
+    "max_model_len": 8192,
+    "max_new_tokens": 256,
+    "temperature": 0,
+    "seed": 2026102901,
+    "gpu_memory_utilization": 0.6,
+    "splits": {
+      "test": 4
+    }
+  },
+  "acceptance": {
+    "successes": 4,
+    "recovered": 2,
+    "valid_sql": 8,
+    "valid_checks": 4,
+    "valid_submits": 4
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "run_id": "grpo-fine-credit-v1-20261108-legacy",
+  "phase": "formal",
+  "algorithm": "fine_grained_grpo",
+  "base_model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "base_dir": ".cache/qwen2.5-1.5b-instruct",
+  "initial_dir": "artifacts/inputs/grpo-w-20261105",
+  "adapter_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f",
+  "source_sft_updates": 513,
+  "source_dpo_updates": 11,
+  "seed": 2026110817,
+  "max_wall_seconds": 21600,
+  "packaging_reserve_seconds": 180,
+  "max_groups": 48,
+  "max_updates": 48,
+  "k": 4,
+  "epsilon": 1e-08,
+  "tool_cost": 0.01,
+  "learning_rate": 1e-06,
+  "beta": 0.02,
+  "clip": 0.2,
+  "tis_cap": 2,
+  "max_grad_norm": 1,
+  "max_sampled_k3": 0.05,
+  "max_clip_fraction": 0.5,
+  "recovery_scenarios": [
+    "format_repair",
+    "unknown_tool_repair",
+    "sql_unverified_requery",
+    "repeat_evidence_error",
+    "stale_evidence_repair",
+    "repeat_sql_error",
+    "failed_check_repair",
+    "missing_alias_pair",
+    "schema_query_repeat",
+    "requery_stale_change"
+  ],
+  "sampling": {
+    "temperature": 1,
+    "top_p": 1,
+    "top_k": -1,
+    "min_p": 0,
+    "repetition_penalty": 1,
+    "presence_penalty": 0,
+    "frequency_penalty": 0,
+    "min_tokens": 0,
+    "max_new_tokens": 256,
+    "max_model_len": 8192,
+    "logprobs_mode": "processed_logprobs"
+  },
+  "inference": {
+    "gpu_memory_utilization": 0.7,
+    "lora_dtype": "bfloat16"
+  },
+  "probability_probe_max_error": 0.25,
+  "required_packages": {
+    "vllm": "0.11.0",
+    "transformers": "4.57.6",
+    "peft": "0.17.1"
+  },
+  "evaluation": {
+    "enabled": true,
+    "temperature": 0.8,
+    "complete_rollouts": 4,
+    "recovery_rollouts": 3,
+    "seed": 2026110811
+  },
+  "loss_reduction": "token_mean_then_action_mean_then_episode_mean",
+  "zero_variance": "skip_without_rejection_resampling",
+  "updates_per_group": 1,
+  "refresh": "fresh_process_with_immutable_checkpoint_and_worker_tensor_check",
+  "acceptance_thresholds": null,
+  "state_pt_returned": false,
+  "worker_extension_cls": "grpo_vllm.GRPOWorkerExtension",
+  "validation_report": "reports/grpo-fine-credit-validation-v1-20261108.json",
+  "contract_report": "reports/grpo-fine-credit-contract-v1-20261108.md",
+  "minimum_actual_updates": 1,
+  "group_evaluation_cursors": [
+    48
+  ],
+  "formal_job_index": 1,
+  "formal_jobs_authorized": 1,
+  "formal_gpu_budget_seconds": 21600,
+  "required_gpu_name": "NVIDIA L40S",
+  "required_min_gpu_bytes": 48000000000,
+  "release_cuda_cache_between_actions": true,
+  "eval": {
+    "max_model_len": 8192,
+    "max_new_tokens": 256,
+    "temperature": 0,
+    "seed": 2026110810,
+    "gpu_memory_utilization": 0.6,
+    "splits": {
+      "development": 4
+    }
+  },
+  "sample_eval": {
+    "seed": 2026110811,
+    "temperature": 0.8,
+    "rollouts_per_task": 4,
+    "task_count": 4
+  },
+  "recovery_eval": {
+    "samples_per_context": 3,
+    "temperature": 0.8,
+    "seed": 2026110812,
+    "complete_continuation": true
+  },
+  "protocol": {
+    "one_model_per_process": true,
+    "max_loras": 1,
+    "lora_int_id": 1,
+    "lora_name": "fixed_adapter",
+    "normalize_target_modules_order": true,
+    "quality_contexts_per_model": 7,
+    "quality_repeats": 2
+  },
+  "profile_input_dir": "artifacts/inputs/grpo-profile-c2-formal-20261106",
+  "profile_binding": {
+    "artifacts/inputs/grpo-profile-c2-formal-20261106/audit.json": "a94dea5a7f460ffcc4a1f5d529ff269bc3d4da0fea86ac4489f1b21983c09179",
+    "artifacts/inputs/grpo-profile-c2-formal-20261106/run_status.json": "28ab354d9b62909a718a99c606a6a3cee4143b5246d392560930d24a8bd18d92",
+    "artifacts/inputs/grpo-profile-c2-formal-20261106/execution_environment.json": "28c4cb834fd0444b68b2edc6a519aac2a1646804f484f72e84b8cb53b303761d"
+  },
+  "profile_review_zip_sha256": "a1b657b7989f0bbb2384efcbc11c59644064eb8f420e46b55d422b597e0506dd",
+  "explicit_eval_checkpointing": true,
+  "credit_method": "potential_rtg_depth_v1",
+  "study_phase": "fine_credit_ablation",
+  "closing_evaluation": {
+    "enabled": false
+  },
+  "curriculum_schema": "fine_credit_ablation_v1",
+  "targeted_evaluation": {
+    "enabled": true,
+    "seed": 2026110819,
+    "samples_per_context": 1
+  }
+}

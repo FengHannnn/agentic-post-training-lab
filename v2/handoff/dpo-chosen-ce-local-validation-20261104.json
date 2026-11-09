@@ -1,0 +1,57 @@
+{
+  "run_id": "dpo-chosen-ce-control-v1-20261104",
+  "full_suite": {
+    "tests": 163,
+    "seconds": 774.25,
+    "exit_code": 0
+  },
+  "additional_nonzero_CE_real_LoRA_test": {
+    "tests": 1,
+    "seconds": 47.71,
+    "exit_code": 0
+  },
+  "precision_scope_targeted_retest": {
+    "tests": 1,
+    "seconds": 0.21,
+    "exit_code": 0,
+    "note": "retest after limiting exact precision flags to training guards; full hardware/library guard remains for inference"
+  },
+  "distinct_tests_covered": 164,
+  "compileall_passed": true,
+  "five_stage_CLI_help_passed": true,
+  "local_preflight": {
+    "passed_local_input_harness": true,
+    "frozen_actual_adapters_verified": 3,
+    "canonical_reference_sha256": "448b6c8af6fb18ae35fcad02f904167fea1f75d293fff0c53a70968c280b2a65",
+    "canonical_reference_exact_copy": true,
+    "reference_pair_token_alignment_verified": 169,
+    "weights_raw_hard": 4,
+    "chosen_ce_coefficients": {
+      "weighted_control": {
+        "chosen_ce_coefficient": 0
+      },
+      "dpo_ce": {
+        "chosen_ce_coefficient": 1
+      }
+    },
+    "probes": 238,
+    "maximum_probe_tokens": 1527,
+    "development_contexts": 28,
+    "provenance_files_verified": 24,
+    "required_gpu_name": "NVIDIA L40S",
+    "actual_local_GPU_verification": false,
+    "full_base_files_deferred_to_cloud": [
+      "model.safetensors"
+    ],
+    "training_executed": false,
+    "optimizer_updates_planned_total": 516,
+    "expected_complete_episodes": 80,
+    "expected_recovery_episodes": 448,
+    "scored_models": 5
+  },
+  "GPU_experiment_executed": false,
+  "optimizer_updates_executed_locally": 0,
+  "optimizer_updates_planned_total": 516,
+  "C1_status": "failed_pending_causal_experiments",
+  "GRPO_status": "on_hold"
+}

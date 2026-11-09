@@ -1,0 +1,77 @@
+{
+  "run_id": "dpo-uniform-control-v1-20261104",
+  "config_name": "dpo-uniform-control-v1.json",
+  "algorithm": "hard_recovery_weighted_dpo",
+  "initial_run": "chosen-only-sft-v1-20261102",
+  "adapter_sha256": "078182d293d37b0caeda3bdef8355d4be45439af5480228259ef8658ff868a55",
+  "data_run": "dpo-recovery-collect-v1-20261102",
+  "pairs_sha256": "c7606a3fbf7ac4437d1aa8b3277228a7b4cdae95106e5d515d55c8f72869e329",
+  "pair_count": 169,
+  "max_length": 2048,
+  "hard_weight": 1,
+  "epochs": 6,
+  "max_steps": 258,
+  "gradient_accumulation": 4,
+  "learning_rate": 0.000005,
+  "max_grad_norm": 1,
+  "seed": 2026110301,
+  "checkpoint_every": 43,
+  "checkpoint_steps": [
+    43,
+    86,
+    129,
+    172,
+    215
+  ],
+  "source_sft_updates": 255,
+  "source_dpo_updates": 11,
+  "max_wall_seconds": 14400,
+  "eval": {
+    "max_model_len": 8192,
+    "max_new_tokens": 256,
+    "temperature": 0,
+    "seed": 2026110300,
+    "gpu_memory_utilization": 0.6,
+    "splits": {
+      "development": 4
+    }
+  },
+  "sample_eval": {
+    "seed": 2026110302,
+    "temperature": 0.8,
+    "rollouts_per_task": 4,
+    "task_count": 4
+  },
+  "task_counts": {
+    "development": 4
+  },
+  "recovery_eval": {
+    "samples_per_context": 3,
+    "temperature": 0.8,
+    "seed": 2026110303,
+    "complete_continuation": true
+  },
+  "evaluation_branches": [
+    "parent",
+    "weighted_sft",
+    "weighted_dpo",
+    "dpo"
+  ],
+  "checkpoint_selection": "fixed_final",
+  "beta": 0.1,
+  "comparison_run": "hard-recovery-sft-weighted-v1-20261103",
+  "comparison_adapter_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f",
+  "development_config_index": 2,
+  "maximum_development_configs": 2,
+  "weighted_dpo_run": "hard-recovery-dpo-matched-v1-20261103",
+  "weighted_dpo_adapter_sha256": "80c32888da7cea2f1962632e6261068ed47b955317077d124f0165842f2d1db0",
+  "diagnosis_run": "dpo-regression-checkpoints-v1-20261103",
+  "experiment": "E2_uniform_weight_control",
+  "control_complete_sha256": {
+    "parent": "d95dd07c1ff513cd7dfe82d70fe68f194342a54b270b3c4ec3b5c50e2b3da469",
+    "weighted_sft": "49c169b985e9ecd973c91b6e8fb5d160c00db258845ab7c3121f50498ea65c26",
+    "weighted_dpo": "ce1301e451d59e345cd73a7bdab11d13fd4b76fb5283cf49f661744048af822b"
+  },
+  "diagnosis_config_sha256": "6cd1ca878ee628c66e2d09fb89e7783799199d910b83a07f0bfe44877cd88f67",
+  "diagnosis_audit_sha256": "a5674387b1faedd97c81b48ba6936d09fde68cd90f849f9e07521c255f946496"
+}

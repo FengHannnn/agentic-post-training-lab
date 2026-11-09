@@ -1,0 +1,10 @@
+{
+  "zip": "hard-recovery-dpo-matched-v1-20261103-run.zip",
+  "sha256": "6970859570f3219d94d46becbc89d05787fc834bd672640c3f35993a87781bca",
+  "bytes": 252250,
+  "entries": 110,
+  "crc_passed": true,
+  "manifest_hashes_passed": true,
+  "tests_passed": 136,
+  "gpu_training_executed": false
+}

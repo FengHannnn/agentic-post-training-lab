@@ -1,0 +1,19 @@
+{
+  "run_id": "grpo-fine-credit-v1-20261108",
+  "study_phase": "fine_credit_ablation",
+  "max_wall_seconds": 21600,
+  "groups_per_branch": 48,
+  "packaging_reserve_seconds": 180,
+  "common_update_probe": 12,
+  "branches": {
+    "legacy": "configs/grpo-fine-credit-legacy-v1.json",
+    "local": "configs/grpo-fine-credit-local-v1.json"
+  },
+  "selection_rule": "primary_gain_greedy_guard_then_recovery_v1",
+  "budget_policy": "paired_cycle_with_final_reservation_v1",
+  "clone_policy": "new L40S allowed at job start; same GPU/runtime/driver within job",
+  "extra_sft_updates": 0,
+  "extra_dpo_updates": 0,
+  "contract_report": "reports/grpo-fine-credit-contract-v1-20261108.md",
+  "validation_report": "reports/grpo-fine-credit-validation-v1-20261108.json"
+}

@@ -1,0 +1,69 @@
+{
+  "patch_id": "grpo-probe-replay-v1",
+  "passed": true,
+  "scope": "CPU regression, recorded-native replay and returned-file audit; live GPU decode replay enforced during resume",
+  "review_sha256": "c27dedfd55790620807cee463d84a1992142f072fca500f5ab143f29be8789de",
+  "published_zip_sha256": "b7110c17f1ed85629d3c80d240a961d1a8e784315579b5a08a37e23dba782600",
+  "tests": {
+    "grpo_suite_passed": 160,
+    "installer_tests_passed": 7,
+    "total_passed": 167
+  },
+  "review_audit": {
+    "passed": true,
+    "branches": {
+      "control": {
+        "groups": 18,
+        "updates": 10,
+        "objective": {
+          "passed": true,
+          "actual_updates_recomputed": 10,
+          "maximum_metric_difference": 5.3644180431078325e-8
+        }
+      },
+      "lr10x": {
+        "groups": 18,
+        "updates": 10,
+        "objective": {
+          "passed": true,
+          "actual_updates_recomputed": 10,
+          "maximum_metric_difference": 3.725290309564144e-8
+        }
+      }
+    },
+    "baseline_episodes": 132,
+    "targeted_episodes": 24
+  },
+  "native_group18_replay": {
+    "passed": true,
+    "episodes_identical_to_recorded_partial": true,
+    "episodes": 4,
+    "actions": 33,
+    "successes": 3,
+    "prefill_error": 0.32879045605659485,
+    "same_request_replay_error": 0,
+    "backend": "recorded-native-response replay with actual Qwen tokenizer and real SQLite environment",
+    "extra_probe_tokens": 23
+  },
+  "budget": {
+    "maximum_seconds": 21600,
+    "spent_seconds": 6632.678968321998,
+    "remaining_seconds": 14967.321031678002
+  },
+  "training_config_unchanged": true,
+  "returned_file_installation_validation": {
+    "passed": true,
+    "protected_file_count": 582,
+    "protected_files_identical_after_install": true,
+    "configs_weights_rollouts_and_budget_unchanged": true,
+    "legacy_groups_valid_under_new_verifier": 36,
+    "idempotent_install_verified": true,
+    "original_and_effective_source_snapshots_verified": 3,
+    "local_review_only": true,
+    "cloud_Adam_hash_verification": "enforced by cloud installation; returned ZIP omits state.pt",
+    "bound_release_files": 239,
+    "remaining_seconds": 14967.321031678002,
+    "bundle_sha256": "98ce3450a5491f7d64e9c021944a12dda763c091e58c4fb4a4d0b2cb7ab92eab",
+    "elapsed_seconds": 69.39501219987869
+  }
+}

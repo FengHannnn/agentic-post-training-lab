@@ -1,0 +1,14 @@
+{
+  "zip": "dpo-uniform-control-v1-20261104-audit-repair-run.zip",
+  "sha256": "0449f9a3dbecbbb869edc2cd1c3a20629655e58950838bfe7af6c06f2c407c94",
+  "bytes": 22109,
+  "entries": 9,
+  "CRC_passed": true,
+  "patch_file_hashes_passed": true,
+  "reviewed_original_files_bound": 208,
+  "original_source_files_unchanged": 103,
+  "training_updates": 0,
+  "inference_episodes": 0,
+  "cloud_reaudit_executed": false,
+  "expected_return": "dpo-uniform-control-v1-20261104-audit-repaired-review.zip"
+}

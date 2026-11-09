@@ -1,0 +1,75 @@
+{
+  "run_id": "grpo-c4-confirmation-v2-20261107",
+  "study_phase": "C4",
+  "new_training_updates": 0,
+  "task_count": 12,
+  "complete_rollouts": 4,
+  "recovery_rollouts": 3,
+  "minimum_recovery_gain": 6,
+  "confirmation_seed": 2026110700,
+  "bootstrap_seed": 2026110711,
+  "bootstrap_repetitions": 10000,
+  "quality_contexts_per_model": 7,
+  "max_wall_seconds": 25200,
+  "packaging_reserve_seconds": 120,
+  "base_model": "Qwen/Qwen2.5-1.5B-Instruct",
+  "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "base_dir": ".cache/qwen2.5-1.5b-instruct",
+  "base_identity_file": "artifacts/inputs/grpo-w-20261105/model_identity.json",
+  "sampling": {
+    "temperature": 1,
+    "top_p": 1,
+    "top_k": -1,
+    "min_p": 0,
+    "repetition_penalty": 1,
+    "presence_penalty": 0,
+    "frequency_penalty": 0,
+    "min_tokens": 0,
+    "max_new_tokens": 256,
+    "max_model_len": 8192,
+    "logprobs_mode": "processed_logprobs"
+  },
+  "inference": {
+    "gpu_memory_utilization": 0.6,
+    "lora_dtype": "bfloat16"
+  },
+  "tool_cost": 0.01,
+  "required_gpu_name": "NVIDIA L40S",
+  "required_min_gpu_bytes": 48000000000,
+  "required_packages": {
+    "vllm": "0.11.0",
+    "transformers": "4.57.6",
+    "peft": "0.17.1"
+  },
+  "contract_report": "reports/grpo-c4-confirmation-contract-v2-20261107.md",
+  "validation_report": "reports/grpo-c4-local-validation-v2-20261107.json",
+  "acceptance": {
+    "mode": "practical",
+    "sample_recovery_minimum_gain": 6,
+    "sample_recovery_denominator": 252,
+    "sample_complete_no_regression": true,
+    "greedy_complete_no_regression": true,
+    "greedy_recovery_no_regression": true,
+    "primary": "complete unless W sample complete is saturated; otherwise recovery",
+    "primary_must_improve": true
+  },
+  "models": {
+    "weighted_sft": {
+      "version": 0,
+      "adapter_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f",
+      "input_dir": "artifacts/inputs/grpo-c4-confirmation-20261107/weighted_sft"
+    },
+    "outcome_rl16": {
+      "version": 16,
+      "adapter_sha256": "6599dcbb8286a9850c1b175ddbb95b5507e3f6dd734755fe9eb833778dd609e6",
+      "input_dir": "artifacts/inputs/grpo-c4-confirmation-20261107/outcome_rl16"
+    },
+    "fine_rl17": {
+      "version": 17,
+      "adapter_sha256": "1990f06d2eb8e3a1777273051bf2bce078c8bff67206533b88dd65780e5959c6",
+      "input_dir": "artifacts/inputs/grpo-c4-confirmation-20261107/fine_rl17"
+    }
+  },
+  "protocol_version": 2,
+  "release_manifest": "grpo_c4_v2_release_manifest.json"
+}

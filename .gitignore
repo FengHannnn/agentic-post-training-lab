@@ -26,3 +26,11 @@ data/processed/*
 .env
 .env.*
 !.env.example
+
+# V2 runtime evidence stays on disk; source, reports and release manifests are versioned.
+/v2/artifacts/*
+!/v2/artifacts/README.md
+/v2/*.zip
+/v2/local-validation.json
+/v2/test-results.txt
+/v2/.local/

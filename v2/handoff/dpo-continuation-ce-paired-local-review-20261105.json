@@ -1,0 +1,42 @@
+{
+  "status": "passed_local_artifact_review_inference_repeatability_pending",
+  "archive_sha256": "14e24e215d6ad108758f937a6c24d9bc92a77c213e3931da44f8c198fcc9cabb",
+  "source_files_verified": 130,
+  "provenance_files_verified": 27,
+  "real_adapters_verified": 5,
+  "optimizer_updates_verified": 516,
+  "pair_exposures_verified": 2028,
+  "CE_action_exposures_verified": 2028,
+  "train_expert_continuations_replayed": 84,
+  "expert_CE_pool_actions_verified": 288,
+  "expert_CE_sampled_actions_verified": 1014,
+  "runtime_precheck": {
+    "passed": true,
+    "scope": "cross_job_with_fresh_paired_control",
+    "precision_checked": true,
+    "allowed_differences": {
+      "gpu_uuid": {
+        "expected": "086e2842-344c-9528-cbae-b8fcba665e1c",
+        "actual": "92e14e85-628d-e5a4-af16-0db4defb2afb"
+      }
+    },
+    "rejected_differences": {}
+  },
+  "optimizer_state": "cloud frozen auditor verified state.pt; cloud retains optimizer tensors; local review verifies returned binding, metadata and full history",
+  "same_run_reference_maximum_difference": 0,
+  "paired_initial_reference_difference": 0,
+  "sqlite_version": "3.53.1",
+  "complete_episodes_replayed": 80,
+  "recovery_episodes_replayed": 448,
+  "first_actions_replayed": 448,
+  "turns_replayed": 3056,
+  "test_split_used": false,
+  "identical_adapter_probe_scores_equal": true,
+  "inference_repeatability": {
+    "passed": false,
+    "identical_adapter_greedy_recovery_different_responses": 5,
+    "identical_adapter_greedy_recovery_different_outcomes": 2,
+    "episodes": 28,
+    "next_run": "dpo-inference-confirmation-v1-20261105"
+  }
+}

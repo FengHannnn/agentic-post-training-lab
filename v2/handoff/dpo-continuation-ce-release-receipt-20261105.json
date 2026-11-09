@@ -1,0 +1,25 @@
+{
+  "zip": "dpo-continuation-ce-control-v1-20261105-run.zip",
+  "sha256": "89b7d113fd5a24e9345d3bb4e89ebe723e72589aa52a047673077b50958af028",
+  "bytes": 355226,
+  "entries": 154,
+  "CRC_passed": true,
+  "manifest_hashes_passed": true,
+  "distinct_new_tests": 8,
+  "optimizer_updates_planned_total": 258,
+  "expected_complete_episodes": 80,
+  "expected_recovery_episodes": 448,
+  "scored_models": 5,
+  "GPU_experiment_executed": false,
+  "canonical_reference_sha256": "448b6c8af6fb18ae35fcad02f904167fea1f75d293fff0c53a70968c280b2a65",
+  "CE_token_budget": {
+    "DPO_pair_exposures": 1014,
+    "CE_action_exposures": 1014,
+    "DPO_chosen_response_tokens": 105486,
+    "DPO_rejected_response_tokens": 62154,
+    "DPO_input_tokens": 1941912,
+    "CE_response_tokens": 85203,
+    "CE_extra_forward_input_tokens": 1202952,
+    "CE_extra_forwards": 1014
+  }
+}

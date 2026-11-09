@@ -1,0 +1,95 @@
+{
+  "run_id": "dpo-inference-confirmation-v1-20261105",
+  "config_name": "dpo-inference-confirmation-v1.json",
+  "source_run": "dpo-continuation-ce-paired-v1-20261105",
+  "source_config_sha256": "a8acc4ae5e3164d6ac7bc685c1781ce64dd660102b3077c943195f0c86d77338",
+  "source_audit_sha256": "d238d6add51c3d5f1e10596c63dbb7966a9bd79d33f98408b8a114f35c8039e8",
+  "source_run_status_sha256": "48cb9edfa9f4fbfc5b126bc9f647ee336dd43288ba7b7ef1eeca4f8d669e447c",
+  "training_enabled": false,
+  "optimizer_updates": 0,
+  "max_wall_seconds": 14400,
+  "required_gpu_name": "NVIDIA L40S",
+  "required_execution_environment": {
+    "gpu_name": "NVIDIA L40S",
+    "gpu_uuid": "92e14e85-628d-e5a4-af16-0db4defb2afb",
+    "compute_capability": [
+      8,
+      9
+    ],
+    "gpu_total_memory": 50867666944,
+    "python": "3.11.17",
+    "torch": "2.8.0+cu128",
+    "cuda": "12.8",
+    "cudnn": 91002,
+    "float32_matmul_precision": "highest",
+    "allow_tf32_matmul": false,
+    "allow_tf32_cudnn": true,
+    "packages": {
+      "transformers": "4.57.6",
+      "peft": "0.17.1",
+      "vllm": "0.11.0"
+    }
+  },
+  "eval": {
+    "max_model_len": 8192,
+    "max_new_tokens": 256,
+    "temperature": 0,
+    "seed": 2026110300,
+    "gpu_memory_utilization": 0.6,
+    "splits": {
+      "development": 4
+    }
+  },
+  "sample_eval": {
+    "seed": 2026110302,
+    "temperature": 0.8,
+    "rollouts_per_task": 4,
+    "task_count": 4
+  },
+  "recovery_eval": {
+    "samples_per_context": 3,
+    "temperature": 0.8,
+    "seed": 2026110303,
+    "complete_continuation": true
+  },
+  "evaluation_branches": [
+    "weighted_sft",
+    "chosen_control",
+    "control_repeat",
+    "continuation_ce"
+  ],
+  "frozen_models": {
+    "weighted_sft": {
+      "run": "hard-recovery-sft-weighted-v1-20261103",
+      "checkpoint": "final",
+      "adapter_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f",
+      "complete_sha256": "49c169b985e9ecd973c91b6e8fb5d160c00db258845ab7c3121f50498ea65c26"
+    },
+    "chosen_control": {
+      "run": "dpo-continuation-ce-paired-v1-20261105",
+      "checkpoint": "training/chosen_control/final",
+      "adapter_sha256": "ad6a8f60ef71c9b56e62f3d6373bf1e258d56b1bf87487a999f83e25351b743b",
+      "complete_sha256": "898434dec91562c29570e7f42993375835da44b6a6cba8400e82b011fd4dbb4d"
+    },
+    "control_repeat": {
+      "run": "dpo-continuation-ce-paired-v1-20261105",
+      "checkpoint": "training/chosen_control/final",
+      "adapter_sha256": "ad6a8f60ef71c9b56e62f3d6373bf1e258d56b1bf87487a999f83e25351b743b",
+      "complete_sha256": "898434dec91562c29570e7f42993375835da44b6a6cba8400e82b011fd4dbb4d"
+    },
+    "continuation_ce": {
+      "run": "dpo-continuation-ce-paired-v1-20261105",
+      "checkpoint": "training/continuation_ce/final",
+      "adapter_sha256": "b74af1a4d0e2ea1dac0ab78322a415865c7992d7fe4a7adfa0638b66cccfba7a",
+      "complete_sha256": "7f567452868c13951a49ef5d9dfd8c83dee89b5049fd663d8305edc0d86ce8ff"
+    }
+  },
+  "protocol": {
+    "one_model_per_process": true,
+    "max_loras": 1,
+    "lora_int_id": 1,
+    "lora_name": "fixed_adapter",
+    "normalize_target_modules_order": true,
+    "duplicate_control_exact_responses_required": true
+  }
+}

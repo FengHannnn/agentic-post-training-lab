@@ -1,0 +1,45 @@
+{
+  "expected": {
+    "gpu_name": "NVIDIA L40S",
+    "gpu_uuid": "086e2842-344c-9528-cbae-b8fcba665e1c",
+    "compute_capability": [
+      8,
+      9
+    ],
+    "gpu_total_memory": 50867666944,
+    "python": "3.11.17",
+    "torch": "2.8.0+cu128",
+    "cuda": "12.8",
+    "cudnn": 91002,
+    "float32_matmul_precision": "highest",
+    "allow_tf32_matmul": false,
+    "allow_tf32_cudnn": true,
+    "packages": {
+      "transformers": "4.57.6",
+      "peft": "0.17.1",
+      "vllm": "0.11.0"
+    }
+  },
+  "actual": {
+    "gpu_name": "NVIDIA L40S",
+    "gpu_uuid": "92e14e85-628d-e5a4-af16-0db4defb2afb",
+    "compute_capability": [
+      8,
+      9
+    ],
+    "gpu_total_memory": 50867666944,
+    "python": "3.11.17",
+    "torch": "2.8.0+cu128",
+    "cuda": "12.8",
+    "cudnn": 91002,
+    "float32_matmul_precision": "highest",
+    "allow_tf32_matmul": false,
+    "allow_tf32_cudnn": true,
+    "packages": {
+      "transformers": "4.57.6",
+      "peft": "0.17.1",
+      "vllm": "0.11.0"
+    }
+  },
+  "source": "user supplied full runtime comparison; only gpu_uuid differs"
+}

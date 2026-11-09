@@ -1,0 +1,32 @@
+{
+  "passed": true,
+  "bound_files": 223,
+  "models": {
+    "weighted_sft": {
+      "tensor_count": 112,
+      "parameters": 1089536,
+      "BF16_projected_tensors": 112,
+      "sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f"
+    },
+    "outcome_rl16": {
+      "tensor_count": 112,
+      "parameters": 1089536,
+      "BF16_projected_tensors": 112,
+      "sha256": "6599dcbb8286a9850c1b175ddbb95b5507e3f6dd734755fe9eb833778dd609e6"
+    },
+    "fine_rl17": {
+      "tensor_count": 112,
+      "parameters": 1089536,
+      "BF16_projected_tensors": 112,
+      "sha256": "1990f06d2eb8e3a1777273051bf2bce078c8bff67206533b88dd65780e5959c6"
+    }
+  },
+  "sources_unchanged_after_tests": true,
+  "run_id": "grpo-c4-confirmation-v1-20261107",
+  "release_sha256": "a45cdf78b6215437b8b9799b4a36f5a5d7a8aa842a3b229eeef52ad9a4235f47",
+  "archive_entries": 224,
+  "python_AST": 177,
+  "CLI_help_passed": 3,
+  "clean_release_tests_passed": 17,
+  "clean_release_tests_deselected_already_verified": 5
+}

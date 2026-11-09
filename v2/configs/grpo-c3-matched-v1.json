@@ -1,0 +1,21 @@
+{
+  "run_id": "grpo-c3-matched-v1-20261106",
+  "study_phase": "C3",
+  "max_wall_seconds": 14400,
+  "packaging_reserve_seconds": 120,
+  "groups_per_branch": 24,
+  "branches": {
+    "outcome": "configs/grpo-c3-outcome-v1.json",
+    "fine": "configs/grpo-c3-fine-v1.json"
+  },
+  "evaluation_labels": {
+    "baseline": "weighted_sft",
+    "final": "grpo_g0024"
+  },
+  "validation_report": "reports/grpo-c3-local-validation-v1-20261106.json",
+  "contract_report": "reports/grpo-c3-contract-v1-20261106.md",
+  "budget_scope": "one matched job; both branches, all evaluations and audit",
+  "initial_policy": "W independent fresh AdamW per branch",
+  "extension_scope": "development transfer evaluation; training tasks unchanged",
+  "clone_policy": "fresh new L40S UUID at prepare; within-job identity frozen"
+}

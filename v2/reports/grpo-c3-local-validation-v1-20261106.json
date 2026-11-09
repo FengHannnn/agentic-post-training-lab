@@ -1,0 +1,88 @@
+{
+  "passed": true,
+  "validated_on": "2026-11-06",
+  "unique_test_cases_verified": 160,
+  "full_regression": {
+    "cases": 159,
+    "exit": 0,
+    "stdout": "........................................................................ [ 45%]\r\n........................................................................ [ 90%]\r\n...............                                                          [100%]\r\n============================== warnings summary ===============================\r\nv2/tests/test_grpo_v2.py::test_production_adapter_export_reloads_exact_policy\r\n  C:\\Users\\app\\Documents\\Codex\\2026-9-28\\AgenticPostTrainingLab\\.venv\\Lib\\site-packages\\peft\\tuners\\tuners_utils.py:196: UserWarning: Already found a `peft_config` attribute in the model. This will lead to having multiple adapters in the model. Make sure to know what you are doing!\r\n    warnings.warn(\r\n\r\nv2/tests/test_dpo_sft_start_v2.py::test_real_lora_resume_preserves_adam_rng_history_and_reference\r\n  C:\\Users\\app\\Documents\\Codex\\2026-9-28\\AgenticPostTrainingLab\\.venv\\Lib\\site-packages\\peft\\utils\\save_and_load.py:286: UserWarning: Could not find a config file in  - will assume that the vocabulary was not modified.\r\n    warnings.warn(\r\n\r\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\r\n159 passed, 2 warnings in 199.71s (0:03:19)\r\n",
+    "stderr": ""
+  },
+  "final_C3_targeted": {
+    "cases": 19,
+    "exit": 0,
+    "stdout": "...................                                                      [100%]\r\n19 passed in 28.61s\r\n",
+    "stderr": ""
+  },
+  "independent_objective_gradient_test": {
+    "exit": 0,
+    "stdout": ".                                                                        [100%]\r\n1 passed in 30.92s\r\n",
+    "stderr": ""
+  },
+  "python_AST": {
+    "exit": 0,
+    "stdout": "AST passed 169\r\n",
+    "stderr": ""
+  },
+  "closing_dependency_proof": [
+    {
+      "task_id": "closing-development-000",
+      "passed": true,
+      "checks": {
+        "expert_success": true,
+        "closing_persisted": true,
+        "removal_blocks_next_query": true,
+        "mutation_changes_balance": true,
+        "mutation_fails_integrity": true
+      },
+      "actions": 9
+    },
+    {
+      "task_id": "closing-development-001",
+      "passed": true,
+      "checks": {
+        "expert_success": true,
+        "closing_persisted": true,
+        "removal_blocks_next_query": true,
+        "mutation_changes_balance": true,
+        "mutation_fails_integrity": true
+      },
+      "actions": 10
+    },
+    {
+      "task_id": "closing-development-002",
+      "passed": true,
+      "checks": {
+        "expert_success": true,
+        "closing_persisted": true,
+        "removal_blocks_next_query": true,
+        "mutation_changes_balance": true,
+        "mutation_fails_integrity": true
+      },
+      "actions": 9
+    },
+    {
+      "task_id": "closing-development-003",
+      "passed": true,
+      "checks": {
+        "expert_success": true,
+        "closing_persisted": true,
+        "removal_blocks_next_query": true,
+        "mutation_changes_balance": true,
+        "mutation_fails_integrity": true
+      },
+      "actions": 10
+    }
+  ],
+  "scope": "local CPU validation; first C3 GPU run follows",
+  "new_GPU_policy": "same L40S class; new UUID accepted at prepare and frozen within job",
+  "budget": {
+    "wall_seconds": 14400,
+    "scope": "entire matched job",
+    "user_confirmed": true
+  },
+  "credit_methods": {
+    "outcome": "episode outcome group normalization",
+    "fine": "potential-shaped RTG normalized over active trajectories at matching relative action depth"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "models": {
+    "weighted_sft": {
+      "sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f",
+      "tensors": 112,
+      "parameters": 1089536,
+      "BF16_projection_verified": true
+    },
+    "outcome_rl16": {
+      "sha256": "6599dcbb8286a9850c1b175ddbb95b5507e3f6dd734755fe9eb833778dd609e6",
+      "tensors": 112,
+      "parameters": 1089536,
+      "BF16_projection_verified": true
+    },
+    "fine_rl17": {
+      "sha256": "1990f06d2eb8e3a1777273051bf2bce078c8bff67206533b88dd65780e5959c6",
+      "tensors": 112,
+      "parameters": 1089536,
+      "BF16_projection_verified": true
+    }
+  },
+  "all_226_bindings_unchanged_after_tests": true,
+  "v1_original_archive_unchanged": true,
+  "run_id": "grpo-c4-confirmation-v2-20261107",
+  "release_sha256": "293a694dc219a1d431ca7bb4e5cc3fc3ebf122c666ba63614039a0863bedc0c2",
+  "python_AST": 179,
+  "CLI_help_passed": 3,
+  "clean_tests_passed": 17
+}

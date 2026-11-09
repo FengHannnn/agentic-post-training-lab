@@ -1,0 +1,19 @@
+{
+  "zip": "dpo-early86-vs-weighted-sft-v1-20261105-run.zip",
+  "sha256": "1b4ba7e478f04f77d768010000a3883e59edb76ca14f9ad25c7eb25c8938f9f7",
+  "bytes": 405076,
+  "entries": 171,
+  "CRC_passed": true,
+  "manifest_hashes_passed": true,
+  "tests_passed": 5,
+  "models": 2,
+  "candidate_steps": 86,
+  "training_enabled": false,
+  "optimizer_updates": 0,
+  "complete_episodes_total": 40,
+  "recovery_episodes_total": 224,
+  "main_episodes_total": 264,
+  "small_quality_generation_calls": 28,
+  "DPO86_real_tensor_check": "cloud preflight before inference; include pinned tensor in returned review",
+  "GPU_experiment_executed": false
+}

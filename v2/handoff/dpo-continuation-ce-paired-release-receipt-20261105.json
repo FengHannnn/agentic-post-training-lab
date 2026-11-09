@@ -1,0 +1,17 @@
+{
+  "zip": "dpo-continuation-ce-paired-v1-20261105-run.zip",
+  "sha256": "c85df6601819d39147e0e1f0922ea1c1f53ba620dadb40f28a41ac835e1a4965",
+  "bytes": 385369,
+  "entries": 165,
+  "CRC_passed": true,
+  "manifest_hashes_passed": true,
+  "distinct_new_tests": 12,
+  "kernel_regressions": 2,
+  "optimizer_updates_planned_total": 516,
+  "expected_complete_episodes": 80,
+  "expected_recovery_episodes": 448,
+  "scored_models": 5,
+  "GPU_experiment_executed": false,
+  "runtime_policy": "same-job chosen_control to continuation_ce; both fresh from original parent",
+  "canonical_reference_sha256": "448b6c8af6fb18ae35fcad02f904167fea1f75d293fff0c53a70968c280b2a65"
+}

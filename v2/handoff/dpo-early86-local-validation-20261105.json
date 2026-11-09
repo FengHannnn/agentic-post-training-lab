@@ -1,0 +1,41 @@
+{
+  "run_id": "dpo-early86-vs-weighted-sft-v1-20261105",
+  "tests": {
+    "passed": 5,
+    "seconds": 37.29,
+    "exit_code": 0
+  },
+  "compileall_passed": true,
+  "three_stage_CLI_help_passed": true,
+  "local_preflight": {
+    "passed_local_metadata_and_input_checks": true,
+    "candidate": "dpo_0086",
+    "fixed_candidate_steps": 86,
+    "fixed_candidate_epochs": 2,
+    "SFT_actual_adapter_hash_verified": true,
+    "DPO86_complete_metadata_hash_verified": true,
+    "DPO86_adapter_config_hash_verified": true,
+    "DPO86_actual_tensor_verified_locally": false,
+    "DPO86_tensor_hash_previously_bound_by_audited_E1": "43100acde91f178de59ac7a65f29867862a02a7f1a6cbcd134b7d81a7318f46c",
+    "cloud_preflight_deferred": [
+      "actual DPO86 adapter tensor hash and copy",
+      "full base model tensor hash",
+      "actual GPU/runtime"
+    ],
+    "development_contexts": 28,
+    "maximum_recovery_prompt_tokens": 1282,
+    "quality_contexts_per_model": 7,
+    "quality_response_calls_total": 28,
+    "complete_episodes_total": 40,
+    "recovery_episodes_total": 224,
+    "training_enabled": false,
+    "optimizer_updates": 0,
+    "GPU_experiment_executed": false
+  },
+  "training_enabled": false,
+  "optimizer_updates": 0,
+  "GPU_experiment_executed": false,
+  "primary": "complete task success",
+  "secondary": "complete recovery success",
+  "scope": "two existing frozen models only; performance closeout comparison"
+}

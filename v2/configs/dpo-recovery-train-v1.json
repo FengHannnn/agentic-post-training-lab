@@ -1,0 +1,44 @@
+{
+  "run_id": "dpo-recovery-train-v1-20261102",
+  "initial_run": "dpo-train-v1-20261102",
+  "data_run": "dpo-recovery-collect-v1-20261102",
+  "adapter_sha256": "fca8a4e07224169569b6cb4f81ab0daa0abe03f6d92caed0efcdf584313e6d6d",
+  "pairs_sha256": "c7606a3fbf7ac4437d1aa8b3277228a7b4cdae95106e5d515d55c8f72869e329",
+  "pair_count": 169,
+  "max_length": 2048,
+  "epochs": 1,
+  "max_steps": 43,
+  "gradient_accumulation": 4,
+  "learning_rate": 0.000005,
+  "beta": 0.1,
+  "max_grad_norm": 1,
+  "seed": 2026110251,
+  "checkpoint_every": 16,
+  "source_sft_updates": 126,
+  "source_dpo_updates": 11,
+  "max_wall_seconds": 5400,
+  "eval": {
+    "max_model_len": 8192,
+    "max_new_tokens": 256,
+    "temperature": 0,
+    "seed": 2026102901,
+    "gpu_memory_utilization": 0.6,
+    "splits": {
+      "train": 12,
+      "development": 4
+    }
+  },
+  "sample_eval": {
+    "seed": 2026110252,
+    "temperature": 0.8,
+    "rollouts_per_task": 4,
+    "task_count": 4
+  },
+  "recovery_eval": {
+    "split": "development",
+    "task_count": 4,
+    "samples_per_context": 3,
+    "temperature": 0.8,
+    "seed": 2026110253
+  }
+}

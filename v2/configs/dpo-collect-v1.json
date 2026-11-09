@@ -1,0 +1,22 @@
+{
+  "run_id": "dpo-collect-v1-20261102",
+  "baseline_id": "sft-sql-weighted-v1-20261102",
+  "source_run": "sql-sft-weighted-v1-20261101",
+  "adapter_sha256": "e41bef8a51d8d968bcfee4a606da364888a191c4e1ee85399215bc12b85813f0",
+  "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "split": "train",
+  "task_count": 12,
+  "rollouts_per_task": 4,
+  "temperature": 0.8,
+  "seed": 2026110201,
+  "max_model_len": 8192,
+  "max_new_tokens": 256,
+  "gpu_memory_utilization": 0.6,
+  "max_wall_seconds": 3600,
+  "pair_max_length": 2048,
+  "max_pairs_per_episode": 2,
+  "max_pairs_per_task": 4,
+  "min_pairs_for_training": 12,
+  "min_task_coverage_for_training": 4,
+  "training_enabled": false
+}

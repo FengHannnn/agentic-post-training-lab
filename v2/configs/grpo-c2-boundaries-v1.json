@@ -1,0 +1,47 @@
+{
+  "confirmed_date": "2026-11-05",
+  "required_phases": [
+    "C2 outcome GRPO",
+    "C3 fine-grained GRPO and one SQLite dependency extension",
+    "C4 independent confirmation and delivery"
+  ],
+  "optional": "DPO extensions, extra algorithms, multiple seeds and other additions",
+  "performance_target": {
+    "at_least_one_grpo_branch_beats_W": true,
+    "complete_success_primary_unless_saturated": true,
+    "recovery_success_primary_if_complete_saturated": true,
+    "numeric_thresholds": null,
+    "freeze_final_protocol_before_final_evaluation": true
+  },
+  "method": {
+    "initial": "W SFT513/DPO11",
+    "reference": "frozen W",
+    "normal_recovery_group_mix": [
+      1,
+      1
+    ],
+    "recovery_prefix_uses_original_12_turn_budget": true,
+    "primary_comparison": "pure GRPO; extra SFT/DPO/CE registered as hybrid",
+    "fine_grained_comparison": "main change is turn credit; other optimized recipes separately recorded"
+  },
+  "budget": {
+    "preflight_wall_seconds": 3600,
+    "C2_initial_formal_jobs": 3,
+    "C2_initial_formal_gpu_seconds": 43200,
+    "per_formal_job_wall_seconds": 14400,
+    "C3_budget": "freeze after C2 profile"
+  },
+  "evaluation": {
+    "historical_test": "regression",
+    "final_tasks": "new frozen tasks/families",
+    "pairing": "same task and sampling seeds; retain task-level outcomes",
+    "acceptance_thresholds": "deferred by user"
+  },
+  "delivery": {
+    "language": "Chinese",
+    "reports": "links only; never auto-open",
+    "writing": "direct results and evidence",
+    "terminal_progress_bars": true,
+    "cloud": "user uploads ZIP, executes commands and returns review ZIP"
+  }
+}

@@ -1,0 +1,112 @@
+{
+  "run_id": "dpo-sft-start-short-v1-20261105",
+  "config_name": "dpo-sft-start-short-v1.json",
+  "algorithm": "uniform_dpo_from_weighted_sft",
+  "initial_run": "hard-recovery-sft-weighted-v1-20261103",
+  "adapter_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f",
+  "complete_sha256": "49c169b985e9ecd973c91b6e8fb5d160c00db258845ab7c3121f50498ea65c26",
+  "initial_audit_sha256": "121fe5e1ecc6f2755a10152a53c0429ac9f4d28cac6cf1de5c5d34f375615765",
+  "data_run": "dpo-recovery-collect-v1-20261102",
+  "pairs_sha256": "c7606a3fbf7ac4437d1aa8b3277228a7b4cdae95106e5d515d55c8f72869e329",
+  "pair_count": 169,
+  "max_length": 2048,
+  "hard_weight": 1,
+  "gradient_accumulation": 4,
+  "learning_rate": 5e-7,
+  "beta": 0.1,
+  "max_grad_norm": 1,
+  "seed": 2026110301,
+  "checkpoint_steps": [
+    4,
+    12,
+    24
+  ],
+  "max_steps": 24,
+  "source_sft_updates": 513,
+  "source_dpo_updates": 11,
+  "max_wall_seconds": 14400,
+  "eval": {
+    "max_model_len": 8192,
+    "max_new_tokens": 256,
+    "temperature": 0,
+    "seed": 2026110300,
+    "gpu_memory_utilization": 0.6,
+    "splits": {
+      "development": 4
+    }
+  },
+  "sample_eval": {
+    "seed": 2026110302,
+    "temperature": 0.8,
+    "rollouts_per_task": 4,
+    "task_count": 4
+  },
+  "recovery_eval": {
+    "samples_per_context": 3,
+    "temperature": 0.8,
+    "seed": 2026110303,
+    "complete_continuation": true
+  },
+  "evaluation_branches": [
+    "weighted_sft",
+    "dpo_0004",
+    "dpo_0012",
+    "dpo_0024"
+  ],
+  "protocol": {
+    "one_model_per_process": true,
+    "max_loras": 1,
+    "lora_int_id": 1,
+    "lora_name": "fixed_adapter",
+    "normalize_target_modules_order": true,
+    "quality_contexts_per_model": 7,
+    "quality_repeats": 2
+  },
+  "required_gpu_name": "NVIDIA L40S",
+  "required_execution_environment": {
+    "gpu_name": "NVIDIA L40S",
+    "gpu_uuid": "92e14e85-628d-e5a4-af16-0db4defb2afb",
+    "compute_capability": [
+      8,
+      9
+    ],
+    "gpu_total_memory": 50867666944,
+    "python": "3.11.17",
+    "torch": "2.8.0+cu128",
+    "cuda": "12.8",
+    "cudnn": 91002,
+    "float32_matmul_precision": "highest",
+    "allow_tf32_matmul": false,
+    "allow_tf32_cudnn": true,
+    "packages": {
+      "transformers": "4.57.6",
+      "peft": "0.17.1",
+      "vllm": "0.11.0"
+    }
+  },
+  "source_comparison_run": "dpo-early86-vs-weighted-sft-v1-20261105",
+  "source_comparison_config_sha256": "56d8f47650dec099ab51da04fdc230752c18526bb304f85551b65757228678aa",
+  "source_comparison_audit_sha256": "6fbde0e4f924a319ad233702985626e1071feadcf476787d76a739c67eb4cce3",
+  "source_comparison_status_sha256": "5d1174f151dfba6b815ce5ae4a7f1a95db2341e7d54724ce7b691522405827f3",
+  "reference_policy": "fresh_FP32_scores_from_initial_weighted_SFT_same_job_immutable",
+  "selection_rule": {
+    "order": "earliest_passing_checkpoint",
+    "minimum_sample_complete_successes": 15,
+    "maximum_complete_success_drop": 1,
+    "maximum_recovery_success_drop": 4,
+    "greedy_complete_may_drop": false,
+    "greedy_recovery_may_drop": false,
+    "baseline_required_sample_complete_successes": 16,
+    "baseline_required_greedy_complete_successes": 4,
+    "severe_complete_success_drop": 4,
+    "no_pass_rank": [
+      "sample.complete",
+      "sample.recovery",
+      "greedy.complete",
+      "greedy.recovery",
+      "earlier_step"
+    ]
+  },
+  "test_split_used": false,
+  "data_audit_sha256": "9acfcf5049ac3e12c0261e8365c64a89a9dbc9ace2e52d2c1b2185521b961c77"
+}

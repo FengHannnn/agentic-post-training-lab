@@ -1,0 +1,55 @@
+{
+  "passed": true,
+  "date": "2026-11-07",
+  "run_id": "grpo-c4-confirmation-v1-20261107",
+  "new_training_updates": 0,
+  "tests": {
+    "C4_native_isolation_threshold_and_resume": {
+      "passed": 19,
+      "seconds": 99.83
+    },
+    "C4_driver_success_timeout_failure": {
+      "passed": 3,
+      "seconds": 1.23
+    },
+    "existing_GRPO_regression": {
+      "passed": 93,
+      "seconds": 91.37,
+      "warnings": 1
+    },
+    "unique_total_passed": 115
+  },
+  "all_python_AST_passed": 176,
+  "CLI_help_passed": [
+    "run_v2_grpo_c4.py",
+    "grpo_c4_worker.py",
+    "build_v2_grpo_c4_release.py"
+  ],
+  "holdout": {
+    "new_task_instances": 8,
+    "disjoint_task_family_seed": true,
+    "expert_contexts_proved_within_12_turns": 64,
+    "episodes_per_model": 264,
+    "models": 3,
+    "total_episodes": 792,
+    "quality_actions_without_resume": 42
+  },
+  "resume_behavior": {
+    "injected_interruption_after_committed_episodes": 5,
+    "previous_episode_bytes_unchanged": true,
+    "full_completed_episodes_after_resume": 264,
+    "loaded_weight_proof_bound_per_episode": true,
+    "new_session_repeats_quality": true
+  },
+  "evidence_scope": "local real SQLite/native-token fixtures, actual adapter BF16 projections; cloud Qwen generation follows",
+  "new_source_sha256": {
+    "src/apt_v2/grpo_confirmation.py": "18872d5ca41d41b3a7f1e87f2e3fb40261f9e2f35b08b86045917034aac0eb29",
+    "scripts/grpo_c4_common.py": "9013683ed874bc437e30bf9a53b9fee6ac5ee408652b8bd583d6b6ff87808c65",
+    "scripts/grpo_c4_worker.py": "59fca0592c59464154a2cdba9b5910127e7e7f2a88c14729b61b76e8f331e1f9",
+    "scripts/run_v2_grpo_c4.py": "72caa0d08d31f23289f8b7d3eac6a7dd9db8ce59d58b57094d4cf4a924faa9ca",
+    "configs/grpo-c4-confirmation-v1.json": "96ee75c42031ec8f54c6004f5ba2c60f08bc9a33728881adfa0965d99e348619",
+    "scripts/build_v2_grpo_c4_release.py": "88324257e5e3cf501f3fe55b897118e62283b0bfec3accc0c7bdb7a0e0eb7430",
+    "tests/test_grpo_confirmation_v2.py": "4dfcb68186813e6cc90939a70ebb0d9732d6caef464b02f0fd3ae4bc8935e034",
+    "tests/test_grpo_confirmation_driver_v2.py": "2d1477d39e535c0a95cb70a8411dfd9c923663a5f173df6e91cdd0b83f525325"
+  }
+}

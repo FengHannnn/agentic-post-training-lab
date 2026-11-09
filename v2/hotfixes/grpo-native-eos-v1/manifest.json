@@ -1,0 +1,40 @@
+{
+  "patch_id": "grpo-native-eos-v1",
+  "run_id": "grpo-outcome-formal-v1-20261105",
+  "created_on": "2026-11-06",
+  "source_review_sha256": "c063aa5dc137a4e3232ffdee9541a90eea9e8c5e3f666fcfd5f8dc7d94aebdfb",
+  "committed_groups": 17,
+  "latest_policy": {
+    "checkpoint": "checkpoints/group-0016",
+    "version": 13,
+    "updates": 13,
+    "adapter_sha256": "c8eeb7e835ecde292c9496883ec33adb5838e4869d2eca1e3ba8f0fe97dc276d"
+  },
+  "patches": {
+    "src/apt_v2/grpo.py": {
+      "before": "1ccc91d813679701178060ad16c57296eeec7863329a5a606c8d9db3b35f7511",
+      "after": "e4e5e010549aa1021def8c210ca3cb318fa69f46c9a3a6ce6f75efe17a1e61fa"
+    }
+  },
+  "run_bindings": {
+    "config.json": "aa361b93cbd143da15e1921f2e703958b056f223ff9f8934085ad89027887c23",
+    "input_binding.json": "514d0de9b74739567cff89948584bc282c1450443d26ae3e8bb9cb8e02e93f0a",
+    "runner_state.json": "9e35ac3f9ec8104d52a4f97f83162575169dca2a3155da8dcf55f6fcc89c520a",
+    "run_status.json": "6233e5b9179b81516f6d63431223c3bd39a8d0a0d8c0004a6251e60b256f33cd"
+  },
+  "bundle_files": {
+    "apply.py": "ec61a036a986694437e9d5a4110e7a7980c08b98b90377c603b8bd139bc057a8",
+    "baseline_release.json": "b5c47968ad63de06ce7daebf1c9bd93742ad643c695fbecf8c8d7ab58cd29cfe",
+    "baseline_run_manifest.json": "6aaeb7d191520d719fee0c42e60745b3fe310a95cf6df13c7a26dd173d71582c",
+    "evidence/full_validation.json": "2c3f0a5c292143ebb850f73a174484429d4833641a5516b8cd125dfbea5502e2",
+    "evidence/grpo_native_stop_151643.json": "8342a3c4809d73fbd3729b99093e2df4e80f7429f74fc95f23778fb1e1d80216",
+    "evidence/installer_final_tests.json": "662c7bc5bd715cbe8af31bc58c271ba2f19146cb789d7f1dad121c7870de7520",
+    "evidence/original_replay_green.json": "0ee944df2dbfd3094799bf26eb1c8cb90810860073d3ebfa24803035ee0b0638",
+    "evidence/original_replay_red.json": "c64a833a31d9a4c8280993bd588a84e450a1fd6d1794089be028d842474f067d",
+    "evidence/regression_red.json": "e8bc47e3cdf3307ae1c21ff58d17750f8c1f1b0d09f5886177f1b17a46b34012",
+    "evidence/targeted_tests.json": "9d7d64cd33a152de1a0ac3d0e2af4593e795f09cd80c8a69681a0ec8133c5e7d",
+    "evidence/test_grpo_eos_hotfix_v2.py": "62fe7163dbe977a9639a77c04b7a14093c61e1376894f1a12b5a9b2b25747ddf",
+    "evidence/test_grpo_native_eos_v2.py": "28a978d6f486b36bdc768cf74a8645ff6855b23bba5bdc57eb53d2190e597076",
+    "payload/src/apt_v2/grpo.py": "e4e5e010549aa1021def8c210ca3cb318fa69f46c9a3a6ce6f75efe17a1e61fa"
+  }
+}

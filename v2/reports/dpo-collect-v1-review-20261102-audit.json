@@ -1,0 +1,36 @@
+{
+  "zip_sha256": "9457f792cd1a64c4225790e49d658405c2da1b08f4ec6dcbe5af838bbf2a6843",
+  "source_files_verified": 37,
+  "source_matches_local": true,
+  "source_checkpoint_binding_matches_frozen_baseline": true,
+  "tokenizer_files_verified": 6,
+  "episodes_replayed": 48,
+  "turns_replayed": 473,
+  "pairs_regenerated_identically": 44,
+  "local_audit_matches_cloud": true,
+  "max_pair_tokens": 1199,
+  "chosen_tools": {
+    "query_sql": 44
+  },
+  "rejected_tools": {
+    "query_sql": 40,
+    "invalid": 2,
+    "calculate_change": 2
+  },
+  "per_task_successes_of_four": {
+    "train-000": 2,
+    "train-001": 1,
+    "train-002": 2,
+    "train-003": 2,
+    "train-004": 1,
+    "train-005": 2,
+    "train-006": 1,
+    "train-007": 3,
+    "train-008": 2,
+    "train-009": 2,
+    "train-010": 3,
+    "train-011": 2
+  },
+  "mixed_task_groups": 12,
+  "optimizer_updates": 0
+}

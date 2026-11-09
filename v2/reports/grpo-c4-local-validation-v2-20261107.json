@@ -1,0 +1,60 @@
+{
+  "passed": true,
+  "date": "2026-11-07",
+  "run_id": "grpo-c4-confirmation-v2-20261107",
+  "protocol_version": 2,
+  "user_confirmed_v1_not_started": true,
+  "new_training_updates": 0,
+  "tests": {
+    "old_protocol_and_expanded_core": {
+      "passed": 28,
+      "seconds": 126.6
+    },
+    "expanded_driver_success_timeout_failure": {
+      "passed": 3,
+      "seconds": 1.32
+    },
+    "total_unique_passed": 31
+  },
+  "python_AST_passed": 178,
+  "CLI_help_passed": 3,
+  "holdout": {
+    "new_task_count": 12,
+    "v1_first_eight_preserved": true,
+    "all_twelve_months_of_2027": true,
+    "expert_contexts_within_12_turns": 96,
+    "total_episodes": 1188,
+    "per_model": 396,
+    "sample_complete_per_model": 48,
+    "sample_recovery_per_model": 252,
+    "greedy_complete_per_model": 12,
+    "greedy_recovery_per_model": 84
+  },
+  "acceptance": {
+    "minimum_recovery_gain": 6,
+    "denominator": 252,
+    "same_rate_as_v1_4_over_168": true,
+    "prior_primary_priority_preserved": true
+  },
+  "budget": {
+    "maximum_wall_seconds": 25200,
+    "packaging_reserve_seconds": 120,
+    "cumulative_across_resume": true
+  },
+  "resume": {
+    "expanded_native_fixture_episodes": 396,
+    "interruption_after_five_preserves_commits": true,
+    "per_episode_loaded_weight_binding": true
+  },
+  "evidence_scope": "local actual SQLite and adapter BF16 projections with native-token fixtures; cloud generation follows",
+  "source_sha256": {
+    "src/apt_v2/grpo_confirmation.py": "ddb9c2d48d6588f28ce8071e0379115a3de0229adb81392efa10e1c69ac46727",
+    "scripts/grpo_c4_common.py": "3cf628e69c973618f6c28cb8b47fe96a3a1ce8679f5cc7fb6896ab0be34530c4",
+    "scripts/grpo_c4_worker.py": "a7b39bce7b55c744760cd08877635c4a8773c67df7869ea938800e9f20a3617f",
+    "scripts/run_v2_grpo_c4.py": "525cdc33cd75a94f82d3bea9a0ab678f30e834e6320573f0d0f9ca0ee52839c3",
+    "scripts/build_v2_grpo_c4_release.py": "7f653893cb7cd23554d42070d9596bd8766c65bb30be1d1328ebfb3b3aff3b21",
+    "configs/grpo-c4-confirmation-v2.json": "12cab4d55d3f82d32fd5937530555144a50abb0ca9bbbaa715813db0deb8241d",
+    "tests/test_grpo_confirmation_expanded_v2.py": "b6b791240e80bcad548b3354f925671abc4b5b76ddbbe7f9266d7cddc72df618",
+    "tests/test_grpo_confirmation_expanded_driver_v2.py": "de6dd51fa3ed1be29b6922b53cc2ba9a439280cda1641c1de4ac0d5b97cbf083"
+  }
+}

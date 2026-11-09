@@ -1,0 +1,11 @@
+........................................................................ [ 44%]
+........................................................................ [ 88%]
+...................                                                      [100%]
+============================== warnings summary ===============================
+v2/tests/test_dpo_investigation_v2.py::test_real_peft_adapter_switch_preserves_parent_scores_and_disk_weights
+v2/tests/test_sft_v2.py::test_real_peft_loss_and_save_reload
+  C:\Users\app\Documents\Codex\2026-9-28\AgenticPostTrainingLab\.venv\Lib\site-packages\peft\utils\save_and_load.py:286: UserWarning: Could not find a config file in  - will assume that the vocabulary was not modified.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+163 passed, 2 warnings in 774.25s (0:12:54)

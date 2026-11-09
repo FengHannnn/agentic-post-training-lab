@@ -1,0 +1,31 @@
+{
+  "run_id": "dpo-recovery-collect-v1-20261102",
+  "source_run": "dpo-train-v1-20261102",
+  "parent_run": "sql-sft-weighted-v1-20261101",
+  "anchor_run": "dpo-collect-v1-20261102",
+  "adapter_sha256": "fca8a4e07224169569b6cb4f81ab0daa0abe03f6d92caed0efcdf584313e6d6d",
+  "sft_adapter_sha256": "e41bef8a51d8d968bcfee4a606da364888a191c4e1ee85399215bc12b85813f0",
+  "anchor_pairs_sha256": "508464a0314982c7e6ade95c57afa3be081afc80f237e4fb20c8abe2079ffb78",
+  "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "split": "train",
+  "task_count": 12,
+  "scenarios": [
+    "format_repair",
+    "unknown_tool_repair",
+    "sql_unverified_requery",
+    "repeat_evidence_error",
+    "stale_evidence_repair",
+    "repeat_sql_error",
+    "failed_check_repair"
+  ],
+  "samples_per_context": 3,
+  "max_native_pairs_per_context": 1,
+  "temperature": 0.8,
+  "seed": 2026110241,
+  "max_model_len": 8192,
+  "max_new_tokens": 256,
+  "gpu_memory_utilization": 0.6,
+  "pair_max_length": 2048,
+  "max_wall_seconds": 5400,
+  "training_enabled": false
+}

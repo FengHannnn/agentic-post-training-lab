@@ -1,0 +1,13 @@
+{
+  "archive": "C:\\Users\\app\\Documents\\Codex\\archives\\AgenticPostTrainingLab-v1-20261029.zip",
+  "archive_sha256": "6348f933a916f976eb16670caff132a54cbf09710e99a3a7d86e2a73dfbec500",
+  "archive_bytes": 327327114,
+  "files_verified": 2015,
+  "uncompressed_bytes": 514282926,
+  "zip_crc_passed": true,
+  "all_members_sha256_passed": true,
+  "git_head": "eda30590b021798edf8c6209f732917aabeeb38e",
+  "model_cache_included": true,
+  "original_files_preserved": true,
+  "manifest": "C:\\Users\\app\\Documents\\Codex\\archives\\AgenticPostTrainingLab-v1-20261029-manifest.json"
+}

@@ -1,0 +1,13 @@
+{
+  "zip": "dpo-uniform-control-v1-20261104-run.zip",
+  "sha256": "9ad6634bdd8d6aa2ee7ceea45b672f58b7129c8a3963655bde4cbaea8ff2f656",
+  "bytes": 435164,
+  "entries": 131,
+  "crc_passed": true,
+  "manifest_hashes_passed": true,
+  "tests_passed": 148,
+  "GPU_experiment_executed": false,
+  "optimizer_updates_planned": 258,
+  "expected_complete_episodes": 80,
+  "expected_recovery_episodes": 448
+}

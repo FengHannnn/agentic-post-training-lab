@@ -1,0 +1,95 @@
+{
+  "passed": true,
+  "regression": {
+    "exit_code": 0,
+    "test_files": 15,
+    "elapsed_seconds": 181.26825449988246,
+    "passed_tests": 198,
+    "log_sha256": "169fa60de9132f6d67e1b59ca182864b63d77fbb3742c6495237550ab8631db3"
+  },
+  "probe_regressions_included": 23,
+  "installer_regressions_included": 8,
+  "official_sampler_cpu_check": {
+    "passed": true,
+    "official_source_url": "https://raw.githubusercontent.com/vllm-project/vllm/v0.11.0/vllm/v1/sample/sampler.py",
+    "official_source_sha256": "607a8d0197c8f2e3b4cf4520d6f26ae00194b4d47181f42fcb4bd1ca7740736f",
+    "executed_class": "official Sampler AST; CPU Torch top-k sampling backend supplied for dependency isolation",
+    "cases": [
+      {
+        "dtype": "torch.float32",
+        "vocab_size": 152064,
+        "passed": true,
+        "maximum_error": 0
+      },
+      {
+        "dtype": "torch.bfloat16",
+        "vocab_size": 152064,
+        "passed": true,
+        "maximum_error": 0
+      },
+      {
+        "dtype": "torch.float16",
+        "vocab_size": 152064,
+        "passed": true,
+        "maximum_error": 0
+      }
+    ]
+  },
+  "attempt002_audit": {
+    "passed": true,
+    "protected_training_evaluation_files_identical": 176,
+    "cloud_optimizer_hashes_previously_verified": true,
+    "policies_unchanged": {
+      "control": {
+        "checkpoint": "checkpoints/group-0014",
+        "version": 10,
+        "updates": 10,
+        "adapter_sha256": "08bfd26ccb54a13195fd403baafbe63f1ec6b1c8f23946f076c5b5cf143ccfb3"
+      },
+      "lr10x": {
+        "checkpoint": "checkpoints/group-0014",
+        "version": 10,
+        "updates": 10,
+        "adapter_sha256": "01654b067de2d537b9e42de003b226ddc48837f2dd62794ba3547c194b4abcf6"
+      }
+    },
+    "prefill_error": 0.32878121733665466,
+    "decode_replay_error": 0.1711665391921997,
+    "decode_tokens_identical": true,
+    "review_sha256": "39a8aff80edd79c736385f6cf3152efb970f50d14739078a0532f8b7f138022b"
+  },
+  "returned_review_installation": {
+    "passed": true,
+    "protected_file_count": 590,
+    "protected_files_identical_after_install": true,
+    "configs_weights_rollouts_budget_unchanged": true,
+    "legacy_groups_valid_under_new_verifier": 36,
+    "runtime_audit_skipped_this_pass": false,
+    "idempotent_install_verified": true,
+    "source_generations_verified": {
+      "original": 3,
+      "first_hotfix": 3,
+      "second_hotfix": 3
+    },
+    "local_review_only": true,
+    "cloud_Adam_hash_verification": "required by production installer; returned ZIP omits state.pt",
+    "bound_release_files": 245,
+    "remaining_seconds": 14819.576119218022,
+    "bundle_sha256": "24b82999b0702de4132ba7a4d2e9900ec3ee60f5de11c8d66c6755c1d3ed0d55",
+    "elapsed_seconds": 77.72485909983516
+  },
+  "group18_end_to_end": {
+    "passed": true,
+    "episodes": 4,
+    "actions": 33,
+    "actual_tokenizer_and_SQLite_replay": true,
+    "response_tokens_and_rewards_identical": true,
+    "same_forward_maximum_error": 0,
+    "verification_method": "same_forward_sampler_v2",
+    "scope": "recorded response tokens replayed through synthetic one-hot logits and CPU sampler; full collect/commit/verify entry points",
+    "extra_probe_tokens": 1
+  },
+  "live_L40S_gate": "executed immediately after first generated action during resume",
+  "budget_seconds": 21600,
+  "remaining_seconds": 14819.576119218022
+}

@@ -1,0 +1,75 @@
+{
+  "passed": true,
+  "run_id": "grpo-fine-credit-v1-20261108",
+  "validation_date": "2026-11-08",
+  "scope": "CPU local implementation, native trajectory replay and packaged release checks",
+  "source_regressions": {
+    "passed": 216,
+    "seconds": 218.35
+  },
+  "additional_collector_selection_tests": {
+    "passed": 4,
+    "seconds": 1.82
+  },
+  "distinct_tests_passed": 220,
+  "token_budget": {
+    "passed": true,
+    "starts": 308,
+    "max_prefix_prompt_tokens": 1591,
+    "max_expert_response_tokens": 142,
+    "max_expert_prompt_tokens": 1968,
+    "max_model_len": 8192,
+    "max_new_tokens": 256,
+    "tokenizer_hash_verified": true
+  },
+  "cli_checks": {
+    "passed": true,
+    "checks": [
+      {
+        "script": "run_v2_grpo_fine.py",
+        "exit_code": 0,
+        "help": "usage: run_v2_grpo_fine.py [-h] [--config CONFIG] [--resume]"
+      },
+      {
+        "script": "probe_v2_grpo_fine.py",
+        "exit_code": 0,
+        "help": "usage: probe_v2_grpo_fine.py [-h] --output OUTPUT --spec SPEC"
+      },
+      {
+        "script": "audit_v2_grpo_fine.py",
+        "exit_code": 0,
+        "help": "usage: audit_v2_grpo_fine.py [-h] --output OUTPUT [--local]"
+      },
+      {
+        "script": "build_v2_grpo_fine_release.py",
+        "exit_code": 0,
+        "help": "usage: build_v2_grpo_fine_release.py [-h] --output-dir OUTPUT_DIR"
+      }
+    ]
+  },
+  "meaningful_checks": [
+    "real tiny-model LoRA gradients match manual objective",
+    "recorded fine RL17 invalid-action credit becomes zero",
+    "native replay for 16 paired update-12 episodes with checkpoint and tensor identity checks",
+    "matched two-branch scheduling with interruption/resume and cumulative budget",
+    "paired stop at balanced even group count",
+    "new local-credit collector runs all three new recovery contexts",
+    "frozen W adapter and model/profile hashes checked by builder"
+  ],
+  "clean_release": {
+    "passed": true,
+    "tests_passed": 220,
+    "test_files": 17,
+    "pytest_seconds": 210.73,
+    "manifest_files_checked": 258,
+    "required_runner_config_files_present": true,
+    "cli_checks_passed": [
+      "run_v2_grpo_fine.py",
+      "probe_v2_grpo_fine.py",
+      "audit_v2_grpo_fine.py",
+      "build_v2_grpo_fine_release.py"
+    ],
+    "initial_W_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f"
+  },
+  "gpu_training": "Execute supplied command on the authorized L40S job"
+}

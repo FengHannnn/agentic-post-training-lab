@@ -1,0 +1,8 @@
+...........                                                              [100%]
+============================== warnings summary ===============================
+v2/tests/test_dpo_sft_start_v2.py::test_real_lora_resume_preserves_adam_rng_history_and_reference
+  C:\Users\app\Documents\Codex\2026-9-28\AgenticPostTrainingLab\.venv\Lib\site-packages\peft\utils\save_and_load.py:286: UserWarning: Could not find a config file in  - will assume that the vocabulary was not modified.
+    warnings.warn(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+11 passed, 1 warning in 57.75s

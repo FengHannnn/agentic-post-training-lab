@@ -1,0 +1,424 @@
+{
+  "zip_sha256": "b7cd164b64a5e7df626476e81b75019c97d6be34b88e9c908779e11d184dc3a2",
+  "source_files_verified": 29,
+  "source_matches_local": true,
+  "checkpoints_verified": 8,
+  "parent_adapter_and_adam_match_archive": true,
+  "training_files_byte_equal_parent": true,
+  "demonstrations_replayed": 36,
+  "evaluation_episodes_replayed": 32,
+  "evaluation_turns_replayed": 312,
+  "cloud_local_audit_identical": true,
+  "final_adam_step": 126,
+  "final_adapter_sha256": "e41bef8a51d8d968bcfee4a606da364888a191c4e1ee85399215bc12b85813f0",
+  "teacher_forced_before_matches_prior_diagnostics": true,
+  "max_training_tokens": 1430,
+  "eos_counts": {
+    "('parent', 'train')": 144,
+    "('parent', 'development')": 48,
+    "('weighted', 'train')": 90,
+    "('weighted', 'development')": 30
+  },
+  "weighted_task_details": [
+    {
+      "task_id": "train-000",
+      "split": "train",
+      "turns": 7,
+      "recovered": false,
+      "tools": [
+        "read_policy",
+        "inspect_schema",
+        "query_sql",
+        "query_sql",
+        "calculate_change",
+        "check_result",
+        "submit"
+      ],
+      "values": {
+        "current_net_cents": 19808,
+        "prior_net_cents": 24382,
+        "change_cents": -4574
+      },
+      "sqls": [
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-03' AND region='North' AND segment='Segment-1000') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-03' AND o.region='North' AND o.segment='Segment-1000') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-02' AND region='North' AND segment='Segment-1000') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-02' AND o.region='North' AND o.segment='Segment-1000') AS prior_net_cents"
+      ]
+    },
+    {
+      "task_id": "train-001",
+      "split": "train",
+      "turns": 8,
+      "recovered": true,
+      "tools": [
+        "read_policy",
+        "inspect_schema",
+        "query_sql",
+        "query_sql",
+        "query_sql",
+        "calculate_change",
+        "check_result",
+        "submit"
+      ],
+      "values": {
+        "current_net_cents": 12002,
+        "prior_net_cents": 21606,
+        "change_cents": -9604
+      },
+      "sqls": [
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-04' AND region='West' AND segment='Segment-1001') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-04' AND o.region='West' AND o.segment='Segment-1001') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-04' AND region='West' AND segment='Segment-1001') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-04' AND o.region='West' AND o.segment='Segment-1001') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-03' AND region='West' AND segment='Segment-1001') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-03' AND o.region='West' AND o.segment='Segment-1001') AS prior_net_cents"
+      ]
+    },
+    {
+      "task_id": "train-002",
+      "split": "train",
+      "turns": 7,
+      "recovered": false,
+      "tools": [
+        "read_policy",
+        "inspect_schema",
+        "query_sql",
+        "query_sql",
+        "calculate_change",
+        "check_result",
+        "submit"
+      ],
+      "values": {
+        "current_net_cents": 23650,
+        "prior_net_cents": 14442,
+        "change_cents": 9208
+      },
+      "sqls": [
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-05' AND region='South' AND segment='Segment-1002') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-05' AND o.region='South' AND o.segment='Segment-1002') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-04' AND region='South' AND segment='Segment-1002') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-04' AND o.region='South' AND o.segment='Segment-1002') AS prior_net_cents"
+      ]
+    },
+    {
+      "task_id": "train-003",
+      "split": "train",
+      "turns": 8,
+      "recovered": true,
+      "tools": [
+        "read_policy",
+        "inspect_schema",
+        "query_sql",
+        "query_sql",
+        "query_sql",
+        "calculate_change",
+        "check_result",
+        "submit"
+      ],
+      "values": {
+        "current_net_cents": 21931,
+        "prior_net_cents": 15514,
+        "change_cents": 6417
+      },
+      "sqls": [
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-06' AND region='North' AND segment='Segment-1003') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-06' AND o.region='North' AND o.segment='Segment-1003') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-06' AND region='North' AND segment='Segment-1003') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-06' AND o.region='North' AND o.segment='Segment-1003') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-05' AND region='North' AND segment='Segment-1003') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-05' AND o.region='North' AND o.segment='Segment-1003') AS prior_net_cents"
+      ]
+    },
+    {
+      "task_id": "train-004",
+      "split": "train",
+      "turns": 7,
+      "recovered": false,
+      "tools": [
+        "read_policy",
+        "inspect_schema",
+        "query_sql",
+        "query_sql",
+        "calculate_change",
+        "check_result",
+        "submit"
+      ],
+      "values": {
+        "current_net_cents": 19932,
+        "prior_net_cents": 25189,
+        "change_cents": -5257
+      },
+      "sqls": [
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-07' AND region='West' AND segment='Segment-1004') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-07' AND o.region='West' AND o.segment='Segment-1004') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-06' AND region='West' AND segment='Segment-1004') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-06' AND o.region='West' AND o.segment='Segment-1004') AS prior_net_cents"
+      ]
+    },
+    {
+      "task_id": "train-005",
+      "split": "train",
+      "turns": 8,
+      "recovered": true,
+      "tools": [
+        "read_policy",
+        "inspect_schema",
+        "query_sql",
+        "query_sql",
+        "query_sql",
+        "calculate_change",
+        "check_result",
+        "submit"
+      ],
+      "values": {
+        "current_net_cents": 24856,
+        "prior_net_cents": 16188,
+        "change_cents": 8668
+      },
+      "sqls": [
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-08' AND region='South' AND segment='Segment-1005') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-08' AND o.region='South' AND o.segment='Segment-1005') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-08' AND region='South' AND segment='Segment-1005') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-08' AND o.region='South' AND o.segment='Segment-1005') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-07' AND region='South' AND segment='Segment-1005') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-07' AND o.region='South' AND o.segment='Segment-1005') AS prior_net_cents"
+      ]
+    },
+    {
+      "task_id": "train-006",
+      "split": "train",
+      "turns": 7,
+      "recovered": false,
+      "tools": [
+        "read_policy",
+        "inspect_schema",
+        "query_sql",
+        "query_sql",
+        "calculate_change",
+        "check_result",
+        "submit"
+      ],
+      "values": {
+        "current_net_cents": 4528,
+        "prior_net_cents": 23272,
+        "change_cents": -18744
+      },
+      "sqls": [
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-09' AND region='North' AND segment='Segment-1006') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-09' AND o.region='North' AND o.segment='Segment-1006') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-08' AND region='North' AND segment='Segment-1006') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-08' AND o.region='North' AND o.segment='Segment-1006') AS prior_net_cents"
+      ]
+    },
+    {
+      "task_id": "train-007",
+      "split": "train",
+      "turns": 8,
+      "recovered": true,
+      "tools": [
+        "read_policy",
+        "inspect_schema",
+        "query_sql",
+        "query_sql",
+        "query_sql",
+        "calculate_change",
+        "check_result",
+        "submit"
+      ],
+      "values": {
+        "current_net_cents": 11870,
+        "prior_net_cents": 16735,
+        "change_cents": -4865
+      },
+      "sqls": [
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-03' AND region='West' AND segment='Segment-1007') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-03' AND o.region='West' AND o.segment='Segment-1007') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-03' AND region='West' AND segment='Segment-1007') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-03' AND o.region='West' AND o.segment='Segment-1007') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-02' AND region='West' AND segment='Segment-1007') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-02' AND o.region='West' AND o.segment='Segment-1007') AS prior_net_cents"
+      ]
+    },
+    {
+      "task_id": "train-008",
+      "split": "train",
+      "turns": 7,
+      "recovered": false,
+      "tools": [
+        "read_policy",
+        "inspect_schema",
+        "query_sql",
+        "query_sql",
+        "calculate_change",
+        "check_result",
+        "submit"
+      ],
+      "values": {
+        "current_net_cents": 20486,
+        "prior_net_cents": 20396,
+        "change_cents": 90
+      },
+      "sqls": [
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-04' AND region='South' AND segment='Segment-1008') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-04' AND o.region='South' AND o.segment='Segment-1008') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-03' AND region='South' AND segment='Segment-1008') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-03' AND o.region='South' AND o.segment='Segment-1008') AS prior_net_cents"
+      ]
+    },
+    {
+      "task_id": "train-009",
+      "split": "train",
+      "turns": 8,
+      "recovered": true,
+      "tools": [
+        "read_policy",
+        "inspect_schema",
+        "query_sql",
+        "query_sql",
+        "query_sql",
+        "calculate_change",
+        "check_result",
+        "submit"
+      ],
+      "values": {
+        "current_net_cents": 14708,
+        "prior_net_cents": 14646,
+        "change_cents": 62
+      },
+      "sqls": [
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-05' AND region='North' AND segment='Segment-1009') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-05' AND o.region='North' AND o.segment='Segment-1009') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-05' AND region='North' AND segment='Segment-1009') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-05' AND o.region='North' AND o.segment='Segment-1009') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-04' AND region='North' AND segment='Segment-1009') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-04' AND o.region='North' AND o.segment='Segment-1009') AS prior_net_cents"
+      ]
+    },
+    {
+      "task_id": "train-010",
+      "split": "train",
+      "turns": 7,
+      "recovered": false,
+      "tools": [
+        "read_policy",
+        "inspect_schema",
+        "query_sql",
+        "query_sql",
+        "calculate_change",
+        "check_result",
+        "submit"
+      ],
+      "values": {
+        "current_net_cents": 20773,
+        "prior_net_cents": 16830,
+        "change_cents": 3943
+      },
+      "sqls": [
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-06' AND region='West' AND segment='Segment-1010') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-06' AND o.region='West' AND o.segment='Segment-1010') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-05' AND region='West' AND segment='Segment-1010') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-05' AND o.region='West' AND o.segment='Segment-1010') AS prior_net_cents"
+      ]
+    },
+    {
+      "task_id": "train-011",
+      "split": "train",
+      "turns": 8,
+      "recovered": true,
+      "tools": [
+        "read_policy",
+        "inspect_schema",
+        "query_sql",
+        "query_sql",
+        "query_sql",
+        "calculate_change",
+        "check_result",
+        "submit"
+      ],
+      "values": {
+        "current_net_cents": 13775,
+        "prior_net_cents": 20659,
+        "change_cents": -6884
+      },
+      "sqls": [
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-07' AND region='South' AND segment='Segment-1011') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-07' AND o.region='South' AND o.segment='Segment-1011') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-07' AND region='South' AND segment='Segment-1011') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-07' AND o.region='South' AND o.segment='Segment-1011') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-06' AND region='South' AND segment='Segment-1011') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-06' AND o.region='South' AND o.segment='Segment-1011') AS prior_net_cents"
+      ]
+    },
+    {
+      "task_id": "development-000",
+      "split": "development",
+      "turns": 7,
+      "recovered": false,
+      "tools": [
+        "read_policy",
+        "inspect_schema",
+        "query_sql",
+        "query_sql",
+        "calculate_change",
+        "check_result",
+        "submit"
+      ],
+      "values": {
+        "current_net_cents": 15321,
+        "prior_net_cents": 17164,
+        "change_cents": -1843
+      },
+      "sqls": [
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-03' AND region='North' AND segment='Segment-2000') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-03' AND o.region='North' AND o.segment='Segment-2000') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-02' AND region='North' AND segment='Segment-2000') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-02' AND o.region='North' AND o.segment='Segment-2000') AS prior_net_cents"
+      ]
+    },
+    {
+      "task_id": "development-001",
+      "split": "development",
+      "turns": 8,
+      "recovered": true,
+      "tools": [
+        "read_policy",
+        "inspect_schema",
+        "query_sql",
+        "query_sql",
+        "query_sql",
+        "calculate_change",
+        "check_result",
+        "submit"
+      ],
+      "values": {
+        "current_net_cents": 13114,
+        "prior_net_cents": 16372,
+        "change_cents": -3258
+      },
+      "sqls": [
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-04' AND region='West' AND segment='Segment-2001') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-04' AND o.region='West' AND o.segment='Segment-2001') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-04' AND region='West' AND segment='Segment-2001') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-04' AND o.region='West' AND o.segment='Segment-2001') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-03' AND region='West' AND segment='Segment-2001') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-03' AND o.region='West' AND o.segment='Segment-2001') AS prior_net_cents"
+      ]
+    },
+    {
+      "task_id": "development-002",
+      "split": "development",
+      "turns": 7,
+      "recovered": false,
+      "tools": [
+        "read_policy",
+        "inspect_schema",
+        "query_sql",
+        "query_sql",
+        "calculate_change",
+        "check_result",
+        "submit"
+      ],
+      "values": {
+        "current_net_cents": 15315,
+        "prior_net_cents": 6187,
+        "change_cents": 9128
+      },
+      "sqls": [
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-05' AND region='South' AND segment='Segment-2002') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-05' AND o.region='South' AND o.segment='Segment-2002') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-04' AND region='South' AND segment='Segment-2002') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-04' AND o.region='South' AND o.segment='Segment-2002') AS prior_net_cents"
+      ]
+    },
+    {
+      "task_id": "development-003",
+      "split": "development",
+      "turns": 8,
+      "recovered": true,
+      "tools": [
+        "read_policy",
+        "inspect_schema",
+        "query_sql",
+        "query_sql",
+        "query_sql",
+        "calculate_change",
+        "check_result",
+        "submit"
+      ],
+      "values": {
+        "current_net_cents": 18640,
+        "prior_net_cents": 9990,
+        "change_cents": 8650
+      },
+      "sqls": [
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-06' AND region='North' AND segment='Segment-2003') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-06' AND o.region='North' AND o.segment='Segment-2003') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-06' AND region='North' AND segment='Segment-2003') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-06' AND o.region='North' AND o.segment='Segment-2003') AS current_net_cents",
+        "SELECT (SELECT COALESCE(SUM(gross_cents), 0) FROM orders WHERE status='paid' AND order_month='2026-05' AND region='North' AND segment='Segment-2003') - (SELECT COALESCE(SUM(r.refund_cents), 0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-05' AND o.region='North' AND o.segment='Segment-2003') AS prior_net_cents"
+      ]
+    }
+  ]
+}

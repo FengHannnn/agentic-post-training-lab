@@ -1,0 +1,38 @@
+{
+  "run_id": "sql-sft-weighted-v1-20261101",
+  "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+  "revision": "989aa7980e4cf806f80c7fef2b1adb7bc71aa306",
+  "seed": 2026103001,
+  "max_length": 2048,
+  "epochs": 2,
+  "max_steps": 63,
+  "gradient_accumulation": 8,
+  "learning_rate": 0.00005,
+  "max_grad_norm": 1,
+  "lora": {
+    "r": 8,
+    "alpha": 16,
+    "dropout": 0,
+    "target_modules": [
+      "q_proj",
+      "v_proj"
+    ]
+  },
+  "max_wall_seconds": 5400,
+  "checkpoint_every": 8,
+  "eval": {
+    "max_model_len": 8192,
+    "max_new_tokens": 256,
+    "temperature": 0,
+    "seed": 2026102901,
+    "gpu_memory_utilization": 0.6,
+    "splits": {
+      "train": 12,
+      "development": 4
+    }
+  },
+  "parent_run": "sft-pilot-v1-20261030",
+  "sql_weight": 4,
+  "optimizer_start": "inherit_parent_adam",
+  "epoch_offset": 2
+}

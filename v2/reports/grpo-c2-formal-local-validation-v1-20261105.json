@@ -1,0 +1,122 @@
+{
+  "passed": true,
+  "validated_on": "2026-11-06",
+  "suite": {
+    "cases": 128,
+    "exit": 0,
+    "stdout": "........................................................................ [ 56%]\r\n........................................................                 [100%]\r\n128 passed, 2 warnings in 86.93s (0:01:26)\r\n",
+    "stderr": ""
+  },
+  "formal_tests": 20,
+  "preflight_review": {
+    "archive_sha256": "6addd0ca11afb9477c7571ea01470ddd4cc755b63d21730ada65e45a2b03620f",
+    "frozen_source_files_verified": 183,
+    "input_bindings_verified": 15,
+    "local_audit": {
+      "passed": true,
+      "checks": {
+        "minimum_actual_updates": true,
+        "post_update_sample_at_latest_version": true,
+        "all_worker_tensor_checks": true,
+        "all_probability_probes": true,
+        "actual_updated_weights": true,
+        "group_cap": true,
+        "update_cap": true
+      },
+      "scope": "local_returned_files",
+      "actual_updates": 2,
+      "attempted_groups": 3,
+      "sampled_groups_including_refresh": 4,
+      "eligible_training_groups": 2,
+      "zero_variance_training_groups": 1,
+      "episodes_replayed": 16,
+      "actions_replayed": 118,
+      "generated_response_tokens": 9410,
+      "probability_probe_extra_tokens": 4,
+      "maximum_context_tokens": 2016,
+      "peak_update_cuda_bytes": 22002655232,
+      "sampling_elapsed_seconds": 370.5306775327772,
+      "update_elapsed_seconds": 42.681771603412926,
+      "final_policy": {
+        "checkpoint": "checkpoints/group-0002",
+        "version": 2,
+        "updates": 2,
+        "adapter_sha256": "532b8fb5ddac8044d5af7e6652b4dd95bf60d453fea43f49ee2f3f8f45b87f22"
+      },
+      "changed_tensor_count_summed": 224,
+      "state_pt_returned": false,
+      "ancestry": {
+        "sft": 513,
+        "dpo": 11,
+        "rl": 2
+      },
+      "evaluation_performance": "deferred_until_profile_and_formal_run",
+      "effective_bf16_tensor_hash_changed": true
+    },
+    "independent_metrics": {
+      "passed": true,
+      "worker_tensor_projections": [
+        {
+          "group": 0,
+          "worker_projection_tensors_verified": 112
+        },
+        {
+          "group": 1,
+          "worker_projection_tensors_verified": 112,
+          "recomputed_metrics": {
+            "loss": 0.00010811984539027542,
+            "sampled_k3": 0,
+            "tis_mean": 1.0008446652442218,
+            "tis_cap_fraction": 0,
+            "old_minus_q_abs_mean": 0.007952878507239802,
+            "old_minus_q_abs_max": 0.7421941757202148
+          },
+          "maximum_metric_difference": 1.9371509563104183e-8,
+          "reference_actual_tensor_digest_verified": true
+        },
+        {
+          "group": 2,
+          "worker_projection_tensors_verified": 112,
+          "recomputed_metrics": {
+            "loss": 0.0003470772256453092,
+            "sampled_k3": 1.4480383123780818e-8,
+            "tis_mean": 1.000197121873498,
+            "tis_cap_fraction": 0,
+            "old_minus_q_abs_mean": 0.0007713749034981751,
+            "old_minus_q_abs_max": 0.39519989490509033
+          },
+          "maximum_metric_difference": 1.6763806343078613e-8,
+          "reference_actual_tensor_digest_verified": true
+        },
+        {
+          "group": 3,
+          "worker_projection_tensors_verified": 112
+        }
+      ],
+      "frozen_reference_tensor_digest": "3c7177e7987218a24f9ad2f7c44170ad30fa712b480538ae50030b9af39100b1"
+    }
+  },
+  "memory_change": {
+    "explicit_eval_checkpointing": true,
+    "red_test_saved": true,
+    "checkpoint_call_execution_test_passed": true,
+    "llama_gradient_equivalence_passed": true,
+    "qwen2_sdpa_nonzero_A_B_gradient_equivalence_passed": true
+  },
+  "formal_design": {
+    "training_groups": 24,
+    "rollouts_per_group": 4,
+    "evaluation_group_cursors": [
+      8,
+      24
+    ],
+    "baseline": "fresh_weighted_sft",
+    "episodes_per_model": 132,
+    "quality_actions_per_model": 14,
+    "model_evaluations": 3,
+    "wall_seconds": 14400,
+    "formal_job_index": 1,
+    "acceptance_thresholds": null
+  },
+  "scope": "local_CPU_tests_and_reviewed_preflight_files; formal_GPU_run_next"
+}

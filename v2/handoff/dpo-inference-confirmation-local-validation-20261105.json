@@ -1,0 +1,56 @@
+{
+  "run_id": "dpo-inference-confirmation-v1-20261105",
+  "new_tests": {
+    "tests": 4,
+    "seconds": 71.09,
+    "exit_code": 0
+  },
+  "compileall_passed": true,
+  "three_stage_CLI_help_passed": true,
+  "same_weight_greedy_original_record_reproduction": "red: 5 of 28 greedy recovery response traces differ",
+  "local_preflight": {
+    "passed_local_input_harness": true,
+    "actual_frozen_unique_adapters_verified": 3,
+    "duplicate_control_model_config_and_weight_hashes_identical": true,
+    "normalized_adapters": {
+      "weighted_sft": {
+        "original_config_sha256": "c9946bb5bda282c62cf4b788d78bfd6134f60684ebcbd35a2383e92302bb2419",
+        "normalized_config_sha256": "fbcb2114fd8ff7ab50d016675a935dac1c802a01fab0999ccb189d34156a12ce",
+        "adapter_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f"
+      },
+      "chosen_control": {
+        "original_config_sha256": "c9946bb5bda282c62cf4b788d78bfd6134f60684ebcbd35a2383e92302bb2419",
+        "normalized_config_sha256": "fbcb2114fd8ff7ab50d016675a935dac1c802a01fab0999ccb189d34156a12ce",
+        "adapter_sha256": "ad6a8f60ef71c9b56e62f3d6373bf1e258d56b1bf87487a999f83e25351b743b"
+      },
+      "control_repeat": {
+        "original_config_sha256": "c9946bb5bda282c62cf4b788d78bfd6134f60684ebcbd35a2383e92302bb2419",
+        "normalized_config_sha256": "fbcb2114fd8ff7ab50d016675a935dac1c802a01fab0999ccb189d34156a12ce",
+        "adapter_sha256": "ad6a8f60ef71c9b56e62f3d6373bf1e258d56b1bf87487a999f83e25351b743b"
+      },
+      "continuation_ce": {
+        "original_config_sha256": "33fef22db5055fd2b3d995549bc1b768f6e381044e32d5d9e14504e3f30df348",
+        "normalized_config_sha256": "fbcb2114fd8ff7ab50d016675a935dac1c802a01fab0999ccb189d34156a12ce",
+        "adapter_sha256": "b74af1a4d0e2ea1dac0ab78322a415865c7992d7fe4a7adfa0638b66cccfba7a"
+      }
+    },
+    "development_contexts": 28,
+    "expected_complete_episodes": 80,
+    "expected_recovery_episodes": 448,
+    "training_enabled": false,
+    "optimizer_updates": 0,
+    "one_model_per_process": true,
+    "fixed_lora_id": 1,
+    "full_base_files_deferred_to_cloud": [
+      "model.safetensors"
+    ],
+    "actual_local_GPU_verification": false,
+    "GPU_experiment_executed": false,
+    "runtime_harness": "observed E4 runtime injected for local input verification; cloud checks actual runtime before inference"
+  },
+  "GPU_experiment_executed": false,
+  "training_enabled": false,
+  "optimizer_updates": 0,
+  "C1_status": "failed_inference_confirmation_pending",
+  "GRPO_status": "on_hold"
+}

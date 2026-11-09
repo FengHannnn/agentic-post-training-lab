@@ -1,0 +1,93 @@
+{
+  "schema": "outcome_curriculum_local_preparation_v1",
+  "date": "2026-11-07",
+  "passed": true,
+  "budget_selection_pending": false,
+  "cloud_run_started": false,
+  "tests": {
+    "historical_grpo_passed": 124,
+    "curriculum_passed": 24,
+    "total_unique_checks_passed": 148,
+    "clean_full_suite_result": "148 passed, 1 existing PEFT adapter warning in 165.45s",
+    "all_checks_passed_on_clean_extracted_release": true
+  },
+  "expert_paths": {
+    "full_profile": 308,
+    "small_profile": 176,
+    "max_total_turns": 11,
+    "all_successful": true
+  },
+  "native_token_budget": {
+    "passed": true,
+    "starts": 308,
+    "max_prefix_prompt_tokens": 1599,
+    "max_expert_response_tokens": 144,
+    "max_expert_prompt_tokens": 1981,
+    "max_model_len": 8192,
+    "max_new_tokens": 256,
+    "tokenizer_hash_verified": true
+  },
+  "cli_checks": [
+    {
+      "name": "run_v2_grpo_curriculum.py",
+      "passed": true,
+      "stderr": ""
+    },
+    {
+      "name": "audit_v2_grpo_curriculum.py",
+      "passed": true,
+      "stderr": ""
+    },
+    {
+      "name": "build_v2_grpo_curriculum_release.py",
+      "passed": true,
+      "stderr": ""
+    },
+    {
+      "name": "grpo_worker.py",
+      "passed": true,
+      "stderr": ""
+    },
+    {
+      "name": "evaluate_v2_grpo.py",
+      "passed": true,
+      "stderr": ""
+    }
+  ],
+  "python_ast": {
+    "files": 184,
+    "passed": true
+  },
+  "source_sha256": {
+    "src/apt_v2/grpo_curriculum.py": "fede19ef27faa66b9b346306e7078ae3ee916d42e5a3c876251fe7a6e3dbfe8d",
+    "src/apt_v2/grpo.py": "6d80443ef6cb58704432767f0775b9603626fd3b37a8ab0bef66e66974b2bc82",
+    "src/apt_v2/grpo_evaluation.py": "5f38eb1b71840653e3b0f37c9760bb037fa16eed59a331b5816771595620f8e6",
+    "scripts/grpo_worker.py": "e8cb962f9ac31ef0e9fe1eaaea9ec69f7733f3de0cd23bbe32d9a0a50ee43e42",
+    "scripts/grpo_common.py": "0b70f9898108e9a65c6626d8ec6297385763186d6466aafde04c65e44be4efea",
+    "scripts/evaluate_v2_grpo.py": "342d6730ad04699b357d32fe092c68974e8bc2f6a354f1630391e889c30f12a5",
+    "scripts/grpo_curriculum_common.py": "9d464bf626d1e84933691c7b80d5c34d42087343a8488ed31ac520097261f2f2",
+    "scripts/run_v2_grpo_curriculum.py": "4d898c619660be2746dd711f442fc73ff40ea3ffe320916dd5a8160c79dbbe12",
+    "scripts/audit_v2_grpo_curriculum.py": "2c3a5556a7211e1f7eb54937773ca5d69d7d325d9afaa65fc6b32184f77b347b",
+    "scripts/build_v2_grpo_curriculum_release.py": "89c7d77c6ea43d65afd51083120008a3b91e31edb6fd5e7099d34ecbaf8b9cfa",
+    "tests/test_grpo_curriculum_v2.py": "5de608bc1978c46eace10ec844035f80f566a1fabee2fb8724119d14d141e6c3",
+    "configs/grpo-outcome-curriculum-v1.json": "f447f9fd54e090984be16309a83f29421233c2afcc8cdc9707659da1636eefed",
+    "configs/grpo-outcome-curriculum-control-v1.json": "2239c2bf7ba85e4a251741f71f418ee8e05ead664e612185e88f2660b02fac2c",
+    "configs/grpo-outcome-curriculum-lr10x-v1.json": "8636304dfccd081b8a0ed63692bd4bc61f4893782148ef093ee11ed1421ca4bd"
+  },
+  "authorized_budget_hours": 6,
+  "frozen_groups_per_branch": 48,
+  "clean_release_validation": {
+    "passed": true,
+    "pytest_exit_code": 0,
+    "bound_files_verified": 234,
+    "expert_starts": 308,
+    "W_projected_tensors": 112,
+    "authorized_budget_seconds": 21600,
+    "groups_per_branch": 48,
+    "clean_directory": "C:\\Users\\app\\Documents\\Codex\\2026-11-05\\new-chat\\work\\curriculum-clean-6h\\v2",
+    "elapsed_seconds": 179.85958439996466,
+    "pytest_passed": 148,
+    "pytest_elapsed_seconds": 165.45,
+    "preview_archive_sha256": "cbe23af0ebe7d8e8333caf8c6e164df92d409245e3b250f2f29775c3394c65d1"
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "run_id": "dpo-continuation-ce-paired-v1-20261105",
+  "config_name": "dpo-continuation-ce-paired-v1.json",
+  "algorithm": "paired_weighted_dpo_ce_coverage",
+  "initial_run": "chosen-only-sft-v1-20261102",
+  "adapter_sha256": "078182d293d37b0caeda3bdef8355d4be45439af5480228259ef8658ff868a55",
+  "data_run": "dpo-recovery-collect-v1-20261102",
+  "pairs_sha256": "c7606a3fbf7ac4437d1aa8b3277228a7b4cdae95106e5d515d55c8f72869e329",
+  "pair_count": 169,
+  "max_length": 2048,
+  "hard_weight": 4,
+  "epochs": 6,
+  "max_steps": 258,
+  "gradient_accumulation": 4,
+  "learning_rate": 0.000005,
+  "max_grad_norm": 1,
+  "seed": 2026110301,
+  "checkpoint_every": 43,
+  "checkpoint_steps": [
+    43,
+    86,
+    129,
+    172,
+    215
+  ],
+  "source_sft_updates": 255,
+  "source_dpo_updates": 11,
+  "max_wall_seconds": 14400,
+  "eval": {
+    "max_model_len": 8192,
+    "max_new_tokens": 256,
+    "temperature": 0,
+    "seed": 2026110300,
+    "gpu_memory_utilization": 0.6,
+    "splits": {
+      "development": 4
+    }
+  },
+  "sample_eval": {
+    "seed": 2026110302,
+    "temperature": 0.8,
+    "rollouts_per_task": 4,
+    "task_count": 4
+  },
+  "task_counts": {
+    "development": 4
+  },
+  "recovery_eval": {
+    "samples_per_context": 3,
+    "temperature": 0.8,
+    "seed": 2026110303,
+    "complete_continuation": true
+  },
+  "evaluation_branches": [
+    "weighted_sft",
+    "historical_dpo_ce",
+    "chosen_control",
+    "continuation_ce"
+  ],
+  "checkpoint_selection": "fixed_final",
+  "beta": 0.1,
+  "comparison_run": "hard-recovery-sft-weighted-v1-20261103",
+  "comparison_adapter_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f",
+  "experiment": "E4_same_job_chosen_vs_expert_continuation_CE",
+  "required_gpu_name": "NVIDIA L40S",
+  "reference_run": "dpo-uniform-control-v1-20261104",
+  "reference_scores_sha256": "448b6c8af6fb18ae35fcad02f904167fea1f75d293fff0c53a70968c280b2a65",
+  "reference_audit_sha256": "1fa8d7202feb625d87fb8b43bc630d21a9d6722912dafd1d53557c2935cef538",
+  "reference_repair_status_sha256": "c6a447e1568172b9f6a6d556771157225c5ae50df90132aa9c146db849bc5e75",
+  "training_variants": {
+    "chosen_control": {
+      "chosen_ce_coefficient": 1
+    },
+    "continuation_ce": {
+      "chosen_ce_coefficient": 1
+    }
+  },
+  "frozen_models": {
+    "parent": {
+      "run": "chosen-only-sft-v1-20261102",
+      "checkpoint": "final",
+      "adapter_sha256": "078182d293d37b0caeda3bdef8355d4be45439af5480228259ef8658ff868a55",
+      "complete_sha256": "d95dd07c1ff513cd7dfe82d70fe68f194342a54b270b3c4ec3b5c50e2b3da469"
+    },
+    "weighted_sft": {
+      "run": "hard-recovery-sft-weighted-v1-20261103",
+      "checkpoint": "final",
+      "adapter_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f",
+      "complete_sha256": "49c169b985e9ecd973c91b6e8fb5d160c00db258845ab7c3121f50498ea65c26"
+    },
+    "historical_dpo_ce": {
+      "run": "dpo-chosen-ce-control-v1-20261104",
+      "checkpoint": "training/dpo_ce/final",
+      "adapter_sha256": "ad6a8f60ef71c9b56e62f3d6373bf1e258d56b1bf87487a999f83e25351b743b",
+      "complete_sha256": "af32455abb1666aa031bd3ce9ddaa5a25d51ff68f237abb956ac0b6eb222feb8"
+    }
+  },
+  "maximum_optimizer_updates_this_job": 516,
+  "ce_sampling": "deterministic shuffled full-pool cycles; truncate at 1014 actions; equal pair-level token-mean CE",
+  "chosen_ce_coefficient": 1,
+  "ce_seed": 2026110504,
+  "ce_pool_actions": 288,
+  "ce_action_exposures": 1014,
+  "comparison_source_run": "dpo-chosen-ce-control-v1-20261104",
+  "comparison_audit_sha256": "48f0d6b760a0b88d84c1cadd9dc0e8251c16459e356ee132ab768f927913b0d1",
+  "comparison_config_sha256": "c4c899d2caaaee7d8e273e62dfe4214a2054c20dc2ca581dcefa25182631d7a1",
+  "comparison_run_status_sha256": "c3cde252b657aaa4ea985f9321c162506d8805824909626f7296b631a8926659",
+  "required_execution_environment": {
+    "gpu_name": "NVIDIA L40S",
+    "gpu_uuid": "086e2842-344c-9528-cbae-b8fcba665e1c",
+    "compute_capability": [
+      8,
+      9
+    ],
+    "gpu_total_memory": 50867666944,
+    "python": "3.11.17",
+    "torch": "2.8.0+cu128",
+    "cuda": "12.8",
+    "cudnn": 91002,
+    "float32_matmul_precision": "highest",
+    "allow_tf32_matmul": false,
+    "allow_tf32_cudnn": true,
+    "packages": {
+      "transformers": "4.57.6",
+      "peft": "0.17.1",
+      "vllm": "0.11.0"
+    }
+  },
+  "runtime_policy": "same hardware model/software/precision as E3; cross-job UUID may differ; both fresh training branches pin the new job UUID",
+  "previous_failed_run": "dpo-continuation-ce-control-v1-20261105"
+}

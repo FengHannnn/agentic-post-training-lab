@@ -1,0 +1,16 @@
+{
+  "zip": "dpo-chosen-ce-control-v1-20261104-run.zip",
+  "sha256": "f2401700b496a2d6ae969f2e0106da3d12cdf3d88343736e407c06e63220510f",
+  "bytes": 421543,
+  "entries": 146,
+  "CRC_passed": true,
+  "manifest_hashes_passed": true,
+  "full_suite_tests": 163,
+  "additional_nonzero_CE_tests": 1,
+  "precision_scope_retest_tests": 1,
+  "optimizer_updates_planned_total": 516,
+  "expected_complete_episodes": 80,
+  "expected_recovery_episodes": 448,
+  "scored_models": 5,
+  "GPU_experiment_executed": false
+}

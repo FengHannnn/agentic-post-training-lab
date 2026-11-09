@@ -1,0 +1,41 @@
+{
+  "date": "2026-11-05",
+  "exit_code": 0,
+  "tests_passed": 104,
+  "warnings": 2,
+  "pytest_seconds": 83.85,
+  "suites": [
+    "tests/test_grpo_v2.py",
+    "tests/test_agentic_v2.py",
+    "tests/test_hard_recovery_independent_v2.py",
+    "tests/test_dpo_sft_start_v2.py"
+  ],
+  "environment": {
+    "python": "3.11.5",
+    "torch": "2.14.0+cpu",
+    "transformers": "4.57.6",
+    "peft": "0.17.1",
+    "sqlite": "3.42.0"
+  },
+  "coverage": [
+    "population group advantage and zero variance",
+    "same initial state/version/native q admission",
+    "all 7 train recovery prefixes and full continuation replay",
+    "native EOS and length termination",
+    "response suffix logits causal equivalence",
+    "real LoRA gradient and parameter update",
+    "frozen base and reference parameters",
+    "TIS/clip/k3 and skip-without-Adam-step",
+    "episode-balanced loss normalization",
+    "Adam/RNG exact next-update resume",
+    "shared-base reference adapter freezing",
+    "production adapter serialization and exact reload scores",
+    "stale worker tensor detection",
+    "terminal progress forwarding",
+    "failure ZIP with partial evidence",
+    "driver resume from committed group"
+  ],
+  "gpu_jobs_launched_locally": 0,
+  "gpu_preflight_status": "ready_for_cloud_execution",
+  "initial_adapter_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f"
+}

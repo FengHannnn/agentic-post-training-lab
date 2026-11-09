@@ -1,0 +1,32 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+______ test_user_uuid_change_allows_new_matched_job_but_pins_within_job _______
+
+    def test_user_uuid_change_allows_new_matched_job_but_pins_within_job():
+        old=identity();actual=dict(old,gpu_uuid='92e14e85-628d-e5a4-af16-0db4defb2afb');cfg={'required_gpu_name':'NVIDIA L40S','required_execution_environment':old}
+>       report=check_job_runtime(cfg,actual)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_dpo_continuation_ce_paired_v2.py:10: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+scripts\paired_runtime.py:6: in check_job_runtime
+    legacy_check(cfg,actual,cfg['required_execution_environment'] if expected is None else expected,precision=precision)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+cfg = {'required_gpu_name': 'NVIDIA L40S', 'required_execution_environment': {'gpu_name': 'NVIDIA L40S', 'gpu_uuid': '086e2842-344c-9528-cbae-b8fcba665e1c', 'compute_capability': [8, 9], 'gpu_total_memory': 50867666944, ...}}
+actual = {'gpu_name': 'NVIDIA L40S', 'gpu_uuid': '92e14e85-628d-e5a4-af16-0db4defb2afb', 'compute_capability': [8, 9], 'gpu_total_memory': 50867666944, ...}
+expected = {'gpu_name': 'NVIDIA L40S', 'gpu_uuid': '086e2842-344c-9528-cbae-b8fcba665e1c', 'compute_capability': [8, 9], 'gpu_total_memory': 50867666944, ...}
+precision = True
+
+    def check_runtime(cfg,actual,expected=None,precision=True):
+        if actual['gpu_name']!=cfg['required_gpu_name']:raise ValueError('fixed NVIDIA L40S hardware required before updates')
+        if expected is not None:
+            keys=set(expected) if precision else set(expected)-{'float32_matmul_precision','allow_tf32_matmul','allow_tf32_cudnn'}
+>           if set(actual)!=set(expected) or any(actual[k]!=expected[k] for k in keys):raise ValueError('paired runtime identity differs')
+                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           ValueError: paired runtime identity differs
+
+scripts\dpo_chosen_ce_common.py:28: ValueError
+=========================== short test summary info ===========================
+FAILED tests\test_dpo_continuation_ce_paired_v2.py::test_user_uuid_change_allows_new_matched_job_but_pins_within_job
+1 failed in 0.38s

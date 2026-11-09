@@ -1,0 +1,12 @@
+{
+  "zip": "dpo-regression-checkpoints-v1-20261103-run.zip",
+  "sha256": "b8a76caa53243160837dea763c1cf6562206a9ec287595d19162c2403de41000",
+  "bytes": 494816,
+  "entries": 122,
+  "crc_passed": true,
+  "manifest_hashes_passed": true,
+  "full_suite_tests": 143,
+  "additional_tests": 1,
+  "training_updates": 0,
+  "GPU_experiment_executed": false
+}

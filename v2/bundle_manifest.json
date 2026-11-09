@@ -1,0 +1,27 @@
+{
+  "contract_version": "v2-starter-v1-no-price-20261030",
+  "files": {
+    "configs/baseline.json": "91c1e588c619256262b41ae07931d0f7bb138c1628435003b2836d9fbcdbf510",
+    "PROJECT_REQUIREMENTS.md": "bbb92dd58ebf65d4556ff97a21ee8a8a6b4804f19d2e74aa49e934d05f88def6",
+    "README.md": "71633f7647474c03700f6e5a90ef45e1e0d79e0c5c53734f32b28f7df1cfc7b7",
+    "reports/v2-initial-implementation.md": "5d507fb806a5cb8b0569a09cb925544b3281c4935149580c4b43f69a75d6b4c4",
+    "scripts/audit_v2.py": "b7b7c6a29e3a32b433c7db8c347b4883aef3bb6f75e834d1099b7004dd39d82c",
+    "scripts/common.py": "a1d38f7b476c53192a7cae3ee01cbc1f5314c335d466c990fb53bb63a59f5433",
+    "scripts/evaluate_v2.py": "3580e90330f1ca1d57987e29b23ef01f4008da1ec032aa533d7a5022a31d3688",
+    "scripts/prepare_v2.py": "2adbb1ec3ff81a98dcc3ba3d9673c5cb68715a14e58061612789ff519f62de81",
+    "scripts/run_v2_baseline.py": "b95e2185f2a468074408fbd5a9e18816f925bf5a17ee5361355d2895ac407631",
+    "src/apt_v2/__init__.py": "6e4dbb3f72e871ceafa3171387f6e373355ed2b14c8c620b9d775ca5b2de4b13",
+    "src/apt_v2/environment.py": "4180d4a7f48b38f432e32fb3325a0ba04a5ae93b58c2ccc3510fc10ac086cbcb",
+    "src/apt_v2/rewards.py": "4152e0ff4e2ca53c84dbcd387f3a6ec02bbf0a705674ffabdabe207c5d562511",
+    "src/apt_v2/runtime.py": "04910a501f736e4d4650993d29af1943e9f0aa94448007cfd0d91672c97b39aa",
+    "src/apt_v2/tasks.py": "136d7f015d7d864eec69c504048209ba448ccead928016cc84ec153dd2ec2daf",
+    "src/apt_v2/trainer.py": "5f35bc849ad248e4a47561ca443cbf1a3939dcc4ff26c8906b51bfd253b8c860",
+    "tests/test_agentic_v2.py": "3ae9f017cec76d4c106396edb9952dbe00c8d93ae9c11554ee1c12135c090848",
+    "V1_ARCHIVE_RECEIPT.json": "ed167c2355d1071181b6f4a6bee53eadbfd8ffba6897ed40e80eec1cc0f27c6f"
+  },
+  "model_weights_included": false,
+  "v1_archive_sha256": "6348f933a916f976eb16670caff132a54cbf09710e99a3a7d86e2a73dfbec500",
+  "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+  "revision": "989aa79",
+  "supersedes_manifest_sha256": "d1c79f5be40f10fe8c6ab0102766b2b15d1b37296b4a83f3a40f3047bfe29421"
+}

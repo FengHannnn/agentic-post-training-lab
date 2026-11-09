@@ -1,0 +1,25 @@
+{
+  "model_id": "Qwen/Qwen2.5-1.5B-Instruct",
+  "revision": "989aa79",
+  "dtype": "bfloat16",
+  "max_model_len": 8192,
+  "max_new_tokens": 256,
+  "max_turns": 12,
+  "gpu_memory_utilization": 0.6,
+  "seed": 2026102901,
+  "temperature": 0,
+  "split": "development",
+  "task_count": 4,
+  "max_wall_seconds": 1800,
+  "reward_mode": "potential",
+  "training_enabled": false,
+  "lora": {
+    "r": 8,
+    "alpha": 16,
+    "target_modules": [
+      "q_proj",
+      "v_proj"
+    ],
+    "dropout": 0
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "experiment": "E1_checkpoint_diagnosis",
+  "C1_acceptance": "failed_pending_causal_experiments",
+  "full_suite": {
+    "tests": 143,
+    "seconds": 251.36,
+    "exit_code": 0
+  },
+  "additional_adapter_switch_test": {
+    "tests": 1,
+    "seconds": 14.22,
+    "exit_code": 0
+  },
+  "compileall_passed": true,
+  "local_preflight": {
+    "checkpoints": [
+      {
+        "branch": "parent",
+        "complete_verified": true,
+        "adapter_verified_locally": true,
+        "cloud_adapter_verification_required": false
+      },
+      {
+        "branch": "weighted_sft",
+        "complete_verified": true,
+        "adapter_verified_locally": true,
+        "cloud_adapter_verification_required": false
+      },
+      {
+        "branch": "dpo_0043",
+        "complete_verified": true,
+        "adapter_verified_locally": false,
+        "cloud_adapter_verification_required": true
+      },
+      {
+        "branch": "dpo_0086",
+        "complete_verified": true,
+        "adapter_verified_locally": false,
+        "cloud_adapter_verification_required": true
+      },
+      {
+        "branch": "dpo_0129",
+        "complete_verified": true,
+        "adapter_verified_locally": false,
+        "cloud_adapter_verification_required": true
+      },
+      {
+        "branch": "dpo_0172",
+        "complete_verified": true,
+        "adapter_verified_locally": false,
+        "cloud_adapter_verification_required": true
+      },
+      {
+        "branch": "dpo_0215",
+        "complete_verified": true,
+        "adapter_verified_locally": false,
+        "cloud_adapter_verification_required": true
+      },
+      {
+        "branch": "dpo_0258",
+        "complete_verified": true,
+        "adapter_verified_locally": true,
+        "cloud_adapter_verification_required": false
+      }
+    ],
+    "probe_preflight": {
+      "probes": 238,
+      "kinds": {
+        "recovery_first": 112,
+        "workflow": 30,
+        "recovery_continuation": 96
+      },
+      "splits": {
+        "train": 84,
+        "development": 154
+      },
+      "maximum_probe_tokens": 1527,
+      "tools": {
+        "calculate_change": 76,
+        "query_sql": 74,
+        "check_result": 48,
+        "read_policy": 4,
+        "inspect_schema": 4,
+        "submit": 32
+      }
+    }
+  },
+  "reproduction": {
+    "runs": [
+      {
+        "branch": "dpo",
+        "case": "complete",
+        "exit": 1,
+        "stdout": "{\"branch\": \"dpo\", \"case\": \"complete\", \"verdict\": \"FAIL\", \"success\": false, \"turns\": 12, \"termination\": \"budget\"}",
+        "stderr": "",
+        "elapsed_ms": 464
+      },
+      {
+        "branch": "dpo",
+        "case": "calculate",
+        "exit": 1,
+        "stdout": "{\"branch\": \"dpo\", \"case\": \"calculate\", \"verdict\": \"FAIL\", \"action\": {\"tool\": \"query_sql\", \"arguments\": {\"sql\": \"SELECT (SELECT COALESCE(SUM(gross_cents),0) FROM orders WHERE status='paid' AND order_month='2026-05' AND region='South' AND segment='Segment-2002') - (SELECT COALESCE(SUM(r.refund_cents),0) FROM refunds r JOIN orders o ON r.order_id=o.order_id WHERE o.status='paid' AND r.refund_month='2026-05' AND o.region='South' AND o.segment='Segment-2002') AS change_cents\"}}, \"new_verified_metrics\": []}",
+        "stderr": "",
+        "elapsed_ms": 417
+      },
+      {
+        "branch": "weighted_sft",
+        "case": "complete",
+        "exit": 0,
+        "stdout": "{\"branch\": \"weighted_sft\", \"case\": \"complete\", \"verdict\": \"PASS\", \"success\": true, \"turns\": 7, \"termination\": \"success\"}",
+        "stderr": "",
+        "elapsed_ms": 433
+      },
+      {
+        "branch": "weighted_sft",
+        "case": "calculate",
+        "exit": 0,
+        "stdout": "{\"branch\": \"weighted_sft\", \"case\": \"calculate\", \"verdict\": \"PASS\", \"action\": {\"tool\": \"calculate_change\", \"arguments\": {\"current_evidence\": \"q1\", \"prior_evidence\": \"q2\"}}, \"new_verified_metrics\": [\"change_cents\"]}",
+        "stderr": "",
+        "elapsed_ms": 325
+      }
+    ],
+    "exact_symptom": "complete task success after correct monthly evidence",
+    "minimal_seam": "two verified monthly queries followed by calculate decision"
+  },
+  "GPU_experiment_executed": false,
+  "training_enabled": false,
+  "optimizer_updates": 0,
+  "expected_complete_episodes": 160,
+  "expected_recovery_greedy_episodes": 224,
+  "teacher_forced_probes": 238
+}

@@ -1,0 +1,90 @@
+{
+  "run_id": "dpo-early86-vs-weighted-sft-v1-20261105",
+  "config_name": "dpo-early86-vs-weighted-sft-v1.json",
+  "source_run": "dpo-regression-checkpoints-v1-20261103",
+  "source_config_sha256": "6cd1ca878ee628c66e2d09fb89e7783799199d910b83a07f0bfe44877cd88f67",
+  "source_audit_sha256": "a5674387b1faedd97c81b48ba6936d09fde68cd90f849f9e07521c255f946496",
+  "source_run_status_sha256": "d4f70722f19703569611e3f90ae09e606c620fd517e844241dcd599143978c11",
+  "origin_run": "hard-recovery-dpo-matched-v1-20261103",
+  "origin_config_sha256": "b47b37a0b4c4166d15d48f90ac625a3cb5ce04d1f2b37902a4bf9ae8a497e27e",
+  "origin_binding_sha256": "5064665c58f59c64d5640b3c0e20e3b92a422d2954fd8103d79bfec9f859d7e8",
+  "training_enabled": false,
+  "optimizer_updates": 0,
+  "max_wall_seconds": 14400,
+  "required_gpu_name": "NVIDIA L40S",
+  "required_execution_environment": {
+    "gpu_name": "NVIDIA L40S",
+    "gpu_uuid": "92e14e85-628d-e5a4-af16-0db4defb2afb",
+    "compute_capability": [
+      8,
+      9
+    ],
+    "gpu_total_memory": 50867666944,
+    "python": "3.11.17",
+    "torch": "2.8.0+cu128",
+    "cuda": "12.8",
+    "cudnn": 91002,
+    "float32_matmul_precision": "highest",
+    "allow_tf32_matmul": false,
+    "allow_tf32_cudnn": true,
+    "packages": {
+      "transformers": "4.57.6",
+      "peft": "0.17.1",
+      "vllm": "0.11.0"
+    }
+  },
+  "eval": {
+    "max_model_len": 8192,
+    "max_new_tokens": 256,
+    "temperature": 0,
+    "seed": 2026110300,
+    "gpu_memory_utilization": 0.6,
+    "splits": {
+      "development": 4
+    }
+  },
+  "sample_eval": {
+    "seed": 2026110302,
+    "temperature": 0.8,
+    "rollouts_per_task": 4,
+    "task_count": 4
+  },
+  "recovery_eval": {
+    "samples_per_context": 3,
+    "temperature": 0.8,
+    "seed": 2026110303,
+    "complete_continuation": true
+  },
+  "evaluation_branches": [
+    "weighted_sft",
+    "dpo_0086"
+  ],
+  "frozen_models": {
+    "weighted_sft": {
+      "run": "hard-recovery-sft-weighted-v1-20261103",
+      "checkpoint": "final",
+      "adapter_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f",
+      "complete_sha256": "49c169b985e9ecd973c91b6e8fb5d160c00db258845ab7c3121f50498ea65c26"
+    },
+    "dpo_0086": {
+      "run": "hard-recovery-dpo-matched-v1-20261103",
+      "checkpoint": "checkpoint-0086",
+      "adapter_sha256": "43100acde91f178de59ac7a65f29867862a02a7f1a6cbcd134b7d81a7318f46c",
+      "complete_sha256": "d2e5716ee3955e457eaeb7727781e65f05a4d56fa9442d762ee2f06f60573c1c"
+    }
+  },
+  "protocol": {
+    "one_model_per_process": true,
+    "max_loras": 1,
+    "lora_int_id": 1,
+    "lora_name": "fixed_adapter",
+    "normalize_target_modules_order": true,
+    "quality_contexts_per_model": 7,
+    "quality_repeats": 2
+  },
+  "checkpoint_selection": "fixed_E1_86_steps_before_this_comparison",
+  "primary_metric": "sampled_complete_task_success",
+  "secondary_metric": "sampled_complete_recovery_success",
+  "performance_acceptance": "report absolute and paired differences; user assesses whether similar enough",
+  "test_split_used": false
+}

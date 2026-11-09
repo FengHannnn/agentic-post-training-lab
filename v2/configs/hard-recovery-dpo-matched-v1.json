@@ -1,0 +1,65 @@
+{
+  "run_id": "hard-recovery-dpo-matched-v1-20261103",
+  "config_name": "hard-recovery-dpo-matched-v1.json",
+  "algorithm": "hard_recovery_weighted_dpo",
+  "initial_run": "chosen-only-sft-v1-20261102",
+  "adapter_sha256": "078182d293d37b0caeda3bdef8355d4be45439af5480228259ef8658ff868a55",
+  "data_run": "dpo-recovery-collect-v1-20261102",
+  "pairs_sha256": "c7606a3fbf7ac4437d1aa8b3277228a7b4cdae95106e5d515d55c8f72869e329",
+  "pair_count": 169,
+  "max_length": 2048,
+  "hard_weight": 4,
+  "epochs": 6,
+  "max_steps": 258,
+  "gradient_accumulation": 4,
+  "learning_rate": 0.000005,
+  "max_grad_norm": 1,
+  "seed": 2026110301,
+  "checkpoint_every": 43,
+  "checkpoint_steps": [
+    43,
+    86,
+    129,
+    172,
+    215
+  ],
+  "source_sft_updates": 255,
+  "source_dpo_updates": 11,
+  "max_wall_seconds": 14400,
+  "eval": {
+    "max_model_len": 8192,
+    "max_new_tokens": 256,
+    "temperature": 0,
+    "seed": 2026110300,
+    "gpu_memory_utilization": 0.6,
+    "splits": {
+      "development": 4
+    }
+  },
+  "sample_eval": {
+    "seed": 2026110302,
+    "temperature": 0.8,
+    "rollouts_per_task": 4,
+    "task_count": 4
+  },
+  "task_counts": {
+    "development": 4
+  },
+  "recovery_eval": {
+    "samples_per_context": 3,
+    "temperature": 0.8,
+    "seed": 2026110303,
+    "complete_continuation": true
+  },
+  "evaluation_branches": [
+    "parent",
+    "weighted_sft",
+    "dpo"
+  ],
+  "checkpoint_selection": "fixed_final",
+  "beta": 0.1,
+  "comparison_run": "hard-recovery-sft-weighted-v1-20261103",
+  "comparison_adapter_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f",
+  "development_config_index": 1,
+  "maximum_development_configs": 2
+}
