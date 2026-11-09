@@ -47,6 +47,9 @@ class Environment:
     def __init__(self,task,reward_mode='potential',tool_cost=.01):
         if reward_mode not in ('outcome','potential'):raise ValueError('unknown reward mode')
         if tool_cost<0:raise ValueError('tool cost must be nonnegative')
+        self.verifier_version=getattr(task,'verifier_version','legacy_v1')
+        if self.verifier_version not in ('legacy_v1','sql_semantics_v2'):
+            raise ValueError('unknown SQL verifier version')
         self.task=task;self.db=connect(task);self.gold=truth(task)
         self.reward_mode=reward_mode;self.tool_cost=tool_cost
         self.verified=set();self.evidence={};self.records=[]
@@ -56,6 +59,9 @@ class Environment:
     def potential(self):return .2*len(self.verified)
 
     def _certify_sql(self,sql,rows,reads):
+        if self.verifier_version=='sql_semantics_v2':
+            from .sql_verifier import certify
+            return certify(self.task,sql,rows,reads,self.gold)
         if len(rows)!=1:return {}
         valid={}
         for metric in METRICS:
@@ -99,7 +105,8 @@ class Environment:
             self.evidence[eid]=valid
             self.verified.update(valid)
             return {'rows':rows,'evidence_id':eid,'verified_metrics':list(valid),
-                'verification':'source and perturbed-data checks'}
+                'verification':('source and perturbed-data checks' if self.verifier_version=='legacy_v1'
+                                else 'source, amount and calendar checks (sql_semantics_v2)')}
         if tool=='calculate_change':
             cur=self.evidence.get(args.get('current_evidence'),{}).get('current_net_cents')
             prior=self.evidence.get(args.get('prior_evidence'),{}).get('prior_net_cents')

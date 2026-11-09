@@ -45,7 +45,7 @@ def validate_config(cfg):
     if not re.fullmatch(r'[a-z0-9][a-z0-9-]{5,100}', cfg['run_id']):
         raise ValueError('safe unique run ID required')
     if (cfg['algorithm'] not in ('outcome_grpo','fine_grained_grpo') or cfg['phase'] not in ('preflight', 'formal')
-            or cfg['source_sft_updates'] != 513 or cfg['source_dpo_updates'] != 11
+            or cfg['source_sft_updates'] != (537 if cfg.get('curriculum_schema')=='repair_study_v1' and cfg.get('repair_arm')=='warm' else 513) or cfg['source_dpo_updates'] != 11
             or cfg['updates_per_group'] != 1 or cfg['k'] < 2 or cfg['tool_cost'] != .01
             or cfg['loss_reduction'] != 'token_mean_then_action_mean_then_episode_mean'
             or cfg['zero_variance'] != 'skip_without_rejection_resampling'):
@@ -55,7 +55,10 @@ def validate_config(cfg):
             or method not in ('outcome','potential_rtg_depth_v1','outcome_local_verified_v2')):
         raise ValueError('algorithm and action-credit method differ')
     from apt_v2.dpo_recovery import SCENARIOS
-    if cfg.get('curriculum_schema')=='alias_curriculum_v1':
+    if cfg.get('curriculum_schema')=='repair_study_v1':
+        from apt_v2.grpo_repair_study import validate_config as validate_repair
+        validate_repair(cfg)
+    elif cfg.get('curriculum_schema')=='alias_curriculum_v1':
         from apt_v2.grpo_alias_curriculum import validate_config as validate_alias
         validate_alias(cfg)
     elif cfg.get('curriculum_schema')=='fine_credit_ablation_v1':
@@ -66,7 +69,7 @@ def validate_config(cfg):
         validate_curriculum(cfg)
     elif set(cfg['recovery_scenarios']) != set(SCENARIOS) or len(cfg['recovery_scenarios']) != len(SCENARIOS):
         raise ValueError('seven distinct train recovery scenarios required')
-    if method=='outcome_local_verified_v2' and cfg.get('curriculum_schema') not in ('fine_credit_ablation_v1','alias_curriculum_v1'):
+    if method=='outcome_local_verified_v2' and cfg.get('curriculum_schema') not in ('fine_credit_ablation_v1','alias_curriculum_v1','repair_study_v1'):
         raise ValueError('local verified credit requires the frozen fine study')
     limits = (cfg['max_groups'], cfg['max_updates'], cfg['k'], cfg['max_wall_seconds'])
     if any(type(v) is not int or v <= 0 for v in limits) or cfg['max_updates'] > cfg['max_groups']:
@@ -86,7 +89,7 @@ def validate_config(cfg):
         if (not cfg['evaluation']['enabled'] or cfg['max_groups'] % 2 or cfg['max_updates'] != cfg['max_groups']
                 or not cursors or cursors != sorted(set(cursors)) or cursors[-1] != cfg['max_groups']
                 or any(type(v) is not int or v <= 0 or v % 2 for v in cursors)
-                or not 1 <= cfg['formal_job_index'] <= 3 or cfg['minimum_actual_updates'] < (0 if cfg.get('curriculum_schema')=='alias_curriculum_v1' else 1)):
+                or not 1 <= cfg['formal_job_index'] <= 3 or cfg['minimum_actual_updates'] < (0 if cfg.get('curriculum_schema') in ('alias_curriculum_v1','repair_study_v1') else 1)):
             raise ValueError('fixed balanced formal group budget and evaluation cursors required')
         if (cfg['eval']['max_model_len'] != cfg['sampling']['max_model_len']
                 or cfg['eval']['max_new_tokens'] != cfg['sampling']['max_new_tokens']
@@ -192,9 +195,15 @@ def prepare(output):
     initial = under(ROOT, cfg['initial_dir'])
     complete = read(initial / 'complete.json')
     verify_files(initial / 'adapter', complete['adapter_sha256'])
-    if (complete['total_sft_updates'] != 513 or complete['total_dpo_updates'] != 11
+    if (complete['total_sft_updates'] != cfg['source_sft_updates'] or complete['total_dpo_updates'] != 11
             or file_hash(initial / 'adapter/adapter_model.safetensors') != cfg['adapter_sha256']):
         raise ValueError('reviewed W identity differs')
+    if cfg.get('curriculum_schema')=='repair_study_v1':
+        source_audit=read(initial/'source_audit.json')
+        if not source_audit.get('passed'):raise ValueError('repair initial source audit failed')
+        if cfg['repair_arm']=='warm' and (complete.get('parent_W_sha256')!=cfg['baseline_W_sha256']
+                or source_audit.get('actual_updates')!=24 or source_audit.get('action_exposures')!=96):
+            raise ValueError('B warm-start ancestry differs')
     identity = read(initial / 'model_identity.json')
     if identity['resolved_revision'] != cfg['revision'] or identity['model_id'] != cfg['base_model']:
         raise ValueError('base revision differs')
@@ -243,5 +252,5 @@ def prepare(output):
              for folder in (dest, tok) for p in folder.rglob('*') if p.is_file()]
     atomic_json(output / 'input_binding.json', {'files': {n: file_hash(output/n) for n in names},
                 'config_sha256': file_hash(output/'config.json'), 'initial_adapter_sha256': cfg['adapter_sha256'],
-                'source_sft_updates': 513, 'source_dpo_updates': 11, 'initial_rl_updates': 0})
+                'source_sft_updates': cfg['source_sft_updates'], 'source_dpo_updates': cfg['source_dpo_updates'], 'initial_rl_updates': 0})
     verify_inputs(output)

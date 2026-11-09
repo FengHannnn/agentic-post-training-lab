@@ -11,7 +11,7 @@ from apt_v2.grpo import digest
 
 def verified_zero_signal(cfg,state,groups,transitions,runner,changed_tensors):
     """An all-skipped alias run is evidence, with an explicit unchanged W policy."""
-    return (cfg.get('curriculum_schema')=='alias_curriculum_v1' and state==initial_policy(cfg)
+    return (cfg.get('curriculum_schema') in ('alias_curriculum_v1','repair_study_v1') and state==initial_policy(cfg)
             and changed_tensors==0 and bool(transitions) and len(groups)==len(transitions)+1
             and runner['refresh_only_last_group'] and groups[-1]['policy']==state
             and all(not g['credit']['eligible'] for g in groups[:len(transitions)])
@@ -35,7 +35,7 @@ def audit(output, local=False):
     changed_tensors = 0
     for index in tqdm(expected_indices, desc='Strict GRPO replay', unit='group', file=sys.stdout, disable=False):
         g = verify_group(output, index, state, tok, local=local)
-        if cfg.get('curriculum_schema')=='alias_curriculum_v1':
+        if cfg.get('curriculum_schema') in ('alias_curriculum_v1','repair_study_v1'):
             from grpo_sampler_probe import METHOD
             if g['probability_probe'].get('verification_method')!=METHOD:
                 raise ValueError('alias curriculum requires same-forward probability evidence')
@@ -111,7 +111,7 @@ def audit(output, local=False):
               'all_probability_probes': all(g['probability_probe']['passed'] for g in groups),
               'actual_updated_weights': changed_tensors > 0,
               'group_cap': len(transitions) <= cfg['max_groups'], 'update_cap': state['updates'] <= cfg['max_updates']}
-    if cfg.get('curriculum_schema')=='alias_curriculum_v1':
+    if cfg.get('curriculum_schema') in ('alias_curriculum_v1','repair_study_v1'):
         checks['updated_or_verified_zero_signal']=checks.pop('actual_updated_weights') or zero_signal
     result = {'passed': all(checks.values()), 'checks': checks, 'scope': 'local_returned_files' if local else 'cloud_files_and_state',
               'actual_updates': state['updates'], 'verified_zero_signal': zero_signal, 'attempted_groups': len(transitions),
@@ -127,7 +127,7 @@ def audit(output, local=False):
               'sampling_elapsed_seconds': sum(g['elapsed_seconds'] for g in groups),
               'update_elapsed_seconds': sum(r['metrics'].get('elapsed_seconds', 0) for r in transitions),
               'final_policy': state, 'changed_tensor_count_summed': changed_tensors,
-              'state_pt_returned': False, 'ancestry': {'sft': 513, 'dpo': 11, 'rl': state['updates']},
+              'state_pt_returned': False, 'ancestry': {'sft': cfg['source_sft_updates'], 'dpo': cfg['source_dpo_updates'], 'rl': state['updates']},
               'evaluation_performance': 'deferred_until_profile_and_formal_run'}
     if groups and refreshed:
         result['effective_bf16_tensor_hash_changed'] = (

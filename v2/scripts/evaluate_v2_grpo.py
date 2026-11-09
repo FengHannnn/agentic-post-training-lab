@@ -15,6 +15,13 @@ from apt_v2.dpo_recovery import SCENARIOS, build_context
 from apt_v2.independent_recovery_test import calendar_episode_audit
 
 
+def study_context(cfg):
+    if cfg.get('curriculum_schema')=='repair_study_v1':
+        from apt_v2.grpo_repair_study import context
+        return context
+    return build_context
+
+
 def quality_specs(cfg):
     task = development_tasks(cfg)[0]
     return [{'task_id': task.id, 'scenario': s} for s in SCENARIOS[:cfg['protocol']['quality_contexts_per_model']]]
@@ -23,7 +30,7 @@ def quality_specs(cfg):
 def finish_quality_check(output,label,spec,check,targeted_check):
     """A rejected alias model remains rejected while the other arm is evaluated."""
     cfg=read(output/'config.json')
-    if cfg.get('curriculum_schema')!='alias_curriculum_v1':
+    if cfg.get('curriculum_schema') not in ('alias_curriculum_v1','repair_study_v1'):
         if not check['passed']:
             raise ValueError('evaluation quality/calendar gate failed: '+str(check['checks']))
         return
@@ -66,7 +73,7 @@ def verify_evaluation(output, label, spec, tok, local=False, data=None):
                 or e['model_branch'] != label or e['split'] != 'development'):
             raise ValueError('paired evaluation seed/sampling/version differs')
         task = tasks[e['task_id']]
-        replay(task, e, tok)
+        replay(task, e, tok, study_context(cfg))
         records = [p['row'] for p in e['start']['prefix']]+e['turns']
         audit = calendar_episode_audit(task, records, e['success'], e['artifact'], allowed_split='development')
         calendar.append({'key': list(key), 'result': audit})
@@ -78,7 +85,7 @@ def verify_evaluation(output, label, spec, tok, local=False, data=None):
     for row, item in zip(quality, qs):
         if row['task_id'] != item['task_id'] or row['scenario'] != item['scenario'] or len(row['generations']) != 2:
             raise ValueError('fixed repeated greedy quality inputs differ')
-        context = build_context(tasks[item['task_id']], item['scenario'], allowed_split='development')
+        context = study_context(cfg)(tasks[item['task_id']], item['scenario'], allowed_split='development')
         s = {**cfg['sampling'], 'temperature': 0}
         seed = next(p['seed'] for p in plan if p['task_id'] == item['task_id'] and p['scenario'] == item['scenario'] and p['mode'] == 'greedy')
         if row['seed'] != seed:
@@ -122,7 +129,7 @@ def evaluate(output, label, spec_path):
     if target.exists():
         tok = AutoTokenizer.from_pretrained(output/'tokenizer', local_files_only=True, trust_remote_code=False)
         result = verify_evaluation(output, label, spec, tok)
-        if not result['passed'] and cfg.get('curriculum_schema')!='alias_curriculum_v1':
+        if not result['passed'] and cfg.get('curriculum_schema') not in ('alias_curriculum_v1','repair_study_v1'):
             raise ValueError('committed evaluation quality check failed')
         verify_closing_evaluation(output,label,spec,tok)
         targeted_check=verify_targeted_evaluation(output,label,spec,tok)
@@ -154,19 +161,19 @@ def evaluate(output, label, spec_path):
                 policy = BehaviorPolicy(engine, tok, lora, sampling, item['seed'], show_action)
                 try:
                     episode = run_continuation(tasks[item['task_id']], item['scenario'], policy, sampling,
-                                               spec['policy']['version'], item['seed'], item['rollout_index'], cfg['tool_cost'])
+                                               spec['policy']['version'], item['seed'], item['rollout_index'], cfg['tool_cost'], study_context(cfg))
                 except Exception as exc:
                     jsonl(partial, getattr(exc, 'episode_evidence', {'error': str(exc), 'status': 'interrupted'}))
                     raise
                 episode.update(model_branch=label, evaluation_mode=item['mode'])
                 jsonl(partial, episode)
-                replay(tasks[item['task_id']], episode, tok)
+                replay(tasks[item['task_id']], episode, tok, study_context(cfg))
                 episodes.append(episode)
                 bar.set_postfix(kind=item['kind'], mode=item['mode'], success=episode['success'], refresh=False)
                 bar.update(1)
             for item in quality_specs(cfg):
                 task = tasks[item['task_id']]
-                context = build_context(task, item['scenario'], allowed_split='development')
+                context = study_context(cfg)(task, item['scenario'], allowed_split='development')
                 seed = next(p['seed'] for p in plan if p['task_id'] == task.id and p['scenario'] == item['scenario'] and p['mode'] == 'greedy')
                 generations = []
                 for _ in range(2):
@@ -267,13 +274,13 @@ def verify_targeted_evaluation(output,label,spec,tok,data=None):
         cal=calendar_episode_audit(task,[x['row'] for x in e['start']['prefix']]+e['turns'],
                                    e['success'],e['artifact'],allowed_split='development')
         calendar.append({'key':list(key),'result':cal})
-        if e['success'] and not cal['calendar_consistent_success'] and cfg.get('curriculum_schema')!='alias_curriculum_v1':
+        if e['success'] and not cal['calendar_consistent_success'] and cfg.get('curriculum_schema') not in ('alias_curriculum_v1','repair_study_v1'):
             raise ValueError('targeted calendar evidence differs')
     summary=summarize_targeted(rows)
     if data.get('targeted_summary')!=summary:raise ValueError('targeted summary differs')
     result={'passed':all(not r['result']['environment_success'] or r['result']['calendar_consistent_success'] for r in calendar),
             'summary':summary,'episodes_replayed':len(rows),'actions_replayed':sum(len(e['turns']) for e in rows)}
-    if cfg.get('curriculum_schema')=='alias_curriculum_v1':result['calendar']=calendar
+    if cfg.get('curriculum_schema') in ('alias_curriculum_v1','repair_study_v1'):result['calendar']=calendar
     return result
 
 

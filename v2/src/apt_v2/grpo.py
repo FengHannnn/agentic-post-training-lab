@@ -41,6 +41,9 @@ def initial_state(task, scenario, tool_cost=.01, context_builder=None):
                     [{'role': 'system', 'content': SYSTEM}, {'role': 'user', 'content': task.request()}])
         identity = {'task': asdict(task), 'scenario': scenario,
                     'prefix': context['records'] if context else [], 'tool_cost': tool_cost}
+        if getattr(task, 'verifier_version', None):
+            # Bind the complete initial prompt, including the one-time public reminder.
+            identity['messages'] = json.loads(json.dumps(messages))
         return env, messages, digest(identity), identity
     except Exception:
         env.close()

@@ -17,7 +17,7 @@ RECOVERY_CYCLE = ('missing_alias_pair', 'sql_unverified_requery', 'requery_stale
 
 
 def enabled(cfg):
-    return cfg.get('curriculum_schema') in (SCHEMA,'fine_credit_ablation_v1','alias_curriculum_v1')
+    return cfg.get('curriculum_schema') in (SCHEMA,'fine_credit_ablation_v1','alias_curriculum_v1','repair_study_v1')
 
 
 def month_pair(year, month):
@@ -25,6 +25,9 @@ def month_pair(year, month):
 
 
 def training_tasks(cfg):
+    if cfg.get('curriculum_schema')=='repair_study_v1':
+        from .grpo_repair_study import training_tasks as repair_tasks
+        return repair_tasks(cfg)
     if cfg.get('curriculum_schema')=='alias_curriculum_v1':
         from .grpo_alias_curriculum import training_tasks as alias_tasks
         return alias_tasks(cfg)
@@ -40,6 +43,9 @@ def training_tasks(cfg):
 
 
 def development_tasks(cfg=None):
+    if cfg and cfg.get('curriculum_schema')=='repair_study_v1':
+        from .grpo_repair_study import development_tasks as repair_tasks
+        return repair_tasks()
     if cfg and cfg.get('curriculum_schema')=='alias_curriculum_v1':
         from .grpo_alias_curriculum import development_tasks as alias_tasks
         return alias_tasks()
@@ -87,6 +93,9 @@ def assert_isolation(cfg):
 
 
 def start_spec(cfg, index):
+    if cfg.get('curriculum_schema')=='repair_study_v1':
+        from .grpo_repair_study import start_spec as repair_spec
+        return repair_spec(cfg,index)
     if cfg.get('curriculum_schema')=='alias_curriculum_v1':
         from .grpo_alias_curriculum import start_spec as alias_spec
         return alias_spec(cfg,index)
@@ -102,6 +111,9 @@ def start_spec(cfg, index):
 
 
 def build_context(task, scenario, allowed_split='train'):
+    if scenario in ('repair_compound','repair_reminded','repair_simplified'):
+        from .grpo_repair_study import context
+        return context(task,scenario,allowed_split)
     if scenario in ('missing_alias_pair__simplified','missing_alias_pair__compound'):
         from .grpo_alias_curriculum import context
         return context(task,scenario,allowed_split)
@@ -162,6 +174,9 @@ def build_context(task, scenario, allowed_split='train'):
 
 
 def targeted_plan(cfg):
+    if cfg.get('curriculum_schema')=='repair_study_v1':
+        from .grpo_repair_study import targeted_plan as repair_plan
+        return repair_plan(cfg)
     if cfg.get('curriculum_schema')=='alias_curriculum_v1':
         from .grpo_alias_curriculum import targeted_plan as alias_plan
         return alias_plan(cfg)
@@ -186,6 +201,9 @@ def expert_proof(task, scenario):
 
 
 def frozen_inputs(cfg):
+    if cfg.get('curriculum_schema')=='repair_study_v1':
+        from .grpo_repair_study import frozen_inputs as repair_inputs
+        return repair_inputs(cfg)
     if cfg.get('curriculum_schema')=='alias_curriculum_v1':
         from .grpo_alias_curriculum import frozen_inputs as alias_inputs
         return alias_inputs(cfg)
@@ -204,6 +222,9 @@ def frozen_inputs(cfg):
 
 
 def summarize_targeted(episodes):
+    if episodes and all(e['scenario']=='repair_compound' for e in episodes):
+        from .grpo_repair_study import summarize_targeted as repair_summary
+        return repair_summary(episodes)
     if episodes and all(e['scenario'] in ('missing_alias_pair__simplified','missing_alias_pair__compound') for e in episodes):
         from .grpo_alias_curriculum import summarize_targeted as alias_summary
         return alias_summary(episodes)

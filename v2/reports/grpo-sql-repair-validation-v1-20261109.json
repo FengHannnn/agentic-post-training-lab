@@ -1,0 +1,64 @@
+{
+  "passed": true,
+  "scope": "CPU expert replay, source syntax and frozen tokenizer budgets",
+  "syntax_files": 221,
+  "expert_starts": 176,
+  "isolation": {
+    "passed": true,
+    "train_tasks": 12,
+    "development_tasks": 4,
+    "excluded_instances": 32
+  },
+  "maximum_expert_prompt_tokens": 2057,
+  "maximum_expert_response_tokens": 142,
+  "context_limit": 8192,
+  "response_limit": 256,
+  "sft_actions": 24,
+  "sft_updates": 24,
+  "action_exposures": 96,
+  "sft_dataset_sha256": "22e8a69ddfff55c7be04f71b279bbb8b668f6772610aef7b85a25ff670a20225",
+  "diagnostic_episodes": 96,
+  "elapsed_seconds": 18.640999999828637,
+  "verifier_version": "sql_semantics_v2",
+  "full_regression": {
+    "passed": true,
+    "distinct_cases": 512,
+    "legacy_cases_passed": 478,
+    "new_final_cases_passed": 34,
+    "validation_method": "full legacy coverage plus final isolated rerun of changed test modules",
+    "initial_full_run": {
+      "passed": 505,
+      "failed": 4,
+      "seconds": 1043.78,
+      "failures": [
+        "test_grpo_repair_driver_v2.py::test_real_driver_routes_and_b_gate_with_simulated_stages[online_plain]",
+        "test_grpo_repair_driver_v2.py::test_real_driver_routes_and_b_gate_with_simulated_stages[online_reminder]",
+        "test_grpo_repair_driver_v2.py::test_real_driver_routes_and_b_gate_with_simulated_stages[warm_start]",
+        "test_grpo_repair_driver_v2.py::test_incomplete_recipe_never_promotes_and_tie_prefers_control"
+      ],
+      "failure_reason": "running process retained earlier fixtures while policy identity fields were added"
+    },
+    "final_changed_modules": {
+      "passed": 34,
+      "failed": 0,
+      "seconds": 49.07,
+      "junit": ".local/grpo-sql-repair-20261109/frozen-targeted.xml"
+    },
+    "all_initial_failures_resolved": true
+  },
+  "clean_archive_verification": {
+    "passed": true,
+    "preview_archive_sha256": "bbe27918228cd45a063dad675a77bb096c8a589c03825e270a75fe39f87db792",
+    "bound_files": 290,
+    "entries": 291,
+    "crc_and_all_hashes_passed": true,
+    "source_compilation_passed": true,
+    "cli_entrypoints_passed": 5,
+    "tests_passed": 34,
+    "tests_failed": 0,
+    "seconds": 41.82,
+    "junit": ".local/grpo-sql-repair-20261109/clean-package.xml",
+    "log": ".local/grpo-sql-repair-20261109/clean-package.log",
+    "final_release_policy": "same executable sources, tests, configs and frozen inputs; validation report and preparation report updated after clean tests"
+  }
+}

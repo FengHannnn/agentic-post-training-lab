@@ -1,0 +1,37 @@
+{
+  "run_id": "grpo-sql-repair-study-v1-20261109",
+  "study_phase": "repair_study",
+  "schema": "repair_study_v1",
+  "max_wall_seconds": 21600,
+  "packaging_reserve_seconds": 180,
+  "branch_template": "configs/grpo-sql-repair-branch-v1.json",
+  "diagnostic_seed": 2026110931,
+  "diagnostic_groups": 24,
+  "k": 4,
+  "online_groups": 36,
+  "contract_report": "reports/grpo-sql-repair-contract-v1-20261109.md",
+  "validation_report": "reports/grpo-sql-repair-validation-v1-20261109.json",
+  "sft": {
+    "steps": 24,
+    "batch_size": 4,
+    "epochs": 4,
+    "learning_rate": 0.00001,
+    "seed": 2026110953,
+    "target_actions": 12,
+    "maintenance_actions": 12
+  },
+  "sampling": {
+    "temperature": 1,
+    "top_p": 1,
+    "top_k": -1,
+    "min_p": 0,
+    "repetition_penalty": 1,
+    "presence_penalty": 0,
+    "frequency_penalty": 0,
+    "min_tokens": 0,
+    "max_new_tokens": 256,
+    "max_model_len": 8192,
+    "logprobs_mode": "processed_logprobs"
+  },
+  "sft_examples": "artifacts/inputs/grpo-sql-repair-20261109/sft-examples.json"
+}

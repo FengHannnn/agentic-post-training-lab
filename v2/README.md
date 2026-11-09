@@ -2,6 +2,13 @@
 
 V2 研究真实多轮工具交互中的 SFT、DPO 与 GRPO。模型通过 SQLite 查询完成月度业务对账，使用执行证据认证本月净额、上月净额和差额，再提交结果。金额使用整数 cents，标准任务总动作预算为 12，恢复前缀计入预算。
 
+## 下一轮：SQL 认证修复与门控实验
+
+sql_semantics_v2 与96条冻结W诊断已实现。预检后选择无提醒GRPO、提醒渐退对照或SFT→GRPO路线，总GPU墙钟上限6小时。云端训练按新发布包启动。
+
+- [本轮冻结契约](reports/grpo-sql-repair-contract-v1-20261109.md)
+- [本轮实现与运行说明](reports/grpo-sql-repair-preparation-v1-20261109.md)
+
 ## 当前状态（2026-11-09）
 
 **正式基线为 W，下一轮 GRPO 从 W 独立初始化。** W 的血缘为 SFT513 / DPO11 / RL0；最终短程 DPO12 是独立阶段成果，累计 DPO23。

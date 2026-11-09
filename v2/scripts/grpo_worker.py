@@ -86,7 +86,7 @@ def collect(output, index, before):
     episodes = []
     tokens = 0
     try:
-        if cfg.get('curriculum_schema') in ('outcome_curriculum_v1','fine_credit_ablation_v1','alias_curriculum_v1'):
+        if cfg.get('curriculum_schema') in ('outcome_curriculum_v1','fine_credit_ablation_v1','alias_curriculum_v1','repair_study_v1'):
             setup={'seed':spec['seed'],'policy_sha256':before['adapter_sha256'],'token_limit':16,'sampling':cfg['sampling']}
             engine, tok, lora = engine_and_tokenizer(cfg, adapter, setup)
         else:
@@ -337,7 +337,7 @@ def update(output, index, before):
     atomic_json(temp/'complete.json', {'files': checkpoint_binding(temp), 'state_sha256': file_hash(temp/'state.pt'),
                 'policy_version': after['version'], 'actual_updates': after['updates'], 'before': before,
                 'group_cursor': index+1, 'group_sha256': result['group_sha256'],
-                'config_sha256': result['config_sha256'], 'total_sft_updates': 513, 'total_dpo_updates': 11,
+                'config_sha256': result['config_sha256'], 'total_sft_updates': cfg['source_sft_updates'], 'total_dpo_updates': cfg['source_dpo_updates'],
                 'total_rl_updates': after['updates']})
     root.parent.mkdir(parents=True, exist_ok=True)
     temp.rename(root)
