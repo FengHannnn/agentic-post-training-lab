@@ -1,0 +1,1030 @@
+{
+  "passed": true,
+  "review_date": "2026-11-10",
+  "run_id": "grpo-sql-warmup-probe-v1-20261110",
+  "input_archive": "artifacts/returned/grpo-sql-warmup-probe-v1-20261110/grpo-sql-warmup-probe-v1-20261110-review-attempt-001.zip",
+  "input_receipt": "artifacts/returned/grpo-sql-warmup-probe-v1-20261110/grpo-sql-warmup-probe-v1-20261110-review-attempt-001.receipt.json",
+  "receipt": {
+    "archive": "grpo-sql-warmup-probe-v1-20261110-review-attempt-001.zip",
+    "bytes": 20834645,
+    "sha256": "69d0017d727cbbd5f041c34e649c43bca2ef56e7b835bbaaab03bb4bdb270604",
+    "elapsed_seconds_including_packaging": 427.08752877195366,
+    "budget_seconds": 1800,
+    "budget_passed": true,
+    "prior_elapsed_seconds": 9500.091520188143,
+    "combined_elapsed_seconds": 9927.179048960097,
+    "total_authorized_seconds": 21600,
+    "combined_budget_passed": true
+  },
+  "archive_validation": {
+    "bytes": 20834645,
+    "sha256": "69d0017d727cbbd5f041c34e649c43bca2ef56e7b835bbaaab03bb4bdb270604",
+    "entries": 423,
+    "uncompressed_bytes": 42455630,
+    "safe_unique_paths": true,
+    "crc_passed": true,
+    "receipt_hash_and_size_match": true
+  },
+  "evidence_root": "artifacts/grpo-sql-warmup-probe-v1-20261110",
+  "local_audit": {
+    "passed": true,
+    "scope": "local_returned_files",
+    "models": {
+      "w": {
+        "target_first_certifications": 0,
+        "target_contexts": 12,
+        "maintenance_productive_actions": 12,
+        "maintenance_contexts": 12,
+        "maintenance_by_state": {
+          "stale_evidence_repair": {
+            "contexts": 3,
+            "productive": 3
+          },
+          "failed_check_repair": {
+            "contexts": 3,
+            "productive": 3
+          },
+          "repeat_sql_error": {
+            "contexts": 3,
+            "productive": 3
+          },
+          "checked_submit": {
+            "contexts": 3,
+            "productive": 3
+          }
+        },
+        "target_repeat_identical": 11,
+        "alias_token_nll_mean": 0.8828170933672909,
+        "branch_logp_margin_mean": -4.300839684593181,
+        "correct_branch_preferred_contexts": 0,
+        "committed_generated_actions": 36,
+        "committed_forced_score_requests": 24,
+        "committed_auxiliary_generated_tokens": 24,
+        "not_used_for_policy_updates": true
+      },
+      "b24": {
+        "target_first_certifications": 11,
+        "target_contexts": 12,
+        "maintenance_productive_actions": 12,
+        "maintenance_contexts": 12,
+        "maintenance_by_state": {
+          "stale_evidence_repair": {
+            "contexts": 3,
+            "productive": 3
+          },
+          "failed_check_repair": {
+            "contexts": 3,
+            "productive": 3
+          },
+          "repeat_sql_error": {
+            "contexts": 3,
+            "productive": 3
+          },
+          "checked_submit": {
+            "contexts": 3,
+            "productive": 3
+          }
+        },
+        "target_repeat_identical": 12,
+        "alias_token_nll_mean": 0.10477729982176907,
+        "branch_logp_margin_mean": 0.9956084912021955,
+        "correct_branch_preferred_contexts": 11,
+        "committed_generated_actions": 36,
+        "committed_forced_score_requests": 24,
+        "committed_auxiliary_generated_tokens": 24,
+        "not_used_for_policy_updates": true
+      },
+      "b15": {
+        "target_first_certifications": 0,
+        "target_contexts": 12,
+        "maintenance_productive_actions": 12,
+        "maintenance_contexts": 12,
+        "maintenance_by_state": {
+          "stale_evidence_repair": {
+            "contexts": 3,
+            "productive": 3
+          },
+          "failed_check_repair": {
+            "contexts": 3,
+            "productive": 3
+          },
+          "repeat_sql_error": {
+            "contexts": 3,
+            "productive": 3
+          },
+          "checked_submit": {
+            "contexts": 3,
+            "productive": 3
+          }
+        },
+        "target_repeat_identical": 11,
+        "alias_token_nll_mean": 0.8093838862400106,
+        "branch_logp_margin_mean": -3.921567182367047,
+        "correct_branch_preferred_contexts": 0,
+        "committed_generated_actions": 36,
+        "committed_forced_score_requests": 24,
+        "committed_auxiliary_generated_tokens": 24,
+        "not_used_for_policy_updates": true
+      }
+    },
+    "committed_generated_actions": 108,
+    "committed_forced_score_requests": 72,
+    "committed_auxiliary_generated_tokens": 72,
+    "request_accounting": {
+      "logged_greedy_requests": 108,
+      "logged_forced_requests": 72,
+      "logged_auxiliary_tokens": 72,
+      "truncated_log_lines": []
+    },
+    "actual_sft_updates": 0,
+    "actual_rl_updates": 0
+  },
+  "coverage": {
+    "source_bindings": 281,
+    "publication_bindings": 342,
+    "model_contexts": 72,
+    "greedy_actions": 108,
+    "forced_score_requests": 72,
+    "auxiliary_generated_tokens": 72,
+    "greedy_response_tokens": 10214,
+    "forced_response_tokens": 9828
+  },
+  "model_details": {
+    "w": {
+      "first_tools": {
+        "calculate_change": 4,
+        "query_sql": 5,
+        "inspect_schema": 1,
+        "check_result": 2
+      },
+      "target_certifications_by_repeat": [
+        0,
+        0
+      ],
+      "repeat_differences": [
+        {
+          "task": "curriculum-train-003",
+          "actions": [
+            {
+              "tool": "check_result",
+              "arguments": {
+                "values": {
+                  "current_net_cents": 57677,
+                  "prior_net_cents": 57678,
+                  "policy_id": "revenue-v1"
+                }
+              }
+            },
+            {
+              "tool": "calculate_change",
+              "arguments": {
+                "current_evidence": "q2",
+                "prior_evidence": "q3"
+              }
+            }
+          ],
+          "observations": [
+            {
+              "passed": false,
+              "checks": {
+                "policy": false,
+                "schema": true,
+                "current_net_cents": false,
+                "prior_net_cents": false,
+                "change_cents": false
+              },
+              "submitted": false
+            },
+            {
+              "error": "provide verified monthly evidence IDs",
+              "recoverable": true
+            }
+          ]
+        }
+      ],
+      "generated_response_tokens": 2854,
+      "forced_response_tokens": 3276,
+      "maintenance": [
+        {
+          "task": "train-000",
+          "state": "stale_evidence_repair",
+          "tool": "calculate_change",
+          "new_metrics": [
+            "change_cents"
+          ],
+          "passed": null,
+          "submitted": false
+        },
+        {
+          "task": "curriculum-train-000",
+          "state": "repeat_sql_error",
+          "tool": "query_sql",
+          "new_metrics": [
+            "current_net_cents"
+          ],
+          "passed": null,
+          "submitted": false
+        },
+        {
+          "task": "train-001",
+          "state": "failed_check_repair",
+          "tool": "check_result",
+          "new_metrics": [],
+          "passed": true,
+          "submitted": false
+        },
+        {
+          "task": "curriculum-train-001",
+          "state": "checked_submit",
+          "tool": "submit",
+          "new_metrics": [],
+          "passed": true,
+          "submitted": true
+        },
+        {
+          "task": "train-002",
+          "state": "repeat_sql_error",
+          "tool": "query_sql",
+          "new_metrics": [
+            "current_net_cents"
+          ],
+          "passed": null,
+          "submitted": false
+        },
+        {
+          "task": "curriculum-train-002",
+          "state": "stale_evidence_repair",
+          "tool": "calculate_change",
+          "new_metrics": [
+            "change_cents"
+          ],
+          "passed": null,
+          "submitted": false
+        },
+        {
+          "task": "train-003",
+          "state": "checked_submit",
+          "tool": "submit",
+          "new_metrics": [],
+          "passed": true,
+          "submitted": true
+        },
+        {
+          "task": "curriculum-train-003",
+          "state": "failed_check_repair",
+          "tool": "check_result",
+          "new_metrics": [],
+          "passed": true,
+          "submitted": false
+        },
+        {
+          "task": "train-004",
+          "state": "stale_evidence_repair",
+          "tool": "calculate_change",
+          "new_metrics": [
+            "change_cents"
+          ],
+          "passed": null,
+          "submitted": false
+        },
+        {
+          "task": "curriculum-train-004",
+          "state": "repeat_sql_error",
+          "tool": "query_sql",
+          "new_metrics": [
+            "current_net_cents"
+          ],
+          "passed": null,
+          "submitted": false
+        },
+        {
+          "task": "train-005",
+          "state": "failed_check_repair",
+          "tool": "check_result",
+          "new_metrics": [],
+          "passed": true,
+          "submitted": false
+        },
+        {
+          "task": "curriculum-train-005",
+          "state": "checked_submit",
+          "tool": "submit",
+          "new_metrics": [],
+          "passed": true,
+          "submitted": true
+        }
+      ],
+      "target_ranges": {
+        "alias_nll_min": 0.7865941547322677,
+        "alias_nll_max": 1.0123465344658142,
+        "margin_min": -5.0011791698634624,
+        "margin_max": -3.7693497389554977
+      }
+    },
+    "b24": {
+      "first_tools": {
+        "query_sql": 12
+      },
+      "target_certifications_by_repeat": [
+        11,
+        11
+      ],
+      "repeat_differences": [],
+      "generated_response_tokens": 4394,
+      "forced_response_tokens": 3276,
+      "maintenance": [
+        {
+          "task": "train-000",
+          "state": "stale_evidence_repair",
+          "tool": "calculate_change",
+          "new_metrics": [
+            "change_cents"
+          ],
+          "passed": null,
+          "submitted": false
+        },
+        {
+          "task": "curriculum-train-000",
+          "state": "repeat_sql_error",
+          "tool": "query_sql",
+          "new_metrics": [
+            "current_net_cents"
+          ],
+          "passed": null,
+          "submitted": false
+        },
+        {
+          "task": "train-001",
+          "state": "failed_check_repair",
+          "tool": "check_result",
+          "new_metrics": [],
+          "passed": true,
+          "submitted": false
+        },
+        {
+          "task": "curriculum-train-001",
+          "state": "checked_submit",
+          "tool": "submit",
+          "new_metrics": [],
+          "passed": true,
+          "submitted": true
+        },
+        {
+          "task": "train-002",
+          "state": "repeat_sql_error",
+          "tool": "query_sql",
+          "new_metrics": [
+            "current_net_cents"
+          ],
+          "passed": null,
+          "submitted": false
+        },
+        {
+          "task": "curriculum-train-002",
+          "state": "stale_evidence_repair",
+          "tool": "calculate_change",
+          "new_metrics": [
+            "change_cents"
+          ],
+          "passed": null,
+          "submitted": false
+        },
+        {
+          "task": "train-003",
+          "state": "checked_submit",
+          "tool": "submit",
+          "new_metrics": [],
+          "passed": true,
+          "submitted": true
+        },
+        {
+          "task": "curriculum-train-003",
+          "state": "failed_check_repair",
+          "tool": "check_result",
+          "new_metrics": [],
+          "passed": true,
+          "submitted": false
+        },
+        {
+          "task": "train-004",
+          "state": "stale_evidence_repair",
+          "tool": "calculate_change",
+          "new_metrics": [
+            "change_cents"
+          ],
+          "passed": null,
+          "submitted": false
+        },
+        {
+          "task": "curriculum-train-004",
+          "state": "repeat_sql_error",
+          "tool": "query_sql",
+          "new_metrics": [
+            "current_net_cents"
+          ],
+          "passed": null,
+          "submitted": false
+        },
+        {
+          "task": "train-005",
+          "state": "failed_check_repair",
+          "tool": "check_result",
+          "new_metrics": [],
+          "passed": true,
+          "submitted": false
+        },
+        {
+          "task": "curriculum-train-005",
+          "state": "checked_submit",
+          "tool": "submit",
+          "new_metrics": [],
+          "passed": true,
+          "submitted": true
+        }
+      ],
+      "target_ranges": {
+        "alias_nll_min": 0.06259603274808115,
+        "alias_nll_max": 0.23865342570341,
+        "margin_min": -0.4045948386192322,
+        "margin_max": 1.645444005727768
+      }
+    },
+    "b15": {
+      "first_tools": {
+        "query_sql": 6,
+        "calculate_change": 3,
+        "inspect_schema": 3
+      },
+      "target_certifications_by_repeat": [
+        0,
+        0
+      ],
+      "repeat_differences": [
+        {
+          "task": "curriculum-train-005",
+          "actions": [
+            {
+              "tool": "inspect_schema",
+              "arguments": {}
+            },
+            {
+              "tool": "check_result",
+              "arguments": {
+                "values": {
+                  "current_net_cents": 17642,
+                  "prior_net_cents": 19908,
+                  "policy_id": "revenue-v1"
+                }
+              }
+            }
+          ],
+          "observations": [
+            {
+              "schema": "orders(order_id INTEGER, order_month TEXT, region TEXT, segment TEXT,\n status TEXT, gross_cents INTEGER);\nrefunds(refund_id INTEGER, order_id INTEGER, refund_month TEXT, refund_cents INTEGER)."
+            },
+            {
+              "passed": false,
+              "checks": {
+                "policy": false,
+                "schema": true,
+                "current_net_cents": false,
+                "prior_net_cents": false,
+                "change_cents": false
+              },
+              "submitted": false
+            }
+          ]
+        }
+      ],
+      "generated_response_tokens": 2966,
+      "forced_response_tokens": 3276,
+      "maintenance": [
+        {
+          "task": "train-000",
+          "state": "stale_evidence_repair",
+          "tool": "calculate_change",
+          "new_metrics": [
+            "change_cents"
+          ],
+          "passed": null,
+          "submitted": false
+        },
+        {
+          "task": "curriculum-train-000",
+          "state": "repeat_sql_error",
+          "tool": "query_sql",
+          "new_metrics": [
+            "current_net_cents"
+          ],
+          "passed": null,
+          "submitted": false
+        },
+        {
+          "task": "train-001",
+          "state": "failed_check_repair",
+          "tool": "check_result",
+          "new_metrics": [],
+          "passed": true,
+          "submitted": false
+        },
+        {
+          "task": "curriculum-train-001",
+          "state": "checked_submit",
+          "tool": "submit",
+          "new_metrics": [],
+          "passed": true,
+          "submitted": true
+        },
+        {
+          "task": "train-002",
+          "state": "repeat_sql_error",
+          "tool": "query_sql",
+          "new_metrics": [
+            "current_net_cents"
+          ],
+          "passed": null,
+          "submitted": false
+        },
+        {
+          "task": "curriculum-train-002",
+          "state": "stale_evidence_repair",
+          "tool": "calculate_change",
+          "new_metrics": [
+            "change_cents"
+          ],
+          "passed": null,
+          "submitted": false
+        },
+        {
+          "task": "train-003",
+          "state": "checked_submit",
+          "tool": "submit",
+          "new_metrics": [],
+          "passed": true,
+          "submitted": true
+        },
+        {
+          "task": "curriculum-train-003",
+          "state": "failed_check_repair",
+          "tool": "check_result",
+          "new_metrics": [],
+          "passed": true,
+          "submitted": false
+        },
+        {
+          "task": "train-004",
+          "state": "stale_evidence_repair",
+          "tool": "calculate_change",
+          "new_metrics": [
+            "change_cents"
+          ],
+          "passed": null,
+          "submitted": false
+        },
+        {
+          "task": "curriculum-train-004",
+          "state": "repeat_sql_error",
+          "tool": "query_sql",
+          "new_metrics": [
+            "current_net_cents"
+          ],
+          "passed": null,
+          "submitted": false
+        },
+        {
+          "task": "train-005",
+          "state": "failed_check_repair",
+          "tool": "check_result",
+          "new_metrics": [],
+          "passed": true,
+          "submitted": false
+        },
+        {
+          "task": "curriculum-train-005",
+          "state": "checked_submit",
+          "tool": "submit",
+          "new_metrics": [],
+          "passed": true,
+          "submitted": true
+        }
+      ],
+      "target_ranges": {
+        "alias_nll_min": 0.738077498919995,
+        "alias_nll_max": 0.916132138384205,
+        "margin_min": -4.500434868037701,
+        "margin_max": -3.5185597091913223
+      }
+    }
+  },
+  "branch_decision_diagnostics": {
+    "w": {
+      "AS_first_token_nll_mean": 4.396077791849772,
+      "close_first_token_nll_mean": 0.09523810725659132,
+      "AS_share_of_alias_nll": 0.9959204063623199,
+      "all_target_alias_nll_improved_vs_W": null
+    },
+    "b24": {
+      "AS_first_token_nll_mean": 0.5087240859866142,
+      "close_first_token_nll_mean": 1.5043325771888096,
+      "AS_share_of_alias_nll": 0.9710578280829473,
+      "all_target_alias_nll_improved_vs_W": true
+    },
+    "b15": {
+      "AS_first_token_nll_mean": 4.030866940816243,
+      "close_first_token_nll_mean": 0.10929975844919682,
+      "AS_share_of_alias_nll": 0.9960334049993556,
+      "all_target_alias_nll_improved_vs_W": true
+    }
+  },
+  "margin_certification_agreement": {
+    "model_contexts": 36,
+    "matching_pairs": 36,
+    "positive_margin_and_certified": 11,
+    "negative_margin_and_not_certified": 25
+  },
+  "target_by_context": {
+    "w": [
+      {
+        "task_id": "train-000",
+        "first_tool": "calculate_change",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.8711706738103772,
+        "branch_margin": -4.257095865905285,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "curriculum-train-000",
+        "first_tool": "query_sql",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 1.0123465344658142,
+        "branch_margin": -5.0011791698634624,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "train-001",
+        "first_tool": "calculate_change",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.7865941547322677,
+        "branch_margin": -3.7693497389554977,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "curriculum-train-001",
+        "first_tool": "inspect_schema",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.873799442971324,
+        "branch_margin": -4.22580498456955,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "train-002",
+        "first_tool": "query_sql",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.8947288331866503,
+        "branch_margin": -4.369819410145283,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "curriculum-train-002",
+        "first_tool": "query_sql",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.8395022056297193,
+        "branch_margin": -4.12703051418066,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "train-003",
+        "first_tool": "calculate_change",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.836296657836624,
+        "branch_margin": -4.011550530791283,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "curriculum-train-003",
+        "first_tool": "check_result",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.8982702450040506,
+        "branch_margin": -4.380517192184925,
+        "repeat_identical": false
+      },
+      {
+        "task_id": "train-004",
+        "first_tool": "query_sql",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.9399057284462856,
+        "branch_margin": -4.629493396729231,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "curriculum-train-004",
+        "first_tool": "query_sql",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.8867727479663927,
+        "branch_margin": -4.366829518228769,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "train-005",
+        "first_tool": "calculate_change",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.8547387500846184,
+        "branch_margin": -4.129718333482742,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "curriculum-train-005",
+        "first_tool": "check_result",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.8996791462733654,
+        "branch_margin": -4.341687560081482,
+        "repeat_identical": true
+      }
+    ],
+    "b24": [
+      {
+        "task_id": "train-000",
+        "first_tool": "query_sql",
+        "first_new_metrics": [
+          "current_net_cents"
+        ],
+        "second_new_metrics": [
+          "current_net_cents"
+        ],
+        "alias_token_nll": 0.07834046544445528,
+        "branch_margin": 1.1762236952781677,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "curriculum-train-000",
+        "first_tool": "query_sql",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.23865342570341,
+        "branch_margin": -0.4045948386192322,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "train-001",
+        "first_tool": "query_sql",
+        "first_new_metrics": [
+          "current_net_cents"
+        ],
+        "second_new_metrics": [
+          "current_net_cents"
+        ],
+        "alias_token_nll": 0.07839381261143216,
+        "branch_margin": 1.5232174396514893,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "curriculum-train-001",
+        "first_tool": "query_sql",
+        "first_new_metrics": [
+          "current_net_cents"
+        ],
+        "second_new_metrics": [
+          "current_net_cents"
+        ],
+        "alias_token_nll": 0.06633833556836635,
+        "branch_margin": 1.6270251870155334,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "train-002",
+        "first_tool": "query_sql",
+        "first_new_metrics": [
+          "current_net_cents"
+        ],
+        "second_new_metrics": [
+          "current_net_cents"
+        ],
+        "alias_token_nll": 0.10349071032246684,
+        "branch_margin": 0.8799207806587219,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "curriculum-train-002",
+        "first_tool": "query_sql",
+        "first_new_metrics": [
+          "current_net_cents"
+        ],
+        "second_new_metrics": [
+          "current_net_cents"
+        ],
+        "alias_token_nll": 0.09453949025764814,
+        "branch_margin": 0.9270146489143372,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "train-003",
+        "first_tool": "query_sql",
+        "first_new_metrics": [
+          "current_net_cents"
+        ],
+        "second_new_metrics": [
+          "current_net_cents"
+        ],
+        "alias_token_nll": 0.1425767730222674,
+        "branch_margin": 0.8073437809944153,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "curriculum-train-003",
+        "first_tool": "query_sql",
+        "first_new_metrics": [
+          "current_net_cents"
+        ],
+        "second_new_metrics": [
+          "current_net_cents"
+        ],
+        "alias_token_nll": 0.09155317428517265,
+        "branch_margin": 1.143931120634079,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "train-004",
+        "first_tool": "query_sql",
+        "first_new_metrics": [
+          "current_net_cents"
+        ],
+        "second_new_metrics": [
+          "current_net_cents"
+        ],
+        "alias_token_nll": 0.1247515610011419,
+        "branch_margin": 0.5774954557418823,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "curriculum-train-004",
+        "first_tool": "query_sql",
+        "first_new_metrics": [
+          "current_net_cents"
+        ],
+        "second_new_metrics": [
+          "current_net_cents"
+        ],
+        "alias_token_nll": 0.09028749327399055,
+        "branch_margin": 0.7936038672924042,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "train-005",
+        "first_tool": "query_sql",
+        "first_new_metrics": [
+          "current_net_cents"
+        ],
+        "second_new_metrics": [
+          "current_net_cents"
+        ],
+        "alias_token_nll": 0.0858063236227963,
+        "branch_margin": 1.2506767511367798,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "curriculum-train-005",
+        "first_tool": "query_sql",
+        "first_new_metrics": [
+          "current_net_cents"
+        ],
+        "second_new_metrics": [
+          "current_net_cents"
+        ],
+        "alias_token_nll": 0.06259603274808115,
+        "branch_margin": 1.645444005727768,
+        "repeat_identical": true
+      }
+    ],
+    "b15": [
+      {
+        "task_id": "train-000",
+        "first_tool": "query_sql",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.7507334019959331,
+        "branch_margin": -3.6283840239048004,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "curriculum-train-000",
+        "first_tool": "query_sql",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.916132138384205,
+        "branch_margin": -4.500434868037701,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "train-001",
+        "first_tool": "calculate_change",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.738077498919995,
+        "branch_margin": -3.5185597091913223,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "curriculum-train-001",
+        "first_tool": "inspect_schema",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.805398924826261,
+        "branch_margin": -3.871891349554062,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "train-002",
+        "first_tool": "query_sql",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.8233713463122967,
+        "branch_margin": -4.0050238519907,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "curriculum-train-002",
+        "first_tool": "query_sql",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.7911812027275573,
+        "branch_margin": -3.8778514191508293,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "train-003",
+        "first_tool": "calculate_change",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.7663501607428429,
+        "branch_margin": -3.6020373553037643,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "curriculum-train-003",
+        "first_tool": "inspect_schema",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.8317773918038711,
+        "branch_margin": -4.031120270490646,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "train-004",
+        "first_tool": "query_sql",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.8424694197135636,
+        "branch_margin": -4.12008011341095,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "curriculum-train-004",
+        "first_tool": "query_sql",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.8140628696069371,
+        "branch_margin": -3.99643824249506,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "train-005",
+        "first_tool": "calculate_change",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.781915209480178,
+        "branch_margin": -3.777048885822296,
+        "repeat_identical": true
+      },
+      {
+        "task_id": "curriculum-train-005",
+        "first_tool": "inspect_schema",
+        "first_new_metrics": [],
+        "second_new_metrics": [],
+        "alias_token_nll": 0.8511370703664852,
+        "branch_margin": -4.129936099052429,
+        "repeat_identical": false
+      }
+    ]
+  },
+  "selection": {
+    "formal_baseline": "W",
+    "selected_candidate": null,
+    "actual_sft_updates": 0,
+    "actual_rl_updates": 0,
+    "stop_reason": "diagnostic_completed"
+  },
+  "remaining_authorized_seconds": 11672.820951039903,
+  "audit_log": ".local/warmup-probe-results-20261110/local-audit.log"
+}
