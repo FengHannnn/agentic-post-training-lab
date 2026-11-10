@@ -10,7 +10,8 @@
 - [当前范围与验收规则](v2/PROJECT_REQUIREMENTS.md)
 - [GRPO 后续工作交接](v2/handoff/PROJECT_HANDOFF_V2_GRPO_CONTINUATION_2026-11-09.md)
 - [SFT / DPO 结果交接](v2/handoff/PROJECT_HANDOFF_V2_SFT_DPO_RESULTS_2026-11-09.md)
-- [较小热启动与标准能力维护](v2/reports/grpo-sql-retention-preparation-v1-20261110.md)
+- [较小热启动实验结果](v2/reports/grpo-sql-retention-results-v1-20261110.md)
+- [较小热启动与标准能力维护方案](v2/reports/grpo-sql-retention-preparation-v1-20261110.md)
 - [SQL 认证修复门控实验结果](v2/reports/grpo-sql-repair-results-v1-20261110.md)
 - [SQL 认证修复与门控实验方案](v2/reports/grpo-sql-repair-preparation-v1-20261109.md)
 - [最新 alias 课程结果](v2/reports/grpo-alias-curriculum-results-v1-20261109.md)
@@ -25,7 +26,7 @@
 | GRPO 效果 | outcome / fine、独立确认、信用与课程对照 | 正式基线继续保留 W |
 | 最新 alias 课程 | 每支 48 组，control / curriculum 实际更新 25 / 37 次 | 课程支标准恢复 65/84，W 为 61/84；完整任务均 14/16；本轮质量验收未通过 |
 | SQL认证修复门控实验 | 新版认证、96条W诊断、SFT热启动24步与W/B评测；全流程1小时33分 | B复合sample从0/12升至8/12；标准完整14→13/16、恢复58→52/84，B门槛收尾，保留W |
-| 下一轮准备 | 全12任务维护，SFT学习率2e-6、15步，通过B门槛后GRPO | 本轮16000秒，与上轮合计纳入6小时总预算 |
+| 较小热启动结果 | 全12任务维护、SFT15步；标准完整13/16、恢复58/84，目标0/12 | B门槛收尾，RL更新0；继续修复warm-up，保留W；两轮累计2小时38分 |
 
 ## 目录与版本边界
 

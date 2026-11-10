@@ -1,0 +1,532 @@
+{
+  "passed": true,
+  "review_date": "2026-11-10",
+  "run_id": "grpo-sql-retention-study-v1-20261110",
+  "input_archive": "artifacts/returned/grpo-sql-retention-study-v1-20261110/grpo-sql-retention-study-v1-20261110-review-attempt-001.zip",
+  "input_receipt": "artifacts/returned/grpo-sql-retention-study-v1-20261110/grpo-sql-retention-study-v1-20261110-review-attempt-001.receipt.json",
+  "receipt": {
+    "archive": "grpo-sql-retention-study-v1-20261110-review-attempt-001.zip",
+    "bytes": 86276964,
+    "sha256": "0246e5f7b2fad61fecddc684d64e459fc71da43aa48dca1c9b1ea61d7eb98a62",
+    "elapsed_seconds_including_packaging": 3922.078038468957,
+    "budget_seconds": 16000,
+    "budget_passed": true,
+    "prior_elapsed_seconds": 5578.0134817191865,
+    "combined_elapsed_seconds": 9500.091520188143,
+    "total_authorized_seconds": 21600,
+    "combined_budget_passed": true
+  },
+  "archive_validation": {
+    "sha256": "0246e5f7b2fad61fecddc684d64e459fc71da43aa48dca1c9b1ea61d7eb98a62",
+    "bytes": 86276964,
+    "entries": 991,
+    "uncompressed_bytes": 172650138,
+    "safe_unique_paths": true,
+    "crc_passed": true,
+    "receipt_hash_and_size_match": true
+  },
+  "evidence_root": "artifacts/grpo-sql-retention-study-v1-20261110",
+  "local_audit": {
+    "passed": true,
+    "selected_candidate": null,
+    "b_gate": {
+      "passed": false,
+      "first_action_certifications": 0,
+      "minimum": 3
+    },
+    "sft": {
+      "passed": true,
+      "sft_updates": 15,
+      "action_exposures": 60,
+      "identity": "3e8e6718c3678459e2c823762902c0831ad08615a39c9248369d12eb6c0dfaf2",
+      "scope": "local_returned_files"
+    },
+    "scope": "local_returned_files",
+    "new_verifier": "sql_semantics_v2",
+    "prior_elapsed_seconds": 5578.0134817191865,
+    "current_budget_seconds": 16000,
+    "total_authorized_seconds": 21600
+  },
+  "coverage": {
+    "source_bindings": 274,
+    "publication_bindings": 305,
+    "evaluation_episodes": 296,
+    "quality_actions": 28,
+    "continuation_actions": 1456,
+    "sft_checkpoints": 15
+  },
+  "outcomes": {
+    "W": {
+      "complete_sample": 14,
+      "recovery_sample": 60,
+      "complete_greedy": 4,
+      "recovery_greedy": 22,
+      "target_sample": 0,
+      "target_greedy": 0,
+      "target_first_sample": 0
+    },
+    "B": {
+      "complete_sample": 13,
+      "recovery_sample": 58,
+      "complete_greedy": 4,
+      "recovery_greedy": 23,
+      "target_sample": 0,
+      "target_greedy": 0,
+      "target_first_sample": 0
+    }
+  },
+  "gate_components": {
+    "standard_complete_sample": false,
+    "standard_recovery_sample": false,
+    "standard_complete_greedy": true,
+    "standard_recovery_greedy": true,
+    "quality": true,
+    "first_action_at_least_three": false,
+    "first_action_above_W": false
+  },
+  "paired_scenarios": [
+    {
+      "mode": "greedy",
+      "scenario": "complete",
+      "episodes": 4,
+      "W": 4,
+      "B": 4,
+      "gains": 0,
+      "losses": 0
+    },
+    {
+      "mode": "greedy",
+      "scenario": "format_repair",
+      "episodes": 4,
+      "W": 4,
+      "B": 4,
+      "gains": 0,
+      "losses": 0
+    },
+    {
+      "mode": "greedy",
+      "scenario": "unknown_tool_repair",
+      "episodes": 4,
+      "W": 4,
+      "B": 4,
+      "gains": 0,
+      "losses": 0
+    },
+    {
+      "mode": "greedy",
+      "scenario": "sql_unverified_requery",
+      "episodes": 4,
+      "W": 4,
+      "B": 4,
+      "gains": 0,
+      "losses": 0
+    },
+    {
+      "mode": "greedy",
+      "scenario": "repeat_evidence_error",
+      "episodes": 4,
+      "W": 0,
+      "B": 0,
+      "gains": 0,
+      "losses": 0
+    },
+    {
+      "mode": "greedy",
+      "scenario": "stale_evidence_repair",
+      "episodes": 4,
+      "W": 4,
+      "B": 4,
+      "gains": 0,
+      "losses": 0
+    },
+    {
+      "mode": "greedy",
+      "scenario": "repeat_sql_error",
+      "episodes": 4,
+      "W": 2,
+      "B": 3,
+      "gains": 1,
+      "losses": 0
+    },
+    {
+      "mode": "greedy",
+      "scenario": "failed_check_repair",
+      "episodes": 4,
+      "W": 4,
+      "B": 4,
+      "gains": 0,
+      "losses": 0
+    },
+    {
+      "mode": "sample",
+      "scenario": "complete",
+      "episodes": 16,
+      "W": 14,
+      "B": 13,
+      "gains": 0,
+      "losses": 1
+    },
+    {
+      "mode": "sample",
+      "scenario": "format_repair",
+      "episodes": 12,
+      "W": 11,
+      "B": 10,
+      "gains": 0,
+      "losses": 1
+    },
+    {
+      "mode": "sample",
+      "scenario": "unknown_tool_repair",
+      "episodes": 12,
+      "W": 12,
+      "B": 12,
+      "gains": 0,
+      "losses": 0
+    },
+    {
+      "mode": "sample",
+      "scenario": "sql_unverified_requery",
+      "episodes": 12,
+      "W": 11,
+      "B": 11,
+      "gains": 0,
+      "losses": 0
+    },
+    {
+      "mode": "sample",
+      "scenario": "repeat_evidence_error",
+      "episodes": 12,
+      "W": 0,
+      "B": 0,
+      "gains": 0,
+      "losses": 0
+    },
+    {
+      "mode": "sample",
+      "scenario": "stale_evidence_repair",
+      "episodes": 12,
+      "W": 12,
+      "B": 12,
+      "gains": 0,
+      "losses": 0
+    },
+    {
+      "mode": "sample",
+      "scenario": "repeat_sql_error",
+      "episodes": 12,
+      "W": 7,
+      "B": 6,
+      "gains": 0,
+      "losses": 1
+    },
+    {
+      "mode": "sample",
+      "scenario": "failed_check_repair",
+      "episodes": 12,
+      "W": 7,
+      "B": 7,
+      "gains": 0,
+      "losses": 0
+    }
+  ],
+  "standard_paired_losses": [
+    {
+      "task": "repair-development-000",
+      "mode": "sample",
+      "scenario": "format_repair",
+      "rollout": 2,
+      "seed": 2026111122,
+      "termination": "budget",
+      "tools": {
+        "calculate_change": 3,
+        "query_sql": 3,
+        "check_result": 1
+      },
+      "errors": {
+        "provide verified monthly evidence IDs": 2
+      },
+      "last_observation": {
+        "passed": false,
+        "checks": {
+          "policy": true,
+          "schema": true,
+          "current_net_cents": false,
+          "prior_net_cents": false,
+          "change_cents": false
+        },
+        "submitted": false
+      }
+    },
+    {
+      "task": "repair-development-003",
+      "mode": "sample",
+      "scenario": "complete",
+      "rollout": 1,
+      "seed": 2026141021,
+      "termination": "budget",
+      "tools": {
+        "read_policy": 1,
+        "inspect_schema": 1,
+        "query_sql": 9,
+        "calculate_change": 1
+      },
+      "errors": {
+        "temporary query service error; retry the query": 1,
+        "provide verified monthly evidence IDs": 1,
+        "no such column: region": 2
+      },
+      "last_observation": {
+        "rows": [],
+        "evidence_id": "q9",
+        "verified_metrics": [],
+        "verification": "source, amount and calendar checks (sql_semantics_v2)"
+      }
+    },
+    {
+      "task": "repair-development-003",
+      "mode": "sample",
+      "scenario": "repeat_sql_error",
+      "rollout": 2,
+      "seed": 2026416122,
+      "termination": "budget",
+      "tools": {
+        "query_sql": 2,
+        "calculate_change": 1,
+        "check_result": 4
+      },
+      "errors": {},
+      "last_observation": {
+        "passed": false,
+        "checks": {
+          "policy": true,
+          "schema": true,
+          "current_net_cents": false,
+          "prior_net_cents": false,
+          "change_cents": false
+        },
+        "submitted": false
+      }
+    }
+  ],
+  "target_diagnostics": {
+    "W": {
+      "episodes": 16,
+      "turns": 104,
+      "first_tools": {
+        "query_sql": 8,
+        "calculate_change": 3,
+        "check_result": 3,
+        "inspect_schema": 2
+      },
+      "query_actions": 36,
+      "queries_with_usable_monthly_alias": 0,
+      "new_verified_actions": 0,
+      "all_budget_terminations": true
+    },
+    "B": {
+      "episodes": 16,
+      "turns": 104,
+      "first_tools": {
+        "query_sql": 10,
+        "inspect_schema": 4,
+        "check_result": 2
+      },
+      "query_actions": 48,
+      "queries_with_usable_monthly_alias": 0,
+      "new_verified_actions": 0,
+      "all_budget_terminations": true
+    }
+  },
+  "sft": {
+    "updates": 15,
+    "action_exposures": 60,
+    "ancestry": {
+      "sft": 528,
+      "dpo": 11,
+      "rl": 0
+    },
+    "W_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f",
+    "B_sha256": "38a9a6d68ed1a0ea0620aaa726ca6443fe701691a88c533634761663c6a72b31",
+    "changed_effective_bf16_tensors": 112,
+    "total_effective_bf16_tensors": 112,
+    "observed_training_losses": {
+      "target": {
+        "count": 12,
+        "mean": 0.04574234690517187,
+        "min": 0.036360736936330795,
+        "max": 0.0648173913359642
+      },
+      "maintenance": {
+        "count": 48,
+        "mean": 0.00452429908917414,
+        "min": 0.00004420226832735352,
+        "max": 0.010267666541039944
+      }
+    },
+    "alias_token_spans": [
+      {
+        "task_id": "train-000",
+        "response_tokens": 136,
+        "alias_span_tokens": 5,
+        "alias_token_fraction": 0.03676470588235294
+      },
+      {
+        "task_id": "curriculum-train-000",
+        "response_tokens": 142,
+        "alias_span_tokens": 5,
+        "alias_token_fraction": 0.035211267605633804
+      },
+      {
+        "task_id": "train-001",
+        "response_tokens": 136,
+        "alias_span_tokens": 5,
+        "alias_token_fraction": 0.03676470588235294
+      },
+      {
+        "task_id": "curriculum-train-001",
+        "response_tokens": 142,
+        "alias_span_tokens": 5,
+        "alias_token_fraction": 0.035211267605633804
+      },
+      {
+        "task_id": "train-002",
+        "response_tokens": 136,
+        "alias_span_tokens": 5,
+        "alias_token_fraction": 0.03676470588235294
+      },
+      {
+        "task_id": "curriculum-train-002",
+        "response_tokens": 142,
+        "alias_span_tokens": 5,
+        "alias_token_fraction": 0.035211267605633804
+      },
+      {
+        "task_id": "train-003",
+        "response_tokens": 136,
+        "alias_span_tokens": 5,
+        "alias_token_fraction": 0.03676470588235294
+      },
+      {
+        "task_id": "curriculum-train-003",
+        "response_tokens": 142,
+        "alias_span_tokens": 5,
+        "alias_token_fraction": 0.035211267605633804
+      },
+      {
+        "task_id": "train-004",
+        "response_tokens": 136,
+        "alias_span_tokens": 5,
+        "alias_token_fraction": 0.03676470588235294
+      },
+      {
+        "task_id": "curriculum-train-004",
+        "response_tokens": 142,
+        "alias_span_tokens": 5,
+        "alias_token_fraction": 0.035211267605633804
+      },
+      {
+        "task_id": "train-005",
+        "response_tokens": 136,
+        "alias_span_tokens": 5,
+        "alias_token_fraction": 0.03676470588235294
+      },
+      {
+        "task_id": "curriculum-train-005",
+        "response_tokens": 142,
+        "alias_span_tokens": 5,
+        "alias_token_fraction": 0.035211267605633804
+      }
+    ],
+    "maintenance_tasks": {
+      "train-000": 4,
+      "curriculum-train-000": 4,
+      "train-001": 4,
+      "curriculum-train-001": 4,
+      "train-002": 4,
+      "curriculum-train-002": 4,
+      "train-003": 4,
+      "curriculum-train-003": 4,
+      "train-004": 4,
+      "curriculum-train-004": 4,
+      "train-005": 4,
+      "curriculum-train-005": 4
+    },
+    "state_coverage": {
+      "repair_compound": 12,
+      "stale_evidence_repair": 12,
+      "failed_check_repair": 12,
+      "repeat_sql_error": 12,
+      "checked_submit": 12
+    }
+  },
+  "previous_round": {
+    "W": {
+      "complete_sample": 14,
+      "recovery_sample": 58,
+      "complete_greedy": 4,
+      "recovery_greedy": 21,
+      "target_sample": 0,
+      "target_greedy": 0,
+      "target_first_sample": 0
+    },
+    "B": {
+      "complete_sample": 13,
+      "recovery_sample": 52,
+      "complete_greedy": 4,
+      "recovery_greedy": 22,
+      "target_sample": 8,
+      "target_greedy": 4,
+      "target_first_sample": 8
+    },
+    "W_outcome_changes": [
+      {
+        "task": "repair-development-000",
+        "scenario": "format_repair",
+        "mode": "sample",
+        "rollout": 2,
+        "previous": false,
+        "current": true
+      },
+      {
+        "task": "repair-development-000",
+        "scenario": "sql_unverified_requery",
+        "mode": "sample",
+        "rollout": 1,
+        "previous": false,
+        "current": true
+      },
+      {
+        "task": "repair-development-000",
+        "scenario": "repeat_sql_error",
+        "mode": "sample",
+        "rollout": 1,
+        "previous": true,
+        "current": false
+      },
+      {
+        "task": "repair-development-002",
+        "scenario": "format_repair",
+        "mode": "greedy",
+        "rollout": 0,
+        "previous": false,
+        "current": true
+      },
+      {
+        "task": "repair-development-003",
+        "scenario": "repeat_sql_error",
+        "mode": "sample",
+        "rollout": 2,
+        "previous": false,
+        "current": true
+      }
+    ]
+  },
+  "selection": {
+    "selected_candidate": null,
+    "formal_baseline": "W",
+    "stop_reason": "b_gate_rejected",
+    "actual_rl_updates": 0
+  },
+  "audit_log": ".local/sql-retention-results-20261110/local-audit.log"
+}
