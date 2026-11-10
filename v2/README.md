@@ -2,16 +2,17 @@
 
 V2 研究真实多轮工具交互中的 SFT、DPO 与 GRPO。模型通过 SQLite 查询完成月度业务对账，使用执行证据认证本月净额、上月净额和差额，再提交结果。金额使用整数 cents，标准任务总动作预算为 12，恢复前缀计入预算。
 
-## 下一轮：SQL 认证修复与门控实验
+## 下一轮：较小热启动与标准能力维护
 
-sql_semantics_v2 与96条冻结W诊断已实现。预检后选择无提醒GRPO、提醒渐退对照或SFT→GRPO路线，总GPU墙钟上限6小时。云端训练按新发布包启动。
+新配方使用12条目标修复和48条维护动作，覆盖全部12个train任务；SFT学习率2e-6、1epoch、15步，B血缘SFT528 / DPO11。重新评测W与B，B通过维护门槛后启动无提醒GRPO。本轮16000秒上限与上轮已用时间共同纳入6小时总预算。
 
-- [本轮冻结契约](reports/grpo-sql-repair-contract-v1-20261109.md)
-- [本轮实现与运行说明](reports/grpo-sql-repair-preparation-v1-20261109.md)
+- [本轮冻结契约](reports/grpo-sql-retention-contract-v1-20261110.md)
+- [本轮实现与运行说明](reports/grpo-sql-retention-preparation-v1-20261110.md)
+- [上一轮SQL修复结果](reports/grpo-sql-repair-results-v1-20261110.md)：目标成功0→8/12，标准完整14→13/16、恢复58→52/84，B门槛收尾。
 
-## 当前状态（2026-11-09）
+## 当前状态（2026-11-10）
 
-**正式基线为 W，下一轮 GRPO 从 W 独立初始化。** W 的血缘为 SFT513 / DPO11 / RL0；最终短程 DPO12 是独立阶段成果，累计 DPO23。
+**正式基线为W。本轮先从W构建新的小更新B，通过维护门槛后，C从B初始化并冻结B作为reference。** W 的血缘为 SFT513 / DPO11 / RL0；最终短程 DPO12 是独立阶段成果，累计 DPO23。
 
 | 项目 | 状态与结果 |
 | --- | --- |
@@ -23,9 +24,11 @@ sql_semantics_v2 与96条冻结W诊断已实现。预检后选择无提醒GRPO�
 | alias 标准采样 | W / control / curriculum：完整 14/15/14（各 /16），恢复 61/60/65（各 /84） |
 | alias 原复合起点 | 三模型采样均 1/12，greedy 均 0/4 |
 | alias 质量 | 两支空退款 SQL 日历检查失败；control 重复 greedy 6/7 一致；候选为空，W 保留 |
+| SQL认证修复 | sql_semantics_v2与W诊断完成；旧B的复合修复改善，标准sample下降，W保留 |
+| 较小热启动准备 | 全12任务维护、SFT15步与B/C门控已实现，云端待运行 |
 | 真实依赖扩展 | period_closing 环境与专家因果证明完成；模型开发评测均 0/4，训练覆盖待安排 |
 
-当前优先事项是修复训练 SQL verifier 的空退款边界，并围绕原复合起点首次有效认证设计新实验。新实验的干预、对照、任务、预算和选择规则在运行前冻结。
+当前优先事项是保留复合缺别名修复增益，同时改善维护能力。新实验配方、对照、任务、预算和选择规则在运行前冻结。
 
 ## 阅读顺序
 
@@ -47,7 +50,7 @@ sql_semantics_v2 与96条冻结W诊断已实现。预检后选择无提醒GRPO�
 | W 输入 | artifacts/inputs/grpo-w-20261105/adapter |
 | LoRA | q_proj / v_proj，r8、alpha16、dropout0；112 张量，1,089,536 可训练参数 |
 | 采样 / 更新 | vLLM BF16；HF / PEFT FP32；每组 K4，最多一次 optimizer.step |
-| reference / 优化器 | 冻结 W；新实验独立新建 AdamW |
+| reference / 优化器 | 各轮明确冻结；本轮C冻结新B，新建AdamW |
 | 信用 | outcome、potential_rtg_depth_v1、outcome_local_verified_v2；逐轮配置明确登记 |
 
 原生响应 token 与行为概率 q 绑定；HF 重算 old / ref，更新使用 TIS、clip 和 sampled k3。训练、刷新、评测和重放保留权重、概率及事务证据。每轮以自身配置和 execution_environment 为准。

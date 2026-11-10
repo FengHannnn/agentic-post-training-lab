@@ -158,13 +158,18 @@ def summarize_targeted(episodes):
 
 
 def validate_config(cfg):
+    profile=cfg.get('repair_profile')
+    if profile not in (None,'retention_v1'):raise ValueError('unknown repair profile')
+    warm_updates=528 if profile=='retention_v1' else 537
+    if profile=='retention_v1' and not cfg['run_id'].startswith('grpo-sql-retention-study-v1-20261110-'):
+        raise ValueError('retention branch run identity differs')
     if (cfg.get('curriculum_schema')!=SCHEMA or cfg.get('verifier_version')!=VERSION
             or cfg.get('repair_arm') not in ('control','curriculum','plain','warm')
             or cfg['credit_method']!=LOCAL or cfg['learning_rate']!=1e-6 or cfg['k']!=4
             or cfg['max_groups']!=36 or cfg['max_updates']!=36 or cfg['group_evaluation_cursors']!=[36]
             or cfg['max_wall_seconds']!=21600 or cfg['minimum_actual_updates']!=0
-            or cfg['source_sft_updates'] not in (513,537) or cfg['source_dpo_updates']!=11
-            or cfg['source_sft_updates'] != (537 if cfg['repair_arm']=='warm' else 513)
+            or cfg['source_sft_updates'] not in (513,warm_updates) or cfg['source_dpo_updates']!=11
+            or cfg['source_sft_updates'] != (warm_updates if cfg['repair_arm']=='warm' else 513)
             or cfg['closing_evaluation']!={'enabled':False}):
         raise ValueError('frozen repair branch contract differs')
     if cfg.get('baseline_W_sha256')!=W_SHA or (cfg['repair_arm']!='warm' and cfg['adapter_sha256']!=W_SHA):

@@ -129,11 +129,11 @@ def supervision_dataset():
     return examples
 
 
-def verify_supervision(examples):
+def verify_supervision(examples,expected_count=24):
     from apt_v2.environment import Environment
     from apt_v2.runtime import SYSTEM,parse_action
     tasks={t.id:t for t in training_tasks()}
-    if len(examples)!=24 or sum(e['role']=='target' for e in examples)!=12:
+    if len(examples)!=expected_count or sum(e['role']=='target' for e in examples)!=12:
         raise ValueError('frozen supervision composition differs')
     for e in examples:
         if e['split']!='train' or e['task_id'] not in tasks:raise ValueError('train-only supervision required')
@@ -152,7 +152,25 @@ def verify_supervision(examples):
     return True
 
 
+def supervision_for(cfg):
+    if cfg.get('schema')=='repair_retention_v1':
+        from apt_v2.grpo_retention_study import supervision_dataset as retention_dataset
+        return retention_dataset()
+    return supervision_dataset()
+
+
+def verify_for(cfg,data):
+    if cfg.get('schema')=='repair_retention_v1':
+        from apt_v2.grpo_retention_study import validate_master,verify_dataset
+        validate_master(cfg);verify_dataset(data)
+        return verify_supervision(data,expected_count=60)
+    return verify_supervision(data)
+
+
 def sft_order(cfg):
+    if cfg.get('schema')=='repair_retention_v1':
+        from apt_v2.grpo_retention_study import order
+        return order(cfg)
     rng=random.Random(cfg['sft']['seed']);order=[]
     for _ in range(4):
         epoch=list(range(24));rng.shuffle(epoch);order.extend(epoch)
@@ -190,7 +208,7 @@ def warm_start(output):
     from grpo_common import checkpoint_binding
     from apt_v2.sft import encode_example,action_loss
     cfg=read(output/'config.json');child=output/'branches/w';branch=verify_inputs(child)
-    data=supervision_dataset()
+    data=supervision_for(cfg);steps=cfg['sft']['steps'];exposures=steps*cfg['sft']['batch_size']
     if read(ROOT/cfg['sft_examples'])!=data:raise ValueError('published SFT examples differ')
     data_path=output/'warm-start/dataset.json'
     if data_path.exists() and read(data_path)!=data:raise ValueError('frozen SFT data differs')
@@ -200,7 +218,7 @@ def warm_start(output):
         meta=read(p/'complete.json');verify_files(p,meta['files'])
         if meta['identity']!=identity or meta['step']!=len(completed)+1:raise ValueError('SFT checkpoint chain differs')
         completed.append(p)
-    if len(completed)>24:raise ValueError('SFT step cap exceeded')
+    if len(completed)>steps:raise ValueError('SFT step cap exceeded')
     if (root/'B').exists():
         audit_sft(output,local=False);return
     torch.manual_seed(cfg['sft']['seed']);torch.cuda.manual_seed_all(cfg['sft']['seed']);random.seed(cfg['sft']['seed'])
@@ -221,8 +239,8 @@ def warm_start(output):
         state=torch.load(completed[-1]/'state.pt',map_location='cpu',weights_only=False)
         if state['identity']!=identity or state['step']!=len(completed):raise ValueError('SFT resume identity differs')
         optimizer.load_state_dict(state['optimizer']);restore_rng(torch,state)
-    with tqdm(total=96,initial=len(completed)*4,desc='Warm-start response CE',unit='action',file=sys.stdout,disable=False) as bar:
-        for i in range(len(completed),24):
+    with tqdm(total=exposures,initial=len(completed)*4,desc='Warm-start response CE',unit='action',file=sys.stdout,disable=False) as bar:
+        for i in range(len(completed),steps):
             metrics=sft_batch(model,optimizer,[samples[j] for j in order[i]])
             if metrics['optimizer_steps']!=[i+1]:raise ValueError('SFT Adam counter differs')
             bar.set_postfix(step=i+1,loss=sum(metrics['losses'])/4,phase='backward',refresh=True);bar.update(4)
@@ -239,21 +257,22 @@ def warm_start(output):
     staging=root/('.B-'+str(time.time_ns()));shutil.copytree(completed[-1]/'adapter',staging/'adapter')
     shutil.copyfile(child/'initial/model_identity.json',staging/'model_identity.json')
     atomic_json(staging/'source_config.json',cfg['sft'])
-    atomic_json(staging/'source_audit.json',{'passed':True,'identity':identity,'train_only':True,'actual_updates':24,'action_exposures':96})
+    atomic_json(staging/'source_audit.json',{'passed':True,'identity':identity,'train_only':True,'actual_updates':steps,'action_exposures':exposures})
     atomic_json(staging/'complete.json',{'adapter_sha256':{p.name:file_hash(p) for p in (staging/'adapter').iterdir() if p.is_file()},
-                'total_sft_updates':537,'total_dpo_updates':11,'total_rl_updates':0,'parent_W_sha256':branch['adapter_sha256'],
-                'sft_identity':identity,'source_checkpoint':'checkpoints/step-0024','source_adapter_sha256':file_hash(completed[-1]/'adapter/adapter_model.safetensors')})
+                'total_sft_updates':513+steps,'total_dpo_updates':11,'total_rl_updates':0,'parent_W_sha256':branch['adapter_sha256'],
+                'sft_identity':identity,'source_checkpoint':f'checkpoints/step-{steps:04}','source_adapter_sha256':file_hash(completed[-1]/'adapter/adapter_model.safetensors')})
     staging.rename(root/'B');audit_sft(output,local=False)
 
 
 def audit_sft(output,local=False):
     from safetensors.torch import load_file
     from grpo_worker import tensor_digest
-    cfg=read(output/'config.json');data=read(output/'warm-start/dataset.json');verify_supervision(data)
-    if data!=supervision_dataset() or read(ROOT/cfg['sft_examples'])!=data:raise ValueError('SFT frozen examples differ')
+    cfg=read(output/'config.json');data=read(output/'warm-start/dataset.json');verify_for(cfg,data)
+    steps=cfg['sft']['steps'];exposures=steps*cfg['sft']['batch_size']
+    if data!=supervision_for(cfg) or read(ROOT/cfg['sft_examples'])!=data:raise ValueError('SFT frozen examples differ')
     identity=digest({'config':cfg['sft'],'data':data,'order':sft_order(cfg)})
     root=output/'warm-start';paths=sorted((root/'checkpoints').glob('step-*'))
-    if len(paths)!=24:raise ValueError('24 committed SFT steps required')
+    if len(paths)!=steps:raise ValueError('all frozen SFT steps required')
     previous=load_file(str(output/'branches/w/initial/adapter/adapter_model.safetensors'))
     from tqdm import tqdm
     for i,p in enumerate(tqdm(paths,desc='Audit SFT checkpoints',unit='step',file=sys.stdout,disable=False)):
@@ -277,17 +296,17 @@ def audit_sft(output,local=False):
             raise ValueError('SFT actual LoRA update missing')
         previous=current
     complete=read(root/'B/complete.json');verify_files(root/'B/adapter',complete['adapter_sha256'])
-    if (complete['total_sft_updates']!=537 or complete['total_dpo_updates']!=11
+    if (complete['total_sft_updates']!=513+steps or complete['total_dpo_updates']!=11
             or complete.get('total_rl_updates')!=0 or complete.get('sft_identity')!=identity
             or complete.get('parent_W_sha256')!=read(output/'branches/w/config.json')['adapter_sha256']
-            or complete.get('source_checkpoint')!='checkpoints/step-0024'
+            or complete.get('source_checkpoint')!=f'checkpoints/step-{steps:04}'
             or read(root/'B/source_config.json')!=cfg['sft']
-            or read(root/'B/source_audit.json')!={'passed':True,'identity':identity,'train_only':True,'actual_updates':24,'action_exposures':96}
+            or read(root/'B/source_audit.json')!={'passed':True,'identity':identity,'train_only':True,'actual_updates':steps,'action_exposures':exposures}
             or file_hash(root/'B/adapter/adapter_config.json')!=file_hash(paths[-1]/'adapter/adapter_config.json')
             or complete['source_adapter_sha256']!=file_hash(paths[-1]/'adapter/adapter_model.safetensors')
             or file_hash(root/'B/adapter/adapter_model.safetensors')!=complete['source_adapter_sha256']):
-        raise ValueError('B export differs from step 24')
-    result={'passed':True,'sft_updates':24,'action_exposures':96,'identity':identity,'scope':'local_returned_files' if local else 'cloud_with_state'}
+        raise ValueError('B export differs from final frozen step')
+    result={'passed':True,'sft_updates':steps,'action_exposures':exposures,'identity':identity,'scope':'local_returned_files' if local else 'cloud_with_state'}
     atomic_json(root/('local_audit.json' if local else 'audit.json'),result);return result
 
 

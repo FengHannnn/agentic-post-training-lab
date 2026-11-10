@@ -1,0 +1,39 @@
+{
+  "run_id": "grpo-sql-retention-study-v1-20261110",
+  "study_phase": "retention_study",
+  "schema": "repair_retention_v1",
+  "max_wall_seconds": 16000,
+  "packaging_reserve_seconds": 180,
+  "branch_template": "configs/grpo-sql-retention-branch-v1.json",
+  "k": 4,
+  "online_groups": 36,
+  "contract_report": "reports/grpo-sql-retention-contract-v1-20261110.md",
+  "validation_report": "reports/grpo-sql-retention-validation-v1-20261110.json",
+  "sft": {
+    "steps": 15,
+    "batch_size": 4,
+    "epochs": 1,
+    "learning_rate": 0.000002,
+    "seed": 2026111053,
+    "target_actions": 12,
+    "maintenance_actions": 48
+  },
+  "sampling": {
+    "temperature": 1,
+    "top_p": 1,
+    "top_k": -1,
+    "min_p": 0,
+    "repetition_penalty": 1,
+    "presence_penalty": 0,
+    "frequency_penalty": 0,
+    "min_tokens": 0,
+    "max_new_tokens": 256,
+    "max_model_len": 8192,
+    "logprobs_mode": "processed_logprobs"
+  },
+  "sft_examples": "artifacts/inputs/grpo-sql-retention-20261110/sft-examples.json",
+  "route": "warm_start",
+  "total_authorized_seconds": 21600,
+  "prior_elapsed_seconds": 5578.0134817191865,
+  "prior_evidence": "artifacts/inputs/grpo-sql-retention-20261110/prior-evidence.json"
+}

@@ -1,0 +1,54 @@
+{
+  "passed": true,
+  "syntax_files": 227,
+  "sft_actions": 60,
+  "target_actions": 12,
+  "maintenance_actions": 48,
+  "maintenance_tasks": 12,
+  "maintenance_states_per_task": 4,
+  "sft_updates": 15,
+  "action_exposures": 60,
+  "learning_rate": 0.000002,
+  "maximum_prompt_tokens": 1358,
+  "maximum_response_tokens": 142,
+  "context_limit": 8192,
+  "response_limit": 256,
+  "dataset_sha256": "0e53fafba730aa7ad815457fc60d0a973e77a015774ea5c8e583abb38ba36dc2",
+  "isolation": {
+    "passed": true,
+    "train_tasks": 12,
+    "development_tasks": 4,
+    "excluded_instances": 32
+  },
+  "current_job_budget_seconds": 16000,
+  "prior_elapsed_seconds": 5578.0134817191865,
+  "combined_maximum_seconds": 21578.013481719187,
+  "elapsed_seconds": 5.155999999959022,
+  "regression": {
+    "passed": true,
+    "scope": "all 24 GRPO test modules, including shared transactions and new retention recipe",
+    "tests_passed": 324,
+    "tests_failed": 0,
+    "seconds": 431.73,
+    "junit": ".local/sql-retention-20261110/grpo-regression.xml",
+    "targeted_frozen_run": {
+      "passed": 50,
+      "failed": 0,
+      "seconds": 58.54,
+      "junit": ".local/sql-retention-20261110/frozen-targeted.xml"
+    }
+  },
+  "clean_archive_verification": {
+    "passed": true,
+    "preview_archive_sha256": "2feeed1c8836de766626f1ed8e3ab84e4d6aed5389287887750ca51aa9d29408",
+    "entries": 306,
+    "bound_files": 305,
+    "safe_unique_paths": true,
+    "crc_and_all_hashes_passed": true,
+    "cli_entrypoints_passed": 4,
+    "tests_passed": 50,
+    "tests_failed": 0,
+    "seconds": 84.75,
+    "junit": ".local/sql-retention-20261110/clean-package.xml"
+  }
+}
