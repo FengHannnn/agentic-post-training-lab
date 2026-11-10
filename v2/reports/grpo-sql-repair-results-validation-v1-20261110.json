@@ -1,0 +1,803 @@
+{
+  "passed": true,
+  "review_date": "2026-11-10",
+  "run_id": "grpo-sql-repair-study-v1-20261109",
+  "input_archive": "artifacts/returned/grpo-sql-repair-study-v1-20261109/grpo-sql-repair-study-v1-20261109-review-attempt-001.zip",
+  "input_receipt": "artifacts/returned/grpo-sql-repair-study-v1-20261109/grpo-sql-repair-study-v1-20261109-review-attempt-001.receipt.json",
+  "receipt": {
+    "archive": "grpo-sql-repair-study-v1-20261109-review-attempt-001.zip",
+    "bytes": 125675579,
+    "sha256": "77d7e4cea2c9d0d481ee95a20583d00e8cc27a992c35ae46d983179bc00b9920",
+    "elapsed_seconds_including_packaging": 5578.0134817191865,
+    "budget_seconds": 21600,
+    "budget_passed": true
+  },
+  "archive_validation": {
+    "sha256": "77d7e4cea2c9d0d481ee95a20583d00e8cc27a992c35ae46d983179bc00b9920",
+    "bytes": 125675579,
+    "entries": 1127,
+    "uncompressed_bytes": 256671919,
+    "safe_unique_paths": true,
+    "crc_passed": true,
+    "receipt_hash_and_size_match": true
+  },
+  "evidence_root": "artifacts/grpo-sql-repair-study-v1-20261109",
+  "local_audit": {
+    "passed": true,
+    "selected_candidate": null,
+    "b_gate": {
+      "passed": false,
+      "first_action_certifications": 8,
+      "minimum": 3
+    },
+    "diagnostic_groups": 24,
+    "scope": "local_returned_files",
+    "new_verifier": "sql_semantics_v2"
+  },
+  "replay_coverage": {
+    "evaluation_episodes": 296,
+    "diagnostic_episodes": 96,
+    "quality_actions": 28,
+    "evaluation_continuation_actions": 1498,
+    "diagnostic_continuation_actions": 593,
+    "source_bindings": 266,
+    "publication_bindings": 290
+  },
+  "route": {
+    "route": "warm_start",
+    "conditions": {
+      "repair_compound": {
+        "episodes": 32,
+        "first_action_certifications": 0,
+        "progress_credit_groups": 0,
+        "qualified": false
+      },
+      "repair_reminded": {
+        "episodes": 32,
+        "first_action_certifications": 0,
+        "progress_credit_groups": 0,
+        "qualified": false
+      },
+      "repair_simplified": {
+        "episodes": 32,
+        "first_action_certifications": 18,
+        "progress_credit_groups": 8,
+        "qualified": true
+      }
+    },
+    "groups_sha256": "c57523248ac426966f2aad4e52ecf0628f64ebdac029db31811caf19e7d47089",
+    "thresholds": {
+      "first_action": 8,
+      "progress_credit_groups": 4,
+      "reminder_net_gain": 4
+    }
+  },
+  "diagnostic_details": {
+    "repair_compound": {
+      "episodes": 32,
+      "success": 0,
+      "first_tools": {
+        "calculate_change": 14,
+        "query_sql": 7,
+        "check_result": 7,
+        "parse_error": 3,
+        "inspect_schema": 1
+      },
+      "any_progress": 0,
+      "termination": {
+        "budget": 32
+      },
+      "all_actions": {
+        "calculate_change": 97,
+        "query_sql": 31,
+        "check_result": 59,
+        "parse_error": 18,
+        "inspect_schema": 3
+      },
+      "prompt_tokens": [
+        {
+          "task": "train-000",
+          "length": 1164
+        },
+        {
+          "task": "curriculum-train-000",
+          "length": 1190
+        },
+        {
+          "task": "train-001",
+          "length": 1326
+        },
+        {
+          "task": "curriculum-train-001",
+          "length": 1358
+        },
+        {
+          "task": "train-002",
+          "length": 1164
+        },
+        {
+          "task": "curriculum-train-002",
+          "length": 1190
+        },
+        {
+          "task": "train-003",
+          "length": 1326
+        },
+        {
+          "task": "curriculum-train-003",
+          "length": 1358
+        }
+      ],
+      "per_task": [
+        {
+          "task": "train-000",
+          "first_cert": 0,
+          "successes": 0,
+          "eligible": false
+        },
+        {
+          "task": "curriculum-train-000",
+          "first_cert": 0,
+          "successes": 0,
+          "eligible": false
+        },
+        {
+          "task": "train-001",
+          "first_cert": 0,
+          "successes": 0,
+          "eligible": false
+        },
+        {
+          "task": "curriculum-train-001",
+          "first_cert": 0,
+          "successes": 0,
+          "eligible": false
+        },
+        {
+          "task": "train-002",
+          "first_cert": 0,
+          "successes": 0,
+          "eligible": false
+        },
+        {
+          "task": "curriculum-train-002",
+          "first_cert": 0,
+          "successes": 0,
+          "eligible": false
+        },
+        {
+          "task": "train-003",
+          "first_cert": 0,
+          "successes": 0,
+          "eligible": false
+        },
+        {
+          "task": "curriculum-train-003",
+          "first_cert": 0,
+          "successes": 0,
+          "eligible": false
+        }
+      ]
+    },
+    "repair_reminded": {
+      "episodes": 32,
+      "success": 0,
+      "first_tools": {
+        "check_result": 17,
+        "query_sql": 7,
+        "parse_error": 6,
+        "calculate_change": 2
+      },
+      "any_progress": 0,
+      "termination": {
+        "budget": 32
+      },
+      "all_actions": {
+        "check_result": 121,
+        "calculate_change": 34,
+        "query_sql": 25,
+        "inspect_schema": 1,
+        "parse_error": 21,
+        "submit": 2,
+        "inspect_result": 4
+      },
+      "prompt_tokens": [
+        {
+          "task": "train-000",
+          "length": 1223
+        },
+        {
+          "task": "curriculum-train-000",
+          "length": 1249
+        },
+        {
+          "task": "train-001",
+          "length": 1385
+        },
+        {
+          "task": "curriculum-train-001",
+          "length": 1417
+        },
+        {
+          "task": "train-002",
+          "length": 1223
+        },
+        {
+          "task": "curriculum-train-002",
+          "length": 1249
+        },
+        {
+          "task": "train-003",
+          "length": 1385
+        },
+        {
+          "task": "curriculum-train-003",
+          "length": 1417
+        }
+      ],
+      "per_task": [
+        {
+          "task": "train-000",
+          "first_cert": 0,
+          "successes": 0,
+          "eligible": false
+        },
+        {
+          "task": "curriculum-train-000",
+          "first_cert": 0,
+          "successes": 0,
+          "eligible": false
+        },
+        {
+          "task": "train-001",
+          "first_cert": 0,
+          "successes": 0,
+          "eligible": false
+        },
+        {
+          "task": "curriculum-train-001",
+          "first_cert": 0,
+          "successes": 0,
+          "eligible": false
+        },
+        {
+          "task": "train-002",
+          "first_cert": 0,
+          "successes": 0,
+          "eligible": false
+        },
+        {
+          "task": "curriculum-train-002",
+          "first_cert": 0,
+          "successes": 0,
+          "eligible": false
+        },
+        {
+          "task": "train-003",
+          "first_cert": 0,
+          "successes": 0,
+          "eligible": false
+        },
+        {
+          "task": "curriculum-train-003",
+          "first_cert": 0,
+          "successes": 0,
+          "eligible": false
+        }
+      ]
+    },
+    "repair_simplified": {
+      "episodes": 32,
+      "success": 14,
+      "first_tools": {
+        "query_sql": 24,
+        "calculate_change": 7,
+        "check_result": 1
+      },
+      "any_progress": 19,
+      "termination": {
+        "budget": 18,
+        "success": 14
+      },
+      "all_actions": {
+        "query_sql": 50,
+        "calculate_change": 68,
+        "check_result": 42,
+        "submit": 14,
+        "parse_error": 3
+      },
+      "prompt_tokens": [
+        {
+          "task": "train-000",
+          "length": 1064
+        },
+        {
+          "task": "curriculum-train-000",
+          "length": 1084
+        },
+        {
+          "task": "train-001",
+          "length": 1226
+        },
+        {
+          "task": "curriculum-train-001",
+          "length": 1252
+        },
+        {
+          "task": "train-002",
+          "length": 1064
+        },
+        {
+          "task": "curriculum-train-002",
+          "length": 1084
+        },
+        {
+          "task": "train-003",
+          "length": 1226
+        },
+        {
+          "task": "curriculum-train-003",
+          "length": 1252
+        }
+      ],
+      "per_task": [
+        {
+          "task": "train-000",
+          "first_cert": 3,
+          "successes": 2,
+          "eligible": true
+        },
+        {
+          "task": "curriculum-train-000",
+          "first_cert": 2,
+          "successes": 1,
+          "eligible": true
+        },
+        {
+          "task": "train-001",
+          "first_cert": 2,
+          "successes": 2,
+          "eligible": true
+        },
+        {
+          "task": "curriculum-train-001",
+          "first_cert": 2,
+          "successes": 2,
+          "eligible": true
+        },
+        {
+          "task": "train-002",
+          "first_cert": 3,
+          "successes": 2,
+          "eligible": true
+        },
+        {
+          "task": "curriculum-train-002",
+          "first_cert": 4,
+          "successes": 3,
+          "eligible": true
+        },
+        {
+          "task": "train-003",
+          "first_cert": 1,
+          "successes": 1,
+          "eligible": true
+        },
+        {
+          "task": "curriculum-train-003",
+          "first_cert": 1,
+          "successes": 1,
+          "eligible": true
+        }
+      ]
+    }
+  },
+  "standard_scenario_pairs": [
+    {
+      "mode": "greedy",
+      "scenario": "complete",
+      "n": 4,
+      "W": 4,
+      "B": 4,
+      "gains": 0,
+      "losses": 0
+    },
+    {
+      "mode": "greedy",
+      "scenario": "format_repair",
+      "n": 4,
+      "W": 3,
+      "B": 3,
+      "gains": 0,
+      "losses": 0
+    },
+    {
+      "mode": "greedy",
+      "scenario": "unknown_tool_repair",
+      "n": 4,
+      "W": 4,
+      "B": 4,
+      "gains": 0,
+      "losses": 0
+    },
+    {
+      "mode": "greedy",
+      "scenario": "sql_unverified_requery",
+      "n": 4,
+      "W": 4,
+      "B": 4,
+      "gains": 0,
+      "losses": 0
+    },
+    {
+      "mode": "greedy",
+      "scenario": "repeat_evidence_error",
+      "n": 4,
+      "W": 0,
+      "B": 0,
+      "gains": 0,
+      "losses": 0
+    },
+    {
+      "mode": "greedy",
+      "scenario": "stale_evidence_repair",
+      "n": 4,
+      "W": 4,
+      "B": 4,
+      "gains": 0,
+      "losses": 0
+    },
+    {
+      "mode": "greedy",
+      "scenario": "repeat_sql_error",
+      "n": 4,
+      "W": 2,
+      "B": 3,
+      "gains": 1,
+      "losses": 0
+    },
+    {
+      "mode": "greedy",
+      "scenario": "failed_check_repair",
+      "n": 4,
+      "W": 4,
+      "B": 4,
+      "gains": 0,
+      "losses": 0
+    },
+    {
+      "mode": "sample",
+      "scenario": "complete",
+      "n": 16,
+      "W": 14,
+      "B": 13,
+      "gains": 0,
+      "losses": 1
+    },
+    {
+      "mode": "sample",
+      "scenario": "format_repair",
+      "n": 12,
+      "W": 10,
+      "B": 9,
+      "gains": 0,
+      "losses": 1
+    },
+    {
+      "mode": "sample",
+      "scenario": "unknown_tool_repair",
+      "n": 12,
+      "W": 12,
+      "B": 12,
+      "gains": 0,
+      "losses": 0
+    },
+    {
+      "mode": "sample",
+      "scenario": "sql_unverified_requery",
+      "n": 12,
+      "W": 10,
+      "B": 10,
+      "gains": 1,
+      "losses": 1
+    },
+    {
+      "mode": "sample",
+      "scenario": "repeat_evidence_error",
+      "n": 12,
+      "W": 0,
+      "B": 0,
+      "gains": 0,
+      "losses": 0
+    },
+    {
+      "mode": "sample",
+      "scenario": "stale_evidence_repair",
+      "n": 12,
+      "W": 12,
+      "B": 10,
+      "gains": 0,
+      "losses": 2
+    },
+    {
+      "mode": "sample",
+      "scenario": "repeat_sql_error",
+      "n": 12,
+      "W": 7,
+      "B": 6,
+      "gains": 0,
+      "losses": 1
+    },
+    {
+      "mode": "sample",
+      "scenario": "failed_check_repair",
+      "n": 12,
+      "W": 7,
+      "B": 5,
+      "gains": 0,
+      "losses": 2
+    }
+  ],
+  "gate_components": {
+    "standard_complete_sample": false,
+    "standard_recovery_sample": false,
+    "standard_complete_greedy": true,
+    "standard_recovery_greedy": true,
+    "quality": true,
+    "target_first_cert_minimum": true,
+    "target_first_cert_gain": true
+  },
+  "standard_paired_losses": [
+    {
+      "mode": "sample",
+      "task_id": "repair-development-000",
+      "scenario": "sql_unverified_requery",
+      "rollout_index": 2,
+      "seed": 2026113122,
+      "termination": "budget",
+      "tools": {
+        "query_sql": 4,
+        "calculate_change": 2,
+        "check_result": 2
+      },
+      "errors": {
+        "provide verified monthly evidence IDs": 1
+      },
+      "last_observation": {
+        "passed": false,
+        "checks": {
+          "policy": true,
+          "schema": true,
+          "current_net_cents": true,
+          "prior_net_cents": false,
+          "change_cents": false
+        },
+        "submitted": false
+      }
+    },
+    {
+      "mode": "sample",
+      "task_id": "repair-development-000",
+      "scenario": "stale_evidence_repair",
+      "rollout_index": 0,
+      "seed": 2026114922,
+      "termination": "budget",
+      "tools": {
+        "query_sql": 1,
+        "check_result": 5
+      },
+      "errors": {},
+      "last_observation": {
+        "passed": false,
+        "checks": {
+          "policy": true,
+          "schema": true,
+          "current_net_cents": true,
+          "prior_net_cents": true,
+          "change_cents": false
+        },
+        "submitted": false
+      }
+    },
+    {
+      "mode": "sample",
+      "task_id": "repair-development-000",
+      "scenario": "repeat_sql_error",
+      "rollout_index": 1,
+      "seed": 2026116022,
+      "termination": "budget",
+      "tools": {
+        "query_sql": 5,
+        "calculate_change": 1,
+        "check_result": 2
+      },
+      "errors": {
+        "no such table: metrics": 2,
+        "query must read source tables": 1
+      },
+      "last_observation": {
+        "passed": false,
+        "checks": {
+          "policy": true,
+          "schema": true,
+          "current_net_cents": false,
+          "prior_net_cents": false,
+          "change_cents": false
+        },
+        "submitted": false
+      }
+    },
+    {
+      "mode": "sample",
+      "task_id": "repair-development-000",
+      "scenario": "failed_check_repair",
+      "rollout_index": 0,
+      "seed": 2026116922,
+      "termination": "budget",
+      "tools": {
+        "check_result": 6
+      },
+      "errors": {},
+      "last_observation": {
+        "passed": false,
+        "checks": {
+          "policy": true,
+          "schema": true,
+          "current_net_cents": true,
+          "prior_net_cents": true,
+          "change_cents": false
+        },
+        "submitted": false
+      }
+    },
+    {
+      "mode": "sample",
+      "task_id": "repair-development-001",
+      "scenario": "complete",
+      "rollout_index": 3,
+      "seed": 2026121221,
+      "termination": "budget",
+      "tools": {
+        "read_policy": 1,
+        "inspect_schema": 1,
+        "parse_error": 1,
+        "query_sql": 6,
+        "calculate_change": 3
+      },
+      "errors": {
+        "action must contain exactly tool and arguments": 1,
+        "temporary query service error; retry the query": 1,
+        "query must read source tables": 3,
+        "provide verified monthly evidence IDs": 3
+      },
+      "last_observation": {
+        "error": "provide verified monthly evidence IDs",
+        "recoverable": true
+      }
+    },
+    {
+      "mode": "sample",
+      "task_id": "repair-development-002",
+      "scenario": "format_repair",
+      "rollout_index": 2,
+      "seed": 2026311122,
+      "termination": "budget",
+      "tools": {
+        "calculate_change": 2,
+        "query_sql": 2,
+        "parse_error": 1,
+        "check_result": 2
+      },
+      "errors": {
+        "action must contain exactly tool and arguments": 1
+      },
+      "last_observation": {
+        "passed": true,
+        "checks": {
+          "policy": true,
+          "schema": true,
+          "current_net_cents": true,
+          "prior_net_cents": true,
+          "change_cents": true
+        },
+        "submitted": false
+      }
+    },
+    {
+      "mode": "sample",
+      "task_id": "repair-development-002",
+      "scenario": "failed_check_repair",
+      "rollout_index": 1,
+      "seed": 2026317022,
+      "termination": "budget",
+      "tools": {
+        "check_result": 3,
+        "query_sql": 2,
+        "calculate_change": 1
+      },
+      "errors": {},
+      "last_observation": {
+        "passed": true,
+        "checks": {
+          "policy": true,
+          "schema": true,
+          "current_net_cents": true,
+          "prior_net_cents": true,
+          "change_cents": true
+        },
+        "submitted": false
+      }
+    },
+    {
+      "mode": "sample",
+      "task_id": "repair-development-003",
+      "scenario": "stale_evidence_repair",
+      "rollout_index": 0,
+      "seed": 2026414922,
+      "termination": "budget",
+      "tools": {
+        "query_sql": 1,
+        "check_result": 4
+      },
+      "errors": {},
+      "last_observation": {
+        "passed": false,
+        "checks": {
+          "policy": true,
+          "schema": true,
+          "current_net_cents": true,
+          "prior_net_cents": true,
+          "change_cents": false
+        },
+        "submitted": false
+      }
+    }
+  ],
+  "standard_paired_gains": [
+    {
+      "mode": "greedy",
+      "task_id": "repair-development-000",
+      "scenario": "repeat_sql_error",
+      "rollout_index": 0,
+      "seed": 2026115922
+    },
+    {
+      "mode": "sample",
+      "task_id": "repair-development-002",
+      "scenario": "sql_unverified_requery",
+      "rollout_index": 0,
+      "seed": 2026312922
+    }
+  ],
+  "training": {
+    "sft_updates": 24,
+    "action_exposures": 96,
+    "rl_updates": 0,
+    "rl_groups": 0,
+    "W_adapter_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f",
+    "B_adapter_sha256": "d81a31b392ca5e4e043a43aa2c8fa75ee2968e97b09cbe857f732d6e22dd5226",
+    "B_ancestry": {
+      "sft": 537,
+      "dpo": 11,
+      "rl": 0
+    },
+    "maintenance_tasks": {
+      "train-000": 5,
+      "curriculum-train-000": 4,
+      "train-001": 3
+    },
+    "maintenance_tools": {
+      "query_sql": 3,
+      "calculate_change": 3,
+      "check_result": 3,
+      "submit": 3
+    }
+  },
+  "selection": {
+    "formal_baseline": "W",
+    "selected_candidate": null,
+    "stop_reason": "b_gate_rejected",
+    "completed": true
+  },
+  "audit_log": ".local/sql-repair-results-20261110/local-audit.log"
+}

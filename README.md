@@ -10,11 +10,12 @@
 - [当前范围与验收规则](v2/PROJECT_REQUIREMENTS.md)
 - [GRPO 后续工作交接](v2/handoff/PROJECT_HANDOFF_V2_GRPO_CONTINUATION_2026-11-09.md)
 - [SFT / DPO 结果交接](v2/handoff/PROJECT_HANDOFF_V2_SFT_DPO_RESULTS_2026-11-09.md)
-- [新一轮 SQL 认证修复与门控实验](v2/reports/grpo-sql-repair-preparation-v1-20261109.md)
+- [SQL 认证修复门控实验结果](v2/reports/grpo-sql-repair-results-v1-20261110.md)
+- [SQL 认证修复与门控实验方案](v2/reports/grpo-sql-repair-preparation-v1-20261109.md)
 - [最新 alias 课程结果](v2/reports/grpo-alias-curriculum-results-v1-20261109.md)
 - [本次代码与 Git 整理记录](v2/reports/project-consolidation-20261109.md)
 
-## 当前结果（2026-11-09）
+## 当前结果（2026-11-10）
 
 | 阶段 | 已完成工作 | 当前结论 |
 | --- | --- | --- |
@@ -22,7 +23,7 @@
 | GRPO 工程 | 在线 K 轨迹采样、真实 LoRA 更新、策略刷新、事务恢复与概率审计 | 训练闭环已验证 |
 | GRPO 效果 | outcome / fine、独立确认、信用与课程对照 | 正式基线继续保留 W |
 | 最新 alias 课程 | 每支 48 组，control / curriculum 实际更新 25 / 37 次 | 课程支标准恢复 65/84，W 为 61/84；完整任务均 14/16；本轮质量验收未通过 |
-| 下一轮准备 | 新版SQL认证、96条W诊断与在线/SFT门控路线 | 六小时作业方案已冻结，云端待运行 |
+| SQL认证修复门控实验 | 新版认证、96条W诊断、SFT热启动24步与W/B评测；全流程1小时33分 | B复合sample从0/12升至8/12；标准完整14→13/16、恢复58→52/84，B门槛收尾，保留W |
 
 ## 目录与版本边界
 
