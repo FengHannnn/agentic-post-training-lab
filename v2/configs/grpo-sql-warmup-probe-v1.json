@@ -1,0 +1,40 @@
+{
+  "run_id": "grpo-sql-warmup-probe-v1-20261110",
+  "schema": "warmup_probe_v1",
+  "max_wall_seconds": 1800,
+  "prior_elapsed_seconds": 9500.091520188143,
+  "total_authorized_seconds": 21600,
+  "seed": 2026111061,
+  "target_repeats": 2,
+  "branch_template": "configs/grpo-sql-repair-branch-v1.json",
+  "input_dir": "artifacts/inputs/grpo-warmup-probe-20261110",
+  "models": {
+    "w": {
+      "adapter_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f",
+      "source_sft_updates": 513
+    },
+    "b24": {
+      "adapter_sha256": "d81a31b392ca5e4e043a43aa2c8fa75ee2968e97b09cbe857f732d6e22dd5226",
+      "source_sft_updates": 537
+    },
+    "b15": {
+      "adapter_sha256": "38a9a6d68ed1a0ea0620aaa726ca6443fe701691a88c533634761663c6a72b31",
+      "source_sft_updates": 528
+    }
+  },
+  "sampling": {
+    "temperature": 1,
+    "top_p": 1,
+    "top_k": -1,
+    "min_p": 0,
+    "repetition_penalty": 1,
+    "presence_penalty": 0,
+    "frequency_penalty": 0,
+    "min_tokens": 0,
+    "max_new_tokens": 256,
+    "max_model_len": 8192,
+    "logprobs_mode": "processed_logprobs"
+  },
+  "contract_report": "reports/grpo-warmup-probe-contract-v1-20261110.md",
+  "validation_report": "reports/grpo-warmup-probe-validation-v1-20261110.json"
+}

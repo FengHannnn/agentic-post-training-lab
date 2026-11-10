@@ -1,0 +1,137 @@
+{
+  "passed": true,
+  "syntax_files": 233,
+  "models": 3,
+  "target_train_contexts_per_model": 12,
+  "maintenance_train_contexts_per_model": 12,
+  "target_greedy_repeats": 2,
+  "committed_generated_actions": 108,
+  "committed_forced_score_requests": 72,
+  "auxiliary_generated_tokens": 72,
+  "supervision_actions_replayed": 60,
+  "expert_probe_actions_replayed": 24,
+  "omitted_alias_counterfactuals_replayed": 12,
+  "maximum_expert_prompt_tokens": 1358,
+  "maximum_expert_response_tokens": 142,
+  "context_limit": 8192,
+  "response_limit": 256,
+  "plan_sha256": "5bf10111e80fd8cb5f4ee41e63ad782a8d5af1145052c63af6954b9bf46a6519",
+  "branch_records": [
+    {
+      "task_id": "train-000",
+      "branch_index": 129,
+      "correct_branch_token": 5752,
+      "omitted_branch_token": 30975,
+      "alias_tokens": 5
+    },
+    {
+      "task_id": "curriculum-train-000",
+      "branch_index": 135,
+      "correct_branch_token": 5752,
+      "omitted_branch_token": 30975,
+      "alias_tokens": 5
+    },
+    {
+      "task_id": "train-001",
+      "branch_index": 129,
+      "correct_branch_token": 5752,
+      "omitted_branch_token": 30975,
+      "alias_tokens": 5
+    },
+    {
+      "task_id": "curriculum-train-001",
+      "branch_index": 135,
+      "correct_branch_token": 5752,
+      "omitted_branch_token": 30975,
+      "alias_tokens": 5
+    },
+    {
+      "task_id": "train-002",
+      "branch_index": 129,
+      "correct_branch_token": 5752,
+      "omitted_branch_token": 30975,
+      "alias_tokens": 5
+    },
+    {
+      "task_id": "curriculum-train-002",
+      "branch_index": 135,
+      "correct_branch_token": 5752,
+      "omitted_branch_token": 30975,
+      "alias_tokens": 5
+    },
+    {
+      "task_id": "train-003",
+      "branch_index": 129,
+      "correct_branch_token": 5752,
+      "omitted_branch_token": 30975,
+      "alias_tokens": 5
+    },
+    {
+      "task_id": "curriculum-train-003",
+      "branch_index": 135,
+      "correct_branch_token": 5752,
+      "omitted_branch_token": 30975,
+      "alias_tokens": 5
+    },
+    {
+      "task_id": "train-004",
+      "branch_index": 129,
+      "correct_branch_token": 5752,
+      "omitted_branch_token": 30975,
+      "alias_tokens": 5
+    },
+    {
+      "task_id": "curriculum-train-004",
+      "branch_index": 135,
+      "correct_branch_token": 5752,
+      "omitted_branch_token": 30975,
+      "alias_tokens": 5
+    },
+    {
+      "task_id": "train-005",
+      "branch_index": 129,
+      "correct_branch_token": 5752,
+      "omitted_branch_token": 30975,
+      "alias_tokens": 5
+    },
+    {
+      "task_id": "curriculum-train-005",
+      "branch_index": 135,
+      "correct_branch_token": 5752,
+      "omitted_branch_token": 30975,
+      "alias_tokens": 5
+    }
+  ],
+  "actual_optimizer_updates": 0,
+  "current_budget_seconds": 1800,
+  "prior_elapsed_seconds": 9500.091520188143,
+  "combined_maximum_seconds": 11300.091520188143,
+  "elapsed_seconds": 5.875,
+  "regression": {
+    "passed": true,
+    "tests_passed": 30,
+    "tests_failed": 0,
+    "new_probe_tests": 18,
+    "existing_repair_driver_tests": 12,
+    "seconds": 31.46,
+    "junit": ".local/warmup-probe-20261110/final-tests.xml",
+    "initial_orchestration_findings": {
+      "failed": 2,
+      "reason": "request log parent directory absent on first model action",
+      "resolved": "worker creates the request log directory before any generation; both uninterrupted and interrupted orchestration tests now pass"
+    }
+  },
+  "clean_archive_verification": {
+    "passed": true,
+    "preview_archive_sha256": "5449150509f5097318c5e967949963764efdae2df18a8849f7eaa2ba86802387",
+    "entries": 343,
+    "bound_files": 342,
+    "safe_unique_paths": true,
+    "crc_and_all_hashes_passed": true,
+    "cli_entrypoints_passed": 4,
+    "tests_passed": 30,
+    "tests_failed": 0,
+    "seconds": 34.95,
+    "junit": ".local/warmup-probe-20261110/clean-package.xml"
+  }
+}
