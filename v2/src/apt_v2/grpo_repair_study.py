@@ -157,12 +157,27 @@ def summarize_targeted(episodes):
     return {mode:stats([e for e in episodes if e['evaluation_mode']==mode]) for mode in ('greedy','sample')}
 
 
+def warm_recipe_counts(cfg):
+    profile=cfg.get('repair_profile')
+    if profile=='dose_v1':
+        from .grpo_dose_study import recipe
+        r=recipe(cfg.get('warm_target_repeats'));return r['steps'],r['steps']*4
+    return (15,60) if profile=='retention_v1' else (24,96)
+
+
+def expected_source_sft_updates(cfg):
+    if cfg.get('curriculum_schema')!=SCHEMA or cfg.get('repair_arm')!='warm':return 513
+    return 513+warm_recipe_counts(cfg)[0]
+
+
 def validate_config(cfg):
     profile=cfg.get('repair_profile')
-    if profile not in (None,'retention_v1'):raise ValueError('unknown repair profile')
-    warm_updates=528 if profile=='retention_v1' else 537
+    if profile not in (None,'retention_v1','dose_v1'):raise ValueError('unknown repair profile')
+    warm_updates=513+warm_recipe_counts(cfg)[0]
     if profile=='retention_v1' and not cfg['run_id'].startswith('grpo-sql-retention-study-v1-20261110-'):
         raise ValueError('retention branch run identity differs')
+    if profile=='dose_v1' and not cfg['run_id'].startswith('grpo-sql-dose-study-v1-20261110-'):
+        raise ValueError('dose branch run identity differs')
     if (cfg.get('curriculum_schema')!=SCHEMA or cfg.get('verifier_version')!=VERSION
             or cfg.get('repair_arm') not in ('control','curriculum','plain','warm')
             or cfg['credit_method']!=LOCAL or cfg['learning_rate']!=1e-6 or cfg['k']!=4

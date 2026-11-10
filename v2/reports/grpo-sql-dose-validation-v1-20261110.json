@@ -1,0 +1,80 @@
+{
+  "passed": true,
+  "syntax_files": 239,
+  "unique_supervision_actions": 60,
+  "target_actions": 12,
+  "maintenance_actions": 48,
+  "maintenance_tasks": 12,
+  "fixed_learning_rate": 0.000002,
+  "fixed_batch_size": 4,
+  "doses": {
+    "4": {
+      "steps": 24,
+      "target_exposures": 48,
+      "maintenance_exposures": 48,
+      "total_exposures": 96,
+      "source_sft_updates": 537,
+      "order_sha256": "38edbfe44cf652fea597879a4d2711462a3b877a30638f3878bedd0056eb431f"
+    },
+    "8": {
+      "steps": 36,
+      "target_exposures": 96,
+      "maintenance_exposures": 48,
+      "total_exposures": 144,
+      "source_sft_updates": 549,
+      "order_sha256": "2d09c596343ddfa9c7bdddf4f621037a87d0eae8b8a7cdc1037e3cb6c8997766"
+    },
+    "16": {
+      "steps": 60,
+      "target_exposures": 192,
+      "maintenance_exposures": 48,
+      "total_exposures": 240,
+      "source_sft_updates": 573,
+      "order_sha256": "fa141467d98e1814a6d88fa866eebc2adc434cab61430430a92e07b0d92d8e37"
+    }
+  },
+  "dataset_sha256": "0e53fafba730aa7ad815457fc60d0a973e77a015774ea5c8e583abb38ba36dc2",
+  "probe_contexts_per_model": 24,
+  "target_first_action_repeats": 2,
+  "maximum_prompt_tokens": 1358,
+  "maximum_response_tokens": 142,
+  "context_limit": 8192,
+  "response_limit": 256,
+  "new_authorized_seconds": 21600,
+  "prior_elapsed_seconds": 9927.179048960097,
+  "combined_maximum_seconds": 31527.179048960097,
+  "elapsed_seconds": 8.469000000040978,
+  "regression": {
+    "passed": true,
+    "scope": "all 26 GRPO modules after shared ancestry, probe protocol and packaging changes",
+    "tests_passed": 367,
+    "tests_failed": 0,
+    "seconds": 506.9,
+    "junit": ".local/sql-dose-20261110/grpo-regression.xml",
+    "targeted_run": {
+      "passed": 93,
+      "failed": 0,
+      "seconds": 116.33,
+      "junit": ".local/sql-dose-20261110/frozen-targeted.xml"
+    },
+    "candidate_export_run": {
+      "passed": 25,
+      "failed": 0,
+      "seconds": 43.65,
+      "junit": ".local/sql-dose-20261110/dose-export-tests.xml"
+    }
+  },
+  "clean_archive_verification": {
+    "passed": true,
+    "preview_archive_sha256": "dbd6786fdce370d8fad6aa288fdbbdad969eda30f1814275edd5c3561740e445",
+    "entries": 361,
+    "bound_files": 360,
+    "safe_unique_paths": true,
+    "crc_and_all_hashes_passed": true,
+    "cli_entrypoints_passed": 4,
+    "tests_passed": 93,
+    "tests_failed": 0,
+    "seconds": 172.03,
+    "junit": ".local/sql-dose-20261110/clean-package.xml"
+  }
+}

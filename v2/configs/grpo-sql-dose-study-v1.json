@@ -1,0 +1,40 @@
+{
+  "run_id": "grpo-sql-dose-study-v1-20261110",
+  "schema": "repair_dose_v1",
+  "max_wall_seconds": 21600,
+  "new_authorized_seconds": 21600,
+  "prior_elapsed_seconds": 9927.179048960097,
+  "total_authorized_seconds": 31527.179048960097,
+  "target_repeats": [
+    4,
+    8,
+    16
+  ],
+  "seed": 2026111061,
+  "train_gate": {
+    "minimum_target_per_repeat": 9,
+    "maintenance_non_regression": true,
+    "repeat_consistency_non_regression": true,
+    "effective_bf16_change": true
+  },
+  "stop_after_first_full_gate_pass": true,
+  "run_grpo": false,
+  "branch_template": "configs/grpo-sql-dose-branch-v1.json",
+  "input_dir": "artifacts/inputs/grpo-sql-dose-20261110",
+  "sft_examples": "artifacts/inputs/grpo-sql-dose-20261110/sft-examples.json",
+  "contract_report": "reports/grpo-sql-dose-contract-v1-20261110.md",
+  "validation_report": "reports/grpo-sql-dose-validation-v1-20261110.json",
+  "sampling": {
+    "temperature": 1,
+    "top_p": 1,
+    "top_k": -1,
+    "min_p": 0,
+    "repetition_penalty": 1,
+    "presence_penalty": 0,
+    "frequency_penalty": 0,
+    "min_tokens": 0,
+    "max_new_tokens": 256,
+    "max_model_len": 8192,
+    "logprobs_mode": "processed_logprobs"
+  }
+}

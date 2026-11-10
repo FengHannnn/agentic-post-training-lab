@@ -20,10 +20,11 @@
 | 主项目源码、报告与 Git 补交 | 见本次整理记录 |
 | 训练 SQL verifier 空退款边界 | sql_semantics_v2 已实现，原生token与本地反例验证通过 |
 | 原复合缺别名首次有效认证 | SFT24步后sample0→8/12，标准sample下降，按B门槛收尾 |
-| 较小热启动与能力维护 | 全12任务、60动作、SFT15步，B通过后GRPO；本轮上限16000秒，与已用5578.013秒合计受6小时限制 |
+| 较小热启动与能力维护 | 已完成，B15的train与development目标认证均0，按门槛收尾 |
+| 目标剂量搜索 | 固定48条维护和学习率2e-6，目标重复4/8/16次；用户新增最多6小时授权 |
 | 新的最终确认及统一技术交付 | 候选与协议确定后继续 |
 
-GRPO 正式起点与 reference 为 W，adapter SHA256 为 f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f，血缘 SFT513 / DPO11 / RL0。本轮先独立从W构建新B，通过门槛后C从B初始化并冻结B为reference，新建AdamW。短程 DPO12 保留为独立阶段成果，血缘 SFT513 / DPO23。历史纯 SFT 基线单独保留。
+GRPO 正式起点与 reference 为 W，adapter SHA256 为 f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f，血缘 SFT513 / DPO11 / RL0。本轮候选独立从W开始，先取得通过完整维护门槛的B；后续GRPO从合格B初始化并冻结其为reference，新建AdamW。短程 DPO12 保留为独立阶段成果，血缘 SFT513 / DPO23。历史纯 SFT 基线单独保留。
 
 ## 实验与验收
 

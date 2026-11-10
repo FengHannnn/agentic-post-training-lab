@@ -42,10 +42,11 @@ def under(root, name):
 
 
 def validate_config(cfg):
+    from apt_v2.grpo_repair_study import expected_source_sft_updates
     if not re.fullmatch(r'[a-z0-9][a-z0-9-]{5,100}', cfg['run_id']):
         raise ValueError('safe unique run ID required')
     if (cfg['algorithm'] not in ('outcome_grpo','fine_grained_grpo') or cfg['phase'] not in ('preflight', 'formal')
-            or cfg['source_sft_updates'] != ((528 if cfg.get('repair_profile')=='retention_v1' else 537) if cfg.get('curriculum_schema')=='repair_study_v1' and cfg.get('repair_arm')=='warm' else 513) or cfg['source_dpo_updates'] != 11
+            or cfg['source_sft_updates'] != expected_source_sft_updates(cfg) or cfg['source_dpo_updates'] != 11
             or cfg['updates_per_group'] != 1 or cfg['k'] < 2 or cfg['tool_cost'] != .01
             or cfg['loss_reduction'] != 'token_mean_then_action_mean_then_episode_mean'
             or cfg['zero_variance'] != 'skip_without_rejection_resampling'):
@@ -201,10 +202,16 @@ def prepare(output):
     if cfg.get('curriculum_schema')=='repair_study_v1':
         source_audit=read(initial/'source_audit.json')
         if not source_audit.get('passed'):raise ValueError('repair initial source audit failed')
+        from apt_v2.grpo_repair_study import warm_recipe_counts
+        expected_steps,expected_exposures=warm_recipe_counts(cfg)
         if cfg['repair_arm']=='warm' and (complete.get('parent_W_sha256')!=cfg['baseline_W_sha256']
-                or source_audit.get('actual_updates')!=(15 if cfg.get('repair_profile')=='retention_v1' else 24)
-                or source_audit.get('action_exposures')!=(60 if cfg.get('repair_profile')=='retention_v1' else 96)):
+                or source_audit.get('actual_updates')!=expected_steps
+                or source_audit.get('action_exposures')!=expected_exposures):
             raise ValueError('B warm-start ancestry differs')
+        if cfg['repair_arm']=='warm' and cfg.get('repair_profile')=='dose_v1':
+            from apt_v2.grpo_dose_study import recipe
+            if read(initial/'source_config.json')!=recipe(cfg['warm_target_repeats']):
+                raise ValueError('dose B source recipe differs')
     identity = read(initial / 'model_identity.json')
     if identity['resolved_revision'] != cfg['revision'] or identity['model_id'] != cfg['base_model']:
         raise ValueError('base revision differs')

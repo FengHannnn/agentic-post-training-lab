@@ -187,6 +187,7 @@ def package(output,archive,status,study):
            'packaging_seconds':time.monotonic()-start,'state_pt_kept_on_cloud':True}
     if final['elapsed_seconds']>study.cfg['max_wall_seconds']:
         final.update(stop_reason='wall_budget_exceeded',selected_candidate=None,error='total wall budget exceeded during packaging')
+        if 'selected_warm_start' in final:final['selected_warm_start']=None
     atomic_json(output/'run_status.json',final)
     atomic_json(output/'final_status.json',final)
     atomic_json(output/'attempts'/f'attempt-{study.attempt:03}-final.json',final)
@@ -198,6 +199,7 @@ def package(output,archive,status,study):
     receipt['budget_passed']=receipt['elapsed_seconds_including_packaging']<=receipt['budget_seconds']
     if not receipt['budget_passed']:
         final.update(selected_candidate=None,stop_reason='wall_budget_exceeded',error='wall budget exceeded including archive finalization')
+        if 'selected_warm_start' in final:final['selected_warm_start']=None
         atomic_json(output/'run_status.json',final)
         with zipfile.ZipFile(archive,'a',zipfile.ZIP_DEFLATED) as z:
             z.writestr(output.name+'/budget_rejection.json',json.dumps(final,ensure_ascii=False,indent=2))

@@ -78,8 +78,16 @@ def prepare(output):
     staging.rename(output/'prepared');return verify_inputs(output)
 
 
-def verify_model(output,name,tok,require_complete=True):
-    cfg,plan=verify_inputs(output,local=True);root=output/'probes'/name;folder=output/'prepared/inputs/models'/name
+def probe_inputs(output,local,protocol):
+    return verify_inputs(output,local=local) if protocol is None else protocol.verify_probe_inputs(output,local=local)
+
+
+def probe_folder(output,name,protocol):
+    return output/'prepared/inputs/models'/name if protocol is None else protocol.probe_model_folder(output,name)
+
+
+def verify_model(output,name,tok,require_complete=True,protocol=None):
+    cfg,plan=probe_inputs(output,True,protocol);root=output/'probes'/name;folder=probe_folder(output,name,protocol)
     sessions={p.stem:read(p) for p in (root/'sessions').glob('*.json')};rows=[]
     for sid,s in sessions.items():
         if (s['session_id']!=sid or s['model']!=name or s['config_sha256']!=file_hash(output/'config.json')
@@ -110,15 +118,15 @@ def forced_score(engine,lora,prompt,response,seed):
             'response_token_ids':response,'token_log_probs':logps,'auxiliary_token_ids':list(result.outputs[0].token_ids),'seed':seed}
 
 
-def probe_model(output,name):
+def probe_model(output,name,protocol=None):
     from transformers import AutoTokenizer
     from grpo_vllm import engine_and_tokenizer,BehaviorPolicy,shutdown
-    cfg,plan=verify_inputs(output);prepared=output/'prepared';root=output/'probes'/name
+    cfg,plan=probe_inputs(output,False,protocol);prepared=output/'prepared';root=output/'probes'/name
     tok=AutoTokenizer.from_pretrained(prepared/'tokenizer',local_files_only=True,trust_remote_code=False)
-    if (root/'complete.json').exists():return verify_model(output,name,tok)
-    committed=verify_model(output,name,tok,require_complete=False);done={r['index'] for r in committed}
+    if (root/'complete.json').exists():return verify_model(output,name,tok,protocol=protocol)
+    committed=verify_model(output,name,tok,require_complete=False,protocol=protocol);done={r['index'] for r in committed}
     branch=read(prepared/'branch_config.json');branch['seed']=cfg['seed'];sampling=dict(cfg['sampling'],temperature=0)
-    folder=prepared/'inputs/models'/name;adapter=folder/'adapter';sha=cfg['models'][name]['adapter_sha256']
+    folder=probe_folder(output,name,protocol);adapter=folder/'adapter';sha=cfg['models'][name]['adapter_sha256']
     engine=None;sid=str(time.time_ns());session=None;current=None
     (root/'attempts').mkdir(parents=True,exist_ok=True)
     try:
@@ -159,7 +167,7 @@ def probe_model(output,name):
         summary=summarize(plan,committed)
         files={p.relative_to(root).as_posix():file_hash(p) for directory in ('rows','sessions','attempts','interruptions') for p in sorted((root/directory).glob('*')) if p.is_file()}
         atomic_json(root/'complete.json',{'config_sha256':file_hash(output/'config.json'),'files':files,'summary':summary})
-        return verify_model(output,name,tok)
+        return verify_model(output,name,tok,protocol=protocol)
     except BaseException as exc:
         atomic_json(root/'interruptions'/(sid+'.json'),{'error':str(exc),'partial':current});raise
     finally:

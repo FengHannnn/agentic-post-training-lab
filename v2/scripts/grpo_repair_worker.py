@@ -153,13 +153,18 @@ def verify_supervision(examples,expected_count=24):
 
 
 def supervision_for(cfg):
-    if cfg.get('schema')=='repair_retention_v1':
+    if cfg.get('schema') in ('repair_retention_v1','repair_dose_warm_v1'):
         from apt_v2.grpo_retention_study import supervision_dataset as retention_dataset
         return retention_dataset()
     return supervision_dataset()
 
 
 def verify_for(cfg,data):
+    if cfg.get('schema')=='repair_dose_warm_v1':
+        from apt_v2.grpo_dose_study import validate_warm
+        from apt_v2.grpo_retention_study import verify_dataset
+        validate_warm(cfg);verify_dataset(data)
+        return verify_supervision(data,expected_count=60)
     if cfg.get('schema')=='repair_retention_v1':
         from apt_v2.grpo_retention_study import validate_master,verify_dataset
         validate_master(cfg);verify_dataset(data)
@@ -168,6 +173,9 @@ def verify_for(cfg,data):
 
 
 def sft_order(cfg):
+    if cfg.get('schema')=='repair_dose_warm_v1':
+        from apt_v2.grpo_dose_study import order
+        return order(cfg,read(ROOT/cfg['sft_examples']))
     if cfg.get('schema')=='repair_retention_v1':
         from apt_v2.grpo_retention_study import order
         return order(cfg)

@@ -2,17 +2,18 @@
 
 V2 研究真实多轮工具交互中的 SFT、DPO 与 GRPO。模型通过 SQLite 查询完成月度业务对账，使用执行证据认证本月净额、上月净额和差额，再提交结果。金额使用整数 cents，标准任务总动作预算为 12，恢复前缀计入预算。
 
-## 下一轮：较小热启动与标准能力维护
+## 下一轮：目标监督剂量搜索
 
-新配方使用12条目标修复和48条维护动作，覆盖全部12个train任务；SFT学习率2e-6、1epoch、15步，B血缘SFT528 / DPO11。重新评测W与B，B通过维护门槛后启动无提醒GRPO。本轮16000秒上限与上轮已用时间共同纳入6小时总预算。
+固定学习率2e-6和48条维护动作，分别将12条目标动作重复4/8/16次，从W独立训练24/36/60步。先按train首动作筛选，再执行完整B门槛，按顺序保存首个通过者。本轮新增最多6小时，正式基线W保留；本轮RL更新为0。
 
-- [本轮冻结契约](reports/grpo-sql-retention-contract-v1-20261110.md)
-- [本轮实现与运行说明](reports/grpo-sql-retention-preparation-v1-20261110.md)
-- [上一轮SQL修复结果](reports/grpo-sql-repair-results-v1-20261110.md)：目标成功0→8/12，标准完整14→13/16、恢复58→52/84，B门槛收尾。
+- [冻结契约](reports/grpo-sql-dose-contract-v1-20261110.md)
+- [实现与运行说明](reports/grpo-sql-dose-preparation-v1-20261110.md)
+- [三模型首动作诊断结果](reports/grpo-warmup-probe-results-v1-20261110.md)
+- [较小热启动结果](reports/grpo-sql-retention-results-v1-20261110.md)
 
 ## 当前状态（2026-11-10）
 
-**正式基线为W。本轮先从W构建新的小更新B，通过维护门槛后，C从B初始化并冻结B作为reference。** W 的血缘为 SFT513 / DPO11 / RL0；最终短程 DPO12 是独立阶段成果，累计 DPO23。
+**正式基线为W。本轮按固定目标剂量搜索合格B，供下一阶段GRPO与信用对照使用。** W 的血缘为 SFT513 / DPO11 / RL0；最终短程 DPO12 是独立阶段成果，累计 DPO23。
 
 | 项目 | 状态与结果 |
 | --- | --- |
@@ -25,10 +26,12 @@ V2 研究真实多轮工具交互中的 SFT、DPO 与 GRPO。模型通过 SQLite
 | alias 原复合起点 | 三模型采样均 1/12，greedy 均 0/4 |
 | alias 质量 | 两支空退款 SQL 日历检查失败；control 重复 greedy 6/7 一致；候选为空，W 保留 |
 | SQL认证修复 | sql_semantics_v2与W诊断完成；旧B的复合修复改善，标准sample下降，W保留 |
-| 较小热启动准备 | 全12任务维护、SFT15步与B/C门控已实现，云端待运行 |
+| 较小热启动 | SFT15步后目标0/12，标准sample仍下降；B门槛收尾 |
+| 三模型train诊断 | W/旧B24/新B15首动作认证0/11/0（各/12），维护单步均12/12 |
+| 目标剂量搜索准备 | 目标4/8/16次、固定维护和学习率，新增6小时 |
 | 真实依赖扩展 | period_closing 环境与专家因果证明完成；模型开发评测均 0/4，训练覆盖待安排 |
 
-当前优先事项是保留复合缺别名修复增益，同时改善维护能力。新实验配方、对照、任务、预算和选择规则在运行前冻结。
+当前优先事项是提升目标动作训练剂量，同时保持维护能力。新实验配方、对照、任务、预算和选择规则在运行前冻结。
 
 ## 阅读顺序
 
@@ -50,7 +53,7 @@ V2 研究真实多轮工具交互中的 SFT、DPO 与 GRPO。模型通过 SQLite
 | W 输入 | artifacts/inputs/grpo-w-20261105/adapter |
 | LoRA | q_proj / v_proj，r8、alpha16、dropout0；112 张量，1,089,536 可训练参数 |
 | 采样 / 更新 | vLLM BF16；HF / PEFT FP32；每组 K4，最多一次 optimizer.step |
-| reference / 优化器 | 各轮明确冻结；本轮C冻结新B，新建AdamW |
+| reference / 优化器 | 本轮SFT候选各自新建AdamW；合格B供下一阶段冻结reference使用 |
 | 信用 | outcome、potential_rtg_depth_v1、outcome_local_verified_v2；逐轮配置明确登记 |
 
 原生响应 token 与行为概率 q 绑定；HF 重算 old / ref，更新使用 TIS、clip 和 sampled k3。训练、刷新、评测和重放保留权重、概率及事务证据。每轮以自身配置和 execution_environment 为准。
