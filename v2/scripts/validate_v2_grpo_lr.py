@@ -7,19 +7,23 @@ import sys
 import time
 
 
-def validate(output):
+def validate(output, config=None):
     from tqdm import tqdm
     from transformers import AutoTokenizer
     from grpo_common import ROOT, atomic_json, file_hash, read, validate_config
     from grpo_repair_worker import sft_order, supervision_for, verify_for
     from run_v2_grpo_dose import branch_config
+    from grpo_dose_worker import protocol_for
     from apt_v2.grpo import digest
-    from apt_v2 import grpo_dose_study as dose, grpo_lr_study as lr
+    from apt_v2 import grpo_dose_study as dose
     from apt_v2.grpo_warmup_probe import make_plan, execute, productive, variants
     from apt_v2.sft import encode_example
 
     started = time.monotonic()
-    cfg = read(ROOT/'configs/grpo-sql-lr-study-v1.json')
+    cfg = read(config or ROOT/'configs/grpo-sql-lr-study-v1.json')
+    lr = protocol_for(cfg)
+    if lr is dose:
+        raise ValueError('learning-rate master config required')
     lr.validate_master(cfg)
     folder = ROOT/cfg['input_dir']
     lr.validate_prior(read(folder/'prior-evidence.json'), cfg)
@@ -81,6 +85,7 @@ def validate(output):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--config', type=Path)
     parser.add_argument('--sqlite-dll', type=Path)
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args()
@@ -89,4 +94,4 @@ if __name__ == '__main__':
     import sqlite3
     if sqlite3.sqlite_version != '3.54.1':
         raise ValueError('SQLite 3.54.1 required')
-    validate(args.output)
+    validate(args.output, args.config)

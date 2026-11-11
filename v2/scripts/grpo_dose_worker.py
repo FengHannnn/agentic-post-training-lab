@@ -4,14 +4,14 @@ from pathlib import Path
 from tqdm import tqdm
 from grpo_common import ROOT,read,atomic_json,file_hash,verify_files,verify_inputs as branch_inputs,runtime_identity
 from apt_v2.grpo import digest
-from apt_v2 import grpo_dose_study, grpo_lr_study
+from apt_v2 import grpo_dose_study, grpo_lr_study, grpo_lr_midpoint
 from apt_v2.grpo_dose_study import train_gate
 from apt_v2.grpo_warmup_probe import make_plan
 from apt_v2.grpo_repair_study import W_SHA,b_gate
 
 
 def protocol_for(cfg):
-    for protocol in (grpo_dose_study, grpo_lr_study):
+    for protocol in (grpo_dose_study, grpo_lr_study, grpo_lr_midpoint):
         if cfg['schema'] == protocol.SCHEMA:
             return protocol
     raise ValueError('unknown warm-start search schema')
@@ -133,6 +133,19 @@ def gate(output,name,write=True):
     return result
 
 
+def midpoint_diagnostics(output, w, candidate, write):
+    result = grpo_lr_midpoint.completion_diagnostics(w, candidate)
+    path = output/'completion-diagnostics.json'
+    if path.exists():
+        if read(path) != result:
+            raise ValueError('committed completion diagnostics differ')
+    elif write:
+        atomic_json(path, result)
+    else:
+        raise ValueError('committed completion diagnostics missing')
+    return result
+
+
 def audit(output,local=False):
     from grpo_repair_worker import audit_sft
     from run_v2_grpo_repair import evaluation
@@ -141,6 +154,7 @@ def audit(output,local=False):
     protocol = protocol_for(cfg)
     w = evaluation(output/'branches/w', 'weighted_sft', local)
     probe_summary(output, 'w')
+    b = None
     records = []
     counts = {}
     for name in tqdm(protocol.CANDIDATES, desc='Audit warm starts', unit='candidate', file=sys.stdout, disable=False):
@@ -171,6 +185,8 @@ def audit(output,local=False):
         wanted = ready_record(cfg, name, identity)
         if not ready.exists() or read(ready)!=wanted:raise ValueError('ready B export differs')
     elif ready.exists():raise ValueError('unqualified B exported as ready')
+    if protocol is grpo_lr_midpoint:
+        midpoint_diagnostics(output, w, b, write=False)
     result={'passed':True,'scope':'local_returned_files' if local else 'cloud_with_state','actual_sft_updates':counts,
             'actual_rl_updates':0,'selection':expected}
     if protocol is grpo_dose_study:
@@ -182,7 +198,7 @@ def audit(output,local=False):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('stage',choices=['prepare','warm','probe','gate','audit']);p.add_argument('--output',type=Path,required=True)
-    p.add_argument('--name',choices=['w', *grpo_dose_study.CANDIDATES, *grpo_lr_study.CANDIDATES]);p.add_argument('--local',action='store_true');a=p.parse_args()
+    p.add_argument('--name',choices=['w', *grpo_dose_study.CANDIDATES, *grpo_lr_study.CANDIDATES, *grpo_lr_midpoint.CANDIDATES]);p.add_argument('--local',action='store_true');a=p.parse_args()
     if a.stage=='prepare':prepare(a.output)
     elif a.stage=='warm':warm(a.output,a.name)
     elif a.stage=='probe':

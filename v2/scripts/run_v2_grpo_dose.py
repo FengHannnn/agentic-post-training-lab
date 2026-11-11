@@ -5,8 +5,9 @@ from grpo_common import ROOT,read,atomic_json,file_hash,verify_files,runtime_ide
 from run_v2_grpo import source_files
 from run_v2_grpo_repair import Study as RepairStudy,BudgetStop,evaluation,resume_spent,package
 from apt_v2.grpo_dose_study import MANIFEST
-from grpo_dose_worker import protocol_for, ready_record
-from apt_v2.grpo_repair_study import b_gate
+from apt_v2 import grpo_lr_midpoint
+from grpo_dose_worker import midpoint_diagnostics, protocol_for, ready_record
+from apt_v2.grpo_repair_study import b_gate, learning_rate_protocol
 
 def branch_config(cfg,output,name):
     c=copy.deepcopy(read(ROOT/cfg['branch_template']));c['run_id']=cfg['run_id']+'-'+name
@@ -19,7 +20,7 @@ def branch_config(cfg,output,name):
         c['adapter_sha256'] = file_hash(folder/'adapter/adapter_model.safetensors')
         c['source_sft_updates'] = 513 + recipe['steps']
         c['warm_target_repeats'] = recipe['target_repeats']
-        if c['repair_profile'] == 'lr_v1':
+        if learning_rate_protocol(c['repair_profile']) is not None:
             c['warm_learning_rate'] = recipe['learning_rate']
     validate_config(c);return c
 
@@ -37,7 +38,11 @@ class Study(RepairStudy):
         child=self.child('w');self.stage('prepare-probes','grpo_dose_worker.py',['prepare','--output',str(self.output)])
         self.stage('probe-w','grpo_dose_worker.py',['probe','--output',str(self.output),'--name','w'])
         w=self.evaluate(child,'w','weighted_sft',0,initial_policy(read(child/'config.json')));records=[]
-        if not w['evaluation_quality_passed']:return protocol.selection(w,records)
+        b = None
+        if not w['evaluation_quality_passed']:
+            if protocol is grpo_lr_midpoint:
+                midpoint_diagnostics(self.output, w, b, write=True)
+            return protocol.selection(w, records)
         reserve=max(2400.,1.25*w['elapsed_seconds'])+360.
         for name in protocol.CANDIDATES:
             self.stage('warm-'+name,'grpo_dose_worker.py',['warm','--output',str(self.output),'--name',name],reserve)
@@ -57,6 +62,8 @@ class Study(RepairStudy):
             if full and full['passed']:
                 atomic_json(self.output/'ready-B.json', ready_record(self.cfg, name, identity))
                 break
+        if protocol is grpo_lr_midpoint:
+            midpoint_diagnostics(self.output, w, b, write=True)
         return protocol.selection(w,records)
 
 

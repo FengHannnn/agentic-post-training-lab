@@ -1,0 +1,50 @@
+{
+  "passed": true,
+  "dataset_sha256": "0e53fafba730aa7ad815457fc60d0a973e77a015774ea5c8e583abb38ba36dc2",
+  "candidates": {
+    "lr4": {
+      "learning_rate": 0.000004,
+      "steps": 60,
+      "target_exposures": 192,
+      "maintenance_exposures": 48,
+      "source_sft_updates": 573,
+      "order_sha256": "fa141467d98e1814a6d88fa866eebc2adc434cab61430430a92e07b0d92d8e37"
+    }
+  },
+  "native_supervision_actions": 60,
+  "probe_contexts_per_model": 24,
+  "maximum_prompt_tokens": 1358,
+  "maximum_response_tokens": 142,
+  "prior_elapsed_seconds": 17842.66665698681,
+  "max_wall_seconds": 13500,
+  "total_authorized_seconds": 31527.179048960097,
+  "run_grpo": false,
+  "elapsed_seconds": 4.811999999918044,
+  "regression": {
+    "passed": true,
+    "tests": 387,
+    "warnings": 2,
+    "elapsed_seconds": 539.28,
+    "scope": "all_grpo_modules",
+    "modules": 28
+  },
+  "historical_replay": {
+    "passed": true,
+    "standard_episodes": 264,
+    "paired_degradations": 21,
+    "degradations_all_metrics": 17,
+    "degradations_without_submit": 21
+  },
+  "clean_package": {
+    "passed": true,
+    "tests": 113,
+    "warnings": 1,
+    "elapsed_seconds": 195.71,
+    "modules": 7,
+    "cli_help_checks": 4,
+    "native_validation_matches": true,
+    "simulated_interruption_and_resume_passed": true,
+    "zip_entries": 391,
+    "bound_files": 390
+  }
+}

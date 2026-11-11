@@ -157,14 +157,24 @@ def summarize_targeted(episodes):
     return {mode:stats([e for e in episodes if e['evaluation_mode']==mode]) for mode in ('greedy','sample')}
 
 
+def learning_rate_protocol(profile):
+    if profile == 'lr_v1':
+        from . import grpo_lr_study
+        return grpo_lr_study
+    if profile == 'lr_midpoint_v1':
+        from . import grpo_lr_midpoint
+        return grpo_lr_midpoint
+    return None
+
+
 def warm_recipe_counts(cfg):
     profile=cfg.get('repair_profile')
     if profile=='dose_v1':
         from .grpo_dose_study import recipe
         r=recipe(cfg.get('warm_target_repeats'));return r['steps'],r['steps']*4
-    if profile=='lr_v1':
-        from .grpo_lr_study import recipe
-        r = recipe(cfg.get('warm_learning_rate'))
+    protocol = learning_rate_protocol(profile)
+    if protocol is not None:
+        r = protocol.recipe(cfg.get('warm_learning_rate'))
         if cfg.get('warm_target_repeats') != r['target_repeats']:
             raise ValueError('learning-rate branch requires the fixed r16 dose')
         return r['steps'], r['steps'] * r['batch_size']
@@ -178,19 +188,23 @@ def expected_source_sft_updates(cfg):
 
 def validate_config(cfg):
     profile=cfg.get('repair_profile')
-    if profile not in (None,'retention_v1','dose_v1','lr_v1'):raise ValueError('unknown repair profile')
+    protocol = learning_rate_protocol(profile)
+    if profile not in (None, 'retention_v1', 'dose_v1') and protocol is None:
+        raise ValueError('unknown repair profile')
     warm_updates=513+warm_recipe_counts(cfg)[0]
     if profile=='retention_v1' and not cfg['run_id'].startswith('grpo-sql-retention-study-v1-20261110-'):
         raise ValueError('retention branch run identity differs')
     if profile=='dose_v1' and not cfg['run_id'].startswith('grpo-sql-dose-study-v1-20261110-'):
         raise ValueError('dose branch run identity differs')
     max_wall_seconds = 21600
-    if profile == 'lr_v1':
-        from .grpo_lr_study import CANDIDATES, MAX_WALL_SECONDS, RUN_ID
-        max_wall_seconds = MAX_WALL_SECONDS
-        suffix = cfg['run_id'].removeprefix(RUN_ID + '-')
+    if protocol is not None:
+        max_wall_seconds = protocol.MAX_WALL_SECONDS
+        prefix = protocol.RUN_ID + '-'
+        if not cfg['run_id'].startswith(prefix):
+            raise ValueError('learning-rate branch run identity differs')
+        suffix = cfg['run_id'].removeprefix(prefix)
         if cfg['repair_arm'] == 'warm':
-            if CANDIDATES.get(suffix) != cfg['warm_learning_rate']:
+            if protocol.CANDIDATES.get(suffix) != cfg['warm_learning_rate']:
                 raise ValueError('learning-rate candidate identity differs')
         elif suffix not in ('w', 'template'):
             raise ValueError('learning-rate W identity differs')

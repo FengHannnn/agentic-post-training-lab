@@ -21,8 +21,8 @@ def recipe(learning_rate):
     return {**dose_recipe(16), 'learning_rate': learning_rate}
 
 
-def validate_master(cfg):
-    expected = {
+def master_contract():
+    return {
         'schema': SCHEMA,
         'run_id': RUN_ID,
         'max_wall_seconds': MAX_WALL_SECONDS,
@@ -46,7 +46,10 @@ def validate_master(cfg):
                      'presence_penalty': 0, 'frequency_penalty': 0, 'min_tokens': 0, 'max_new_tokens': 256,
                      'max_model_len': 8192, 'logprobs_mode': 'processed_logprobs'},
     }
-    if cfg != expected or cfg.get('run_grpo') is not False or cfg.get('stop_after_first_full_gate_pass') is not True:
+
+
+def validate_master(cfg):
+    if cfg != master_contract() or cfg.get('run_grpo') is not False or cfg.get('stop_after_first_full_gate_pass') is not True:
         raise ValueError('frozen learning-rate study contract differs')
     if PRIOR_SECONDS + MAX_WALL_SECONDS > TOTAL_SECONDS:
         raise ValueError('learning-rate study exceeds remaining authorization')
@@ -68,6 +71,10 @@ def validate_warm(cfg):
 
 def order(cfg, data, batches):
     validate_warm(cfg)
+    return verify_r16_order(data, batches)
+
+
+def verify_r16_order(data, batches):
     if digest(data) != DATASET_SHA or digest(batches) != ORDER_SHA:
         raise ValueError('learning-rate arms require the exact published r16 data and order')
     return batches

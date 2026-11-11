@@ -152,18 +152,24 @@ def verify_supervision(examples,expected_count=24):
     return True
 
 
+def lr_warm_protocol(cfg):
+    from apt_v2 import grpo_lr_study, grpo_lr_midpoint
+    return next((protocol for protocol in (grpo_lr_study, grpo_lr_midpoint)
+                 if cfg.get('schema') == protocol.WARM_SCHEMA), None)
+
+
 def supervision_for(cfg):
-    if cfg.get('schema') in ('repair_retention_v1','repair_dose_warm_v1','repair_lr_warm_v1'):
+    if cfg.get('schema') in ('repair_retention_v1', 'repair_dose_warm_v1') or lr_warm_protocol(cfg) is not None:
         from apt_v2.grpo_retention_study import supervision_dataset as retention_dataset
         return retention_dataset()
     return supervision_dataset()
 
 
 def verify_for(cfg,data):
-    if cfg.get('schema')=='repair_lr_warm_v1':
-        from apt_v2.grpo_lr_study import validate_warm
+    protocol = lr_warm_protocol(cfg)
+    if protocol is not None:
         from apt_v2.grpo_retention_study import verify_dataset
-        validate_warm(cfg)
+        protocol.validate_warm(cfg)
         verify_dataset(data)
         return verify_supervision(data, expected_count=60)
     if cfg.get('schema')=='repair_dose_warm_v1':
@@ -179,9 +185,9 @@ def verify_for(cfg,data):
 
 
 def sft_order(cfg):
-    if cfg.get('schema')=='repair_lr_warm_v1':
-        from apt_v2.grpo_lr_study import order
-        return order(cfg, read(ROOT/cfg['sft_examples']), read(ROOT/cfg['input_dir']/'order-r16.json'))
+    protocol = lr_warm_protocol(cfg)
+    if protocol is not None:
+        return protocol.order(cfg, read(ROOT/cfg['sft_examples']), read(ROOT/cfg['input_dir']/'order-r16.json'))
     if cfg.get('schema')=='repair_dose_warm_v1':
         from apt_v2.grpo_dose_study import order
         return order(cfg,read(ROOT/cfg['sft_examples']))
