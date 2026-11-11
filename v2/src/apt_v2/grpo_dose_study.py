@@ -7,6 +7,13 @@ SCHEMA='repair_dose_v1'
 WARM_SCHEMA='repair_dose_warm_v1'
 RUN_ID='grpo-sql-dose-study-v1-20261110'
 DOSES=(4,8,16)
+CANDIDATES={'r4': 4, 'r8': 8, 'r16': 16}
+MANIFEST='grpo_sql_dose_release_manifest.json'
+INPUT_DIR='artifacts/inputs/grpo-sql-dose-20261110'
+
+
+def candidate_fields(name):
+    return {'dose': CANDIDATES[name]}
 
 
 def recipe(repeats):
@@ -23,8 +30,8 @@ def validate_master(cfg):
             or cfg.get('train_gate')!={'minimum_target_per_repeat':9,'maintenance_non_regression':True,
                                       'repeat_consistency_non_regression':True,'effective_bf16_change':True}
             or cfg.get('branch_template')!='configs/grpo-sql-dose-branch-v1.json'
-            or cfg.get('input_dir')!='artifacts/inputs/grpo-sql-dose-20261110'
-            or cfg.get('sft_examples')!='artifacts/inputs/grpo-sql-dose-20261110/sft-examples.json'
+            or cfg.get('input_dir')!=INPUT_DIR
+            or cfg.get('sft_examples')!=INPUT_DIR+'/sft-examples.json'
             or cfg.get('sampling')!={'temperature':1,'top_p':1,'top_k':-1,'min_p':0,'repetition_penalty':1,
                  'presence_penalty':0,'frequency_penalty':0,'min_tokens':0,'max_new_tokens':256,'max_model_len':8192,
                  'logprobs_mode':'processed_logprobs'}
@@ -82,18 +89,27 @@ def train_gate(w,b,changed):
 
 
 def selection(w,records):
+    return select_warm_start(w, records, CANDIDATES, candidate_fields)
+
+
+def select_warm_start(w, records, candidates, fields):
     selected=None
     if not w['evaluation_quality_passed']:
         if records:raise ValueError('baseline quality rejection must precede candidate work')
         return {'selected_warm_start':None,'selected_candidate':None,'formal_baseline':'W','stop_reason':'baseline_quality_rejected'}
-    for i,r in enumerate(records):
-        if r['dose']!=DOSES[i]:raise ValueError('ordered dose search differs')
+    names = tuple(candidates)
+    if len(records) > len(names):
+        raise ValueError('candidate records exceed registered search')
+    for i, r in enumerate(records):
+        name = names[i]
+        if any(r.get(key) != value for key, value in fields(name).items()):
+            raise ValueError('ordered warm-start search differs')
         if not r['train_gate']['passed']:
             if r.get('full_gate') is not None:raise ValueError('rejected train gate must skip full evaluation')
         elif r.get('full_gate') is None:raise ValueError('qualified train probe requires full gate')
         elif r['full_gate']['passed']:
-            selected='r'+str(r['dose'])
+            selected=name
             if i!=len(records)-1:raise ValueError('candidate work continued after first full gate pass')
-    if selected is None and len(records)!=3:raise ValueError('complete search requires all three doses or a passing B')
+    if selected is None and len(records)!=len(names):raise ValueError('complete search requires all registered candidates or a passing B')
     return {'selected_warm_start':selected,'selected_candidate':None,'formal_baseline':'W',
             'stop_reason':'warm_start_ready' if selected else 'no_qualified_warm_start','run_grpo':False}

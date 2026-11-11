@@ -1,0 +1,92 @@
+"""Validate the fixed-r16 inputs with the native tokenizer and SQL verifier."""
+import argparse
+from collections import Counter
+import ctypes
+from pathlib import Path
+import sys
+import time
+
+
+def validate(output):
+    from tqdm import tqdm
+    from transformers import AutoTokenizer
+    from grpo_common import ROOT, atomic_json, file_hash, read, validate_config
+    from grpo_repair_worker import sft_order, supervision_for, verify_for
+    from run_v2_grpo_dose import branch_config
+    from apt_v2.grpo import digest
+    from apt_v2 import grpo_dose_study as dose, grpo_lr_study as lr
+    from apt_v2.grpo_warmup_probe import make_plan, execute, productive, variants
+    from apt_v2.sft import encode_example
+
+    started = time.monotonic()
+    cfg = read(ROOT/'configs/grpo-sql-lr-study-v1.json')
+    lr.validate_master(cfg)
+    folder = ROOT/cfg['input_dir']
+    lr.validate_prior(read(folder/'prior-evidence.json'), cfg)
+    template = read(ROOT/cfg['branch_template'])
+    validate_config(template)
+    branch_config(cfg, ROOT/'artifacts'/cfg['run_id'], 'w')
+    identity = read(ROOT/template['initial_dir']/'model_identity.json')
+    for name, sha in identity['files_sha256'].items():
+        if not name.endswith('.safetensors') and file_hash(folder/'tokenizer'/name) != sha:
+            raise ValueError('published tokenizer differs from W')
+    tokenizer = AutoTokenizer.from_pretrained(folder/'tokenizer', local_files_only=True, trust_remote_code=False)
+
+    data = read(ROOT/cfg['sft_examples'])
+    plan = read(folder/'probe-plan.json')
+    if plan != make_plan(data):
+        raise ValueError('published probe plan differs')
+    old_master = read(ROOT/'configs/grpo-sql-dose-study-v1.json')
+    old_recipe = dose.recipe(16)
+    expected_batches = dose.order(dose.warm_config(old_master, 16), data)
+    arms = {}
+    for name, rate in tqdm(lr.CANDIDATES.items(), desc='Validate learning-rate arms', unit='candidate',
+                           file=sys.stdout, disable=False):
+        warm = lr.warm_config(cfg, rate)
+        if data != supervision_for(warm):
+            raise ValueError('learning-rate study requires the identical r16 dataset')
+        verify_for(warm, data)
+        batches = sft_order(warm)
+        counts = Counter(i for batch in batches for i in batch)
+        if batches != expected_batches or any(counts[i] != (16 if e['role'] == 'target' else 1)
+                                              for i, e in enumerate(data)):
+            raise ValueError('learning-rate study requires the identical r16 exposures and order')
+        if {k for k in old_recipe if warm['sft'][k] != old_recipe[k]} != {'learning_rate'}:
+            raise ValueError('learning rate must be the sole recipe change')
+        arms[name] = {'learning_rate': rate, 'steps': len(batches), 'target_exposures': 192,
+                      'maintenance_exposures': 48, 'source_sft_updates': 573, 'order_sha256': digest(batches)}
+
+    max_prompt = max_response = 0
+    for example in tqdm(data, desc='Encode fixed supervision', unit='action', file=sys.stdout, disable=False):
+        encoded = encode_example(tokenizer, example, 8192)
+        max_prompt = max(max_prompt, encoded['prompt_length'])
+        max_response = max(max_response, encoded['response_length'])
+        if encoded['response_length'] > 256:
+            raise ValueError('native response exceeds the generation cap')
+    for item in tqdm(plan, desc='Replay native SQL probes', unit='context', file=sys.stdout, disable=False):
+        if not productive(item, execute(item, item['response'])):
+            raise ValueError('expert probe action failed')
+        if item['kind'] == 'target' and productive(item, execute(item, variants(tokenizer, item)['omitted_text'])):
+            raise ValueError('missing-alias counterfactual certified')
+
+    result = {'passed': True, 'dataset_sha256': digest(data), 'candidates': arms,
+              'native_supervision_actions': len(data), 'probe_contexts_per_model': len(plan),
+              'maximum_prompt_tokens': max_prompt, 'maximum_response_tokens': max_response,
+              'prior_elapsed_seconds': cfg['prior_elapsed_seconds'], 'max_wall_seconds': cfg['max_wall_seconds'],
+              'total_authorized_seconds': cfg['total_authorized_seconds'], 'run_grpo': False,
+              'elapsed_seconds': time.monotonic()-started}
+    atomic_json(output, result)
+    return result
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--sqlite-dll', type=Path)
+    parser.add_argument('--output', type=Path, required=True)
+    args = parser.parse_args()
+    if args.sqlite_dll:
+        sqlite_runtime = ctypes.WinDLL(str(args.sqlite_dll.resolve()))
+    import sqlite3
+    if sqlite3.sqlite_version != '3.54.1':
+        raise ValueError('SQLite 3.54.1 required')
+    validate(args.output)

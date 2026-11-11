@@ -162,6 +162,12 @@ def warm_recipe_counts(cfg):
     if profile=='dose_v1':
         from .grpo_dose_study import recipe
         r=recipe(cfg.get('warm_target_repeats'));return r['steps'],r['steps']*4
+    if profile=='lr_v1':
+        from .grpo_lr_study import recipe
+        r = recipe(cfg.get('warm_learning_rate'))
+        if cfg.get('warm_target_repeats') != r['target_repeats']:
+            raise ValueError('learning-rate branch requires the fixed r16 dose')
+        return r['steps'], r['steps'] * r['batch_size']
     return (15,60) if profile=='retention_v1' else (24,96)
 
 
@@ -172,17 +178,27 @@ def expected_source_sft_updates(cfg):
 
 def validate_config(cfg):
     profile=cfg.get('repair_profile')
-    if profile not in (None,'retention_v1','dose_v1'):raise ValueError('unknown repair profile')
+    if profile not in (None,'retention_v1','dose_v1','lr_v1'):raise ValueError('unknown repair profile')
     warm_updates=513+warm_recipe_counts(cfg)[0]
     if profile=='retention_v1' and not cfg['run_id'].startswith('grpo-sql-retention-study-v1-20261110-'):
         raise ValueError('retention branch run identity differs')
     if profile=='dose_v1' and not cfg['run_id'].startswith('grpo-sql-dose-study-v1-20261110-'):
         raise ValueError('dose branch run identity differs')
+    max_wall_seconds = 21600
+    if profile == 'lr_v1':
+        from .grpo_lr_study import CANDIDATES, MAX_WALL_SECONDS, RUN_ID
+        max_wall_seconds = MAX_WALL_SECONDS
+        suffix = cfg['run_id'].removeprefix(RUN_ID + '-')
+        if cfg['repair_arm'] == 'warm':
+            if CANDIDATES.get(suffix) != cfg['warm_learning_rate']:
+                raise ValueError('learning-rate candidate identity differs')
+        elif suffix not in ('w', 'template'):
+            raise ValueError('learning-rate W identity differs')
     if (cfg.get('curriculum_schema')!=SCHEMA or cfg.get('verifier_version')!=VERSION
             or cfg.get('repair_arm') not in ('control','curriculum','plain','warm')
             or cfg['credit_method']!=LOCAL or cfg['learning_rate']!=1e-6 or cfg['k']!=4
             or cfg['max_groups']!=36 or cfg['max_updates']!=36 or cfg['group_evaluation_cursors']!=[36]
-            or cfg['max_wall_seconds']!=21600 or cfg['minimum_actual_updates']!=0
+            or cfg['max_wall_seconds']!=max_wall_seconds or cfg['minimum_actual_updates']!=0
             or cfg['source_sft_updates'] not in (513,warm_updates) or cfg['source_dpo_updates']!=11
             or cfg['source_sft_updates'] != (warm_updates if cfg['repair_arm']=='warm' else 513)
             or cfg['closing_evaluation']!={'enabled':False}):

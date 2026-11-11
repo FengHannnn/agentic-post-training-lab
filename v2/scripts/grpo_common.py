@@ -212,6 +212,10 @@ def prepare(output):
             from apt_v2.grpo_dose_study import recipe
             if read(initial/'source_config.json')!=recipe(cfg['warm_target_repeats']):
                 raise ValueError('dose B source recipe differs')
+        if cfg['repair_arm']=='warm' and cfg.get('repair_profile')=='lr_v1':
+            from apt_v2.grpo_lr_study import recipe
+            if read(initial/'source_config.json') != recipe(cfg['warm_learning_rate']):
+                raise ValueError('learning-rate B source recipe differs')
     identity = read(initial / 'model_identity.json')
     if identity['resolved_revision'] != cfg['revision'] or identity['model_id'] != cfg['base_model']:
         raise ValueError('base revision differs')

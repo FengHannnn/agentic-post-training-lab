@@ -1,0 +1,51 @@
+{
+  "passed": true,
+  "dataset_sha256": "0e53fafba730aa7ad815457fc60d0a973e77a015774ea5c8e583abb38ba36dc2",
+  "candidates": {
+    "lr3": {
+      "learning_rate": 0.000003,
+      "steps": 60,
+      "target_exposures": 192,
+      "maintenance_exposures": 48,
+      "source_sft_updates": 573,
+      "order_sha256": "fa141467d98e1814a6d88fa866eebc2adc434cab61430430a92e07b0d92d8e37"
+    },
+    "lr5": {
+      "learning_rate": 0.000005,
+      "steps": 60,
+      "target_exposures": 192,
+      "maintenance_exposures": 48,
+      "source_sft_updates": 573,
+      "order_sha256": "fa141467d98e1814a6d88fa866eebc2adc434cab61430430a92e07b0d92d8e37"
+    }
+  },
+  "native_supervision_actions": 60,
+  "probe_contexts_per_model": 24,
+  "maximum_prompt_tokens": 1358,
+  "maximum_response_tokens": 142,
+  "prior_elapsed_seconds": 12825.341599632986,
+  "max_wall_seconds": 18600,
+  "total_authorized_seconds": 31527.179048960097,
+  "run_grpo": false,
+  "elapsed_seconds": 9.70299999974668,
+  "regression": {
+    "passed": true,
+    "scope": "all_grpo_modules",
+    "modules": 27,
+    "tests": 379,
+    "warnings": 2,
+    "elapsed_seconds": 698.65
+  },
+  "clean_package": {
+    "passed": true,
+    "modules": 6,
+    "tests": 105,
+    "warnings": 1,
+    "elapsed_seconds": 224.58,
+    "cli_help_checks": 4,
+    "native_validation_matches": true,
+    "simulated_interruption_and_resume_passed": true,
+    "zip_entries": 376,
+    "bound_files": 375
+  }
+}
