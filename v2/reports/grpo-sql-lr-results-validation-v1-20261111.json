@@ -1,0 +1,639 @@
+{
+  "passed": true,
+  "run_id": "grpo-sql-lr-study-v1-20261111",
+  "source_commit": "5604876",
+  "archive": {
+    "entries": 2254,
+    "bytes": 539148595,
+    "sha256": "6f64d527d9b931ab7387aebf3d26ac0de036d6531cdbebb87938f818259c480a",
+    "crc_verified": true
+  },
+  "local_audit": {
+    "passed": true,
+    "scope": "local_returned_files",
+    "actual_sft_updates": {
+      "lr3": 60,
+      "lr5": 60
+    },
+    "actual_rl_updates": 0,
+    "selection": {
+      "selected_warm_start": null,
+      "selected_candidate": null,
+      "formal_baseline": "W",
+      "stop_reason": "no_qualified_warm_start",
+      "run_grpo": false
+    },
+    "learning_rates_evaluated": [
+      0.000003,
+      0.000005
+    ]
+  },
+  "decisions": {
+    "lr3": {
+      "name": "lr3",
+      "dose": 16,
+      "learning_rate": 0.000003,
+      "train_gate": {
+        "passed": false,
+        "checks": {
+          "both_target_repeats_at_least_nine": false,
+          "both_target_repeats_above_W": true,
+          "maintenance_non_regression": true,
+          "maintenance_each_state_non_regression": true,
+          "repeat_consistency_non_regression": true,
+          "effective_bf16_change": true
+        },
+        "target_certifications_by_repeat": [
+          7,
+          9
+        ]
+      },
+      "full_gate": null,
+      "adapter_sha256": "5db6b1b9e552ee973ef10a8d1598d0c7c4d577e457c9b4f7ee38597d9673aa7f"
+    },
+    "lr5": {
+      "name": "lr5",
+      "dose": 16,
+      "learning_rate": 0.000005,
+      "train_gate": {
+        "passed": true,
+        "checks": {
+          "both_target_repeats_at_least_nine": true,
+          "both_target_repeats_above_W": true,
+          "maintenance_non_regression": true,
+          "maintenance_each_state_non_regression": true,
+          "repeat_consistency_non_regression": true,
+          "effective_bf16_change": true
+        },
+        "target_certifications_by_repeat": [
+          12,
+          12
+        ]
+      },
+      "full_gate": {
+        "passed": false,
+        "first_action_certifications": 10,
+        "minimum": 3
+      },
+      "adapter_sha256": "91a3fe417f756d484327caf696ec48952dd27eea05e588a8f93f5e186afbaa15"
+    }
+  },
+  "train_probe": {
+    "w": {
+      "target_first_certifications": 0,
+      "target_contexts": 12,
+      "maintenance_productive_actions": 12,
+      "maintenance_contexts": 12,
+      "maintenance_by_state": {
+        "stale_evidence_repair": {
+          "contexts": 3,
+          "productive": 3
+        },
+        "failed_check_repair": {
+          "contexts": 3,
+          "productive": 3
+        },
+        "repeat_sql_error": {
+          "contexts": 3,
+          "productive": 3
+        },
+        "checked_submit": {
+          "contexts": 3,
+          "productive": 3
+        }
+      },
+      "target_repeat_identical": 9,
+      "alias_token_nll_mean": 0.8794127170733342,
+      "branch_logp_margin_mean": -4.290315048769116,
+      "correct_branch_preferred_contexts": 0,
+      "committed_generated_actions": 36,
+      "committed_forced_score_requests": 24,
+      "committed_auxiliary_generated_tokens": 24,
+      "not_used_for_policy_updates": true
+    },
+    "lr3": {
+      "target_first_certifications": 7,
+      "target_contexts": 12,
+      "maintenance_productive_actions": 12,
+      "maintenance_contexts": 12,
+      "maintenance_by_state": {
+        "stale_evidence_repair": {
+          "contexts": 3,
+          "productive": 3
+        },
+        "failed_check_repair": {
+          "contexts": 3,
+          "productive": 3
+        },
+        "repeat_sql_error": {
+          "contexts": 3,
+          "productive": 3
+        },
+        "checked_submit": {
+          "contexts": 3,
+          "productive": 3
+        }
+      },
+      "target_repeat_identical": 10,
+      "alias_token_nll_mean": 0.16879360604987328,
+      "branch_logp_margin_mean": 0.1673482283949852,
+      "correct_branch_preferred_contexts": 8,
+      "committed_generated_actions": 36,
+      "committed_forced_score_requests": 24,
+      "committed_auxiliary_generated_tokens": 24,
+      "not_used_for_policy_updates": true
+    },
+    "lr5": {
+      "target_first_certifications": 12,
+      "target_contexts": 12,
+      "maintenance_productive_actions": 12,
+      "maintenance_contexts": 12,
+      "maintenance_by_state": {
+        "stale_evidence_repair": {
+          "contexts": 3,
+          "productive": 3
+        },
+        "failed_check_repair": {
+          "contexts": 3,
+          "productive": 3
+        },
+        "repeat_sql_error": {
+          "contexts": 3,
+          "productive": 3
+        },
+        "checked_submit": {
+          "contexts": 3,
+          "productive": 3
+        }
+      },
+      "target_repeat_identical": 12,
+      "alias_token_nll_mean": 0.026101224602170226,
+      "branch_logp_margin_mean": 2.910330469099184,
+      "correct_branch_preferred_contexts": 12,
+      "committed_generated_actions": 36,
+      "committed_forced_score_requests": 24,
+      "committed_auxiliary_generated_tokens": 24,
+      "not_used_for_policy_updates": true
+    }
+  },
+  "quality_passed": {
+    "w": true,
+    "lr5": true
+  },
+  "standard_paired": {
+    "sample_complete": {
+      "episodes": 16,
+      "w": 13,
+      "lr5": 8,
+      "gains": 1,
+      "losses": 6
+    },
+    "sample_recovery": {
+      "episodes": 84,
+      "w": 60,
+      "lr5": 48,
+      "gains": 0,
+      "losses": 12
+    },
+    "greedy_complete": {
+      "episodes": 4,
+      "w": 4,
+      "lr5": 3,
+      "gains": 0,
+      "losses": 1
+    },
+    "greedy_recovery": {
+      "episodes": 28,
+      "w": 22,
+      "lr5": 20,
+      "gains": 0,
+      "losses": 2
+    }
+  },
+  "targeted": {
+    "w": {
+      "greedy": {
+        "episodes": 4,
+        "successes": 0,
+        "first_action_certifications": 0,
+        "progress_episodes": 0
+      },
+      "sample": {
+        "episodes": 12,
+        "successes": 0,
+        "first_action_certifications": 0,
+        "progress_episodes": 0
+      }
+    },
+    "lr5": {
+      "greedy": {
+        "episodes": 4,
+        "successes": 4,
+        "first_action_certifications": 4,
+        "progress_episodes": 4
+      },
+      "sample": {
+        "episodes": 12,
+        "successes": 10,
+        "first_action_certifications": 10,
+        "progress_episodes": 10
+      }
+    }
+  },
+  "degraded_trajectories": {
+    "w_success_lr5_failure": 21,
+    "budget_12": 21,
+    "without_submit": 21,
+    "all_three_metrics_certified": 17,
+    "at_least_two_check_result": 16,
+    "at_least_one_passed_check": 3,
+    "rows": [
+      {
+        "task": "repair-development-000",
+        "scenario": "format_repair",
+        "mode": "sample",
+        "rollout": 2,
+        "termination": "budget",
+        "metrics": [
+          "current_net_cents",
+          "prior_net_cents",
+          "change_cents"
+        ],
+        "submit": 0,
+        "checks": [
+          false
+        ]
+      },
+      {
+        "task": "repair-development-000",
+        "scenario": "sql_unverified_requery",
+        "mode": "sample",
+        "rollout": 0,
+        "termination": "budget",
+        "metrics": [
+          "prior_net_cents",
+          "current_net_cents",
+          "change_cents"
+        ],
+        "submit": 0,
+        "checks": [
+          false,
+          false
+        ]
+      },
+      {
+        "task": "repair-development-000",
+        "scenario": "sql_unverified_requery",
+        "mode": "sample",
+        "rollout": 1,
+        "termination": "budget",
+        "metrics": [
+          "prior_net_cents",
+          "current_net_cents",
+          "change_cents"
+        ],
+        "submit": 0,
+        "checks": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "task": "repair-development-000",
+        "scenario": "sql_unverified_requery",
+        "mode": "sample",
+        "rollout": 2,
+        "termination": "budget",
+        "metrics": [
+          "prior_net_cents",
+          "current_net_cents",
+          "change_cents"
+        ],
+        "submit": 0,
+        "checks": [
+          false,
+          false
+        ]
+      },
+      {
+        "task": "repair-development-000",
+        "scenario": "repeat_sql_error",
+        "mode": "sample",
+        "rollout": 2,
+        "termination": "budget",
+        "metrics": [
+          "current_net_cents",
+          "prior_net_cents",
+          "change_cents"
+        ],
+        "submit": 0,
+        "checks": []
+      },
+      {
+        "task": "repair-development-000",
+        "scenario": "failed_check_repair",
+        "mode": "sample",
+        "rollout": 0,
+        "termination": "budget",
+        "metrics": [
+          "current_net_cents",
+          "prior_net_cents",
+          "change_cents"
+        ],
+        "submit": 0,
+        "checks": [
+          true,
+          true,
+          true,
+          true,
+          false,
+          false
+        ]
+      },
+      {
+        "task": "repair-development-001",
+        "scenario": null,
+        "mode": "sample",
+        "rollout": 0,
+        "termination": "budget",
+        "metrics": [
+          "current_net_cents",
+          "prior_net_cents",
+          "change_cents"
+        ],
+        "submit": 0,
+        "checks": [
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "task": "repair-development-001",
+        "scenario": null,
+        "mode": "sample",
+        "rollout": 1,
+        "termination": "budget",
+        "metrics": [
+          "current_net_cents",
+          "prior_net_cents",
+          "change_cents"
+        ],
+        "submit": 0,
+        "checks": []
+      },
+      {
+        "task": "repair-development-001",
+        "scenario": null,
+        "mode": "sample",
+        "rollout": 3,
+        "termination": "budget",
+        "metrics": [
+          "current_net_cents",
+          "prior_net_cents",
+          "change_cents"
+        ],
+        "submit": 0,
+        "checks": [
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "task": "repair-development-001",
+        "scenario": "failed_check_repair",
+        "mode": "greedy",
+        "rollout": 0,
+        "termination": "budget",
+        "metrics": [
+          "current_net_cents",
+          "prior_net_cents",
+          "change_cents"
+        ],
+        "submit": 0,
+        "checks": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ]
+      },
+      {
+        "task": "repair-development-002",
+        "scenario": null,
+        "mode": "greedy",
+        "rollout": 0,
+        "termination": "budget",
+        "metrics": [
+          "current_net_cents",
+          "prior_net_cents",
+          "change_cents"
+        ],
+        "submit": 0,
+        "checks": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "task": "repair-development-002",
+        "scenario": null,
+        "mode": "sample",
+        "rollout": 0,
+        "termination": "budget",
+        "metrics": [
+          "current_net_cents",
+          "prior_net_cents",
+          "change_cents"
+        ],
+        "submit": 0,
+        "checks": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "task": "repair-development-002",
+        "scenario": null,
+        "mode": "sample",
+        "rollout": 1,
+        "termination": "budget",
+        "metrics": [
+          "current_net_cents",
+          "prior_net_cents"
+        ],
+        "submit": 0,
+        "checks": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "task": "repair-development-002",
+        "scenario": null,
+        "mode": "sample",
+        "rollout": 2,
+        "termination": "budget",
+        "metrics": [
+          "current_net_cents",
+          "prior_net_cents",
+          "change_cents"
+        ],
+        "submit": 0,
+        "checks": [
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "task": "repair-development-002",
+        "scenario": "format_repair",
+        "mode": "greedy",
+        "rollout": 0,
+        "termination": "budget",
+        "metrics": [
+          "current_net_cents",
+          "prior_net_cents",
+          "change_cents"
+        ],
+        "submit": 0,
+        "checks": [
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "task": "repair-development-002",
+        "scenario": "format_repair",
+        "mode": "sample",
+        "rollout": 1,
+        "termination": "budget",
+        "metrics": [
+          "current_net_cents",
+          "prior_net_cents",
+          "change_cents"
+        ],
+        "submit": 0,
+        "checks": []
+      },
+      {
+        "task": "repair-development-002",
+        "scenario": "format_repair",
+        "mode": "sample",
+        "rollout": 2,
+        "termination": "budget",
+        "metrics": [
+          "current_net_cents",
+          "prior_net_cents",
+          "change_cents"
+        ],
+        "submit": 0,
+        "checks": [
+          false,
+          true
+        ]
+      },
+      {
+        "task": "repair-development-002",
+        "scenario": "sql_unverified_requery",
+        "mode": "sample",
+        "rollout": 1,
+        "termination": "budget",
+        "metrics": [
+          "prior_net_cents",
+          "current_net_cents"
+        ],
+        "submit": 0,
+        "checks": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "task": "repair-development-002",
+        "scenario": "sql_unverified_requery",
+        "mode": "sample",
+        "rollout": 2,
+        "termination": "budget",
+        "metrics": [
+          "prior_net_cents",
+          "current_net_cents"
+        ],
+        "submit": 0,
+        "checks": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "task": "repair-development-003",
+        "scenario": "stale_evidence_repair",
+        "mode": "sample",
+        "rollout": 0,
+        "termination": "budget",
+        "metrics": [
+          "current_net_cents",
+          "prior_net_cents"
+        ],
+        "submit": 0,
+        "checks": []
+      },
+      {
+        "task": "repair-development-003",
+        "scenario": "repeat_sql_error",
+        "mode": "sample",
+        "rollout": 2,
+        "termination": "budget",
+        "metrics": [
+          "current_net_cents",
+          "prior_net_cents",
+          "change_cents"
+        ],
+        "submit": 0,
+        "checks": [
+          false,
+          false,
+          false,
+          false
+        ]
+      }
+    ]
+  },
+  "budget": {
+    "run_wall_seconds": 5017.325057353824,
+    "combined_wall_seconds": 17842.66665698681,
+    "total_authorized_seconds": 31527.179048960097,
+    "remaining_seconds": 13684.512391973287,
+    "budget_passed": true
+  }
+}
