@@ -5,7 +5,7 @@ from tqdm import tqdm
 from grpo_common import ROOT,read,file_hash,verify_files
 from run_v2_grpo import source_files
 from grpo_dose_worker import protocol_for
-from apt_v2 import grpo_dose_study, grpo_lr_study, grpo_lr_midpoint
+from apt_v2 import grpo_dose_study, grpo_lr_study, grpo_lr_midpoint, grpo_closeout_study
 
 
 def build(output_dir, config=None):
@@ -23,7 +23,7 @@ def build(output_dir, config=None):
     for folder in (ROOT/cfg['input_dir'],ROOT/'tests/fixtures',ROOT/branch['initial_dir'],ROOT/branch['profile_input_dir'],
                    ROOT/'artifacts/inputs/grpo-sql-repair-20261109', ROOT/'artifacts/inputs/grpo-sql-retention-20261110',
                    ROOT/'artifacts/inputs/grpo-warmup-probe-20261110', ROOT/grpo_dose_study.INPUT_DIR,
-                   ROOT/grpo_lr_study.INPUT_DIR, ROOT/grpo_lr_midpoint.INPUT_DIR):
+                   ROOT/grpo_lr_study.INPUT_DIR, ROOT/grpo_lr_midpoint.INPUT_DIR, ROOT/grpo_closeout_study.INPUT_DIR):
         for p in sorted(folder.rglob('*')):
             if p.is_file() and p.suffix not in ('.pt','.pyc') and '__pycache__' not in p.parts:files[p.relative_to(ROOT).as_posix()]=file_hash(p)
     reports = [cfg['contract_report'], cfg['validation_report'], 'README.md', 'PROJECT_REQUIREMENTS.md']
@@ -38,6 +38,8 @@ def build(output_dir, config=None):
                       'max_wall_seconds': cfg['max_wall_seconds']}
     if protocol is grpo_lr_midpoint:
         reports.append('reports/grpo-sql-lr-results-v1-20261111.md')
+    if protocol is grpo_closeout_study:
+        reports.append('reports/grpo-sql-lr-midpoint-results-v1-20261112.md')
     for name in reports:
         files[name] = file_hash(ROOT/name)
     manifest = {'run_id': cfg['run_id'], 'files': files, 'new_authorized_seconds': cfg['new_authorized_seconds'],

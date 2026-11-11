@@ -1,0 +1,54 @@
+{
+  "passed": true,
+  "dataset_sha256": "bcb9908b6006705e5a756cdce4ad09d35295eff9658c22537b366c0428727027",
+  "candidates": {
+    "closeout": {
+      "learning_rate": 0.000004,
+      "steps": 60,
+      "target_exposures": 192,
+      "maintenance_exposures": 48,
+      "source_sft_updates": 573,
+      "order_sha256": "fa141467d98e1814a6d88fa866eebc2adc434cab61430430a92e07b0d92d8e37"
+    }
+  },
+  "native_supervision_actions": 60,
+  "probe_contexts_per_model": 24,
+  "maximum_prompt_tokens": 1988,
+  "maximum_response_tokens": 142,
+  "prior_elapsed_seconds": 22377.370386653813,
+  "max_wall_seconds": 9000,
+  "total_authorized_seconds": 31527.179048960097,
+  "run_grpo": false,
+  "elapsed_seconds": 4.95299999999952,
+  "reference_dataset_sha256": "0e53fafba730aa7ad815457fc60d0a973e77a015774ea5c8e583abb38ba36dc2",
+  "maintenance_replacements": {
+    "failed_check_repair": 12,
+    "checked_submit": 12
+  },
+  "probe_plan_unchanged": true,
+  "regression": {
+    "passed": true,
+    "tests": 156,
+    "warnings": 2,
+    "elapsed_seconds": 165.86,
+    "scope": "affected_grpo_modules",
+    "modules": 9
+  },
+  "clean_package": {
+    "passed": true,
+    "tests": 51,
+    "warnings": 0,
+    "elapsed_seconds": 73.39,
+    "modules": 4,
+    "cli_help_checks": 4,
+    "native_validation_matches": true,
+    "simulated_interruption_and_resume_passed": true,
+    "zip_entries": 405,
+    "bound_files": 404
+  },
+  "historical_diagnostics": {
+    "passed": true,
+    "standard_episodes": 264,
+    "paired_outputs_match": true
+  }
+}

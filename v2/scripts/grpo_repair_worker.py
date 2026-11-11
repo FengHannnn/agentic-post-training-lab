@@ -153,12 +153,15 @@ def verify_supervision(examples,expected_count=24):
 
 
 def lr_warm_protocol(cfg):
-    from apt_v2 import grpo_lr_study, grpo_lr_midpoint
-    return next((protocol for protocol in (grpo_lr_study, grpo_lr_midpoint)
+    from apt_v2 import grpo_lr_study, grpo_lr_midpoint, grpo_closeout_study
+    return next((protocol for protocol in (grpo_lr_study, grpo_lr_midpoint, grpo_closeout_study)
                  if cfg.get('schema') == protocol.WARM_SCHEMA), None)
 
 
 def supervision_for(cfg):
+    from apt_v2.grpo_closeout_study import WARM_SCHEMA, supervision_dataset as closeout_dataset
+    if cfg.get('schema') == WARM_SCHEMA:
+        return closeout_dataset()
     if cfg.get('schema') in ('repair_retention_v1', 'repair_dose_warm_v1') or lr_warm_protocol(cfg) is not None:
         from apt_v2.grpo_retention_study import supervision_dataset as retention_dataset
         return retention_dataset()

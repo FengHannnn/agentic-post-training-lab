@@ -15,7 +15,7 @@ def validate(output, config=None):
     from run_v2_grpo_dose import branch_config
     from grpo_dose_worker import protocol_for
     from apt_v2.grpo import digest
-    from apt_v2 import grpo_dose_study as dose
+    from apt_v2 import grpo_dose_study as dose, grpo_closeout_study as closeout, grpo_lr_midpoint as midpoint
     from apt_v2.grpo_warmup_probe import make_plan, execute, productive, variants
     from apt_v2.sft import encode_example
 
@@ -37,25 +37,42 @@ def validate(output, config=None):
     tokenizer = AutoTokenizer.from_pretrained(folder/'tokenizer', local_files_only=True, trust_remote_code=False)
 
     data = read(ROOT/cfg['sft_examples'])
+    reference = read(ROOT/cfg['probe_examples']) if 'probe_examples' in cfg else data
     plan = read(folder/'probe-plan.json')
-    if plan != make_plan(data):
+    if plan != make_plan(reference):
         raise ValueError('published probe plan differs')
     old_master = read(ROOT/'configs/grpo-sql-dose-study-v1.json')
     old_recipe = dose.recipe(16)
-    expected_batches = dose.order(dose.warm_config(old_master, 16), data)
+    expected_batches = dose.order(dose.warm_config(old_master, 16), reference)
+    maintenance_changes = []
+    if lr is closeout:
+        if len(data) != len(reference) or digest(reference) != closeout.R16_DATASET_SHA:
+            raise ValueError('closeout requires the original r16 reference')
+        for old, new in zip(reference, data):
+            if any(old[k] != new[k] for k in ('task_id', 'state', 'role', 'split')):
+                raise ValueError('closeout must preserve supervision slots')
+            if (old != new) != (old['state'] in closeout.REPLACED_STATES):
+                raise ValueError('only the designated maintenance slots may change')
+            if old != new:
+                maintenance_changes.append(old['state'])
+        if Counter(maintenance_changes) != {state: 12 for state in closeout.REPLACED_STATES}:
+            raise ValueError('closeout must replace both states on all train tasks')
     arms = {}
     for name, rate in tqdm(lr.CANDIDATES.items(), desc='Validate learning-rate arms', unit='candidate',
                            file=sys.stdout, disable=False):
         warm = lr.warm_config(cfg, rate)
         if data != supervision_for(warm):
-            raise ValueError('learning-rate study requires the identical r16 dataset')
+            raise ValueError('published supervision differs from the registered dataset')
         verify_for(warm, data)
         batches = sft_order(warm)
         counts = Counter(i for batch in batches for i in batch)
         if batches != expected_batches or any(counts[i] != (16 if e['role'] == 'target' else 1)
                                               for i, e in enumerate(data)):
             raise ValueError('learning-rate study requires the identical r16 exposures and order')
-        if {k for k in old_recipe if warm['sft'][k] != old_recipe[k]} != {'learning_rate'}:
+        if lr is closeout:
+            if warm['sft'] != {**midpoint.recipe(rate), 'supervision_sha256': digest(data)}:
+                raise ValueError('closeout must preserve the optimizer recipe and bind the new data')
+        elif {k for k in old_recipe if warm['sft'][k] != old_recipe[k]} != {'learning_rate'}:
             raise ValueError('learning rate must be the sole recipe change')
         arms[name] = {'learning_rate': rate, 'steps': len(batches), 'target_exposures': 192,
                       'maintenance_exposures': 48, 'source_sft_updates': 573, 'order_sha256': digest(batches)}
@@ -79,6 +96,10 @@ def validate(output, config=None):
               'prior_elapsed_seconds': cfg['prior_elapsed_seconds'], 'max_wall_seconds': cfg['max_wall_seconds'],
               'total_authorized_seconds': cfg['total_authorized_seconds'], 'run_grpo': False,
               'elapsed_seconds': time.monotonic()-started}
+    if lr is closeout:
+        result['reference_dataset_sha256'] = digest(reference)
+        result['maintenance_replacements'] = dict(Counter(maintenance_changes))
+        result['probe_plan_unchanged'] = True
     atomic_json(output, result)
     return result
 

@@ -164,6 +164,9 @@ def learning_rate_protocol(profile):
     if profile == 'lr_midpoint_v1':
         from . import grpo_lr_midpoint
         return grpo_lr_midpoint
+    if profile == 'closeout_v1':
+        from . import grpo_closeout_study
+        return grpo_closeout_study
     return None
 
 

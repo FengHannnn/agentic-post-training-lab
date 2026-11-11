@@ -1,0 +1,41 @@
+{
+  "run_id": "grpo-sql-closeout-v1-20261112",
+  "schema": "repair_closeout_v1",
+  "max_wall_seconds": 9000,
+  "new_authorized_seconds": 21600,
+  "prior_elapsed_seconds": 22377.370386653813,
+  "total_authorized_seconds": 31527.179048960097,
+  "target_repeats": 16,
+  "seed": 2026111061,
+  "train_gate": {
+    "minimum_target_per_repeat": 9,
+    "maintenance_non_regression": true,
+    "repeat_consistency_non_regression": true,
+    "effective_bf16_change": true
+  },
+  "stop_after_first_full_gate_pass": true,
+  "run_grpo": false,
+  "branch_template": "configs/grpo-sql-closeout-branch-v1.json",
+  "input_dir": "artifacts/inputs/grpo-sql-closeout-20261112",
+  "sft_examples": "artifacts/inputs/grpo-sql-closeout-20261112/sft-examples.json",
+  "contract_report": "reports/grpo-sql-closeout-contract-v1-20261112.md",
+  "validation_report": "reports/grpo-sql-closeout-validation-v1-20261112.json",
+  "sampling": {
+    "temperature": 1,
+    "top_p": 1,
+    "top_k": -1,
+    "min_p": 0,
+    "repetition_penalty": 1,
+    "presence_penalty": 0,
+    "frequency_penalty": 0,
+    "min_tokens": 0,
+    "max_new_tokens": 256,
+    "max_model_len": 8192,
+    "logprobs_mode": "processed_logprobs"
+  },
+  "learning_rates": [
+    0.000004
+  ],
+  "preparation_report": "reports/grpo-sql-closeout-preparation-v1-20261112.md",
+  "probe_examples": "artifacts/inputs/grpo-sql-lr-midpoint-20261111/sft-examples.json"
+}

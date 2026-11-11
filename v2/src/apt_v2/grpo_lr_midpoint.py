@@ -9,6 +9,7 @@ WARM_SCHEMA = 'repair_lr_midpoint_warm_v1'
 RUN_ID = 'grpo-sql-lr-midpoint-v1-20261111'
 MANIFEST = 'grpo_sql_lr_midpoint_release_manifest.json'
 CANDIDATES = {'lr4': 4e-6}
+COMPLETION_CANDIDATE = 'lr4'
 INPUT_DIR = 'artifacts/inputs/grpo-sql-lr-midpoint-20261111'
 MAX_WALL_SECONDS = 13500
 PRIOR_SECONDS = 17842.66665698681
@@ -112,12 +113,12 @@ def _completion_rows(result):
     return rows
 
 
-def completion_diagnostics(w, candidate):
+def completion_diagnostics(w, candidate, candidate_name=COMPLETION_CANDIDATE):
     """Track standard task stages, using the same W/candidate episode pairs."""
     models = {'w': _completion_rows(w)}
     if candidate is not None:
-        models['lr4'] = _completion_rows(candidate)
-        left, right = models['w'], models['lr4']
+        models[candidate_name] = _completion_rows(candidate)
+        left, right = models['w'], models[candidate_name]
         if left.keys() != right.keys() or any(
             (row['start_id'], row['sampling']) != (right[key]['start_id'], right[key]['sampling'])
             for key, row in left.items()

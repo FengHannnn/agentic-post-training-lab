@@ -4,14 +4,14 @@ from pathlib import Path
 from tqdm import tqdm
 from grpo_common import ROOT,read,atomic_json,file_hash,verify_files,verify_inputs as branch_inputs,runtime_identity
 from apt_v2.grpo import digest
-from apt_v2 import grpo_dose_study, grpo_lr_study, grpo_lr_midpoint
+from apt_v2 import grpo_dose_study, grpo_lr_study, grpo_lr_midpoint, grpo_closeout_study
 from apt_v2.grpo_dose_study import train_gate
 from apt_v2.grpo_warmup_probe import make_plan
 from apt_v2.grpo_repair_study import W_SHA,b_gate
 
 
 def protocol_for(cfg):
-    for protocol in (grpo_dose_study, grpo_lr_study, grpo_lr_midpoint):
+    for protocol in (grpo_dose_study, grpo_lr_study, grpo_lr_midpoint, grpo_closeout_study):
         if cfg['schema'] == protocol.SCHEMA:
             return protocol
     raise ValueError('unknown warm-start search schema')
@@ -75,7 +75,9 @@ def verify_probe_inputs(output,local=False):
     if m['config_sha256']!=file_hash(output/'config.json'):raise ValueError('dose prepared config differs')
     prior=read(prepared/'inputs/prior-evidence.json');protocol.validate_prior(prior,c)
     if prior!=read(ROOT/c['input_dir']/'prior-evidence.json'):raise ValueError('dose prior input differs')
-    data=read(prepared/'inputs/sft-examples.json');plan=make_plan(data)
+    data = read(prepared/'inputs/sft-examples.json')
+    probe_examples = read(ROOT/c['probe_examples']) if 'probe_examples' in c else data
+    plan = make_plan(probe_examples)
     if data!=read(ROOT/c['sft_examples']) or read(prepared/'inputs/probe-plan.json')!=plan:
         raise ValueError('dose data/probe plan differs')
     if read(prepared/'branch_config.json')!=read(output/'branches/w/config.json'):raise ValueError('probe branch config differs')
@@ -133,8 +135,11 @@ def gate(output,name,write=True):
     return result
 
 
-def midpoint_diagnostics(output, w, candidate, write):
-    result = grpo_lr_midpoint.completion_diagnostics(w, candidate)
+def save_completion_diagnostics(protocol, output, w, candidate, write):
+    name = getattr(protocol, 'COMPLETION_CANDIDATE', None)
+    if name is None:
+        return None
+    result = grpo_lr_midpoint.completion_diagnostics(w, candidate, name)
     path = output/'completion-diagnostics.json'
     if path.exists():
         if read(path) != result:
@@ -185,8 +190,7 @@ def audit(output,local=False):
         wanted = ready_record(cfg, name, identity)
         if not ready.exists() or read(ready)!=wanted:raise ValueError('ready B export differs')
     elif ready.exists():raise ValueError('unqualified B exported as ready')
-    if protocol is grpo_lr_midpoint:
-        midpoint_diagnostics(output, w, b, write=False)
+    save_completion_diagnostics(protocol, output, w, b, write=False)
     result={'passed':True,'scope':'local_returned_files' if local else 'cloud_with_state','actual_sft_updates':counts,
             'actual_rl_updates':0,'selection':expected}
     if protocol is grpo_dose_study:
@@ -198,7 +202,7 @@ def audit(output,local=False):
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('stage',choices=['prepare','warm','probe','gate','audit']);p.add_argument('--output',type=Path,required=True)
-    p.add_argument('--name',choices=['w', *grpo_dose_study.CANDIDATES, *grpo_lr_study.CANDIDATES, *grpo_lr_midpoint.CANDIDATES]);p.add_argument('--local',action='store_true');a=p.parse_args()
+    p.add_argument('--name',choices=['w', *grpo_dose_study.CANDIDATES, *grpo_lr_study.CANDIDATES, *grpo_lr_midpoint.CANDIDATES, *grpo_closeout_study.CANDIDATES]);p.add_argument('--local',action='store_true');a=p.parse_args()
     if a.stage=='prepare':prepare(a.output)
     elif a.stage=='warm':warm(a.output,a.name)
     elif a.stage=='probe':

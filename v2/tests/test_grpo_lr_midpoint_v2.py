@@ -122,12 +122,12 @@ def test_driver_keeps_midpoint_gates_and_exports_only_qualified_b(tmp_path, monk
 
 
 def test_diagnostics_audit_rejects_missing_or_changed_results(tmp_path):
-    from grpo_dose_worker import midpoint_diagnostics
+    from grpo_dose_worker import save_completion_diagnostics
     w = {'episodes': [episode(True)]}
     with pytest.raises(ValueError, match='missing'):
-        midpoint_diagnostics(tmp_path, w, None, write=False)
-    expected = midpoint_diagnostics(tmp_path, w, None, write=True)
-    assert midpoint_diagnostics(tmp_path, w, None, write=False) == expected
+        save_completion_diagnostics(midpoint, tmp_path, w, None, write=False)
+    expected = save_completion_diagnostics(midpoint, tmp_path, w, None, write=True)
+    assert save_completion_diagnostics(midpoint, tmp_path, w, None, write=False) == expected
     atomic_json(tmp_path/'completion-diagnostics.json', {})
     with pytest.raises(ValueError, match='differ'):
-        midpoint_diagnostics(tmp_path, w, None, write=False)
+        save_completion_diagnostics(midpoint, tmp_path, w, None, write=False)

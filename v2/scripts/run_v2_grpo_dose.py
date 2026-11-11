@@ -5,8 +5,7 @@ from grpo_common import ROOT,read,atomic_json,file_hash,verify_files,runtime_ide
 from run_v2_grpo import source_files
 from run_v2_grpo_repair import Study as RepairStudy,BudgetStop,evaluation,resume_spent,package
 from apt_v2.grpo_dose_study import MANIFEST
-from apt_v2 import grpo_lr_midpoint
-from grpo_dose_worker import midpoint_diagnostics, protocol_for, ready_record
+from grpo_dose_worker import protocol_for, ready_record, save_completion_diagnostics
 from apt_v2.grpo_repair_study import b_gate, learning_rate_protocol
 
 def branch_config(cfg,output,name):
@@ -40,8 +39,7 @@ class Study(RepairStudy):
         w=self.evaluate(child,'w','weighted_sft',0,initial_policy(read(child/'config.json')));records=[]
         b = None
         if not w['evaluation_quality_passed']:
-            if protocol is grpo_lr_midpoint:
-                midpoint_diagnostics(self.output, w, b, write=True)
+            save_completion_diagnostics(protocol, self.output, w, b, write=True)
             return protocol.selection(w, records)
         reserve=max(2400.,1.25*w['elapsed_seconds'])+360.
         for name in protocol.CANDIDATES:
@@ -62,8 +60,7 @@ class Study(RepairStudy):
             if full and full['passed']:
                 atomic_json(self.output/'ready-B.json', ready_record(self.cfg, name, identity))
                 break
-        if protocol is grpo_lr_midpoint:
-            midpoint_diagnostics(self.output, w, b, write=True)
+        save_completion_diagnostics(protocol, self.output, w, b, write=True)
         return protocol.selection(w,records)
 
 
