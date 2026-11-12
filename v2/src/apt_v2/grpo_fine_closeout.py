@@ -143,9 +143,10 @@ def preflight_result(groups):
             'status': 'complete' if len(groups) == 12 else 'partial_timeout'}
 
 
-def selection(w, results):
+def selection(w, results, minimum_credit_gain=2):
     baseline = standard_counts(w)
-    primary = 1 if baseline[0] == 16 else 0
+    full_count = w['summary']['sample']['complete'].get('episodes',16)
+    primary = 1 if baseline[0] == full_count else 0
     checks = {}
     for name, candidate in results.items():
         count = standard_counts(candidate)
@@ -164,5 +165,5 @@ def selection(w, results):
         gain = checks['closeout']['counts'][1] - checks['local']['counts'][1]
     return {'selected_candidate': chosen, 'formal_baseline': 'W', 'w_counts': baseline, 'checks': checks,
             'primary_metric': 'sample_complete' if primary == 0 else 'sample_recovery',
-            'new_credit_recovery_gain': gain, 'credit_threshold': 2,
-            'credit_gain_passed': gain is not None and gain >= 2}
+            'new_credit_recovery_gain': gain, 'credit_threshold': minimum_credit_gain,
+            'credit_gain_passed': gain is not None and gain >= minimum_credit_gain}

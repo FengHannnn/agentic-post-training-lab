@@ -1,0 +1,51 @@
+{
+  "passed": true,
+  "sqlite": "3.54.1",
+  "policies": {
+    "w": {
+      "checkpoint": "initial",
+      "version": 0,
+      "updates": 0,
+      "adapter_sha256": "f8fb95a4135af76398a1ab9c84f49b8f90b7e30ce77cc50a4b59f863202d689f"
+    },
+    "local": {
+      "checkpoint": "checkpoints/group-0046",
+      "version": 43,
+      "updates": 43,
+      "adapter_sha256": "eb78febd0fd2cce0cdac6a930894d59eb07cada9b320ecaf1249f1932f9f708e"
+    },
+    "closeout": {
+      "checkpoint": "checkpoints/group-0047",
+      "version": 47,
+      "updates": 47,
+      "adapter_sha256": "1c209b708c7cdf334f6ec103e0f5974193078e9d6f3acc8773654b37faec2b5a"
+    }
+  },
+  "task_count": 12,
+  "standard_episodes": {
+    "greedy_complete": 12,
+    "sample_complete": 48,
+    "greedy_recovery": 84,
+    "sample_recovery": 252
+  },
+  "targeted_episodes": 48,
+  "expert_proofs": 264,
+  "max_initial_prompt_tokens": 1370,
+  "max_wall_seconds": 21600,
+  "new_training_updates": 0,
+  "regression": {
+    "passed": true,
+    "scope": "affected_grpo_modules",
+    "modules": 9,
+    "tests": 136
+  },
+  "clean_package": {
+    "passed": true,
+    "tests": 12,
+    "cli_help_checks": 3,
+    "native_validation_matches": true,
+    "simulated_interruption_and_resume_passed": true,
+    "zip_entries": 428,
+    "bound_files": 427
+  }
+}

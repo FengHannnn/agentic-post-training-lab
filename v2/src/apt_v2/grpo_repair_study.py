@@ -34,6 +34,9 @@ def training_tasks(cfg=None):
 
 
 def development_tasks(cfg=None):
+    if cfg and cfg.get('repair_profile') == 'fine_closeout_followup_v1':
+        from .grpo_fine_closeout_followup import panel_tasks
+        return panel_tasks()
     if cfg and cfg.get('repair_profile') == 'fine_closeout_credit_v1':
         from .grpo_fine_closeout import panel_tasks
         return panel_tasks(cfg['evaluation_panel'])
@@ -60,11 +63,16 @@ def assert_isolation(cfg=None):
         from .grpo_fine_closeout import panel_tasks
         other = 'confirmation' if cfg['evaluation_panel'] == 'development' else 'development'
         excluded += development_tasks() + panel_tasks(other)
+    followup = cfg and cfg.get('repair_profile') == 'fine_closeout_followup_v1'
+    if followup:
+        from .grpo_fine_closeout import panel_tasks
+        excluded += development_tasks() + panel_tasks('development') + panel_tasks('confirmation')
+    expected_dev = cfg['sample_eval']['task_count'] if followup else 4
     for field in ('id','family_id','seed','segment'):
         a,b,c = ({getattr(t,field) for t in ts} for ts in (train,dev,excluded))
-        if len(a)!=12 or len(b)!=4 or a&b or a&c or b&c:
+        if len(a)!=12 or len(b)!=expected_dev or a&b or a&c or b&c:
             raise ValueError('repair study split overlap: '+field)
-    return {'passed':True,'train_tasks':12,'development_tasks':4,'excluded_instances':len(excluded)}
+    return {'passed':True,'train_tasks':12,'development_tasks':expected_dev,'excluded_instances':len(excluded)}
 
 
 def context(task, scenario, allowed_split='train'):
@@ -136,6 +144,8 @@ def route_diagnostic(groups):
 
 
 def start_spec(cfg,index):
+    if cfg.get('repair_profile') == 'fine_closeout_followup_v1':
+        raise ValueError('frozen follow-up runs evaluation only')
     if cfg.get('repair_profile') == 'fine_closeout_credit_v1':
         from .grpo_fine_closeout import start_spec as credit_spec
         return credit_spec(cfg,index)
@@ -204,6 +214,11 @@ def expected_source_sft_updates(cfg):
 
 def validate_config(cfg):
     profile=cfg.get('repair_profile')
+    if profile == 'fine_closeout_followup_v1':
+        from .grpo_fine_closeout_followup import validate_branch
+        validate_branch(cfg)
+        assert_isolation(cfg)
+        return
     if profile == 'fine_closeout_credit_v1':
         from .grpo_fine_closeout import validate_branch
         validate_branch(cfg)
@@ -263,8 +278,10 @@ def frozen_inputs(cfg):
                 proofs.append({'task_id':t.id,'scenario':scenario,'prefix_turns':prefix,
                                'continuation_turns':len(env.records)-prefix,'total_turns':len(env.records),'passed':True})
             finally:env.close()
+    plan = [] if cfg.get('repair_profile') == 'fine_closeout_followup_v1' else [
+        start_spec(cfg,i) for i in range(cfg.get('max_groups',36)+1)]
     return {'curriculum_training_tasks.json':[asdict(t) for t in training_tasks()],
-            'curriculum_group_plan.json':[start_spec(cfg,i) for i in range(cfg.get('max_groups',36)+1)],
+            'curriculum_group_plan.json':plan,
             'curriculum_isolation.json':assert_isolation(cfg),'curriculum_expert_proof.json':proofs,
             'targeted_evaluation_plan.json':targeted_plan(cfg),
             'repair_method.json':{'verifier_version':VERSION,'reminder':REMINDER,'extra_sft_updates':cfg['source_sft_updates']-513,

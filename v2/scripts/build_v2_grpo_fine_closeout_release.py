@@ -92,10 +92,57 @@ def validate(history=None):
     return result
 
 
-def build(output):
+def validate_followup():
+    import sqlite3
+    from collections import Counter
+    from transformers import AutoTokenizer
+    from grpo_common import ROOT, file_hash, read, validate_config, verify_files
+    from apt_v2 import grpo_fine_closeout_followup as study
+    from apt_v2.grpo_evaluation import evaluation_plan
+    from apt_v2.grpo_repair_study import frozen_inputs
+    from apt_v2.runtime import SYSTEM
+    from run_v2_grpo_fine_closeout_followup import branch_config
+    if sqlite3.sqlite_version!='3.54.1':
+        raise ValueError('SQLite 3.54.1 required')
+    study.validate_master(read(ROOT/study.CONFIG))
+    study.validate_evidence(read(ROOT/study.INPUT/'source-evidence.json'))
+    cfg=branch_config('w')
+    for name in tqdm(study.NAMES,desc='Verify frozen policies',unit='model',file=sys.stdout,disable=False):
+        validate_config(branch_config(name))
+        folder=(ROOT/cfg['initial_dir']/'adapter' if name=='w' else ROOT/study.INPUT/'models'/name/'adapter')
+        if file_hash(folder/'adapter_model.safetensors')!=study.POLICIES[name]['adapter_sha256']:
+            raise ValueError('frozen evaluation policy differs')
+    frozen=frozen_inputs(cfg)
+    plan=evaluation_plan(cfg)
+    counts=Counter(item['mode']+'_'+item['kind'] for item in plan)
+    if counts!={'sample_complete':48,'sample_recovery':252,'greedy_complete':12,'greedy_recovery':84}:
+        raise ValueError('follow-up denominators differ')
+    tokdir=ROOT/'artifacts/inputs/grpo-sql-closeout-20261112/tokenizer'
+    identity=read(ROOT/cfg['initial_dir']/'model_identity.json')
+    verify_files(tokdir,{n:h for n,h in identity['files_sha256'].items() if not n.endswith('.safetensors')})
+    tok=AutoTokenizer.from_pretrained(tokdir,local_files_only=True,trust_remote_code=False)
+    prompt_max=0
+    from apt_v2.grpo_repair_study import COMPOUND,STANDARD,context
+    for task in tqdm(study.panel_tasks(),desc='Encode frozen evaluation starts',unit='task',file=sys.stdout,disable=False):
+        messages=[{'role':'system','content':SYSTEM},{'role':'user','content':task.request()}]
+        for prefix in [messages,*[context(task,s,'development')['messages'] for s in (*STANDARD,COMPOUND)]]:
+            prompt_max=max(prompt_max,len(tok.apply_chat_template(prefix,tokenize=True,add_generation_prompt=True)))
+    if prompt_max+cfg['sampling']['max_new_tokens']>cfg['sampling']['max_model_len']:
+        raise ValueError('frozen follow-up start exceeds the context budget')
+    return {'passed':True,'sqlite':sqlite3.sqlite_version,'policies':study.POLICIES,'task_count':study.TASK_COUNT,
+            'standard_episodes':dict(counts),'targeted_episodes':len(frozen['targeted_evaluation_plan.json']),
+            'expert_proofs':len(frozen['curriculum_expert_proof.json']),'max_initial_prompt_tokens':prompt_max,
+            'max_wall_seconds':study.CAP,'new_training_updates':0}
+
+
+def build(output, followup=False):
     from grpo_common import ROOT, atomic_json, file_hash, read, verify_files
-    from apt_v2 import grpo_fine_closeout as study
     from run_v2_grpo import source_files
+    if followup:
+        from apt_v2 import grpo_fine_closeout_followup as study
+    else:
+        from apt_v2 import grpo_fine_closeout as study
+    preparation='reports/grpo-fine-closeout-followup-preparation-v1-20261112.md' if followup else PREPARATION
     cfg=read(ROOT/study.CONFIG)
     study.validate_master(cfg)
     validation=read(ROOT/study.VALIDATION)
@@ -106,7 +153,7 @@ def build(output):
         for p in sorted(folder.rglob('*')):
             if p.is_file() and p.suffix not in ('.pt','.pyc') and '__pycache__' not in p.parts:
                 files[p.relative_to(ROOT).as_posix()]=file_hash(p)
-    for n in (study.CONTRACT,study.VALIDATION,PREPARATION,'README.md','PROJECT_REQUIREMENTS.md'):
+    for n in (study.CONTRACT,study.VALIDATION,preparation,'README.md','PROJECT_REQUIREMENTS.md'):
         files[n]=file_hash(ROOT/n)
     manifest={'run_id':study.RUN_ID,'wall_seconds':study.CAP,'files':files,'local_validation':validation}
     content=json.dumps(manifest,ensure_ascii=False,indent=2).encode()
@@ -137,6 +184,7 @@ if __name__=='__main__':
     args_mode=parser.add_mutually_exclusive_group(required=True)
     args_mode.add_argument('--output-dir',type=Path)
     args_mode.add_argument('--validate',type=Path)
+    parser.add_argument('--followup',action='store_true')
     parser.add_argument('--sqlite-dll',type=Path)
     parser.add_argument('--historical-groups',type=Path)
     args=parser.parse_args()
@@ -144,6 +192,6 @@ if __name__=='__main__':
         if args.sqlite_dll:
             sqlite_runtime=ctypes.WinDLL(str(args.sqlite_dll.resolve()))
         from grpo_common import atomic_json
-        atomic_json(args.validate,validate(args.historical_groups))
+        atomic_json(args.validate,validate_followup() if args.followup else validate(args.historical_groups))
     else:
-        build(args.output_dir)
+        build(args.output_dir,args.followup)

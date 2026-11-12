@@ -55,7 +55,7 @@ def validate_config(cfg):
     method=cfg.get('credit_method',OUTCOME)
     if ((cfg['algorithm']=='fine_grained_grpo') != (method in (FINE,LOCAL,CLOSEOUT))
             or method not in (OUTCOME,FINE,LOCAL,CLOSEOUT)
-            or (method == CLOSEOUT and cfg.get('repair_profile') != 'fine_closeout_credit_v1')):
+            or (method == CLOSEOUT and cfg.get('repair_profile') not in ('fine_closeout_credit_v1','fine_closeout_followup_v1'))):
         raise ValueError('algorithm and action-credit method differ')
     from apt_v2.dpo_recovery import SCENARIOS
     if cfg.get('curriculum_schema')=='repair_study_v1':
@@ -98,7 +98,7 @@ def validate_config(cfg):
                 or cfg['eval']['max_new_tokens'] != cfg['sampling']['max_new_tokens']
                 or cfg['sample_eval']['rollouts_per_task'] != 4 or cfg['recovery_eval']['samples_per_context'] != 3
                 or cfg['protocol']['quality_contexts_per_model'] != 7 or cfg['protocol']['quality_repeats'] != 2):
-            raise ValueError('fixed 132-episode paired evaluation and 7x2 quality protocol required')
+            raise ValueError('fixed per-task paired evaluation and 7x2 quality protocol required')
     s = cfg['sampling']
     if (s['temperature'] != 1 or s['top_p'] != 1 or s['top_k'] != -1 or s['min_p'] != 0
             or s['min_tokens'] != 0 or s['repetition_penalty'] != 1

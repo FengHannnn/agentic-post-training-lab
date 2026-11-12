@@ -1,0 +1,11 @@
+{
+  "schema": "fine_closeout_followup_v1",
+  "run_id": "grpo-fine-closeout-followup-v1-20261112",
+  "max_wall_seconds": 21600,
+  "task_count": 12,
+  "minimum_credit_recovery_gain": 6,
+  "branch_template": "configs/grpo-fine-closeout-followup-branch-v1.json",
+  "input_dir": "artifacts/inputs/grpo-fine-closeout-followup-20261112",
+  "contract_report": "reports/grpo-fine-closeout-followup-contract-v1-20261112.md",
+  "validation_report": "reports/grpo-fine-closeout-followup-validation-v1-20261112.json"
+}
