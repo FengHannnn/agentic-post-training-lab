@@ -22,10 +22,18 @@ def prepare_child(output, name):
     staging.rename(child)
 
 
-def verify_diagnostic(output,tok):
+def diagnostic_protocol(cfg):
+    from apt_v2.grpo_fine_closeout import SCHEMA, diagnostic_plan as credit_plan, preflight_result
+    if cfg.get('schema') == SCHEMA:
+        return credit_plan(cfg), training_tasks(), preflight_result
+    return diagnostic_plan(cfg), diagnostic_tasks(), route_diagnostic
+
+
+def verify_diagnostic(output,tok,allow_partial=False):
     from grpo_vllm import verify_probability_probe, projected_checkpoint_tensors
     cfg=read(output/'config.json');child=output/'branches/w';branch=verify_inputs(child,runtime=False,local=True)
-    plan=diagnostic_plan(cfg);tasks={t.id:t for t in diagnostic_tasks()};groups=[]
+    plan, task_list, summarize = diagnostic_protocol(cfg)
+    tasks={t.id:t for t in task_list};groups=[]
     sessions={p.stem:read(p) for p in (output/'diagnostic/sessions').glob('*.json')}
     projected=projected_checkpoint_tensors(child/'initial/adapter')
     for sid,session in sessions.items():
@@ -43,17 +51,29 @@ def verify_diagnostic(output,tok):
     for spec in tqdm(plan,desc='Replay diagnostic groups',unit='group',file=sys.stdout,disable=False):
         episodes=[]
         for ri in range(4):
-            i=spec['index']*4+ri;e=read(output/'diagnostic/episodes'/f'{i:04}.json')
+            i=spec['index']*4+ri
+            path = output/'diagnostic/episodes'/f'{i:04}.json'
+            if allow_partial and not path.exists():
+                continue
+            e = read(path)
             if (e['task_id']!=spec['task_id'] or e['scenario']!=spec['scenario'] or e['seed']!=spec['seed']+ri*1000
                     or e['policy_version']!=0 or e['rollout_index']!=ri or e['sampling']!=branch['sampling']
                     or e.get('session_id') not in sessions):raise ValueError('diagnostic episode plan differs')
             replay(tasks[e['task_id']],e,tok,context);episodes.append(e)
-        g={'spec':spec,'episodes':episodes,'credit':compute_credit(episodes,4,1e-8,LOCAL)}
-        groups.append(g)
-    result=route_diagnostic(groups)
+        if len(episodes) == 4:
+            groups.append({'spec':spec,'episodes':episodes,'credit':compute_credit(episodes,4,1e-8,LOCAL)})
+    result=summarize(groups)
     if (output/'diagnostic/route.json').exists() and result!=read(output/'diagnostic/route.json'):
         raise ValueError('recomputed diagnostic route differs')
     return groups,result
+
+
+def finalize_diagnostic(output, tok, allow_partial=False):
+    groups, result = verify_diagnostic(output, tok, allow_partial)
+    for g in groups:
+        atomic_json(output/'diagnostic/groups'/f"{g['spec']['index']:04}.json",g)
+    atomic_json(output/'diagnostic/route.json',result)
+    return result
 
 
 def diagnose(output):
@@ -62,13 +82,16 @@ def diagnose(output):
     from grpo_vllm import engine_and_tokenizer,BehaviorPolicy,probability_probe,shutdown
     cfg=read(output/'config.json');child=output/'branches/w';branch=verify_inputs(child)
     tok=AutoTokenizer.from_pretrained(child/'tokenizer',local_files_only=True,trust_remote_code=False)
-    if (output/'diagnostic/route.json').exists():return verify_diagnostic(output,tok)[1]
-    plan=diagnostic_plan(cfg);tasks={t.id:t for t in diagnostic_tasks()};adapter=child/'initial/adapter'
+    from apt_v2.grpo_fine_closeout import SCHEMA
+    if (output/'diagnostic/route.json').exists():
+        return verify_diagnostic(output,tok,allow_partial=cfg.get('schema') == SCHEMA)[1]
+    plan, task_list, _ = diagnostic_protocol(cfg)
+    tasks={t.id:t for t in task_list};adapter=child/'initial/adapter'
     items=[(spec,ri,spec['index']*4+ri) for spec in plan for ri in range(4)]
     missing=[x for x in items if not (output/'diagnostic/episodes'/f'{x[2]:04}.json').exists()]
     engine=None;sid=str(time.time_ns());session=None
     try:
-        with tqdm(total=96,initial=96-len(missing),desc='Frozen W diagnostic',unit='episode',file=sys.stdout,disable=False) as bar:
+        with tqdm(total=len(items),initial=len(items)-len(missing),desc='Frozen W diagnostic',unit='episode',file=sys.stdout,disable=False) as bar:
             if missing:
                 spec,ri,_=missing[0];seed=spec['seed']+ri*1000
                 setup={'seed':seed,'policy_sha256':branch['adapter_sha256'],'token_limit':16,'sampling':branch['sampling']}
@@ -92,10 +115,7 @@ def diagnose(output):
                         atomic_json(output/'diagnostic/sessions'/(sid+'.json'),session)
                     elif proof!=session['worker_proof']:raise ValueError('W session identity changed')
                     e['session_id']=sid;atomic_json(output/'diagnostic/episodes'/f'{i:04}.json',e);bar.update(1)
-        groups,result=verify_diagnostic(output,tok)
-        for g in groups:atomic_json(output/'diagnostic/groups'/f"{g['spec']['index']:04}.json",g)
-        atomic_json(output/'diagnostic/route.json',result)
-        return result
+        return finalize_diagnostic(output, tok)
     finally:
         if engine is not None:shutdown(engine)
 

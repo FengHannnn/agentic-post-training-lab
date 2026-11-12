@@ -1,4 +1,5 @@
 """Six-hour gated SQL-repair study; completed evidence is reused and audited on resume."""
+import subprocess
 import argparse,copy,json,os,shutil,sys,threading,time,zipfile
 from pathlib import Path
 from tqdm import tqdm
@@ -28,7 +29,7 @@ def states(child):
     cfg=read(child/'config.json');state=initial_policy(cfg);cursor=0
     while (child/'transitions'/f'group-{cursor:04}.json').exists():
         state=load_transition(child,cursor,state)['after'];cursor+=1
-    if cursor>36:raise ValueError('training group cap exceeded')
+    if cursor>cfg.get('max_groups',36):raise ValueError('training group cap exceeded')
     return cursor,state
 
 
@@ -79,14 +80,21 @@ class Study:
         while not self.stop_event.wait(5):
             atomic_json(self.output/'heartbeat.json',{'attempt':self.attempt,'elapsed_seconds':self.elapsed()})
 
-    def stage(self,name,script,args,tail_reserve=180.):
+    def stage(self,name,script,args,tail_reserve=180.,stage_timeout=None):
         remaining=self.cfg['max_wall_seconds']-self.elapsed()-tail_reserve
+        if stage_timeout is not None:
+            remaining = min(remaining, stage_timeout)
         if remaining<=0:raise BudgetStop('reserved final work reached before '+name)
         self.active=name;self.save();start=time.monotonic()
         log=self.output/f'{name}-attempt-{self.attempt:03}.log'
         print(f'\n{name}: {remaining:.0f}s available; log {log.name}',flush=True)
         resource_snapshot(self.output,name+'-before')
-        code=run_logged([sys.executable,'-u',str(ROOT/'scripts'/script),*args],cwd=ROOT,env=self.env,log_path=log,timeout=remaining)
+        try:
+            code=run_logged([sys.executable,'-u',str(ROOT/'scripts'/script),*args],cwd=ROOT,env=self.env,log_path=log,timeout=remaining)
+        except subprocess.TimeoutExpired:
+            self.stages.append({'stage':name,'exit_code':124,'elapsed_seconds':time.monotonic()-start})
+            self.active=None;self.save()
+            raise
         self.stages.append({'stage':name,'exit_code':code,'elapsed_seconds':time.monotonic()-start})
         self.active=None;self.save();resource_snapshot(self.output,name+'-after')
         if code:raise RuntimeError(name+' failed; inspect '+log.name)

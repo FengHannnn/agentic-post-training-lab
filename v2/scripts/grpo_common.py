@@ -51,9 +51,11 @@ def validate_config(cfg):
             or cfg['loss_reduction'] != 'token_mean_then_action_mean_then_episode_mean'
             or cfg['zero_variance'] != 'skip_without_rejection_resampling'):
         raise ValueError('C2 outcome contract differs')
-    method=cfg.get('credit_method','outcome')
-    if ((cfg['algorithm']=='fine_grained_grpo') != (method in ('potential_rtg_depth_v1','outcome_local_verified_v2'))
-            or method not in ('outcome','potential_rtg_depth_v1','outcome_local_verified_v2')):
+    from apt_v2.grpo_credit import CLOSEOUT, FINE, LOCAL, OUTCOME
+    method=cfg.get('credit_method',OUTCOME)
+    if ((cfg['algorithm']=='fine_grained_grpo') != (method in (FINE,LOCAL,CLOSEOUT))
+            or method not in (OUTCOME,FINE,LOCAL,CLOSEOUT)
+            or (method == CLOSEOUT and cfg.get('repair_profile') != 'fine_closeout_credit_v1')):
         raise ValueError('algorithm and action-credit method differ')
     from apt_v2.dpo_recovery import SCENARIOS
     if cfg.get('curriculum_schema')=='repair_study_v1':

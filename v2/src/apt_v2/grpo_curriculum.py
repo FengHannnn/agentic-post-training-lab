@@ -45,7 +45,7 @@ def training_tasks(cfg):
 def development_tasks(cfg=None):
     if cfg and cfg.get('curriculum_schema')=='repair_study_v1':
         from .grpo_repair_study import development_tasks as repair_tasks
-        return repair_tasks()
+        return repair_tasks(cfg)
     if cfg and cfg.get('curriculum_schema')=='alias_curriculum_v1':
         from .grpo_alias_curriculum import development_tasks as alias_tasks
         return alias_tasks()
@@ -111,7 +111,7 @@ def start_spec(cfg, index):
 
 
 def build_context(task, scenario, allowed_split='train'):
-    if scenario in ('repair_compound','repair_reminded','repair_simplified'):
+    if (scenario and scenario.startswith('credit_')) or scenario in ('repair_compound','repair_reminded','repair_simplified'):
         from .grpo_repair_study import context
         return context(task,scenario,allowed_split)
     if scenario in ('missing_alias_pair__simplified','missing_alias_pair__compound'):

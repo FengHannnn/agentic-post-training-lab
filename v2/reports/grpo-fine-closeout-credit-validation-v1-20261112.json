@@ -1,0 +1,49 @@
+{
+  "passed": true,
+  "panels": {
+    "development": {
+      "standard_episodes": 132,
+      "targeted_episodes": 16,
+      "expert_proofs": 212
+    },
+    "confirmation": {
+      "standard_episodes": 132,
+      "targeted_episodes": 16,
+      "expert_proofs": 212
+    }
+  },
+  "preflight_groups": 12,
+  "max_groups_per_arm": 48,
+  "max_wall_seconds": 28800,
+  "native_tokens": {
+    "prompt": 1988,
+    "response": 94
+  },
+  "sqlite": "3.54.1",
+  "historical_replay": {
+    "groups": 46,
+    "local_eligible": 37,
+    "closeout_eligible": 37,
+    "zero_to_positive_check": 32,
+    "zero_to_positive_submit": 32
+  },
+  "regression": {
+    "passed": true,
+    "modules": 9,
+    "tests": 139,
+    "scope": "affected_grpo_modules"
+  },
+  "clean_package": {
+    "passed": true,
+    "tests": 15,
+    "cli_help_checks": 4,
+    "native_validation_matches": true,
+    "simulated_interruption_and_resume_passed": true,
+    "zip_entries": 418,
+    "bound_files": 417
+  },
+  "historical_pairing": {
+    "passed": true,
+    "standard_episodes_per_policy": 132
+  }
+}

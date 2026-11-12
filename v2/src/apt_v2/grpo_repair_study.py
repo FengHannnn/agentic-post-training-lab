@@ -33,7 +33,10 @@ def training_tasks(cfg=None):
     return [RepairTask(**asdict(t)) for t in prior({})]
 
 
-def development_tasks():
+def development_tasks(cfg=None):
+    if cfg and cfg.get('repair_profile') == 'fine_closeout_credit_v1':
+        from .grpo_fine_closeout import panel_tasks
+        return panel_tasks(cfg['evaluation_panel'])
     from .grpo_curriculum import month_pair
     result = []
     for i, month in enumerate((1, 4, 8, 12)):
@@ -50,9 +53,13 @@ def assert_isolation(cfg=None):
     from .grpo_fine_study import development_tasks as fine_dev
     from .grpo_alias_curriculum import development_tasks as alias_dev
     from .grpo_confirmation import confirmation_tasks
-    train, dev = training_tasks(), development_tasks()
+    train, dev = training_tasks(), development_tasks(cfg)
     excluded = [t for t in make_tasks() if t.split != 'train'] + curriculum_dev() + fine_dev() + alias_dev()
     excluded += confirmation_tasks({'protocol_version':2, 'task_count':12})
+    if cfg and cfg.get('repair_profile') == 'fine_closeout_credit_v1':
+        from .grpo_fine_closeout import panel_tasks
+        other = 'confirmation' if cfg['evaluation_panel'] == 'development' else 'development'
+        excluded += development_tasks() + panel_tasks(other)
     for field in ('id','family_id','seed','segment'):
         a,b,c = ({getattr(t,field) for t in ts} for ts in (train,dev,excluded))
         if len(a)!=12 or len(b)!=4 or a&b or a&c or b&c:
@@ -63,6 +70,9 @@ def assert_isolation(cfg=None):
 def context(task, scenario, allowed_split='train'):
     if not isinstance(task, RepairTask) or task.verifier_version != VERSION:
         raise ValueError('explicit repair verifier task required')
+    if scenario and scenario.startswith('credit_'):
+        from .grpo_fine_closeout import context as credit_context
+        return credit_context(task, scenario, allowed_split)
     if scenario not in CONDITIONS:
         from .grpo_curriculum import build_context
         return build_context(task, scenario, allowed_split)
@@ -126,6 +136,9 @@ def route_diagnostic(groups):
 
 
 def start_spec(cfg,index):
+    if cfg.get('repair_profile') == 'fine_closeout_credit_v1':
+        from .grpo_fine_closeout import start_spec as credit_spec
+        return credit_spec(cfg,index)
     if type(index) is not int or not 0<=index<=36:
         raise ValueError('bounded repair group cursor required')
     pair=index//2;phase=min(index//12,2);task=training_tasks()[pair%12]
@@ -144,7 +157,7 @@ def targeted_plan(cfg):
     return [{'task_id':t.id,'scenario':COMPOUND,'kind':'targeted_recovery','mode':mode,'rollout_index':ri,
              'seed':cfg['targeted_evaluation']['seed']+ti*100000+ri*100,
              'temperature':0 if mode=='greedy' else cfg['recovery_eval']['temperature']}
-            for ti,t in enumerate(development_tasks()) for mode in ('greedy','sample')
+            for ti,t in enumerate(development_tasks(cfg)) for mode in ('greedy','sample')
             for ri in range(1 if mode=='greedy' else 3)]
 
 
@@ -191,6 +204,11 @@ def expected_source_sft_updates(cfg):
 
 def validate_config(cfg):
     profile=cfg.get('repair_profile')
+    if profile == 'fine_closeout_credit_v1':
+        from .grpo_fine_closeout import validate_branch
+        validate_branch(cfg)
+        assert_isolation(cfg)
+        return
     protocol = learning_rate_protocol(profile)
     if profile not in (None, 'retention_v1', 'dose_v1') and protocol is None:
         raise ValueError('unknown repair profile')
@@ -231,8 +249,12 @@ def frozen_inputs(cfg):
     from .grpo import initial_state
     from .dpo import corrective_action
     proofs=[]
-    for t in training_tasks()+development_tasks():
-        for scenario in (None,*STANDARD,*CONDITIONS):
+    states = ()
+    if cfg.get('repair_profile') == 'fine_closeout_credit_v1':
+        from .grpo_fine_closeout import STATES
+        states = STATES
+    for t in training_tasks()+development_tasks(cfg):
+        for scenario in (None,*STANDARD,*CONDITIONS,*(states if t.split == 'train' else ())):
             env,_,_,_=initial_state(t,scenario,context_builder=context)
             try:
                 prefix=len(env.records)
@@ -242,8 +264,8 @@ def frozen_inputs(cfg):
                                'continuation_turns':len(env.records)-prefix,'total_turns':len(env.records),'passed':True})
             finally:env.close()
     return {'curriculum_training_tasks.json':[asdict(t) for t in training_tasks()],
-            'curriculum_group_plan.json':[start_spec(cfg,i) for i in range(37)],
-            'curriculum_isolation.json':assert_isolation(),'curriculum_expert_proof.json':proofs,
+            'curriculum_group_plan.json':[start_spec(cfg,i) for i in range(cfg.get('max_groups',36)+1)],
+            'curriculum_isolation.json':assert_isolation(cfg),'curriculum_expert_proof.json':proofs,
             'targeted_evaluation_plan.json':targeted_plan(cfg),
             'repair_method.json':{'verifier_version':VERSION,'reminder':REMINDER,'extra_sft_updates':cfg['source_sft_updates']-513,
                                   'reference':'B' if cfg['repair_arm']=='warm' else 'W'}}

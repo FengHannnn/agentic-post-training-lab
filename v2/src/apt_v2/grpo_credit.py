@@ -5,6 +5,7 @@ from .grpo import group_advantages
 OUTCOME='outcome'
 FINE='potential_rtg_depth_v1'
 LOCAL='outcome_local_verified_v2'
+CLOSEOUT='outcome_local_closeout_v1'
 
 
 def local_credit(episodes,base):
@@ -32,10 +33,39 @@ def local_credit(episodes,base):
             'local_progress_rewards':local,'local_progress_scale':.2,
             'eligibility_basis':'nonzero_combined_action_advantage'}
 
+def closeout_credit(episodes, base):
+    result = local_credit(episodes, base)
+    bonuses = []
+    for episode, advantages in zip(episodes, result['turn_advantages']):
+        checked = any(item['row']['action'].get('tool') == 'check_result'
+                      and item['row']['observation'].get('passed') is True
+                      for item in episode['start']['prefix'])
+        allocated = 0.
+        extra = []
+        for t, row in enumerate(episode['turns']):
+            tool = row['action'].get('tool')
+            observation = row['observation']
+            reward = 0.
+            if tool == 'check_result' and observation.get('passed') is True and not checked and not row['done']:
+                checked = True
+                reward = .1
+            elif tool == 'submit' and row['success'] and observation.get('submitted') is True:
+                reward = .2 - allocated
+            allocated += reward
+            advantages[t] += reward
+            extra.append(reward)
+        bonuses.append(extra)
+    eligible = any(a != 0 for row in result['turn_advantages'] for a in row)
+    return {**result, 'method': CLOSEOUT, 'eligible': eligible, 'zero_variance': not eligible,
+            'closeout_rewards': bonuses, 'closeout_cap': .2,
+            'eligibility_basis': 'nonzero_combined_closeout_action_advantage'}
+
+
 def compute_credit(episodes,k=4,epsilon=1e-8,method=OUTCOME):
     base=group_advantages(episodes,k,epsilon)
     if method==OUTCOME: return base
     if method==LOCAL:return local_credit(episodes,base)
+    if method==CLOSEOUT:return closeout_credit(episodes,base)
     if method!=FINE: raise ValueError('unknown GRPO credit method')
     returns=[]; shaped=[]
     for e in episodes:
@@ -69,5 +99,5 @@ def compute_credit(episodes,k=4,epsilon=1e-8,method=OUTCOME):
 
 
 def action_advantage(credit,episode_index,relative_turn):
-    if credit.get('method') in (FINE,LOCAL): return credit['turn_advantages'][episode_index][relative_turn]
+    if credit.get('method') in (FINE,LOCAL,CLOSEOUT): return credit['turn_advantages'][episode_index][relative_turn]
     return credit['advantages'][episode_index]

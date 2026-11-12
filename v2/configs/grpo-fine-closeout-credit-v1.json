@@ -1,0 +1,12 @@
+{
+  "schema": "fine_closeout_credit_v1",
+  "run_id": "grpo-fine-closeout-credit-v1-20261112",
+  "max_wall_seconds": 28800,
+  "max_groups": 48,
+  "preflight_seconds": 1500,
+  "preflight_seed": 2026111257,
+  "final_reserve_seconds": 8100,
+  "branch_template": "configs/grpo-fine-closeout-credit-branch-v1.json",
+  "contract_report": "reports/grpo-fine-closeout-credit-contract-v1-20261112.md",
+  "validation_report": "reports/grpo-fine-closeout-credit-validation-v1-20261112.json"
+}

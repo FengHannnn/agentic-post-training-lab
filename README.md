@@ -11,6 +11,7 @@
 - [GRPO 后续工作交接](v2/handoff/PROJECT_HANDOFF_V2_GRPO_CONTINUATION_2026-11-09.md)
 - [SFT / DPO 结果交接](v2/handoff/PROJECT_HANDOFF_V2_SFT_DPO_RESULTS_2026-11-09.md)
 - [目标监督剂量搜索结果](v2/reports/grpo-sql-dose-results-v1-20261111.md)
+- [Fine GRPO 收尾信用对照](v2/reports/grpo-fine-closeout-credit-preparation-v1-20261112.md)
 - [r16 收尾维护样本结果](v2/reports/grpo-sql-closeout-results-v1-20261112.md)
 - [r16 中间学习率实验结果](v2/reports/grpo-sql-lr-midpoint-results-v1-20261112.md)
 - [r16 热启动学习率实验结果](v2/reports/grpo-sql-lr-results-v1-20261111.md)
