@@ -11,7 +11,7 @@
 - [GRPO 后续工作交接](v2/handoff/PROJECT_HANDOFF_V2_GRPO_CONTINUATION_2026-11-09.md)
 - [SFT / DPO 结果交接](v2/handoff/PROJECT_HANDOFF_V2_SFT_DPO_RESULTS_2026-11-09.md)
 - [目标监督剂量搜索结果](v2/reports/grpo-sql-dose-results-v1-20261111.md)
-- [Fine GRPO 三方独立复评](v2/reports/grpo-fine-closeout-followup-preparation-v1-20261112.md)
+- [Fine GRPO 三方独立复评结果](v2/reports/grpo-fine-closeout-followup-results-v1-20261113.md)
 - [Fine GRPO 收尾信用结果](v2/reports/grpo-fine-closeout-credit-results-v1-20261112.md)
 - [r16 收尾维护样本结果](v2/reports/grpo-sql-closeout-results-v1-20261112.md)
 - [r16 中间学习率实验结果](v2/reports/grpo-sql-lr-midpoint-results-v1-20261112.md)
@@ -25,13 +25,13 @@
 - [最新 alias 课程结果](v2/reports/grpo-alias-curriculum-results-v1-20261109.md)
 - [本次代码与 Git 整理记录](v2/reports/project-consolidation-20261109.md)
 
-## 当前结果（2026-11-11）
+## 当前结果（2026-11-13）
 
 | 阶段 | 已完成工作 | 当前结论 |
 | --- | --- | --- |
 | SFT / DPO | SQL 加权 SFT、恢复偏好对照、短程 DPO 收尾 | W 为 GRPO 正式起点，血缘 SFT513 / DPO11 / RL0 |
 | GRPO 工程 | 在线 K 轨迹采样、真实 LoRA 更新、策略刷新、事务恢复与概率审计 | 训练闭环已验证 |
-| GRPO 效果 | outcome / fine、独立确认、信用与课程对照 | 正式基线继续保留 W |
+| GRPO 效果 | outcome / fine、独立确认、信用与课程对照 | W 为正式基线，旧 local Fine GRPO 通过 12 任务族独立复评 |
 | 最新 alias 课程 | 每支 48 组，control / curriculum 实际更新 25 / 37 次 | 课程支标准恢复 65/84，W 为 61/84；完整任务均 14/16；本轮质量验收未通过 |
 | SQL认证修复门控实验 | 新版认证、96条W诊断、SFT热启动24步与W/B评测；全流程1小时33分 | B复合sample从0/12升至8/12；标准完整14→13/16、恢复58→52/84，B门槛收尾，保留W |
 | 较小热启动结果 | 全12任务维护、SFT15步；标准完整13/16、恢复58/84，目标0/12 | B门槛收尾，RL更新0；继续修复warm-up，保留W；两轮累计2小时38分 |
@@ -41,6 +41,7 @@
 | r16 中间学习率 | 4e-6 两次 train 首动作认证均 12/12，开发集复合采样终局 10/12 | 标准完整采样 13→9/16、恢复采样 60→52/84，保留 W |
 | r16 收尾维护样本 | 复合采样终局 10/12，标准完整和恢复采样为 10/16、53/84 | 标准采样仍低于同轮 W，保留 W |
 | Fine GRPO 收尾信用 | 开发完整采样 W 9/16 → 新信用 11/16，恢复 58/84 → 61/84 | 开发验收通过，独立复验主指标 8/16 持平，保留 W |
+| Fine GRPO 三方独立复评 | 12 个独立任务族，4 小时 42 分 59 秒。旧 local 完整采样 24→26/48，恢复 177→183/252 | 旧 local 通过验收，选为 Fine 候选。新信用完整 27/48、恢复 176/252，W 为正式基线 |
 
 ## 目录与版本边界
 
