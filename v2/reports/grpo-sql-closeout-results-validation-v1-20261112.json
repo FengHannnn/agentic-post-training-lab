@@ -1,0 +1,598 @@
+{
+  "passed": true,
+  "run_id": "grpo-sql-closeout-v1-20261112",
+  "source_commit": "e01210f",
+  "archive": {
+    "entries": 1676,
+    "bytes": 284507257,
+    "sha256": "8f78af30f480388e1873f98eadcf699d4c6b10b67f14b16a26142288375c8214",
+    "crc_verified": true
+  },
+  "local_audit": {
+    "passed": true,
+    "scope": "local_returned_files",
+    "actual_sft_updates": {
+      "closeout": 60
+    },
+    "actual_rl_updates": 0,
+    "selection": {
+      "selected_warm_start": null,
+      "selected_candidate": null,
+      "formal_baseline": "W",
+      "stop_reason": "no_qualified_warm_start",
+      "run_grpo": false
+    },
+    "learning_rates_evaluated": [
+      0.000004
+    ]
+  },
+  "decision": {
+    "name": "closeout",
+    "dose": 16,
+    "learning_rate": 0.000004,
+    "maintenance_replacements": 24,
+    "train_gate": {
+      "passed": true,
+      "checks": {
+        "both_target_repeats_at_least_nine": true,
+        "both_target_repeats_above_W": true,
+        "maintenance_non_regression": true,
+        "maintenance_each_state_non_regression": true,
+        "repeat_consistency_non_regression": true,
+        "effective_bf16_change": true
+      },
+      "target_certifications_by_repeat": [
+        12,
+        12
+      ]
+    },
+    "full_gate": {
+      "passed": false,
+      "first_action_certifications": 10,
+      "minimum": 3
+    },
+    "adapter_sha256": "ce1545001a188e8e384ab9d77fb0fc2a83151d5e1c7869ce4a8d13bb5696d35d"
+  },
+  "probes": {
+    "w": {
+      "target_first_certifications": 0,
+      "target_contexts": 12,
+      "maintenance_productive_actions": 12,
+      "maintenance_contexts": 12,
+      "maintenance_by_state": {
+        "stale_evidence_repair": {
+          "contexts": 3,
+          "productive": 3
+        },
+        "failed_check_repair": {
+          "contexts": 3,
+          "productive": 3
+        },
+        "repeat_sql_error": {
+          "contexts": 3,
+          "productive": 3
+        },
+        "checked_submit": {
+          "contexts": 3,
+          "productive": 3
+        }
+      },
+      "target_repeat_identical": 10,
+      "alias_token_nll_mean": 0.8862376727609519,
+      "branch_logp_margin_mean": -4.322909709066153,
+      "correct_branch_preferred_contexts": 0,
+      "committed_generated_actions": 36,
+      "committed_forced_score_requests": 24,
+      "committed_auxiliary_generated_tokens": 24,
+      "not_used_for_policy_updates": true
+    },
+    "closeout": {
+      "target_first_certifications": 12,
+      "target_contexts": 12,
+      "maintenance_productive_actions": 12,
+      "maintenance_contexts": 12,
+      "maintenance_by_state": {
+        "stale_evidence_repair": {
+          "contexts": 3,
+          "productive": 3
+        },
+        "failed_check_repair": {
+          "contexts": 3,
+          "productive": 3
+        },
+        "repeat_sql_error": {
+          "contexts": 3,
+          "productive": 3
+        },
+        "checked_submit": {
+          "contexts": 3,
+          "productive": 3
+        }
+      },
+      "target_repeat_identical": 12,
+      "alias_token_nll_mean": 0.0786996988169316,
+      "branch_logp_margin_mean": 1.3237537580231826,
+      "correct_branch_preferred_contexts": 11,
+      "committed_generated_actions": 36,
+      "committed_forced_score_requests": 24,
+      "committed_auxiliary_generated_tokens": 24,
+      "not_used_for_policy_updates": true
+    }
+  },
+  "quality_passed": {
+    "w": true,
+    "closeout": true
+  },
+  "targeted": {
+    "w": {
+      "greedy": {
+        "episodes": 4,
+        "successes": 0,
+        "first_action_certifications": 0,
+        "progress_episodes": 0
+      },
+      "sample": {
+        "episodes": 12,
+        "successes": 0,
+        "first_action_certifications": 0,
+        "progress_episodes": 0
+      }
+    },
+    "closeout": {
+      "greedy": {
+        "episodes": 4,
+        "successes": 4,
+        "first_action_certifications": 4,
+        "progress_episodes": 4
+      },
+      "sample": {
+        "episodes": 12,
+        "successes": 10,
+        "first_action_certifications": 10,
+        "progress_episodes": 10
+      }
+    }
+  },
+  "completion_diagnostics": {
+    "standard": {
+      "sample_complete": {
+        "w": {
+          "episodes": 16,
+          "all_metrics_certified": 14,
+          "check_passed": 14,
+          "submit_attempted": 14,
+          "submitted_successfully": 14,
+          "all_metrics_without_submit": 0,
+          "passed_check_without_submit": 0
+        },
+        "closeout": {
+          "episodes": 16,
+          "all_metrics_certified": 14,
+          "check_passed": 9,
+          "submit_attempted": 10,
+          "submitted_successfully": 10,
+          "all_metrics_without_submit": 4,
+          "passed_check_without_submit": 0
+        }
+      },
+      "sample_recovery": {
+        "w": {
+          "episodes": 84,
+          "all_metrics_certified": 72,
+          "check_passed": 58,
+          "submit_attempted": 57,
+          "submitted_successfully": 57,
+          "all_metrics_without_submit": 15,
+          "passed_check_without_submit": 1
+        },
+        "closeout": {
+          "episodes": 84,
+          "all_metrics_certified": 70,
+          "check_passed": 55,
+          "submit_attempted": 53,
+          "submitted_successfully": 53,
+          "all_metrics_without_submit": 17,
+          "passed_check_without_submit": 2
+        }
+      },
+      "greedy_complete": {
+        "w": {
+          "episodes": 4,
+          "all_metrics_certified": 4,
+          "check_passed": 4,
+          "submit_attempted": 4,
+          "submitted_successfully": 4,
+          "all_metrics_without_submit": 0,
+          "passed_check_without_submit": 0
+        },
+        "closeout": {
+          "episodes": 4,
+          "all_metrics_certified": 4,
+          "check_passed": 4,
+          "submit_attempted": 4,
+          "submitted_successfully": 4,
+          "all_metrics_without_submit": 0,
+          "passed_check_without_submit": 0
+        }
+      },
+      "greedy_recovery": {
+        "w": {
+          "episodes": 28,
+          "all_metrics_certified": 24,
+          "check_passed": 21,
+          "submit_attempted": 21,
+          "submitted_successfully": 21,
+          "all_metrics_without_submit": 3,
+          "passed_check_without_submit": 0
+        },
+        "closeout": {
+          "episodes": 28,
+          "all_metrics_certified": 26,
+          "check_passed": 21,
+          "submit_attempted": 21,
+          "submitted_successfully": 21,
+          "all_metrics_without_submit": 5,
+          "passed_check_without_submit": 0
+        }
+      }
+    },
+    "paired": {
+      "sample_complete": {
+        "w_success_candidate_failure": 4,
+        "w_failure_candidate_success": 0,
+        "candidate_losses_with_all_metrics": 4,
+        "candidate_losses_with_passed_check": 0,
+        "candidate_losses_without_submit": 4,
+        "candidate_losses_exhausting_budget": 4
+      },
+      "sample_recovery": {
+        "w_success_candidate_failure": 5,
+        "w_failure_candidate_success": 1,
+        "candidate_losses_with_all_metrics": 1,
+        "candidate_losses_with_passed_check": 1,
+        "candidate_losses_without_submit": 5,
+        "candidate_losses_exhausting_budget": 5
+      },
+      "greedy_complete": {
+        "w_success_candidate_failure": 0,
+        "w_failure_candidate_success": 0,
+        "candidate_losses_with_all_metrics": 0,
+        "candidate_losses_with_passed_check": 0,
+        "candidate_losses_without_submit": 0,
+        "candidate_losses_exhausting_budget": 0
+      },
+      "greedy_recovery": {
+        "w_success_candidate_failure": 0,
+        "w_failure_candidate_success": 0,
+        "candidate_losses_with_all_metrics": 0,
+        "candidate_losses_with_passed_check": 0,
+        "candidate_losses_without_submit": 0,
+        "candidate_losses_exhausting_budget": 0
+      }
+    }
+  },
+  "degraded_trajectories": {
+    "degraded": 9,
+    "all_three": 5,
+    "at_least_two_checks": 6,
+    "passed_check": 1,
+    "no_submit": 9,
+    "exhausted_budget": 9,
+    "rows": [
+      {
+        "task_id": "repair-development-000",
+        "scenario": "stale_evidence_repair",
+        "mode": "sample",
+        "rollout_index": 0,
+        "seed": 2026114922,
+        "metrics": [
+          "current_net_cents",
+          "prior_net_cents"
+        ],
+        "checks": 5,
+        "passed_checks": 0,
+        "submit_attempts": 0,
+        "total_turns": 12,
+        "termination": "budget"
+      },
+      {
+        "task_id": "repair-development-001",
+        "scenario": null,
+        "mode": "sample",
+        "rollout_index": 0,
+        "seed": 2026120921,
+        "metrics": [
+          "change_cents",
+          "current_net_cents",
+          "prior_net_cents"
+        ],
+        "checks": 5,
+        "passed_checks": 0,
+        "submit_attempts": 0,
+        "total_turns": 12,
+        "termination": "budget"
+      },
+      {
+        "task_id": "repair-development-001",
+        "scenario": null,
+        "mode": "sample",
+        "rollout_index": 1,
+        "seed": 2026121021,
+        "metrics": [
+          "change_cents",
+          "current_net_cents",
+          "prior_net_cents"
+        ],
+        "checks": 0,
+        "passed_checks": 0,
+        "submit_attempts": 0,
+        "total_turns": 12,
+        "termination": "budget"
+      },
+      {
+        "task_id": "repair-development-002",
+        "scenario": null,
+        "mode": "sample",
+        "rollout_index": 0,
+        "seed": 2026130921,
+        "metrics": [
+          "change_cents",
+          "current_net_cents",
+          "prior_net_cents"
+        ],
+        "checks": 4,
+        "passed_checks": 0,
+        "submit_attempts": 0,
+        "total_turns": 12,
+        "termination": "budget"
+      },
+      {
+        "task_id": "repair-development-002",
+        "scenario": null,
+        "mode": "sample",
+        "rollout_index": 2,
+        "seed": 2026131121,
+        "metrics": [
+          "change_cents",
+          "current_net_cents",
+          "prior_net_cents"
+        ],
+        "checks": 4,
+        "passed_checks": 0,
+        "submit_attempts": 0,
+        "total_turns": 12,
+        "termination": "budget"
+      },
+      {
+        "task_id": "repair-development-002",
+        "scenario": "format_repair",
+        "mode": "sample",
+        "rollout_index": 2,
+        "seed": 2026311122,
+        "metrics": [
+          "change_cents",
+          "current_net_cents",
+          "prior_net_cents"
+        ],
+        "checks": 1,
+        "passed_checks": 1,
+        "submit_attempts": 0,
+        "total_turns": 12,
+        "termination": "budget"
+      },
+      {
+        "task_id": "repair-development-002",
+        "scenario": "sql_unverified_requery",
+        "mode": "sample",
+        "rollout_index": 1,
+        "seed": 2026313022,
+        "metrics": [
+          "current_net_cents",
+          "prior_net_cents"
+        ],
+        "checks": 6,
+        "passed_checks": 0,
+        "submit_attempts": 0,
+        "total_turns": 12,
+        "termination": "budget"
+      },
+      {
+        "task_id": "repair-development-002",
+        "scenario": "sql_unverified_requery",
+        "mode": "sample",
+        "rollout_index": 2,
+        "seed": 2026313122,
+        "metrics": [
+          "current_net_cents",
+          "prior_net_cents"
+        ],
+        "checks": 6,
+        "passed_checks": 0,
+        "submit_attempts": 0,
+        "total_turns": 12,
+        "termination": "budget"
+      },
+      {
+        "task_id": "repair-development-003",
+        "scenario": "stale_evidence_repair",
+        "mode": "sample",
+        "rollout_index": 0,
+        "seed": 2026414922,
+        "metrics": [
+          "current_net_cents",
+          "prior_net_cents"
+        ],
+        "checks": 0,
+        "passed_checks": 0,
+        "submit_attempts": 0,
+        "total_turns": 12,
+        "termination": "budget"
+      }
+    ]
+  },
+  "historical_case": {
+    "prior_w_success": true,
+    "current_w_success": false,
+    "prior_candidate": {
+      "success": false,
+      "turns": [
+        [
+          "query_sql",
+          "q3",
+          null,
+          null
+        ],
+        [
+          "calculate_change",
+          "c4",
+          null,
+          null
+        ],
+        [
+          "check_result",
+          null,
+          {
+            "current_net_cents": "q1",
+            "prior_net_cents": "q2",
+            "change_cents": "c4"
+          },
+          false
+        ],
+        [
+          "check_result",
+          null,
+          {
+            "current_net_cents": "q1",
+            "prior_net_cents": "q2",
+            "change_cents": "c4"
+          },
+          false
+        ],
+        [
+          "check_result",
+          null,
+          {
+            "current_net_cents": "q1",
+            "prior_net_cents": "q2",
+            "change_cents": "c4"
+          },
+          false
+        ],
+        [
+          "check_result",
+          null,
+          {
+            "current_net_cents": "q1",
+            "prior_net_cents": "q2",
+            "change_cents": "c4"
+          },
+          false
+        ],
+        [
+          "check_result",
+          null,
+          {
+            "current_net_cents": "q1",
+            "prior_net_cents": "q2",
+            "change_cents": "c4"
+          },
+          false
+        ],
+        [
+          "check_result",
+          null,
+          {
+            "current_net_cents": "q1",
+            "prior_net_cents": "q2",
+            "change_cents": "c4"
+          },
+          false
+        ]
+      ]
+    },
+    "current_candidate": {
+      "success": false,
+      "turns": [
+        [
+          "query_sql",
+          "q3",
+          null,
+          null
+        ],
+        [
+          "calculate_change",
+          "c4",
+          null,
+          null
+        ],
+        [
+          "check_result",
+          null,
+          {
+            "current_net_cents": "q1",
+            "prior_net_cents": "q2",
+            "change_cents": "c4"
+          },
+          false
+        ],
+        [
+          "check_result",
+          null,
+          {
+            "current_net_cents": "q1",
+            "prior_net_cents": "q2",
+            "change_cents": "c4"
+          },
+          false
+        ],
+        [
+          "check_result",
+          null,
+          {
+            "current_net_cents": "q1",
+            "prior_net_cents": "q2",
+            "change_cents": "c4"
+          },
+          false
+        ],
+        [
+          "check_result",
+          null,
+          {
+            "current_net_cents": "q1",
+            "prior_net_cents": "q2",
+            "change_cents": "c4"
+          },
+          false
+        ],
+        [
+          "check_result",
+          null,
+          {
+            "current_net_cents": "q1",
+            "prior_net_cents": "q2",
+            "change_cents": "c4"
+          },
+          false
+        ],
+        [
+          "check_result",
+          null,
+          {
+            "current_net_cents": "q1",
+            "prior_net_cents": "q2",
+            "change_cents": "c4"
+          },
+          false
+        ]
+      ]
+    }
+  },
+  "budget": {
+    "run_wall_seconds": 4465.909666130086,
+    "combined_wall_seconds": 26843.2800527839,
+    "total_authorized_seconds": 31527.179048960097,
+    "remaining_seconds": 4683.898996176198,
+    "budget_passed": true
+  }
+}
