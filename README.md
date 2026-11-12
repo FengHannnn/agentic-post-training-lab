@@ -11,7 +11,7 @@
 - [GRPO 后续工作交接](v2/handoff/PROJECT_HANDOFF_V2_GRPO_CONTINUATION_2026-11-09.md)
 - [SFT / DPO 结果交接](v2/handoff/PROJECT_HANDOFF_V2_SFT_DPO_RESULTS_2026-11-09.md)
 - [目标监督剂量搜索结果](v2/reports/grpo-sql-dose-results-v1-20261111.md)
-- [Fine GRPO 收尾信用对照](v2/reports/grpo-fine-closeout-credit-preparation-v1-20261112.md)
+- [Fine GRPO 收尾信用结果](v2/reports/grpo-fine-closeout-credit-results-v1-20261112.md)
 - [r16 收尾维护样本结果](v2/reports/grpo-sql-closeout-results-v1-20261112.md)
 - [r16 中间学习率实验结果](v2/reports/grpo-sql-lr-midpoint-results-v1-20261112.md)
 - [r16 热启动学习率实验结果](v2/reports/grpo-sql-lr-results-v1-20261111.md)
@@ -39,6 +39,7 @@
 | r16 学习率搜索 | 3e-6 两次 train 首动作认证 7/12、9/12，5e-6 均 12/12，开发集复合采样终局 10/12 | 5e-6 标准完整采样 13→8/16、恢复采样 60→48/84，保留 W |
 | r16 中间学习率 | 4e-6 两次 train 首动作认证均 12/12，开发集复合采样终局 10/12 | 标准完整采样 13→9/16、恢复采样 60→52/84，保留 W |
 | r16 收尾维护样本 | 复合采样终局 10/12，标准完整和恢复采样为 10/16、53/84 | 标准采样仍低于同轮 W，保留 W |
+| Fine GRPO 收尾信用 | 开发完整采样 W 9/16 → 新信用 11/16，恢复 58/84 → 61/84 | 开发验收通过，独立复验主指标 8/16 持平，保留 W |
 
 ## 目录与版本边界
 

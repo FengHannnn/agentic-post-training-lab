@@ -1,0 +1,1866 @@
+{
+  "passed": true,
+  "run_id": "grpo-fine-closeout-credit-v1-20261112",
+  "source_commit": "4eeaf8d",
+  "archive": {
+    "entries": 3685,
+    "bytes": 438969555,
+    "sha256": "c8c770396a726a0404dffea26c2173b33e31eeceeeb703a3ef906436ca11ff26",
+    "crc_verified": true
+  },
+  "local_audit": {
+    "passed": true,
+    "scope": "local_returned_files",
+    "actual_updates": {
+      "local": 43,
+      "closeout": 47
+    },
+    "objective_replay": {
+      "local": {
+        "passed": true,
+        "actual_updates_recomputed": 43,
+        "maximum_metric_difference": 5.6624412547723324e-8
+      },
+      "closeout": {
+        "passed": true,
+        "actual_updates_recomputed": 47,
+        "maximum_metric_difference": 4.842877388000488e-8
+      }
+    },
+    "selection": {
+      "selected_candidate": "closeout",
+      "formal_baseline": "W",
+      "w_counts": [
+        9,
+        58,
+        3,
+        22
+      ],
+      "checks": {
+        "local": {
+          "counts": [
+            8,
+            61,
+            3,
+            22
+          ],
+          "checks": {
+            "non_regression": false,
+            "primary_gain": false,
+            "quality": true,
+            "trained_adapter": true,
+            "effective_bf16_change": true
+          },
+          "passed": false
+        },
+        "closeout": {
+          "counts": [
+            11,
+            61,
+            3,
+            22
+          ],
+          "checks": {
+            "non_regression": true,
+            "primary_gain": true,
+            "quality": true,
+            "trained_adapter": true,
+            "effective_bf16_change": true
+          },
+          "passed": true
+        }
+      },
+      "primary_metric": "sample_complete",
+      "new_credit_recovery_gain": 0,
+      "credit_threshold": 2,
+      "credit_gain_passed": false,
+      "paired_recovery": {
+        "by_task": {
+          "fine-closeout-development-000": {
+            "local": 14,
+            "closeout": 13,
+            "gained": 0,
+            "lost": 1
+          },
+          "fine-closeout-development-001": {
+            "local": 18,
+            "closeout": 18,
+            "gained": 0,
+            "lost": 0
+          },
+          "fine-closeout-development-002": {
+            "local": 13,
+            "closeout": 14,
+            "gained": 1,
+            "lost": 0
+          },
+          "fine-closeout-development-003": {
+            "local": 16,
+            "closeout": 16,
+            "gained": 0,
+            "lost": 0
+          }
+        },
+        "local": 61,
+        "closeout": 61,
+        "gained": 1,
+        "lost": 1
+      },
+      "completion": {
+        "local": {
+          "standard": {
+            "sample_complete": {
+              "w": {
+                "episodes": 16,
+                "all_metrics_certified": 9,
+                "check_passed": 9,
+                "submit_attempted": 9,
+                "submitted_successfully": 9,
+                "all_metrics_without_submit": 0,
+                "passed_check_without_submit": 0
+              },
+              "local": {
+                "episodes": 16,
+                "all_metrics_certified": 8,
+                "check_passed": 8,
+                "submit_attempted": 8,
+                "submitted_successfully": 8,
+                "all_metrics_without_submit": 0,
+                "passed_check_without_submit": 0
+              }
+            },
+            "sample_recovery": {
+              "w": {
+                "episodes": 84,
+                "all_metrics_certified": 76,
+                "check_passed": 61,
+                "submit_attempted": 58,
+                "submitted_successfully": 58,
+                "all_metrics_without_submit": 18,
+                "passed_check_without_submit": 3
+              },
+              "local": {
+                "episodes": 84,
+                "all_metrics_certified": 77,
+                "check_passed": 64,
+                "submit_attempted": 61,
+                "submitted_successfully": 61,
+                "all_metrics_without_submit": 16,
+                "passed_check_without_submit": 3
+              }
+            },
+            "greedy_complete": {
+              "w": {
+                "episodes": 4,
+                "all_metrics_certified": 3,
+                "check_passed": 3,
+                "submit_attempted": 3,
+                "submitted_successfully": 3,
+                "all_metrics_without_submit": 0,
+                "passed_check_without_submit": 0
+              },
+              "local": {
+                "episodes": 4,
+                "all_metrics_certified": 3,
+                "check_passed": 3,
+                "submit_attempted": 3,
+                "submitted_successfully": 3,
+                "all_metrics_without_submit": 0,
+                "passed_check_without_submit": 0
+              }
+            },
+            "greedy_recovery": {
+              "w": {
+                "episodes": 28,
+                "all_metrics_certified": 26,
+                "check_passed": 22,
+                "submit_attempted": 22,
+                "submitted_successfully": 22,
+                "all_metrics_without_submit": 4,
+                "passed_check_without_submit": 0
+              },
+              "local": {
+                "episodes": 28,
+                "all_metrics_certified": 26,
+                "check_passed": 22,
+                "submit_attempted": 22,
+                "submitted_successfully": 22,
+                "all_metrics_without_submit": 4,
+                "passed_check_without_submit": 0
+              }
+            }
+          },
+          "paired": {
+            "sample_complete": {
+              "w_success_candidate_failure": 2,
+              "w_failure_candidate_success": 1,
+              "candidate_losses_with_all_metrics": 0,
+              "candidate_losses_with_passed_check": 0,
+              "candidate_losses_without_submit": 2,
+              "candidate_losses_exhausting_budget": 2
+            },
+            "sample_recovery": {
+              "w_success_candidate_failure": 1,
+              "w_failure_candidate_success": 4,
+              "candidate_losses_with_all_metrics": 1,
+              "candidate_losses_with_passed_check": 0,
+              "candidate_losses_without_submit": 1,
+              "candidate_losses_exhausting_budget": 1
+            },
+            "greedy_complete": {
+              "w_success_candidate_failure": 0,
+              "w_failure_candidate_success": 0,
+              "candidate_losses_with_all_metrics": 0,
+              "candidate_losses_with_passed_check": 0,
+              "candidate_losses_without_submit": 0,
+              "candidate_losses_exhausting_budget": 0
+            },
+            "greedy_recovery": {
+              "w_success_candidate_failure": 0,
+              "w_failure_candidate_success": 0,
+              "candidate_losses_with_all_metrics": 0,
+              "candidate_losses_with_passed_check": 0,
+              "candidate_losses_without_submit": 0,
+              "candidate_losses_exhausting_budget": 0
+            }
+          }
+        },
+        "closeout": {
+          "standard": {
+            "sample_complete": {
+              "w": {
+                "episodes": 16,
+                "all_metrics_certified": 9,
+                "check_passed": 9,
+                "submit_attempted": 9,
+                "submitted_successfully": 9,
+                "all_metrics_without_submit": 0,
+                "passed_check_without_submit": 0
+              },
+              "closeout": {
+                "episodes": 16,
+                "all_metrics_certified": 11,
+                "check_passed": 11,
+                "submit_attempted": 11,
+                "submitted_successfully": 11,
+                "all_metrics_without_submit": 0,
+                "passed_check_without_submit": 0
+              }
+            },
+            "sample_recovery": {
+              "w": {
+                "episodes": 84,
+                "all_metrics_certified": 76,
+                "check_passed": 61,
+                "submit_attempted": 58,
+                "submitted_successfully": 58,
+                "all_metrics_without_submit": 18,
+                "passed_check_without_submit": 3
+              },
+              "closeout": {
+                "episodes": 84,
+                "all_metrics_certified": 75,
+                "check_passed": 64,
+                "submit_attempted": 61,
+                "submitted_successfully": 61,
+                "all_metrics_without_submit": 14,
+                "passed_check_without_submit": 3
+              }
+            },
+            "greedy_complete": {
+              "w": {
+                "episodes": 4,
+                "all_metrics_certified": 3,
+                "check_passed": 3,
+                "submit_attempted": 3,
+                "submitted_successfully": 3,
+                "all_metrics_without_submit": 0,
+                "passed_check_without_submit": 0
+              },
+              "closeout": {
+                "episodes": 4,
+                "all_metrics_certified": 3,
+                "check_passed": 3,
+                "submit_attempted": 3,
+                "submitted_successfully": 3,
+                "all_metrics_without_submit": 0,
+                "passed_check_without_submit": 0
+              }
+            },
+            "greedy_recovery": {
+              "w": {
+                "episodes": 28,
+                "all_metrics_certified": 26,
+                "check_passed": 22,
+                "submit_attempted": 22,
+                "submitted_successfully": 22,
+                "all_metrics_without_submit": 4,
+                "passed_check_without_submit": 0
+              },
+              "closeout": {
+                "episodes": 28,
+                "all_metrics_certified": 26,
+                "check_passed": 22,
+                "submit_attempted": 22,
+                "submitted_successfully": 22,
+                "all_metrics_without_submit": 4,
+                "passed_check_without_submit": 0
+              }
+            }
+          },
+          "paired": {
+            "sample_complete": {
+              "w_success_candidate_failure": 1,
+              "w_failure_candidate_success": 3,
+              "candidate_losses_with_all_metrics": 0,
+              "candidate_losses_with_passed_check": 0,
+              "candidate_losses_without_submit": 1,
+              "candidate_losses_exhausting_budget": 1
+            },
+            "sample_recovery": {
+              "w_success_candidate_failure": 1,
+              "w_failure_candidate_success": 4,
+              "candidate_losses_with_all_metrics": 1,
+              "candidate_losses_with_passed_check": 0,
+              "candidate_losses_without_submit": 1,
+              "candidate_losses_exhausting_budget": 1
+            },
+            "greedy_complete": {
+              "w_success_candidate_failure": 0,
+              "w_failure_candidate_success": 0,
+              "candidate_losses_with_all_metrics": 0,
+              "candidate_losses_with_passed_check": 0,
+              "candidate_losses_without_submit": 0,
+              "candidate_losses_exhausting_budget": 0
+            },
+            "greedy_recovery": {
+              "w_success_candidate_failure": 0,
+              "w_failure_candidate_success": 0,
+              "candidate_losses_with_all_metrics": 0,
+              "candidate_losses_with_passed_check": 0,
+              "candidate_losses_without_submit": 0,
+              "candidate_losses_exhausting_budget": 0
+            }
+          }
+        }
+      },
+      "preflight": {
+        "states": {
+          "credit_fresh_check": {
+            "committed_groups": 4,
+            "mixed_groups": 4,
+            "progressing_episodes": 6
+          },
+          "credit_calculate": {
+            "committed_groups": 4,
+            "mixed_groups": 0,
+            "progressing_episodes": 16
+          },
+          "credit_checked_submit": {
+            "committed_groups": 4,
+            "mixed_groups": 3,
+            "progressing_episodes": 10
+          }
+        },
+        "retained": [
+          "credit_fresh_check",
+          "credit_checked_submit"
+        ],
+        "completed_groups": 12,
+        "status": "complete"
+      },
+      "confirmation": {
+        "status": "complete",
+        "candidate": "closeout",
+        "decision": {
+          "selected_candidate": null,
+          "formal_baseline": "W",
+          "w_counts": [
+            8,
+            63,
+            4,
+            24
+          ],
+          "checks": {
+            "closeout": {
+              "counts": [
+                8,
+                64,
+                4,
+                24
+              ],
+              "checks": {
+                "non_regression": true,
+                "primary_gain": false,
+                "quality": true,
+                "trained_adapter": true,
+                "effective_bf16_change": true
+              },
+              "passed": false
+            }
+          },
+          "primary_metric": "sample_complete",
+          "new_credit_recovery_gain": null,
+          "credit_threshold": 2,
+          "credit_gain_passed": false
+        }
+      },
+      "stop_reason": "group_cap"
+    }
+  },
+  "branch_training": {
+    "local": {
+      "attempted_groups": 48,
+      "actual_updates": 43,
+      "final_policy": {
+        "checkpoint": "checkpoints/group-0046",
+        "version": 43,
+        "updates": 43,
+        "adapter_sha256": "eb78febd0fd2cce0cdac6a930894d59eb07cada9b320ecaf1249f1932f9f708e"
+      },
+      "zero_variance_training_groups": 5
+    },
+    "closeout": {
+      "attempted_groups": 48,
+      "actual_updates": 47,
+      "final_policy": {
+        "checkpoint": "checkpoints/group-0047",
+        "version": 47,
+        "updates": 47,
+        "adapter_sha256": "1c209b708c7cdf334f6ec103e0f5974193078e9d6f3acc8773654b37faec2b5a"
+      },
+      "zero_variance_training_groups": 1
+    }
+  },
+  "fixed_trajectory_replay": {
+    "local": {
+      "total": {
+        "groups": 48,
+        "successes": 112,
+        "local_eligible": 43,
+        "closeout_eligible": 46,
+        "new_credit_only": 3,
+        "check_result_bonus": 109,
+        "check_result_zero_to_positive": 32,
+        "submit_bonus": 112,
+        "submit_zero_to_positive": 40
+      },
+      "by_scenario": {
+        "complete": {
+          "groups": 24,
+          "successes": 54,
+          "local_eligible": 24,
+          "closeout_eligible": 24,
+          "new_credit_only": 0,
+          "check_result_bonus": 54,
+          "check_result_zero_to_positive": 12,
+          "submit_bonus": 54,
+          "submit_zero_to_positive": 12
+        },
+        "format_repair": {
+          "groups": 3,
+          "successes": 10,
+          "local_eligible": 3,
+          "closeout_eligible": 3,
+          "new_credit_only": 0,
+          "check_result_bonus": 11,
+          "check_result_zero_to_positive": 4,
+          "submit_bonus": 10,
+          "submit_zero_to_positive": 4
+        },
+        "credit_fresh_check": {
+          "groups": 4,
+          "successes": 7,
+          "local_eligible": 2,
+          "closeout_eligible": 3,
+          "new_credit_only": 1,
+          "check_result_bonus": 9,
+          "check_result_zero_to_positive": 4,
+          "submit_bonus": 7,
+          "submit_zero_to_positive": 4
+        },
+        "unknown_tool_repair": {
+          "groups": 2,
+          "successes": 8,
+          "local_eligible": 2,
+          "closeout_eligible": 2,
+          "new_credit_only": 0,
+          "check_result_bonus": 8,
+          "check_result_zero_to_positive": 4,
+          "submit_bonus": 8,
+          "submit_zero_to_positive": 4
+        },
+        "stale_evidence_repair": {
+          "groups": 3,
+          "successes": 11,
+          "local_eligible": 3,
+          "closeout_eligible": 3,
+          "new_credit_only": 0,
+          "check_result_bonus": 12,
+          "check_result_zero_to_positive": 8,
+          "submit_bonus": 11,
+          "submit_zero_to_positive": 8
+        },
+        "sql_unverified_requery": {
+          "groups": 2,
+          "successes": 4,
+          "local_eligible": 2,
+          "closeout_eligible": 2,
+          "new_credit_only": 0,
+          "check_result_bonus": 4,
+          "check_result_zero_to_positive": 0,
+          "submit_bonus": 4,
+          "submit_zero_to_positive": 0
+        },
+        "credit_checked_submit": {
+          "groups": 4,
+          "successes": 10,
+          "local_eligible": 1,
+          "closeout_eligible": 3,
+          "new_credit_only": 2,
+          "submit_bonus": 10,
+          "submit_zero_to_positive": 8
+        },
+        "repeat_evidence_error": {
+          "groups": 3,
+          "successes": 4,
+          "local_eligible": 3,
+          "closeout_eligible": 3,
+          "new_credit_only": 0,
+          "check_result_bonus": 4,
+          "check_result_zero_to_positive": 0,
+          "submit_bonus": 4,
+          "submit_zero_to_positive": 0
+        },
+        "repeat_sql_error": {
+          "groups": 1,
+          "successes": 1,
+          "local_eligible": 1,
+          "closeout_eligible": 1,
+          "new_credit_only": 0,
+          "check_result_bonus": 1,
+          "check_result_zero_to_positive": 0,
+          "submit_bonus": 1,
+          "submit_zero_to_positive": 0
+        },
+        "failed_check_repair": {
+          "groups": 2,
+          "successes": 3,
+          "local_eligible": 2,
+          "closeout_eligible": 2,
+          "new_credit_only": 0,
+          "check_result_bonus": 6,
+          "check_result_zero_to_positive": 0,
+          "submit_bonus": 3,
+          "submit_zero_to_positive": 0
+        }
+      }
+    },
+    "closeout": {
+      "total": {
+        "groups": 48,
+        "successes": 116,
+        "local_eligible": 44,
+        "closeout_eligible": 47,
+        "new_credit_only": 3,
+        "check_result_bonus": 111,
+        "check_result_zero_to_positive": 32,
+        "submit_bonus": 116,
+        "submit_zero_to_positive": 40
+      },
+      "by_scenario": {
+        "complete": {
+          "groups": 24,
+          "successes": 54,
+          "local_eligible": 24,
+          "closeout_eligible": 24,
+          "new_credit_only": 0,
+          "check_result_bonus": 54,
+          "check_result_zero_to_positive": 8,
+          "submit_bonus": 54,
+          "submit_zero_to_positive": 8
+        },
+        "format_repair": {
+          "groups": 3,
+          "successes": 10,
+          "local_eligible": 3,
+          "closeout_eligible": 3,
+          "new_credit_only": 0,
+          "check_result_bonus": 11,
+          "check_result_zero_to_positive": 4,
+          "submit_bonus": 10,
+          "submit_zero_to_positive": 4
+        },
+        "credit_fresh_check": {
+          "groups": 4,
+          "successes": 7,
+          "local_eligible": 2,
+          "closeout_eligible": 3,
+          "new_credit_only": 1,
+          "check_result_bonus": 9,
+          "check_result_zero_to_positive": 4,
+          "submit_bonus": 7,
+          "submit_zero_to_positive": 4
+        },
+        "unknown_tool_repair": {
+          "groups": 2,
+          "successes": 8,
+          "local_eligible": 2,
+          "closeout_eligible": 2,
+          "new_credit_only": 0,
+          "check_result_bonus": 8,
+          "check_result_zero_to_positive": 8,
+          "submit_bonus": 8,
+          "submit_zero_to_positive": 8
+        },
+        "stale_evidence_repair": {
+          "groups": 3,
+          "successes": 11,
+          "local_eligible": 3,
+          "closeout_eligible": 3,
+          "new_credit_only": 0,
+          "check_result_bonus": 11,
+          "check_result_zero_to_positive": 8,
+          "submit_bonus": 11,
+          "submit_zero_to_positive": 8
+        },
+        "sql_unverified_requery": {
+          "groups": 2,
+          "successes": 5,
+          "local_eligible": 2,
+          "closeout_eligible": 2,
+          "new_credit_only": 0,
+          "check_result_bonus": 5,
+          "check_result_zero_to_positive": 0,
+          "submit_bonus": 5,
+          "submit_zero_to_positive": 0
+        },
+        "credit_checked_submit": {
+          "groups": 4,
+          "successes": 11,
+          "local_eligible": 2,
+          "closeout_eligible": 4,
+          "new_credit_only": 2,
+          "submit_bonus": 11,
+          "submit_zero_to_positive": 8
+        },
+        "repeat_evidence_error": {
+          "groups": 3,
+          "successes": 5,
+          "local_eligible": 3,
+          "closeout_eligible": 3,
+          "new_credit_only": 0,
+          "check_result_bonus": 5,
+          "check_result_zero_to_positive": 0,
+          "submit_bonus": 5,
+          "submit_zero_to_positive": 0
+        },
+        "repeat_sql_error": {
+          "groups": 1,
+          "successes": 2,
+          "local_eligible": 1,
+          "closeout_eligible": 1,
+          "new_credit_only": 0,
+          "check_result_bonus": 2,
+          "check_result_zero_to_positive": 0,
+          "submit_bonus": 2,
+          "submit_zero_to_positive": 0
+        },
+        "failed_check_repair": {
+          "groups": 2,
+          "successes": 3,
+          "local_eligible": 2,
+          "closeout_eligible": 2,
+          "new_credit_only": 0,
+          "check_result_bonus": 6,
+          "check_result_zero_to_positive": 0,
+          "submit_bonus": 3,
+          "submit_zero_to_positive": 0
+        }
+      }
+    }
+  },
+  "paired_results": {
+    "dev_w_local": {
+      "summary": {
+        "greedy_complete": {
+          "episodes": 4,
+          "left": 3,
+          "right": 3,
+          "gained": 0,
+          "lost": 0
+        },
+        "sample_complete": {
+          "episodes": 16,
+          "left": 9,
+          "right": 8,
+          "gained": 1,
+          "lost": 2
+        },
+        "greedy_recovery": {
+          "episodes": 28,
+          "left": 22,
+          "right": 22,
+          "gained": 0,
+          "lost": 0
+        },
+        "sample_recovery": {
+          "episodes": 84,
+          "left": 58,
+          "right": 61,
+          "gained": 4,
+          "lost": 1
+        }
+      },
+      "changed": [
+        {
+          "task_id": "fine-closeout-development-000",
+          "scenario": null,
+          "rollout_index": 3,
+          "mode": "sample",
+          "seed": 2026111221,
+          "left_success": true,
+          "right_success": false,
+          "left_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "right_certified": [],
+          "left_tools": [
+            "read_policy",
+            "inspect_schema",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "right_tools": [
+            "read_policy",
+            "inspect_schema",
+            null,
+            null,
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "check_result"
+          ],
+          "left_termination": "success",
+          "right_termination": "budget"
+        },
+        {
+          "task_id": "fine-closeout-development-000",
+          "scenario": "repeat_sql_error",
+          "rollout_index": 0,
+          "mode": "sample",
+          "seed": 2026115922,
+          "left_success": false,
+          "right_success": true,
+          "left_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "right_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "left_tools": [
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "check_result",
+            "check_result",
+            "check_result"
+          ],
+          "right_tools": [
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "left_termination": "budget",
+          "right_termination": "success"
+        },
+        {
+          "task_id": "fine-closeout-development-000",
+          "scenario": "repeat_sql_error",
+          "rollout_index": 1,
+          "mode": "sample",
+          "seed": 2026116022,
+          "left_success": false,
+          "right_success": true,
+          "left_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "right_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "left_tools": [
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            null,
+            "query_sql",
+            "calculate_change",
+            "query_sql"
+          ],
+          "right_tools": [
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "left_termination": "budget",
+          "right_termination": "success"
+        },
+        {
+          "task_id": "fine-closeout-development-001",
+          "scenario": "repeat_evidence_error",
+          "rollout_index": 1,
+          "mode": "sample",
+          "seed": 2026214022,
+          "left_success": false,
+          "right_success": true,
+          "left_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "right_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "left_tools": [
+            "calculate_change",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "check_result"
+          ],
+          "right_tools": [
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "left_termination": "budget",
+          "right_termination": "success"
+        },
+        {
+          "task_id": "fine-closeout-development-001",
+          "scenario": "repeat_evidence_error",
+          "rollout_index": 2,
+          "mode": "sample",
+          "seed": 2026214122,
+          "left_success": true,
+          "right_success": false,
+          "left_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "right_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "left_tools": [
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "right_tools": [
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "check_result",
+            "check_result"
+          ],
+          "left_termination": "success",
+          "right_termination": "budget"
+        },
+        {
+          "task_id": "fine-closeout-development-003",
+          "scenario": null,
+          "rollout_index": 1,
+          "mode": "sample",
+          "seed": 2026141021,
+          "left_success": true,
+          "right_success": false,
+          "left_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "right_certified": [],
+          "left_tools": [
+            "read_policy",
+            "inspect_schema",
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "right_tools": [
+            "read_policy",
+            "inspect_schema",
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "query_sql",
+            "query_sql",
+            "calculate_change"
+          ],
+          "left_termination": "success",
+          "right_termination": "budget"
+        },
+        {
+          "task_id": "fine-closeout-development-003",
+          "scenario": null,
+          "rollout_index": 3,
+          "mode": "sample",
+          "seed": 2026141221,
+          "left_success": false,
+          "right_success": true,
+          "left_certified": [],
+          "right_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "left_tools": [
+            "read_policy",
+            "inspect_schema",
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "inspect_schema",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "inspect_schema",
+            "query_sql"
+          ],
+          "right_tools": [
+            "read_policy",
+            "inspect_schema",
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "left_termination": "budget",
+          "right_termination": "success"
+        },
+        {
+          "task_id": "fine-closeout-development-003",
+          "scenario": "repeat_sql_error",
+          "rollout_index": 1,
+          "mode": "sample",
+          "seed": 2026416022,
+          "left_success": false,
+          "right_success": true,
+          "left_certified": [],
+          "right_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "left_tools": [
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "calculate_change",
+            "calculate_change",
+            "calculate_change",
+            "calculate_change"
+          ],
+          "right_tools": [
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "left_termination": "budget",
+          "right_termination": "success"
+        }
+      ]
+    },
+    "dev_w_closeout": {
+      "summary": {
+        "greedy_complete": {
+          "episodes": 4,
+          "left": 3,
+          "right": 3,
+          "gained": 0,
+          "lost": 0
+        },
+        "sample_complete": {
+          "episodes": 16,
+          "left": 9,
+          "right": 11,
+          "gained": 3,
+          "lost": 1
+        },
+        "greedy_recovery": {
+          "episodes": 28,
+          "left": 22,
+          "right": 22,
+          "gained": 0,
+          "lost": 0
+        },
+        "sample_recovery": {
+          "episodes": 84,
+          "left": 58,
+          "right": 61,
+          "gained": 4,
+          "lost": 1
+        }
+      },
+      "changed": [
+        {
+          "task_id": "fine-closeout-development-000",
+          "scenario": null,
+          "rollout_index": 3,
+          "mode": "sample",
+          "seed": 2026111221,
+          "left_success": true,
+          "right_success": false,
+          "left_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "right_certified": [],
+          "left_tools": [
+            "read_policy",
+            "inspect_schema",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "right_tools": [
+            "read_policy",
+            "inspect_schema",
+            null,
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "calculate_change",
+            "check_result",
+            "check_result",
+            "check_result",
+            "check_result",
+            "check_result"
+          ],
+          "left_termination": "success",
+          "right_termination": "budget"
+        },
+        {
+          "task_id": "fine-closeout-development-000",
+          "scenario": "repeat_sql_error",
+          "rollout_index": 1,
+          "mode": "sample",
+          "seed": 2026116022,
+          "left_success": false,
+          "right_success": true,
+          "left_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "right_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "left_tools": [
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            null,
+            "query_sql",
+            "calculate_change",
+            "query_sql"
+          ],
+          "right_tools": [
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "left_termination": "budget",
+          "right_termination": "success"
+        },
+        {
+          "task_id": "fine-closeout-development-001",
+          "scenario": "repeat_evidence_error",
+          "rollout_index": 1,
+          "mode": "sample",
+          "seed": 2026214022,
+          "left_success": false,
+          "right_success": true,
+          "left_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "right_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "left_tools": [
+            "calculate_change",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "check_result"
+          ],
+          "right_tools": [
+            "calculate_change",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "left_termination": "budget",
+          "right_termination": "success"
+        },
+        {
+          "task_id": "fine-closeout-development-001",
+          "scenario": "repeat_evidence_error",
+          "rollout_index": 2,
+          "mode": "sample",
+          "seed": 2026214122,
+          "left_success": true,
+          "right_success": false,
+          "left_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "right_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "left_tools": [
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "right_tools": [
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "check_result",
+            "check_result"
+          ],
+          "left_termination": "success",
+          "right_termination": "budget"
+        },
+        {
+          "task_id": "fine-closeout-development-002",
+          "scenario": null,
+          "rollout_index": 3,
+          "mode": "sample",
+          "seed": 2026131221,
+          "left_success": false,
+          "right_success": true,
+          "left_certified": [],
+          "right_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "left_tools": [
+            "read_policy",
+            "inspect_schema",
+            null,
+            "calculate_change",
+            "query_sql",
+            null,
+            "calculate_change",
+            null,
+            "calculate_change",
+            "query_sql",
+            null,
+            "calculate_change"
+          ],
+          "right_tools": [
+            "read_policy",
+            "inspect_schema",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "left_termination": "budget",
+          "right_termination": "success"
+        },
+        {
+          "task_id": "fine-closeout-development-002",
+          "scenario": "sql_unverified_requery",
+          "rollout_index": 0,
+          "mode": "sample",
+          "seed": 2026312922,
+          "left_success": false,
+          "right_success": true,
+          "left_certified": [
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "right_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "left_tools": [
+            "query_sql",
+            "check_result",
+            "check_result",
+            "check_result",
+            "check_result",
+            "check_result",
+            "check_result",
+            "check_result"
+          ],
+          "right_tools": [
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "left_termination": "budget",
+          "right_termination": "success"
+        },
+        {
+          "task_id": "fine-closeout-development-003",
+          "scenario": null,
+          "rollout_index": 2,
+          "mode": "sample",
+          "seed": 2026141121,
+          "left_success": false,
+          "right_success": true,
+          "left_certified": [],
+          "right_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "left_tools": [
+            "read_policy",
+            "inspect_schema",
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "query_sql"
+          ],
+          "right_tools": [
+            "read_policy",
+            "inspect_schema",
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "left_termination": "budget",
+          "right_termination": "success"
+        },
+        {
+          "task_id": "fine-closeout-development-003",
+          "scenario": null,
+          "rollout_index": 3,
+          "mode": "sample",
+          "seed": 2026141221,
+          "left_success": false,
+          "right_success": true,
+          "left_certified": [],
+          "right_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "left_tools": [
+            "read_policy",
+            "inspect_schema",
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "inspect_schema",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "inspect_schema",
+            "query_sql"
+          ],
+          "right_tools": [
+            "read_policy",
+            "inspect_schema",
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "left_termination": "budget",
+          "right_termination": "success"
+        },
+        {
+          "task_id": "fine-closeout-development-003",
+          "scenario": "repeat_sql_error",
+          "rollout_index": 1,
+          "mode": "sample",
+          "seed": 2026416022,
+          "left_success": false,
+          "right_success": true,
+          "left_certified": [],
+          "right_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "left_tools": [
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "calculate_change",
+            "calculate_change",
+            "calculate_change",
+            "calculate_change"
+          ],
+          "right_tools": [
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "left_termination": "budget",
+          "right_termination": "success"
+        }
+      ]
+    },
+    "dev_local_closeout": {
+      "summary": {
+        "greedy_complete": {
+          "episodes": 4,
+          "left": 3,
+          "right": 3,
+          "gained": 0,
+          "lost": 0
+        },
+        "sample_complete": {
+          "episodes": 16,
+          "left": 8,
+          "right": 11,
+          "gained": 3,
+          "lost": 0
+        },
+        "greedy_recovery": {
+          "episodes": 28,
+          "left": 22,
+          "right": 22,
+          "gained": 0,
+          "lost": 0
+        },
+        "sample_recovery": {
+          "episodes": 84,
+          "left": 61,
+          "right": 61,
+          "gained": 1,
+          "lost": 1
+        }
+      },
+      "changed": [
+        {
+          "task_id": "fine-closeout-development-000",
+          "scenario": "repeat_sql_error",
+          "rollout_index": 0,
+          "mode": "sample",
+          "seed": 2026115922,
+          "left_success": true,
+          "right_success": false,
+          "left_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "right_certified": [
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "left_tools": [
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "right_tools": [
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "check_result",
+            "check_result",
+            "check_result",
+            "check_result"
+          ],
+          "left_termination": "success",
+          "right_termination": "budget"
+        },
+        {
+          "task_id": "fine-closeout-development-002",
+          "scenario": null,
+          "rollout_index": 3,
+          "mode": "sample",
+          "seed": 2026131221,
+          "left_success": false,
+          "right_success": true,
+          "left_certified": [],
+          "right_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "left_tools": [
+            "read_policy",
+            "inspect_schema",
+            null,
+            "calculate_change",
+            "query_sql",
+            null,
+            "calculate_change",
+            null,
+            "calculate_change",
+            "query_sql",
+            null,
+            "calculate_change"
+          ],
+          "right_tools": [
+            "read_policy",
+            "inspect_schema",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "left_termination": "budget",
+          "right_termination": "success"
+        },
+        {
+          "task_id": "fine-closeout-development-002",
+          "scenario": "sql_unverified_requery",
+          "rollout_index": 0,
+          "mode": "sample",
+          "seed": 2026312922,
+          "left_success": false,
+          "right_success": true,
+          "left_certified": [
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "right_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "left_tools": [
+            "query_sql",
+            "check_result",
+            "check_result",
+            "check_result",
+            "check_result",
+            "check_result",
+            "check_result",
+            "check_result"
+          ],
+          "right_tools": [
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "left_termination": "budget",
+          "right_termination": "success"
+        },
+        {
+          "task_id": "fine-closeout-development-003",
+          "scenario": null,
+          "rollout_index": 1,
+          "mode": "sample",
+          "seed": 2026141021,
+          "left_success": false,
+          "right_success": true,
+          "left_certified": [],
+          "right_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "left_tools": [
+            "read_policy",
+            "inspect_schema",
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "query_sql",
+            "query_sql",
+            "calculate_change"
+          ],
+          "right_tools": [
+            "read_policy",
+            "inspect_schema",
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "left_termination": "budget",
+          "right_termination": "success"
+        },
+        {
+          "task_id": "fine-closeout-development-003",
+          "scenario": null,
+          "rollout_index": 2,
+          "mode": "sample",
+          "seed": 2026141121,
+          "left_success": false,
+          "right_success": true,
+          "left_certified": [],
+          "right_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "left_tools": [
+            "read_policy",
+            "inspect_schema",
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "query_sql"
+          ],
+          "right_tools": [
+            "read_policy",
+            "inspect_schema",
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "left_termination": "budget",
+          "right_termination": "success"
+        }
+      ]
+    },
+    "confirm_w_closeout": {
+      "summary": {
+        "greedy_complete": {
+          "episodes": 4,
+          "left": 4,
+          "right": 4,
+          "gained": 0,
+          "lost": 0
+        },
+        "sample_complete": {
+          "episodes": 16,
+          "left": 8,
+          "right": 8,
+          "gained": 1,
+          "lost": 1
+        },
+        "greedy_recovery": {
+          "episodes": 28,
+          "left": 24,
+          "right": 24,
+          "gained": 0,
+          "lost": 0
+        },
+        "sample_recovery": {
+          "episodes": 84,
+          "left": 63,
+          "right": 64,
+          "gained": 1,
+          "lost": 0
+        }
+      },
+      "changed": [
+        {
+          "task_id": "fine-closeout-confirmation-000",
+          "scenario": null,
+          "rollout_index": 1,
+          "mode": "sample",
+          "seed": 2026111021,
+          "left_success": true,
+          "right_success": false,
+          "left_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "right_certified": [
+            "prior_net_cents"
+          ],
+          "left_tools": [
+            "read_policy",
+            "inspect_schema",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "right_tools": [
+            "read_policy",
+            "inspect_schema",
+            null,
+            "query_sql",
+            "calculate_change",
+            null,
+            "query_sql",
+            "calculate_change",
+            null,
+            "query_sql",
+            "calculate_change",
+            "check_result"
+          ],
+          "left_termination": "success",
+          "right_termination": "budget"
+        },
+        {
+          "task_id": "fine-closeout-confirmation-000",
+          "scenario": "format_repair",
+          "rollout_index": 2,
+          "mode": "sample",
+          "seed": 2026111122,
+          "left_success": false,
+          "right_success": true,
+          "left_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "right_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "left_tools": [
+            "calculate_change",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "calculate_change",
+            "calculate_change",
+            "calculate_change"
+          ],
+          "right_tools": [
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "left_termination": "budget",
+          "right_termination": "success"
+        },
+        {
+          "task_id": "fine-closeout-confirmation-003",
+          "scenario": null,
+          "rollout_index": 3,
+          "mode": "sample",
+          "seed": 2026141221,
+          "left_success": false,
+          "right_success": true,
+          "left_certified": [],
+          "right_certified": [
+            "change_cents",
+            "current_net_cents",
+            "prior_net_cents"
+          ],
+          "left_tools": [
+            "read_policy",
+            "inspect_schema",
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "inspect_schema",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "inspect_schema",
+            "query_sql"
+          ],
+          "right_tools": [
+            "read_policy",
+            "inspect_schema",
+            "query_sql",
+            "query_sql",
+            "query_sql",
+            "calculate_change",
+            "check_result",
+            "submit"
+          ],
+          "left_termination": "budget",
+          "right_termination": "success"
+        }
+      ]
+    }
+  },
+  "targeted": {
+    "w": {
+      "greedy": {
+        "episodes": 4,
+        "successes": 0,
+        "first_action_certifications": 0,
+        "progress_episodes": 0
+      },
+      "sample": {
+        "episodes": 12,
+        "successes": 0,
+        "first_action_certifications": 0,
+        "progress_episodes": 0
+      }
+    },
+    "local": {
+      "greedy": {
+        "episodes": 4,
+        "successes": 0,
+        "first_action_certifications": 0,
+        "progress_episodes": 0
+      },
+      "sample": {
+        "episodes": 12,
+        "successes": 0,
+        "first_action_certifications": 0,
+        "progress_episodes": 0
+      }
+    },
+    "closeout": {
+      "greedy": {
+        "episodes": 4,
+        "successes": 0,
+        "first_action_certifications": 0,
+        "progress_episodes": 0
+      },
+      "sample": {
+        "episodes": 12,
+        "successes": 0,
+        "first_action_certifications": 0,
+        "progress_episodes": 0
+      }
+    },
+    "confirm-w": {
+      "greedy": {
+        "episodes": 4,
+        "successes": 0,
+        "first_action_certifications": 0,
+        "progress_episodes": 0
+      },
+      "sample": {
+        "episodes": 12,
+        "successes": 0,
+        "first_action_certifications": 0,
+        "progress_episodes": 0
+      }
+    },
+    "confirm-closeout": {
+      "greedy": {
+        "episodes": 4,
+        "successes": 0,
+        "first_action_certifications": 0,
+        "progress_episodes": 0
+      },
+      "sample": {
+        "episodes": 12,
+        "successes": 0,
+        "first_action_certifications": 0,
+        "progress_episodes": 0
+      }
+    }
+  },
+  "budget": {
+    "actual_wall_seconds": 21912.898429099005,
+    "max_wall_seconds": 28800,
+    "remaining_seconds": 6887.101570900995,
+    "stages_seconds": {
+      "preflight": 403.47541303234175,
+      "training": 11623.722632007208,
+      "main_evaluation": 5784.295911022462,
+      "confirmation": 3723.475058627315,
+      "refresh": 218.12963645812124,
+      "audit": 61.445152818225324
+    },
+    "packaging_seconds": 29.769030031282455,
+    "main_until_confirmation": 18116.008198811207,
+    "passed": true
+  }
+}
