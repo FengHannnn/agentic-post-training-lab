@@ -20,7 +20,7 @@ V2 研究真实多轮工具交互中的 SFT、DPO 与 GRPO。模型通过 SQLite
 
 | 项目 | 状态与结果 |
 | --- | --- |
-| SFT / DPO | 阶段收尾完成，权重身份及结果见结果交接 |
+| SFT / DPO | 阶段收尾完成，参见 [DPO 最终结果](reports/dpo-sft-start-short-v1-review-20261105.md) |
 | C2 / C3 | 在线 outcome / fine GRPO、策略刷新、恢复与严格审计完成 |
 | C4 | 12 个新任务族独立确认完成，两候选效果验收未通过 |
 | outcome / fine 后续对照 | 学习率、legacy / local 信用及困难预检完成 |
@@ -38,13 +38,13 @@ V2 研究真实多轮工具交互中的 SFT、DPO 与 GRPO。模型通过 SQLite
 
 ## 阅读顺序
 
-1. [GRPO 后续交接](handoff/PROJECT_HANDOFF_V2_GRPO_CONTINUATION_2026-11-09.md)：算法、历轮结果和待解决问题。
+1. [Fine GRPO 三方独立复评](reports/grpo-fine-closeout-followup-results-v1-20261113.md)记录最终候选和配对结果。
 2. [本次整理记录](reports/project-consolidation-20261109.md)：主项目同步、验证结果与 Git 提交。
 3. [最新 alias 结果](reports/grpo-alias-curriculum-results-v1-20261109.md)：标准恢复收益、复合迁移和质量失败。
 4. [fine 信用对照](reports/grpo-fine-credit-results-20261109.md)与[困难恢复预检](reports/grpo-hard-recovery-preflight-results-20261109.md)。
-5. [SFT / DPO 结果交接](handoff/PROJECT_HANDOFF_V2_SFT_DPO_RESULTS_2026-11-09.md)及[当前需求](PROJECT_REQUIREMENTS.md)。
+5. [DPO 最终结果](reports/dpo-sft-start-short-v1-review-20261105.md)和[项目需求](PROJECT_REQUIREMENTS.md)。
 
-两份原始交接按原文保留。其中本地未同步事项的完成状态以本次整理记录为准。历史报告与冻结配置保留各自实验当时的状态。
+历史发布清单记录各轮运行时的文件与哈希。核验最后一轮 Fine GRPO 回包时，可使用清理交接文档前的提交 `7ffe023` 还原当时的文档版本。
 
 ## 模型与训练契约
 
@@ -96,6 +96,6 @@ python -u -m pytest tests -v
 
 ## 产物与版本管理
 
-源码、配置、测试、报告、交接、补丁和发布清单由 Git 管理。artifacts/ 保存数据、adapter、Adam/RNG、评分缓存和回包；.local/ 保存本机运行库和验证日志，两者的运行内容由 Git 忽略。权重与原始 ZIP 按独立归档保留；Git checkout 恢复源码和文档，训练输入按发布清单恢复。
+源码、配置、测试、报告、补丁和发布清单由 Git 管理。artifacts/ 保存数据、adapter、Adam/RNG、评分缓存和回包；.local/ 保存本机运行库和验证日志，两者的运行内容由 Git 忽略。权重与原始 ZIP 按独立归档保留；Git checkout 恢复源码和文档，训练输入按发布清单恢复。
 
 V2 文件采用字节保留规则，确保 Git checkout 后的 SHA256 与冻结发布一致。原始训练记录、评分和失败标记继续保留。新报告使用英文文件名、中文正文、项目内相对路径，不自动打开。

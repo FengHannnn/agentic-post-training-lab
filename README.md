@@ -59,11 +59,11 @@
 | v2/scripts/ | 训练、采样、评测、审计与发布入口 |
 | v2/configs/ | 各轮冻结配置 |
 | v2/tests/ | CPU 回归测试与固定证据样例 |
-| v2/reports/、v2/handoff/ | 结果、契约、来源记录与交接 |
+| v2/reports/、v2/handoff/ | 结果、契约、测试记录与发布回执 |
 | v2/hotfixes/ | 历史作业修复与迁移证据 |
 | v2/artifacts/ | 本地训练数据、权重、状态和审计回包 |
 | src/agentic_post_training/、scripts/、tests/ | V1 历史实现与回归测试 |
-| reports/、PROJECT_HANDOFF*.md | V1 历史报告与交接 |
+| reports/ | V1 历史报告 |
 
 ## 本地验证
 
@@ -77,8 +77,8 @@ V2 使用独立测试目录；SQLite 版本及命令见 [V2 本地验证](v2/REA
 
 ## Git 与历史留存
 
-本仓库以一个 Git 根目录管理 V1 和 V2。源码、配置、测试、报告、交接、发布清单进入 Git；V2 的权重、优化器状态、完整轨迹、ZIP 和本机运行库留在本地。已入 Git 的 V1 历史证据继续保留。
+本仓库以一个 Git 根目录管理 V1 和 V2。源码、配置、测试、报告和发布清单进入 Git。V2 的权重、优化器状态、完整轨迹、ZIP 和本机运行库留在本地。已入 Git 的 V1 历史证据继续保留。
 
 2026-11-09 补交分为 V1 遗留工作、V2 整理前快照、最新 GRPO 源码与文档三部分。每次提交使用实际提交时间，文件中的实验日期保持原值。旧版根 README 已保存在 V1 补交提交中。
 
-V1 历史入口：[阶段交接](PROJECT_HANDOFF_2026-10-27.md)、[最后一轮均衡示范结果](reports/phase5-balanced-warmstart-results.md)、[V1 封存回执](v2/V1_ARCHIVE_RECEIPT.json)。
+V1 的历史结果和归档可从以下记录查阅。[最后一轮均衡示范结果](reports/phase5-balanced-warmstart-results.md) · [V1 封存回执](v2/V1_ARCHIVE_RECEIPT.json)

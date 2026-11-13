@@ -65,7 +65,7 @@ def main():
                     for path in sorted((ROOT / folder).rglob("*"))
                     if path.is_file() and "__pycache__" not in path.parts
                     and path.suffix != ".pyc"]
-    for name in ("pyproject.toml", "PROJECT_HANDOFF.md", "README.md"):
+    for name in ("pyproject.toml", "README.md"):
         sources.append((ROOT / name, Path("project") / name))
 
     cache = ROOT / ".cache/huggingface/models--HuggingFaceTB--SmolLM2-135M-Instruct/snapshots" / revision

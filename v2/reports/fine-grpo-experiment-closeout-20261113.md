@@ -32,7 +32,7 @@
 
 ## 本地重放
 
-从 `v2/` 运行下方 PowerShell 命令。使用当前仓库的 Python 虚拟环境、项目内 SQLite 3.54.1 和已解压的三方回包。冻结输入中的来源证据也参与校验。命令会重放已保存的评测、重新计算配对与验收，再更新回包目录中的 `local_audit.json`。[本地环境说明](../README.md#本地验证) · [冻结输入来源证据](../artifacts/inputs/grpo-fine-closeout-followup-20261112/source-evidence.json)
+历史重放会检查发布时的文件哈希。请从 Git 提交 `7ffe023` 建立独立工作树，在其中放入已解压的回包、冻结输入和本地 SQLite 运行库，再从该工作树的 `v2/` 运行下方 PowerShell 命令。Python 虚拟环境可使用原项目已有的解释器，运行时把命令末行的解释器路径指向该环境。使用当前仓库的 Python 虚拟环境、项目内 SQLite 3.54.1 和已解压的三方回包。冻结输入中的来源证据也参与校验。命令会重放已保存的评测、重新计算配对与验收，再更新回包目录中的 `local_audit.json`。[本地环境说明](../README.md#本地验证) · [冻结输入来源证据](../artifacts/inputs/grpo-fine-closeout-followup-20261112/source-evidence.json)
 
 ~~~powershell
 @'

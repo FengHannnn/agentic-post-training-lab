@@ -55,4 +55,4 @@ GRPO 正式起点与 reference 为 W，adapter SHA256 为 f8fb95a4135af76398a1ab
 
 最终交付包含统一复现入口、模型与数据身份、曲线 / 表格、恢复案例、README、技术报告、简历要点与面试解释。GDPval、网页 UI、更多算法 / 种子属于扩展，multi-OPD 已排除。
 
-当前入口：[README](README.md)、[GRPO 后续交接](handoff/PROJECT_HANDOFF_V2_GRPO_CONTINUATION_2026-11-09.md)、[SFT / DPO 结果](handoff/PROJECT_HANDOFF_V2_SFT_DPO_RESULTS_2026-11-09.md)、[整理记录](reports/project-consolidation-20261109.md)。
+[V2 README](README.md) · [Fine GRPO 三方独立复评](reports/grpo-fine-closeout-followup-results-v1-20261113.md) · [DPO 最终结果](reports/dpo-sft-start-short-v1-review-20261105.md)
