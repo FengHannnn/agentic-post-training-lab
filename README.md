@@ -1,18 +1,27 @@
 # Agentic Post-Training Lab
 
-面向大模型后训练与工具调用 Agent 的可复现实验项目，覆盖 SFT、DPO、GRPO、vLLM 采样、错误恢复与逐动作信用分配。
+基于 Qwen2.5-1.5B-Instruct 的多轮 SQLite 业务对账 Agent。模型调用 SQL 查询当月与上月净收入，计算差额，检查并提交带证据的结果。项目覆盖加权 SFT、DPO 和在线 GRPO，使用 vLLM 采样、LoRA 更新和 SQLite 语义验收。
 
-当前主线是 **V2：多轮 SQLite 业务对账**，模型为 Qwen2.5-1.5B-Instruct。V1 算术与工具调用实验已封存，源码和结果保留在仓库根目录。
+## Fine GRPO 独立复评
 
-## 从这里开始
+以加权 SFT 和 DPO 后的 W 为起点，对比两种逐动作信用分配方案。12 个独立任务族使用相同起点和解码设置进行配对评测。
 
-- [V2 项目说明与本地验证](v2/README.md)
+| 标准指标 | 基线 W | 原 local Fine GRPO（RL43） | 新收尾信用（RL47） |
+| --- | ---: | ---: | ---: |
+| 完整采样 | 24/48 | 28/48 | 33/48 |
+| 恢复采样 | 177/252 | 183/252 | 196/252 |
+| 完整 greedy | 11/12 | 12/12 | 12/12 |
+| 恢复 greedy | 66/84 | 67/84 | 70/84 |
+
+原 local 在完整采样和恢复采样中分别比 W 多成功 4 条和 6 条，通过预设验收，入选 Fine GRPO 候选，W 作为正式基线。新收尾信用在两批固定训练轨迹上各新增 3 个有更新信号的组。新信用训练出的模型取得最高完整采样成绩和恢复采样成绩。三方复评实际用时 4 小时 42 分 59 秒，含审计和打包。
+
+- [信用分配对照与固定轨迹重算](v2/reports/grpo-fine-closeout-credit-results-v1-20261112.md)
+- [V2 代码入口与本地验证](v2/README.md)
+
+## 其他实验
+
 - [当前范围与验收规则](v2/PROJECT_REQUIREMENTS.md)
-- [GRPO 后续工作交接](v2/handoff/PROJECT_HANDOFF_V2_GRPO_CONTINUATION_2026-11-09.md)
-- [SFT / DPO 结果交接](v2/handoff/PROJECT_HANDOFF_V2_SFT_DPO_RESULTS_2026-11-09.md)
 - [目标监督剂量搜索结果](v2/reports/grpo-sql-dose-results-v1-20261111.md)
-- [Fine GRPO 三方独立复评结果](v2/reports/grpo-fine-closeout-followup-results-v1-20261113.md)
-- [Fine GRPO 收尾信用结果](v2/reports/grpo-fine-closeout-credit-results-v1-20261112.md)
 - [r16 收尾维护样本结果](v2/reports/grpo-sql-closeout-results-v1-20261112.md)
 - [r16 中间学习率实验结果](v2/reports/grpo-sql-lr-midpoint-results-v1-20261112.md)
 - [r16 热启动学习率实验结果](v2/reports/grpo-sql-lr-results-v1-20261111.md)
@@ -25,7 +34,7 @@
 - [最新 alias 课程结果](v2/reports/grpo-alias-curriculum-results-v1-20261109.md)
 - [本次代码与 Git 整理记录](v2/reports/project-consolidation-20261109.md)
 
-## 当前结果（2026-11-13）
+### 实验沿革
 
 | 阶段 | 已完成工作 | 当前结论 |
 | --- | --- | --- |
@@ -40,8 +49,7 @@
 | r16 学习率搜索 | 3e-6 两次 train 首动作认证 7/12、9/12，5e-6 均 12/12，开发集复合采样终局 10/12 | 5e-6 标准完整采样 13→8/16、恢复采样 60→48/84，保留 W |
 | r16 中间学习率 | 4e-6 两次 train 首动作认证均 12/12，开发集复合采样终局 10/12 | 标准完整采样 13→9/16、恢复采样 60→52/84，保留 W |
 | r16 收尾维护样本 | 复合采样终局 10/12，标准完整和恢复采样为 10/16、53/84 | 标准采样仍低于同轮 W，保留 W |
-| Fine GRPO 收尾信用 | 开发完整采样 W 9/16 → 新信用 11/16，恢复 58/84 → 61/84 | 开发验收通过，独立复验主指标 8/16 持平，保留 W |
-| Fine GRPO 三方独立复评 | 12 个独立任务族，4 小时 42 分 59 秒。旧 local 完整采样 24→26/48，恢复 177→183/252 | 旧 local 通过验收，选为 Fine 候选。新信用完整 27/48、恢复 176/252，W 为正式基线 |
+| Fine GRPO 收尾信用 | 开发完整采样 W 9/16 → 新信用 12/16，恢复 58/84 → 70/84 | 开发验收通过，独立复验主指标 8/16 持平，保留 W |
 
 ## 目录与版本边界
 
